@@ -1,5 +1,9 @@
-import { createApp } from 'vue'
-import './style.css'
-import App from './App.vue'
+import { createApp } from "vue";
+import "./css/fonts.css";
+import "./css/tailwind.css";
+import App from "./App.vue";
+import createRouter from "../../borashv/src/routes";
+import { VueHeadMixin, createHead } from "@unhead/vue";
 
-createApp(App).mount('#app')
+const head = createHead();
+createApp(App).use(head).use(createRouter()).mixin(VueHeadMixin).mount("#app");
