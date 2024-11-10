@@ -1,10 +1,12 @@
 <script setup>
 import { Vue3Lottie } from "vue3-lottie";
-import NavbarLink from "../elements/NavbarLink.vue";
+import NavbarDropdown from "../components/NavbarDropdown.vue";
 import Cube from "../assets/Cube.vue";
 import MugHot from "../assets/MugHot.vue";
 import sandwich from "../assets/burger-menu.json";
 import Button from "../elements/Button.vue";
+import { IonIcon } from "@ionic/vue";
+import { chevronDown } from "ionicons/icons";
 </script>
 
 <template>
@@ -21,23 +23,38 @@ import Button from "../elements/Button.vue";
     </a>
 
     <div class="flex gap-4 items-center">
-      <a href="/">BOKNINGAR</a>
-      <a href="/">FÖRENINGEN</a>
-      <a href="/">LÄNKAR</a>
-      <a href="/">HEMVÄRNSGÅRDEN</a>
-      <a href="/">BLI MEDLEM</a>
-
-      <!--      <NavbarLink-->
-      <!--        path="/"-->
-      <!--        hash="#services"-->
-      <!--        :icon="Cube"-->
-      <!--        @click="closeMobileMenu"-->
-      <!--        >Tjänster-->
-      <!--      </NavbarLink>-->
-
-      <!--      <NavbarLink path="/case" hash="" :icon="MugHot" @click="closeMobileMenu"-->
-      <!--        >Kunder &amp; Case-->
-      <!--      </NavbarLink>-->
+      <a href="/bokningar">BOKNINGAR</a>
+      <NavbarDropdown
+        text="FÖRENINGEN"
+        :list="[
+          { text: 'Om Oss', link: '/om-oss' },
+          { text: 'Styrelsen', link: '/styrelsen' },
+          { text: 'Dokument', link: '/dokument' },
+        ]"
+      />
+      <NavbarDropdown
+        text="LÄNKAR"
+        :list="[
+          {
+            text: 'Hemvärnet Älvsborg',
+            link: 'https://www.forsvarsmakten.se/sv/var-verksamhet/det-har-gor-forsvarsmakten/hemvarnet/elfsborgsgruppen/alvsborgsbataljonen/',
+          },
+          {
+            text: 'Hemvärnets stridsskola',
+            link: 'https://www.forsvarsmakten.se/hvss?fbclid=IwAR3c5l1LuOWExCda4RRo3RuIk_IwpgVu5mou05SMraNlxK1Ks5E9mcoixpw',
+          },
+          {
+            text: 'Borås Lottakår',
+            link: 'https://www.svenskalottakaren.se/lottakarer/boras-lottakar',
+          },
+          {
+            text: 'Kläder Älvsborgsbataljonen',
+            link: 'https://www.netshirt.se/foreningsklader/alvsborgsbataljonen',
+          },
+        ]"
+      />
+      <a href="/hemvarnsgarden">HEMVÄRNSGÅRDEN</a>
+      <a href="/bli-medlem">BLI MEDLEM</a>
 
       <Button
         text="Kontakta oss"
