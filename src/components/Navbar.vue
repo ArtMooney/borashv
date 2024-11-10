@@ -10,40 +10,41 @@ import Button from "../elements/Button.vue";
 <template>
   <div
     id="navbar"
-    class="relative z-10 mb-4 mt-0 grid grid-cols-2 items-stretch justify-stretch justify-items-stretch gap-4 overflow-visible pb-0 pt-4 sm:grid-cols-[0.5fr,1fr] md:grid-cols-[0.25fr,1fr]"
+    class="relative z-10 flex items-center justify-between m-2 bg-transparent"
   >
-    <a
-      href="/"
-      class="flex w-[86%] items-center transition-all duration-500 ease-in-out hover:m-2"
-      ><img
-        src="../assets/Framecore_color.svg"
-        alt=""
-        class="h-full w-full object-contain"
-    /></a>
+    <a href="/">
+      <img
+        src="../assets/borashv-logo-1000px.png"
+        alt="navbar logo"
+        class="w-20 h-20"
+      />
+    </a>
 
-    <div
-      class="absolute bottom-auto left-auto justify-items-end gap-4 bg-[#444442] px-6 py-10 transition-all duration-200 ease-in-out lg:static lg:grid lg:grid-flow-col lg:content-end lg:items-stretch lg:justify-end lg:bg-transparent lg:p-0"
-      :class="[
-        navbarClicked ? 'opacity-100' : 'opacity-0 lg:opacity-100',
-        navbarClicked ? 'right-6 top-14' : 'right-2 top-0',
-        hideMobileNav ? 'hidden' : 'grid',
-      ]"
-    >
-      <NavbarLink
-        path="/"
-        hash="#services"
-        :icon="Cube"
-        @click="closeMobileMenu"
-        >Tjänster
-      </NavbarLink>
-      <NavbarLink path="/case" hash="" :icon="MugHot" @click="closeMobileMenu"
-        >Kunder &amp; Case
-      </NavbarLink>
+    <div class="flex gap-4 items-center">
+      <a href="/">BOKNINGAR</a>
+      <a href="/">FÖRENINGEN</a>
+      <a href="/">LÄNKAR</a>
+      <a href="/">HEMVÄRNSGÅRDEN</a>
+      <a href="/">BLI MEDLEM</a>
+
+      <!--      <NavbarLink-->
+      <!--        path="/"-->
+      <!--        hash="#services"-->
+      <!--        :icon="Cube"-->
+      <!--        @click="closeMobileMenu"-->
+      <!--        >Tjänster-->
+      <!--      </NavbarLink>-->
+
+      <!--      <NavbarLink path="/case" hash="" :icon="MugHot" @click="closeMobileMenu"-->
+      <!--        >Kunder &amp; Case-->
+      <!--      </NavbarLink>-->
+
       <Button
         text="Kontakta oss"
         link="/contact"
         type="button"
         data-wait=""
+        styling="outline"
         @click="closeMobileMenu"
       />
     </div>
