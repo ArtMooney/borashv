@@ -5,18 +5,24 @@ import { chevronDown } from "ionicons/icons";
 
 <template>
   <div
-    class="flex items-center gap-1 -mr-0 relative"
+    class="lg:max-w-auto relative -mr-0 w-56 max-w-56 cursor-pointer lg:w-auto"
+    @click="isClicked = !isClicked"
     @mouseenter="isHover = true"
-    @mouseleave="isHover = false"
+    @mouseleave="
+      isHover = false;
+      isClicked = false;
+    "
   >
-    {{ text }}
-    <ion-icon :icon="chevronDown" class="w-4 h-4"></ion-icon>
+    <div class="flex items-center gap-1">
+      {{ text }}
+      <ion-icon :icon="chevronDown" class="h-4 w-4"></ion-icon>
+    </div>
 
     <div
-      class="absolute top-0 left-0 pr-4 pb-4 pt-8 flex-col text-sm gap-3 uppercase min-w-full"
-      :class="[isHover ? 'flex' : 'hidden']"
+      class="min-w-full flex-col gap-3 pb-4 pr-4 pt-4 text-sm uppercase lg:absolute lg:left-0 lg:top-0 lg:pt-8"
+      :class="[isClicked ? 'flex' : isHover ? 'hidden lg:flex' : 'hidden']"
     >
-      <a v-for="item in list" :href="item.link">
+      <a v-for="item in list" :href="item.link" class="pl-2 lg:pl-0">
         {{ item.text }}
       </a>
     </div>
@@ -40,6 +46,7 @@ export default {
 
   data() {
     return {
+      isClicked: false,
       isHover: false,
     };
   },

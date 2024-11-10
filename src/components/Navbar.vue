@@ -1,28 +1,27 @@
 <script setup>
 import { Vue3Lottie } from "vue3-lottie";
 import NavbarDropdown from "../components/NavbarDropdown.vue";
-import Cube from "../assets/Cube.vue";
-import MugHot from "../assets/MugHot.vue";
 import sandwich from "../assets/burger-menu.json";
 import Button from "../elements/Button.vue";
-import { IonIcon } from "@ionic/vue";
-import { chevronDown } from "ionicons/icons";
 </script>
 
 <template>
   <div
     id="navbar"
-    class="relative z-10 flex items-center justify-between m-2 bg-transparent"
+    class="relative z-10 m-2 flex items-center justify-between bg-transparent"
   >
     <a href="/">
       <img
         src="../assets/borashv-logo-1000px.png"
         alt="navbar logo"
-        class="w-20 h-20"
+        class="h-20 min-h-20 w-20 min-w-20"
       />
     </a>
 
-    <div class="flex gap-4 items-center">
+    <div
+      class="absolute right-2 top-6 flex flex-col gap-4 rounded bg-[#32382d] p-5 lg:static lg:flex-row lg:items-center lg:bg-transparent lg:p-0"
+      :class="[showNavbar ? 'opacity-100' : 'opacity-0 lg:opacity-100']"
+    >
       <a href="/bokningar">BOKNINGAR</a>
       <NavbarDropdown
         text="FÖRENINGEN"
@@ -62,13 +61,13 @@ import { chevronDown } from "ionicons/icons";
         type="button"
         data-wait=""
         styling="outline"
-        @click="closeMobileMenu"
+        @click="closeNavbar"
       />
     </div>
 
     <div
       class="relative block h-8 w-8 cursor-pointer select-none items-center justify-self-end invert hover:opacity-75 sm:h-10 sm:w-10 lg:hidden"
-      @click="mobileMenu"
+      @click="openNavbar"
     >
       <Vue3Lottie
         ref="lottieSandwich"
@@ -86,36 +85,27 @@ export default {
 
   data() {
     return {
-      navbarClicked: false,
-      hideMobileNav: true,
+      showNavbar: false,
     };
   },
 
   methods: {
-    mobileMenu() {
-      if (!this.navbarClicked) {
-        this.$refs.lottieSandwich.setSpeed(2);
-        this.$refs.lottieSandwich.playSegments([7, 25], true);
-      } else {
-        this.$refs.lottieSandwich.setSpeed(2);
-        this.$refs.lottieSandwich.playSegments([25, 7], true);
-      }
+    openNavbar() {
+      this.showNavbar = true;
+      this.$refs.lottieSandwich.setSpeed(2);
+      this.$refs.lottieSandwich.playSegments([7, 25], true);
 
-      if (this.hideMobileNav) {
-        this.hideMobileNav = false;
-
-        setTimeout(() => {
-          this.navbarClicked = !this.navbarClicked;
-        }, 1);
-      } else {
-        this.navbarClicked = !this.navbarClicked;
-        this.hideMobileNav = !this.hideMobileNav;
-      }
+      // if (!this.showNavbar) {
+      //   this.$refs.lottieSandwich.setSpeed(2);
+      //   this.$refs.lottieSandwich.playSegments([7, 25], true);
+      // } else {
+      //   this.$refs.lottieSandwich.setSpeed(2);
+      //   this.$refs.lottieSandwich.playSegments([25, 7], true);
+      // }
     },
 
-    closeMobileMenu() {
-      this.navbarClicked = false;
-      this.hideMobileNav = true;
+    closeNavbar() {
+      this.showNavbar = false;
       this.$refs.lottieSandwich.setSpeed(2);
       this.$refs.lottieSandwich.playSegments([25, 7], true);
     },
