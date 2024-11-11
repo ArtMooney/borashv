@@ -19,9 +19,10 @@ import Button from "../elements/Button.vue";
     </a>
 
     <div
-      class="absolute right-2 top-6 flex flex-col gap-4 rounded bg-[#32382d] p-5 lg:static lg:flex-row lg:items-center lg:bg-transparent lg:p-0"
-      :class="[showNavbar ? 'opacity-100' : 'opacity-0 lg:opacity-100']"
+      class="absolute -right-2 top-4 flex flex-col gap-4 rounded bg-[#32382d] p-5 lg:static lg:flex-row lg:items-center lg:bg-transparent lg:p-0"
     >
+      <!--      :class="[showNavbar ? 'opacity-0' : 'opacity-0 lg:opacity-100']"-->
+
       <a href="/bokningar">BOKNINGAR</a>
       <NavbarDropdown
         text="FÖRENINGEN"
@@ -91,20 +92,16 @@ export default {
 
   methods: {
     openNavbar() {
+      if (this.showNavbar) this.closeNavbar();
+
       this.showNavbar = true;
       this.$refs.lottieSandwich.setSpeed(2);
       this.$refs.lottieSandwich.playSegments([7, 25], true);
-
-      // if (!this.showNavbar) {
-      //   this.$refs.lottieSandwich.setSpeed(2);
-      //   this.$refs.lottieSandwich.playSegments([7, 25], true);
-      // } else {
-      //   this.$refs.lottieSandwich.setSpeed(2);
-      //   this.$refs.lottieSandwich.playSegments([25, 7], true);
-      // }
     },
 
     closeNavbar() {
+      if (!this.showNavbar) this.openNavbar();
+
       this.showNavbar = false;
       this.$refs.lottieSandwich.setSpeed(2);
       this.$refs.lottieSandwich.playSegments([25, 7], true);
