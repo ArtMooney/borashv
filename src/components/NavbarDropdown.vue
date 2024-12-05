@@ -5,17 +5,17 @@ import { chevronDown } from "ionicons/icons";
 
 <template>
   <div
-    class="lg:max-w-auto relative -mr-0 w-56 max-w-56 cursor-pointer lg:w-auto"
+    class="lg:max-w-auto relative w-56 max-w-56 cursor-pointer lg:w-auto"
     @click="isClicked = !isClicked"
     @mouseenter="isHover = true"
-    @mouseleave="
-      isHover = false;
-      isClicked = false;
-    "
+    @mouseleave="closeDropdown"
   >
     <div class="flex items-center gap-1">
       {{ text }}
-      <ion-icon :icon="chevronDown" class="h-5 w-5 lg:h-4 lg:w-4"></ion-icon>
+      <ion-icon
+        :icon="chevronDown"
+        class="-mr-1.5 h-5 w-5 lg:h-4 lg:w-4"
+      ></ion-icon>
     </div>
 
     <div
@@ -34,6 +34,8 @@ import { chevronDown } from "ionicons/icons";
 </template>
 
 <script>
+import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
+
 export default {
   name: "NavbarDropdown",
 
@@ -52,7 +54,32 @@ export default {
     return {
       isClicked: false,
       isHover: false,
+      breakpoints: useBreakpoints(breakpointsTailwind),
     };
+  },
+
+  computed: {
+    isMobile() {
+      return this.breakpoints.smaller("lg").value;
+    },
+  },
+
+  methods: {
+    closeDropdown() {
+      if (!this.isMobile) {
+        this.isClicked = false;
+        this.isHover = false;
+      }
+    },
+  },
+
+  watch: {
+    isMobile() {
+      if (!this.isMobile) {
+        this.isClicked = false;
+        this.isHover = false;
+      }
+    },
   },
 };
 </script>

@@ -19,7 +19,7 @@ import Button from "../elements/Button.vue";
     </a>
 
     <div
-      class="absolute -right-2 top-4 flex flex-col gap-4 rounded bg-[#32382d] p-6 pt-14 transition-all duration-200 ease-in-out lg:static lg:flex-row lg:items-center lg:bg-transparent lg:p-0"
+      class="absolute -right-2 top-4 flex flex-col gap-5 rounded bg-[#32382d] p-6 pt-14 transition-all duration-200 ease-in-out lg:static lg:flex-row lg:items-center lg:bg-transparent lg:p-0"
       :class="[
         showNavbar
           ? 'opacity-100'
