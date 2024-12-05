@@ -19,11 +19,14 @@ import Button from "../elements/Button.vue";
     </a>
 
     <div
-      class="absolute -right-2 top-4 flex flex-col gap-4 rounded bg-[#32382d] p-5 lg:static lg:flex-row lg:items-center lg:bg-transparent lg:p-0"
+      class="absolute -right-2 top-4 flex flex-col gap-4 rounded bg-[#32382d] p-6 pt-14 transition-all duration-200 ease-in-out lg:static lg:flex-row lg:items-center lg:bg-transparent lg:p-0"
+      :class="[
+        showNavbar
+          ? 'opacity-100'
+          : 'right-0 opacity-0 transition-none lg:opacity-100',
+      ]"
     >
-      <!--      :class="[showNavbar ? 'opacity-0' : 'opacity-0 lg:opacity-100']"-->
-
-      <a href="/bokningar">BOKNINGAR</a>
+      <a href="/bokningar" class="hover:opacity-75">BOKNINGAR</a>
       <NavbarDropdown
         text="FÖRENINGEN"
         :list="[
@@ -53,8 +56,8 @@ import Button from "../elements/Button.vue";
           },
         ]"
       />
-      <a href="/hemvarnsgarden">HEMVÄRNSGÅRDEN</a>
-      <a href="/bli-medlem">BLI MEDLEM</a>
+      <a href="/hemvarnsgarden" class="hover:opacity-75">HEMVÄRNSGÅRDEN</a>
+      <a href="/bli-medlem" class="hover:opacity-75">BLI MEDLEM</a>
 
       <Button
         text="Kontakta oss"
@@ -62,13 +65,12 @@ import Button from "../elements/Button.vue";
         type="button"
         data-wait=""
         styling="outline"
-        @click="closeNavbar"
       />
     </div>
 
     <div
       class="relative block h-8 w-8 cursor-pointer select-none items-center justify-self-end invert hover:opacity-75 sm:h-10 sm:w-10 lg:hidden"
-      @click="openNavbar"
+      @click="toggleNavbar"
     >
       <Vue3Lottie
         ref="lottieSandwich"
@@ -91,20 +93,16 @@ export default {
   },
 
   methods: {
-    openNavbar() {
-      if (this.showNavbar) this.closeNavbar();
-
-      this.showNavbar = true;
-      this.$refs.lottieSandwich.setSpeed(2);
-      this.$refs.lottieSandwich.playSegments([7, 25], true);
-    },
-
-    closeNavbar() {
-      if (!this.showNavbar) this.openNavbar();
-
-      this.showNavbar = false;
-      this.$refs.lottieSandwich.setSpeed(2);
-      this.$refs.lottieSandwich.playSegments([25, 7], true);
+    toggleNavbar() {
+      if (!this.showNavbar) {
+        this.showNavbar = true;
+        this.$refs.lottieSandwich.setSpeed(2);
+        this.$refs.lottieSandwich.playSegments([7, 25], true);
+      } else {
+        this.showNavbar = false;
+        this.$refs.lottieSandwich.setSpeed(2);
+        this.$refs.lottieSandwich.playSegments([25, 7], true);
+      }
     },
   },
 };
