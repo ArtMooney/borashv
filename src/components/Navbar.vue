@@ -34,6 +34,7 @@ import Button from "../elements/Button.vue";
           { text: 'Styrelsen', link: '/styrelsen' },
           { text: 'Dokument', link: '/dokument' },
         ]"
+        :is-mobile="isMobile"
       />
       <NavbarDropdown
         text="LÄNKAR"
@@ -55,6 +56,7 @@ import Button from "../elements/Button.vue";
             link: 'https://www.netshirt.se/foreningsklader/alvsborgsbataljonen',
           },
         ]"
+        :is-mobile="isMobile"
       />
       <a href="/hemvarnsgarden" class="hover:opacity-75">HEMVÄRNSGÅRDEN</a>
       <a href="/bli-medlem" class="hover:opacity-75">BLI MEDLEM</a>
@@ -83,13 +85,22 @@ import Button from "../elements/Button.vue";
 </template>
 
 <script>
+import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
+
 export default {
   name: "Navbar",
 
   data() {
     return {
       showNavbar: false,
+      breakpoints: useBreakpoints(breakpointsTailwind),
     };
+  },
+
+  computed: {
+    isMobile() {
+      return this.breakpoints.smaller("lg").value;
+    },
   },
 
   methods: {
@@ -103,6 +114,15 @@ export default {
         this.$refs.lottieSandwich.setSpeed(2);
         this.$refs.lottieSandwich.playSegments([25, 7], true);
       }
+    },
+  },
+
+  watch: {
+    isMobile() {
+      this.showNavbar = false;
+      this.$nextTick(() => {
+        this.$refs.lottieSandwich.goToAndStop(-1, true);
+      });
     },
   },
 };

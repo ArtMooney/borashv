@@ -34,8 +34,6 @@ import { chevronDown } from "ionicons/icons";
 </template>
 
 <script>
-import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
-
 export default {
   name: "NavbarDropdown",
 
@@ -48,20 +46,17 @@ export default {
       type: Array,
       required: true,
     },
+    isMobile: {
+      type: Boolean,
+      required: false,
+    },
   },
 
   data() {
     return {
       isClicked: false,
       isHover: false,
-      breakpoints: useBreakpoints(breakpointsTailwind),
     };
-  },
-
-  computed: {
-    isMobile() {
-      return this.breakpoints.smaller("lg").value;
-    },
   },
 
   methods: {
