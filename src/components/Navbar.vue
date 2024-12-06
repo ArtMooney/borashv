@@ -8,7 +8,7 @@ import Button from "../elements/Button.vue";
 <template>
   <div
     id="navbar"
-    class="relative z-10 m-2 flex items-center justify-between bg-transparent"
+    class="relative z-10 m-2 flex items-center justify-between bg-transparent font-gunplay"
   >
     <a href="/">
       <img

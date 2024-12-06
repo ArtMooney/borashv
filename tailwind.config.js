@@ -5,9 +5,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        noto: ["Notosansdisplay", "sans-serif"],
-        exo: ["Exo", "sans-serif"],
         gunplay: ["Gunplay", "sans-serif"],
+        libre: ["Libre Baskerville", "sans-serif"],
       },
       gridTemplateColumns: {
         thin: "3rem 1fr 3rem",
