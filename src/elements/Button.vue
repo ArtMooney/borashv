@@ -1,10 +1,14 @@
 <template>
   <button
     @click="$router.push({ path: link, hash: hash })"
-    class="min-w-40 rounded px-6 py-3 text-center font-gunplay text-sm uppercase text-black no-underline duration-500 ease-in-out"
+    class="min-w-40 rounded px-6 py-3 text-center font-gunplay text-sm uppercase text-black no-underline duration-500 ease-in-out hover:scale-105"
     :class="[
       styling === 'dark' ? 'bg-[#5e5e5e] text-white' : 'bg-white/95',
-      outline ? 'border-2 border-white bg-transparent text-white' : '',
+      outline
+        ? styling === 'dark'
+          ? 'border-2 border-white'
+          : 'border-2 border-[#5e5e5e]'
+        : '',
     ]"
     :type="type"
     :data-wait="dataWait"
