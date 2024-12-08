@@ -13,7 +13,7 @@ import ArrowUp from "../assets/ArrowUp.vue";
       class="w-32 justify-self-center pb-4 duration-500 ease-in-out hover:scale-[1.02] md:w-44"
       href="/"
     >
-      <img src="../assets/Framecore-light-gray.svg" alt="" />
+      <img src="../assets/old/Framecore-light-gray.svg" alt="" />
     </a>
     <div class="flex flex-col items-center justify-self-center">
       <router-link

@@ -19,7 +19,7 @@
         class="h-full w-full object-cover duration-500 ease-in-out hover:scale-[1.01]"
         loading="lazy"
         alt=""
-        src="../assets/kinnahusvagnsservice.jpg"
+        src="../assets/old/kinnahusvagnsservice.jpg"
       />
     </a>
   </div>

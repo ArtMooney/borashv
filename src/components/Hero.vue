@@ -7,13 +7,13 @@ import Button from "../elements/Button.vue";
     class="relative grid min-h-[20rem] grid-cols-1 p-4 md:grid-cols-slim md:p-12 md:px-0 lg:min-h-[40rem]"
   >
     <div
-      class="absolute bottom-0 left-0 right-0 top-0 flex items-center overflow-hidden object-cover"
+      class="absolute bottom-0 left-0 right-0 top-0 flex items-center overflow-hidden"
     >
       <img
-        class="parallax-background-hero min-h-[60rem] w-full"
+        class="parallax-background-hero min-h-[60rem] w-full object-cover"
         loading="lazy"
         alt=""
-        src="../assets/safsen_snapshot.jpg"
+        src="../assets/old/safsen_snapshot.jpg"
       />
     </div>
 
