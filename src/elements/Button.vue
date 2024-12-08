@@ -1,11 +1,10 @@
 <template>
   <button
     @click="$router.push({ path: link, hash: hash })"
-    class="min-w-40 rounded px-6 py-3 text-center font-gunplay uppercase text-base text-black no-underline duration-500 ease-in-out"
+    class="min-w-40 rounded px-6 py-3 text-center font-gunplay text-sm uppercase text-black no-underline duration-500 ease-in-out"
     :class="[
-      styling === 'outline'
-        ? 'bg-transparent border-white border-2 text-white'
-        : 'bg-white/95',
+      styling === 'dark' ? 'bg-[#5e5e5e] text-white' : 'bg-white/95',
+      outline ? 'border-2 border-white bg-transparent text-white' : '',
     ]"
     :type="type"
     :data-wait="dataWait"
@@ -42,7 +41,12 @@ export default {
     styling: {
       type: String,
       required: false,
-      default: "solid",
+      default: "light",
+    },
+    outline: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
 };
