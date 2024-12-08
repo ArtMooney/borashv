@@ -1,8 +1,8 @@
 <script setup>
-import House from "../assets/House.vue";
-import Star from "../assets/Star.vue";
-import Heart from "../assets/Heart.vue";
-import ArrowUp from "../assets/ArrowUp.vue";
+import House from "../assets/old/House.vue";
+import Star from "../assets/old/Star.vue";
+import Heart from "../assets/old/Heart.vue";
+import ArrowUp from "../assets/old/ArrowUp.vue";
 </script>
 
 <template>

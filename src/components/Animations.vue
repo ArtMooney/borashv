@@ -4,7 +4,7 @@
     class="my-4 grid grid-cols-1 grid-rows-1 md:grid-cols-3 md:gap-6"
   >
     <img
-      src="../assets/Hand_new_utkast06.jpg"
+      src="../assets/old/Hand_new_utkast06.jpg"
       loading="lazy"
       alt=""
       class="h-full max-h-screen w-full object-cover duration-500 ease-in-out hover:scale-[1.01]"
