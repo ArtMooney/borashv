@@ -13,7 +13,7 @@ import Button from "../elements/Button.vue";
         class="parallax-background-hero min-h-[60rem] w-full object-cover"
         loading="lazy"
         alt=""
-        src="../assets/old/safsen_snapshot.jpg"
+        src="../assets/pexels-henkephotoart-29662829-2.jpg"
       />
     </div>
 
