@@ -8,22 +8,25 @@
 }
 
 @font-face {
-    font-family: 'Libre Baskerville';
-    src: url('../fonts/LibreBaskerville-Regular.ttf') format('truetype');
+    font-family: 'Libre Franklin';
+    src: url('../fonts/LibreFranklin-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-    font-family: 'Libre Baskerville';
-    src: url('../fonts/LibreBaskerville-Bold.ttf') format('truetype');
+    font-family: 'Libre Franklin';
+    src: url('../fonts/LibreFranklin-Bold.ttf') format('truetype');
     font-weight: bold;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-    font-family: 'Libre Baskerville';
-    src: url('../fonts/LibreBaskerville-Italic.ttf') format('truetype');
+    font-family: 'Libre Franklin';
+    src: url('../fonts/LibreFranklin-Italic.ttf') format('truetype');
     font-weight: normal;
     font-style: italic;
+    font-display: swap;
 }

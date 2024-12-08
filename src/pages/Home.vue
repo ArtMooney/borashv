@@ -5,7 +5,7 @@ import Animations from "../components/Animations.vue";
 import Commercials from "../components/Commercials.vue";
 import WebDevelopment from "../components/WebDevelopment.vue";
 import HomePages from "../components/HomePages.vue";
-import Header from "../components/Header.vue";
+import Header from "../components/Hero.vue";
 </script>
 
 <template>

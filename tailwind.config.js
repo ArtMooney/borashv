@@ -6,7 +6,7 @@ export default {
     extend: {
       fontFamily: {
         gunplay: ["Gunplay", "sans-serif"],
-        libre: ["Libre Baskerville", "sans-serif"],
+        libre: ["Libre Franklin", "sans-serif"],
       },
       gridTemplateColumns: {
         thin: "3rem 1fr 3rem",
