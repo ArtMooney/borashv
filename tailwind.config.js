@@ -1,4 +1,5 @@
-/** @type {import("tailwindcss").Config} */
+import plugin from "tailwindcss/plugin";
+
 export default {
   mode: "jit",
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
@@ -12,13 +13,21 @@ export default {
         thin: "3rem 1fr 3rem",
         slim: "0.25fr 1fr 0.25fr",
       },
-      backgroundImage: {
-        "footer-gradient":
-          "linear-gradient(to bottom, hsla(19.999999999999975, 4.76%, 24.71%, 0.93), hsla(19.999999999999975, 4.76%, 24.71%, 0.93)), url('../assets/pexels-iva-mu.jpg')",
-      },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addBase }) {
+      addBase({
+        body: {
+          "@apply flex flex-col justify-between bg-neutral-900 font-libre text-lg font-normal leading-6 text-white":
+            {},
+        },
+        "h1, h2, h3, h4, h5, h6": {
+          "@apply mb-4 mt-0 font-gunplay font-bold leading-none": {},
+        },
+      });
+    }),
+  ],
   corePlugins: {
     preflight: true,
   },
