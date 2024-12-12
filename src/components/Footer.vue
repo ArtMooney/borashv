@@ -7,75 +7,52 @@ import ArrowUp from "../assets/old/ArrowUp.vue";
 
 <template>
   <div
-    class="relative mb-8 mt-4 grid grid-cols-1 gap-4 bg-footer-gradient py-20"
+    class="relative grid grid-cols-1 gap-4 bg-amber-400 bg-footer-gradient py-20"
   >
-    <a
-      class="w-32 justify-self-center pb-4 duration-500 ease-in-out hover:scale-[1.02] md:w-44"
-      href="/"
+    <div
+      class="absolute bottom-0 left-0 right-0 top-0 flex items-center overflow-hidden"
     >
-      <img src="../assets/old/Framecore-light-gray.svg" alt="" />
-    </a>
-    <div class="flex flex-col items-center justify-self-center">
-      <router-link
-        class="mb-3 text-neutral-400 no-underline hover:text-neutral-300"
-        :to="{ path: '/', hash: '#services' }"
-      >
-        Tjänster
-      </router-link>
-      <a
-        class="mb-3 text-neutral-400 no-underline hover:text-neutral-300"
-        href="/case"
-        >Kunder & Case</a
-      >
-      <a
-        class="mb-3 text-neutral-400 no-underline hover:text-neutral-300"
-        href="/contact"
-        >Kontakta oss</a
-      >
+      <img
+        class="w-full object-cover"
+        loading="lazy"
+        alt=""
+        src="../assets/donald-teel-7LOj1RlzYzU-unsplash-2.jpg"
+      />
     </div>
-    <div
-      class="mb-8 mt-4 h-0.5 w-2/3 justify-self-center bg-neutral-500/75"
-    ></div>
-    <div
-      class="grid grid-flow-col justify-start gap-1 justify-self-center duration-500 ease-in-out hover:gap-3"
-    >
-      <router-link
-        to="/"
-        class="h-5 w-5 text-neutral-400 duration-500 ease-in-out hover:text-neutral-300"
-      >
-        <House />
-      </router-link>
 
-      <div class="group">
-        <Star
-          class="h-5 w-5 text-neutral-400 duration-500 ease-in-out hover:text-neutral-300"
+    <div class="absolute bottom-0 left-0 right-0 top-0 bg-[#31382df5]/70"></div>
+
+    <div class="relative">
+      <a href="/">
+        <img
+          src="../assets/borashv-logo-1000px.png"
+          alt="footer logo"
+          class="h-14 min-h-14 w-14 min-w-14 md:h-20 md:min-h-20 md:w-20 md:min-w-20"
         />
-        <div
-          class="absolute bottom-7 left-auto right-auto top-auto -ml-12 hidden rounded bg-black/55 px-3 py-1.5 text-sm opacity-0 duration-300 ease-in-out group-hover:ml-0 group-hover:opacity-100 md:flex"
+      </a>
+
+      <div class="flex flex-col items-center justify-self-center">
+        <router-link
+          class="mb-3 text-neutral-400 no-underline hover:text-neutral-300"
+          :to="{ path: '/', hash: '#services' }"
         >
-          You are amazing!
-        </div>
+          Tjänster
+        </router-link>
+        <a
+          class="mb-3 text-neutral-400 no-underline hover:text-neutral-300"
+          href="/case"
+          >Kunder & Case</a
+        >
+        <a
+          class="mb-3 text-neutral-400 no-underline hover:text-neutral-300"
+          href="/contact"
+          >Kontakta oss</a
+        >
       </div>
 
-      <div class="group">
-        <Heart
-          class="h-5 w-5 text-neutral-400 duration-500 ease-in-out hover:text-neutral-300"
-        />
-        <div
-          class="absolute bottom-7 left-auto right-auto top-auto -ml-12 hidden items-center rounded bg-black/55 px-3 py-1.5 text-sm opacity-0 duration-300 ease-in-out group-hover:ml-0 group-hover:opacity-100 md:flex"
-        >
-          This website was made with
-          <Heart class="mx-1 h-4 w-5 text-red-500" />
-          by FrameCore 2024
-        </div>
-      </div>
-
-      <router-link
-        class="h-4 w-4 text-neutral-400 duration-500 ease-in-out hover:text-neutral-300"
-        :to="{ hash: '#navbar' }"
-      >
-        <ArrowUp />
-      </router-link>
+      <div
+        class="mb-8 mt-4 h-0.5 w-2/3 justify-self-center bg-neutral-500/75"
+      ></div>
     </div>
   </div>
 </template>
