@@ -47,7 +47,7 @@ export default {
         ".parallax-background-hero",
       );
       parallaxElements.forEach(function (el) {
-        const rate = 0.15;
+        const rate = 0.25;
         const translateY = scrolled * rate;
         el.style.transform = `translateY(${translateY}px)`;
       });

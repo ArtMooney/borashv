@@ -18,17 +18,19 @@ import { chevronDown } from "ionicons/icons";
       ></ion-icon>
     </div>
 
-    <div
-      class="min-w-full flex-col gap-3 pb-4 pr-4 pt-4 text-sm uppercase lg:absolute lg:left-0 lg:top-0 lg:pt-8"
-      :class="[isClicked ? 'flex' : isHover ? 'hidden lg:flex' : 'hidden']"
-    >
-      <a
-        v-for="item in list"
-        :href="item.link"
-        class="pl-2 hover:opacity-75 lg:pl-0"
+    <div class="relative">
+      <div
+        class="min-w-full flex-col gap-3 bg-black/50 pb-4 pr-4 pt-4 text-sm uppercase lg:absolute lg:left-0 lg:top-0 lg:p-4 lg:pl-2"
+        :class="[isClicked ? 'flex' : isHover ? 'hidden lg:flex' : 'hidden']"
       >
-        {{ item.text }}
-      </a>
+        <a
+          v-for="item in list"
+          :href="item.link"
+          class="pl-2 hover:opacity-75 lg:pl-0"
+        >
+          {{ item.text }}
+        </a>
+      </div>
     </div>
   </div>
 </template>
