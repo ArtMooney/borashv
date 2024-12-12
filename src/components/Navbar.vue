@@ -121,7 +121,7 @@ export default {
     isMobile() {
       this.showNavbar = false;
       this.$nextTick(() => {
-        this.$refs.lottieSandwich.goToAndStop(-1, true);
+        this.$refs.lottieSandwich.stop();
       });
     },
   },
