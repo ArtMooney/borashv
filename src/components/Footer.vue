@@ -1,8 +1,6 @@
 <script setup>
-import House from "../assets/old/House.vue";
-import Star from "../assets/old/Star.vue";
-import Heart from "../assets/old/Heart.vue";
-import ArrowUp from "../assets/old/ArrowUp.vue";
+import { IonIcon } from "@ionic/vue";
+import { chevronDown, heart } from "ionicons/icons";
 </script>
 
 <template>
@@ -53,6 +51,20 @@ import ArrowUp from "../assets/old/ArrowUp.vue";
       <div
         class="mb-8 mt-4 h-0.5 w-2/3 justify-self-center bg-neutral-500/75"
       ></div>
+
+      <a
+        class="flex h-10 items-center justify-self-center text-xs text-white/50 hover:text-white/75"
+        href="https://www.framecore.se"
+      >
+        Powered by
+        <span
+          ><ion-icon
+            :icon="heart"
+            class="h-4 w-4 px-0.5 text-red-600"
+          ></ion-icon
+        ></span>
+        FrameCore
+      </a>
     </div>
   </div>
 </template>
