@@ -5,21 +5,11 @@ import Footer from "./components/Footer.vue";
 
 <template>
   <div
-    class="flex min-h-screen flex-col flex-nowrap items-stretch justify-between"
+    class="flex min-h-screen flex-col flex-nowrap items-stretch justify-between px-4"
   >
-    <div
-      class="grid-rows-auto mx-auto grid w-full max-w-screen-2xl grid-cols-1 px-4 sm:px-4"
-    >
-      <Navbar />
-    </div>
-
+    <Navbar />
     <router-view />
-
-    <div
-      class="grid-rows-auto mx-auto grid w-full max-w-screen-2xl grid-cols-1 px-4 sm:px-4"
-    >
-      <Footer />
-    </div>
+    <Footer />
   </div>
 </template>
 

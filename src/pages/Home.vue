@@ -11,16 +11,6 @@ import Header from "../components/Hero.vue";
 <template>
   <Header />
   <VideoHeading />
-
-  <div
-    class="grid-rows-auto mx-auto grid w-full max-w-screen-2xl grid-cols-1 px-4 sm:px-4"
-  >
-    <DesignQuote />
-    <Animations />
-    <Commercials />
-    <WebDevelopment />
-    <HomePages />
-  </div>
 </template>
 
 <script>
