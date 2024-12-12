@@ -14,7 +14,7 @@ import Button from "../elements/Button.vue";
       <img
         src="../assets/borashv-logo-1000px.png"
         alt="navbar logo"
-        class="h-20 min-h-20 w-20 min-w-20"
+        class="h-14 min-h-14 w-14 min-w-14 md:h-20 md:min-h-20 md:w-20 md:min-w-20"
       />
     </a>
 
