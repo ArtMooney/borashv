@@ -5,11 +5,12 @@ import Animations from "../components/Animations.vue";
 import Commercials from "../components/Commercials.vue";
 import WebDevelopment from "../components/WebDevelopment.vue";
 import HomePages from "../components/HomePages.vue";
-import Header from "../components/Hero.vue";
+import Header from "../components/Header.vue";
+import headerImage from "../assets/sean-foster-PMmb0MEE7Co-unsplash-2.jpg";
 </script>
 
 <template>
-  <Header />
+  <Header :image="headerImage" />
   <VideoHeading />
 
   <div

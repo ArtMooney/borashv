@@ -7,13 +7,14 @@ import Button from "../elements/Button.vue";
     class="relative grid min-h-[20rem] grid-cols-1 p-4 md:grid-cols-slim md:p-12 md:px-0 lg:min-h-[40rem]"
   >
     <div
+      v-if="image"
       class="absolute bottom-0 left-0 right-0 top-0 flex items-center overflow-hidden"
     >
       <img
         class="parallax-background-hero min-h-[60rem] w-full object-cover"
         loading="lazy"
         alt=""
-        src="../assets/pexels-henkephotoart-29662829-2.jpg"
+        :src="image"
       />
     </div>
 
@@ -22,10 +23,11 @@ import Button from "../elements/Button.vue";
     <div
       class="relative flex flex-col items-center justify-center text-center md:col-start-2 md:col-end-2"
     >
-      <h3 class="text-3xl uppercase md:text-4xl">Borås Hemvärnsförening</h3>
+      <h3 v-if="title" class="text-3xl uppercase md:text-4xl">{{ title }}</h3>
 
       <Button
-        text="Bokningar"
+        v-if="buttonText"
+        :text="buttonText"
         link="/bokningar"
         hash=""
         type="button"
@@ -38,7 +40,22 @@ import Button from "../elements/Button.vue";
 
 <script>
 export default {
-  name: "Header",
+  name: "Hero",
+
+  props: {
+    image: {
+      type: String,
+      required: false,
+    },
+    title: {
+      type: String,
+      required: false,
+    },
+    buttonText: {
+      type: String,
+      required: false,
+    },
+  },
 
   methods: {
     handleScroll() {
