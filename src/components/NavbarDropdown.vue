@@ -20,7 +20,7 @@ import { chevronDown } from "ionicons/icons";
 
     <div class="relative">
       <div
-        class="min-w-full flex-col gap-3 pb-4 pr-4 pt-4 text-sm uppercase lg:absolute lg:left-0 lg:top-0 lg:bg-black/50 lg:p-4 lg:pl-2"
+        class="min-w-full flex-col gap-3 pb-4 pr-4 pt-4 text-sm uppercase lg:absolute lg:left-0 lg:top-0 lg:bg-[#25322b]/75 lg:p-4 lg:pl-2"
         :class="[isClicked ? 'flex' : isHover ? 'hidden lg:flex' : 'hidden']"
       >
         <a

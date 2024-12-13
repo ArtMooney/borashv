@@ -8,7 +8,7 @@ import Button from "../elements/Button.vue";
 <template>
   <div
     id="navbar"
-    class="relative z-10 flex items-center justify-between bg-transparent py-2 font-gunplay"
+    class="relative z-10 flex items-center justify-between bg-transparent p-4 py-2 font-gunplay"
   >
     <a href="/">
       <img
@@ -19,7 +19,7 @@ import Button from "../elements/Button.vue";
     </a>
 
     <div
-      class="absolute -right-2 top-4 flex flex-col gap-5 rounded bg-[#32382d] p-6 pt-14 transition-all duration-200 ease-in-out lg:static lg:flex-row lg:items-center lg:bg-transparent lg:p-0"
+      class="absolute right-3 top-4 flex flex-col gap-5 bg-[#32382d] p-6 pt-14 transition-all duration-200 ease-in-out lg:static lg:flex-row lg:items-center lg:bg-transparent lg:p-0"
       :class="[
         showNavbar
           ? 'opacity-100'
