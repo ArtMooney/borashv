@@ -5,7 +5,7 @@ import { heart } from "ionicons/icons";
 
 <template>
   <div
-    class="bg-footer-gradient relative grid grid-cols-1 place-items-center gap-4 py-12 text-center font-gunplay text-neutral-400 no-underline md:grid-cols-3 md:px-28 md:text-start xl:px-72"
+    class="bg-footer-gradient relative grid grid-cols-1 place-items-center gap-4 py-12 text-center font-gunplay text-neutral-400 no-underline md:grid-cols-3 md:px-28 md:text-start lg:py-32 xl:px-72"
   >
     <div
       class="absolute bottom-0 left-0 right-0 top-0 flex items-center overflow-hidden"
@@ -14,11 +14,11 @@ import { heart } from "ionicons/icons";
         class="h-full w-full object-cover"
         loading="lazy"
         alt=""
-        src="../assets/donald-teel-7LOj1RlzYzU-unsplash-2.jpg"
+        src="../assets/pexels-gabby-k-7794400-2.jpg"
       />
     </div>
 
-    <div class="absolute bottom-0 left-0 right-0 top-0 bg-[#31382df5]/70"></div>
+    <div class="absolute bottom-0 left-0 right-0 top-0 bg-[#31382df5]/80"></div>
 
     <a href="/">
       <img
