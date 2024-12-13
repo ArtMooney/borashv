@@ -5,7 +5,7 @@ import { heart } from "ionicons/icons";
 
 <template>
   <div
-    class="bg-footer-gradient relative grid grid-cols-1 place-items-center gap-4 py-12 text-center font-gunplay text-neutral-400 no-underline md:grid-cols-3 md:px-28 md:text-start lg:py-32 xl:px-72"
+    class="bg-footer-gradient relative grid grid-cols-1 place-items-center gap-4 py-12 text-center font-gunplay text-neutral-400 no-underline md:grid-cols-3 md:px-28 md:text-start lg:py-24 xl:px-72"
   >
     <div
       class="absolute bottom-0 left-0 right-0 top-0 flex items-center overflow-hidden"
@@ -41,11 +41,11 @@ import { heart } from "ionicons/icons";
     </div>
 
     <div
-      class="relative col-span-1 mb-8 mt-4 h-0.5 w-2/3 bg-neutral-500/75 md:col-span-3"
+      class="relative col-span-1 my-12 h-0.5 w-2/3 bg-neutral-500/75 md:col-span-3"
     ></div>
 
     <a
-      class="relative col-span-1 flex text-xs text-white/50 hover:text-white/75 md:col-span-3"
+      class="absolute bottom-3 col-span-1 flex text-xs text-white/50 opacity-50 hover:text-white/75 md:col-span-3"
       href="https://www.framecore.se"
     >
       Powered by
