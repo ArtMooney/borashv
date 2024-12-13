@@ -24,7 +24,7 @@ import { heart } from "ionicons/icons";
       <img
         src="../assets/borashv-logo-1000px.png"
         alt="footer logo"
-        class="relative h-36 min-h-36 w-36 min-w-36 md:h-40 md:min-h-40 md:w-40 md:min-w-40"
+        class="relative mb-6 h-36 min-h-36 w-36 min-w-36 md:mb-0 md:h-40 md:min-h-40 md:w-40 md:min-w-40"
       />
     </a>
 

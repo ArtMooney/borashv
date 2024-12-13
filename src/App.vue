@@ -4,7 +4,7 @@ import Footer from "./components/Footer.vue";
 </script>
 
 <template>
-  <div>
+  <div class="flex grow flex-col">
     <Navbar />
     <router-view />
   </div>
@@ -13,6 +13,6 @@ import Footer from "./components/Footer.vue";
 
 <script>
 export default {
-  name: "BorasHV",
+  name: "Borås Hemvärnsförening",
 };
 </script>

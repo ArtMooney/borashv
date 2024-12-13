@@ -19,7 +19,7 @@ export default {
     plugin(function ({ addBase }) {
       addBase({
         body: {
-          "@apply bg-neutral-900 font-libre font-normal text-white max-w-screen-2xl justify-self-center":
+          "@apply mx-auto w-full max-w-screen-2xl bg-neutral-900 font-libre font-normal text-white":
             {},
         },
         "h1, h2, h3, h4, h5, h6": {
