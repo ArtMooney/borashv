@@ -11,6 +11,12 @@ export default () =>
         props: true,
       },
       {
+        path: "/bokningar",
+        name: "Bokningar",
+        component: () => import("./pages/Bokningar.vue"),
+        props: true,
+      },
+      {
         path: "/:pathMatch(.*)*",
         name: "NotFound",
         component: () => import("./pages/NotFound.vue"),
