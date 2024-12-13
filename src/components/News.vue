@@ -1,61 +1,53 @@
+<script setup>
+import LoadingSpinner from "./LoadingSpinner.vue";
+import Button from "../elements/Button.vue";
+</script>
+
 <template>
-  <div class="content-frame">
-    <div class="content aktiviteter">
-      <h4>Nyheter</h4>
-      <div class="collection-wrapper">
-        <div v-show="showLoader" class="list-loader-wrapper">
-          <div
-            class="list-loader"
-            data-animation-type="lottie"
-            data-src="documents/98288-loading.json"
-            data-loop="1"
-            data-direction="1"
-            data-autoplay="1"
-            data-is-ix2-target="0"
-            data-renderer="svg"
-            data-duration="0"
-          ></div>
+  <div class="px-8 py-16">
+    <h4 class="text-3xl uppercase">Nyheter</h4>
+
+    <LoadingSpinner v-if="!itemsLoaded" />
+
+    <div
+      v-if="itemsLoaded"
+      v-for="item of items"
+      class="mb-4 border border-white/15 bg-[#32382d] p-4"
+    >
+      <div class="flex gap-4 text-xs md:text-sm">
+        <div class="min-h-36 w-36 min-w-36">
+          <img
+            v-if="item.bild && item.bild[0]"
+            :src="item.bild[0].thumbnails.card_cover.url"
+            class="h-full w-full object-cover"
+          />
         </div>
-        <div
-          v-bind:style="{ display: itemsLoaded }"
-          v-for="(item, index) of items"
-          class="dynamic-item aktivitet"
-        >
-          <div class="dynamic-item-wrapper aktivitet">
-            <div
-              v-if="item.bild &amp;&amp; item.bild[0]"
-              class="image-wrapper aktivitet"
-            >
-              <div class="w-embed">
-                <img
-                  :src="item.bild[0].thumbnails.card_cover.url"
-                  class="image blog"
-                />
-              </div>
-            </div>
-            <div class="text-center-4">
-              <div class="rubrik">{{ item.titel }}</div>
-              <p class="text-s text-spanish-grey underline">
-                {{ formatDate(item.datum) }}
-              </p>
-              <div class="spacer-s"></div>
-              <p class="text-s line-break">
-                {{ item.info ? formattedString(item.info) : &quot;&quot; }}
-              </p>
-              <div class="spacer-s"></div>
-              <a
-                v-show="item['kontakta oss']"
-                href="kontakta-oss.html"
-                class="button darkmode w-button"
-                >Kontakta oss</a
-              >
-            </div>
-          </div>
-        </div>
-        <div v-bind:style="{ display: showErrorMessage }" class="text-block">
-          {{ errorMessage }}
+
+        <div class="flex flex-col items-start gap-2">
+          <div class="bold font-gunplay text-base">{{ item.titel }}</div>
+
+          <p class="mb-2 text-gray-400 underline">
+            {{ formatDate(item.datum) }}
+          </p>
+
+          <p class="mb-4">
+            {{ item.info ? formattedString(item.info) : "" }}
+          </p>
+
+          <Button
+            v-show="item['kontakta oss']"
+            text="Kontakta oss"
+            link="/contact"
+            type="button"
+            data-wait=""
+            styling="outline"
+          />
         </div>
       </div>
+    </div>
+
+    <div v-if="showErrorMessage" class="bg-[#a38373] p-4 text-black">
+      {{ errorMessage }}
     </div>
   </div>
 </template>
@@ -67,10 +59,9 @@ export default {
   data() {
     return {
       items: {},
-      itemsLoaded: "none",
-      showLoader: true,
+      itemsLoaded: false,
       errorMessage: "",
-      showErrorMessage: "none",
+      showErrorMessage: false,
       baserowClientToken: "ut84FNQWZzasN9CHp3Wgg9DX9ymhZcje",
     };
   },
@@ -91,22 +82,21 @@ export default {
         })
         .then((result) => {
           this.items = result.results;
+
           if (Object.keys(this.items).length > 0) {
-            this.itemsLoaded = "block";
-            this.showLoader = false;
+            this.itemsLoaded = true;
           } else {
-            this.itemsLoaded = "none";
-            this.showLoader = false;
+            this.itemsLoaded = false;
             this.errorMessage = "Det finns inga aktiviteter för tillfället.";
-            this.showErrorMessage = "block";
+            this.showErrorMessage = true;
           }
         })
         .catch((error) => {
           console.log(error);
-          this.itemsLoaded = "none";
-          this.showLoader = false;
+
+          this.itemsLoaded = false;
           this.errorMessage = "Något gick fel när aktiviteterna skulle hämtas.";
-          this.showErrorMessage = "block";
+          this.showErrorMessage = true;
         });
     },
 
@@ -117,6 +107,7 @@ export default {
 
     formatDate(date) {
       if (!date) return;
+
       let dateObj = new Date(date);
       let day = dateObj.getDate();
       let months = [
@@ -135,8 +126,8 @@ export default {
       ];
       let month = months[dateObj.getMonth()];
       let year = dateObj.getFullYear();
-      let formattedDate = `${day} ${month} ${year}`;
-      return formattedDate;
+
+      return `${day} ${month} ${year}`;
     },
   },
 };
