@@ -19,7 +19,8 @@ export default {
     plugin(function ({ addBase }) {
       addBase({
         body: {
-          "@apply bg-neutral-900 font-libre font-normal text-white": {},
+          "@apply bg-neutral-900 font-libre font-normal text-white max-w-screen-2xl justify-self-center":
+            {},
         },
         "h1, h2, h3, h4, h5, h6": {
           "@apply mb-4 mt-0 font-gunplay font-bold leading-none": {},
