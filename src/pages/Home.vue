@@ -1,16 +1,11 @@
 <script setup>
-import VideoHeading from "../components/VideoHeading.vue";
-import DesignQuote from "../components/DesignQuote.vue";
-import Animations from "../components/Animations.vue";
-import Commercials from "../components/Commercials.vue";
-import WebDevelopment from "../components/WebDevelopment.vue";
-import HomePages from "../components/HomePages.vue";
 import Header from "../components/Hero.vue";
+import News from "../components/News.vue";
 </script>
 
 <template>
   <Header />
-  <VideoHeading />
+  <News />
 </template>
 
 <script>
