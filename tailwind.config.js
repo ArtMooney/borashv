@@ -19,8 +19,7 @@ export default {
     plugin(function ({ addBase }) {
       addBase({
         body: {
-          "@apply flex flex-col justify-between bg-neutral-900 font-libre text-lg font-normal leading-6 text-white":
-            {},
+          "@apply bg-neutral-900 font-libre font-normal text-white": {},
         },
         "h1, h2, h3, h4, h5, h6": {
           "@apply mb-4 mt-0 font-gunplay font-bold leading-none": {},
