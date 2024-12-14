@@ -8,7 +8,7 @@
       <h4 class="text-3xl uppercase">{{ title }}</h4>
       <div
         v-html="formattedText"
-        class="whitespace-pre-line pb-8 [&>a:hover]:opacity-80 [&>a]:underline [&>a]:underline-offset-4"
+        class="whitespace-pre-line [&>a:hover]:opacity-80 [&>a]:underline [&>a]:underline-offset-4"
       ></div>
     </div>
   </div>

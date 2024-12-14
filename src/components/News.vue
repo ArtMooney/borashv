@@ -7,7 +7,7 @@ import Button from "../elements/Button.vue";
   <div class="px-8 py-16">
     <h4 class="text-3xl uppercase">Nyheter</h4>
 
-    <LoadingSpinner v-if="!itemsLoaded" />
+    <LoadingSpinner v-if="!itemsLoaded && !showErrorMessage" />
 
     <div
       v-if="itemsLoaded"
@@ -24,7 +24,9 @@ import Button from "../elements/Button.vue";
         </div>
 
         <div class="flex flex-col items-start gap-2">
-          <div class="bold font-gunplay text-base">{{ item.titel }}</div>
+          <div class="bold font-gunplay text-lg">
+            {{ item.titel }}
+          </div>
 
           <p class="mb-2 text-gray-400 underline">
             {{ formatDate(item.datum) }}
