@@ -6,7 +6,13 @@ import headerImage from "../assets/sean-foster-PMmb0MEE7Co-unsplash-2.jpg";
 </script>
 
 <template>
-  <Header :image="headerImage" />
+  <Header
+    :image="headerImage"
+    button-text-one="Bokningslista"
+    button-link-one="/bokningar#bokningslista"
+    button-text-two="Bokningsregler"
+    button-link-two="/bokningar#bokningsregler"
+  />
   <TextBlock title="Bokningar" :text="text" />
   <Bokningar />
 </template>

@@ -8,7 +8,8 @@ import headerImage from "../assets/pexels-henkephotoart-29662829-2.jpg";
   <Header
     :image="headerImage"
     title="Borås Hemvärnsförening"
-    button-text="Bokningar"
+    button-text-one="Bokningar"
+    button-link-one="/bokningar"
   />
   <News />
 </template>
