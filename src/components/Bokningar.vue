@@ -3,24 +3,30 @@ import LoadingSpinner from "./LoadingSpinner.vue";
 </script>
 
 <template>
-  <div class="p-8">
+  <div id="bokningslista" class="flex flex-col gap-2 p-8">
     <LoadingSpinner v-if="!itemsLoaded && !showErrorMessage" />
 
     <div
       v-if="itemsLoaded"
       v-for="item of items"
-      class="mb-4 cursor-pointer border border-white/15 bg-[#32382d] p-4 hover:bg-[#43493e]"
+      class="cursor-pointer border border-white/15 bg-[#32382d] p-4 hover:bg-[#43493e]"
     >
-      <div class="flex flex-col gap-0.5 text-xs md:text-sm">
-        <p class="mb-2 text-gray-400 underline">
-          {{ displayToFromDate(item["datum|to-from"]) }}
-        </p>
+      <div class="grid grid-cols-2">
+        <div
+          class="mr-2 flex flex-col gap-2 border-r-2 border-white/15 text-xs md:text-sm"
+        >
+          <p class="text-gray-400 underline">
+            {{ displayToFromDate(item["datum|to-from"]) }}
+          </p>
 
-        <div class="bold mb-2 font-gunplay text-lg">{{ item.titel }}</div>
+          <div class="bold font-gunplay text-2xl">{{ item.titel }}</div>
+        </div>
 
-        <p>{{ item.lokal ? "Lokal: " + item.lokal : "" }}</p>
-        <p>{{ item.org ? "Org: " + item.org : "" }}</p>
-        <p>{{ item.tid ? "Tid: " + item.tid : "" }}</p>
+        <div class="flex flex-col gap-0.5 text-xs md:text-sm">
+          <p>{{ item.lokal ? "Lokal: " + item.lokal : "" }}</p>
+          <p>{{ item.org ? "Org: " + item.org : "" }}</p>
+          <p>{{ item.tid ? "Tid: " + item.tid : "" }}</p>
+        </div>
       </div>
     </div>
 
