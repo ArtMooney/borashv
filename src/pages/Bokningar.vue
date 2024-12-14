@@ -6,21 +6,37 @@ import headerImage from "../assets/sean-foster-PMmb0MEE7Co-unsplash-2.jpg";
 
 <template>
   <Header :image="headerImage" />
-  <TextBlock
-    title="Bokningar"
-    text="All verksamhet i hemvärnsgården skall förbokas, även regelbunden
-        återkommande verksamhet. Bokning sker via David Wernold. Email:
-        boka_hv_garden@mail.com Tel./sms: 0703-356483 Nyckel hämtas/lämnas enl.
-        överenskommelse. Bokningsbart: Konferensrum, samlingssal, mäss,
-        logementen och projektor/kopiator. Ev. debitering enl. prislista.
-        Bokningsregler finns längre ner på denna sida. Bokningsregler finns
-        längre ner på denna sida."
-  />
+  <TextBlock title="Bokningar" :text="text" />
 </template>
 
 <script>
 export default {
-  name: "Home",
+  name: "Bokningar",
+
+  data() {
+    return {
+      text: `
+      All verksamhet i hemvärnsgården skall förbokas, även regelbunden
+      återkommande verksamhet.
+
+      Bokning sker via David Wernold.
+      Email: <a href="mailto:boka_hv_garden@mail.com">boka_hv_garden@mail.com</a>
+      Tel./sms: <a href="tel:0703356483">0703-356483</a>
+
+      Nyckel hämtas/lämnas enl. överenskommelse.
+
+      Bokningsbart:
+      * Konferensrum
+      * Samlingssal
+      * Mäss
+      * Logementen
+      * Projektor/kopiator
+
+      Ev. debitering enl. prislista.
+      Bokningsregler finns längre ner på denna sida.
+    `,
+    };
+  },
 
   head: {
     title:

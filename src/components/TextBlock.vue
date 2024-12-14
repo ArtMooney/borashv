@@ -1,12 +1,15 @@
 <template>
   <div
     v-if="text"
-    class="grid min-h-96 grid-cols-8 content-center"
+    class="grid min-h-96 grid-cols-8 content-center py-12"
     :style="{ backgroundColor: backgroundColor }"
   >
     <div class="col-start-2 col-end-8 flex flex-col items-start">
       <h4 class="text-3xl uppercase">{{ title }}</h4>
-      <p class="pb-8">{{ text }}</p>
+      <div
+        v-html="formattedText"
+        class="whitespace-pre-line pb-8 [&>a:hover]:opacity-80 [&>a]:underline [&>a]:underline-offset-4"
+      ></div>
     </div>
   </div>
 </template>
@@ -14,6 +17,12 @@
 <script>
 export default {
   name: "Text Block",
+
+  computed: {
+    formattedText() {
+      return this.text.replace(/\*/g, "•").replace(/\n/g, "<br>").trim();
+    },
+  },
 
   props: {
     title: {
