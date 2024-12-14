@@ -25,15 +25,35 @@ import Button from "../elements/Button.vue";
     >
       <h3 v-if="title" class="text-3xl uppercase md:text-4xl">{{ title }}</h3>
 
-      <Button
-        v-if="buttonText"
-        :text="buttonText"
-        link="/bokningar"
-        hash=""
-        type="button"
-        data-wait=""
-        styling="dark"
-      />
+      <div class="flex gap-4">
+        <Button
+          v-if="buttonTextOne"
+          :text="buttonTextOne"
+          :link="buttonLinkOne.split('#')[0]"
+          :hash="
+            buttonLinkOne.split('#')[1] !== undefined
+              ? '#' + buttonLinkOne.split('#')[1]
+              : ''
+          "
+          type="button"
+          data-wait=""
+          styling="dark"
+        />
+
+        <Button
+          v-if="buttonTextTwo"
+          :text="buttonTextTwo"
+          :link="buttonLinkTwo.split('#')[0]"
+          :hash="
+            buttonLinkTwo.split('#')[1] !== undefined
+              ? '#' + buttonLinkTwo.split('#')[1]
+              : ''
+          "
+          type="button"
+          data-wait=""
+          styling="dark"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -51,7 +71,19 @@ export default {
       type: String,
       required: false,
     },
-    buttonText: {
+    buttonTextOne: {
+      type: String,
+      required: false,
+    },
+    buttonLinkOne: {
+      type: String,
+      required: false,
+    },
+    buttonTextTwo: {
+      type: String,
+      required: false,
+    },
+    buttonLinkTwo: {
       type: String,
       required: false,
     },
