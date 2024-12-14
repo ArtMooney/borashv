@@ -17,6 +17,12 @@ export default () =>
         props: true,
       },
       {
+        path: "/hemvarnsgarden",
+        name: "Hemvärnsgården",
+        component: () => import("./pages/Hemvarnsgarden.vue"),
+        props: true,
+      },
+      {
         path: "/:pathMatch(.*)*",
         name: "NotFound",
         component: () => import("./pages/NotFound.vue"),

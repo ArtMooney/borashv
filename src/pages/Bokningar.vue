@@ -1,27 +1,21 @@
 <script setup>
-import VideoHeading from "../components/VideoHeading.vue";
-import DesignQuote from "../components/DesignQuote.vue";
-import Animations from "../components/Animations.vue";
-import Commercials from "../components/Commercials.vue";
-import WebDevelopment from "../components/WebDevelopment.vue";
-import HomePages from "../components/HomePages.vue";
 import Header from "../components/Header.vue";
+import TextBlock from "../components/TextBlock.vue";
 import headerImage from "../assets/sean-foster-PMmb0MEE7Co-unsplash-2.jpg";
 </script>
 
 <template>
   <Header :image="headerImage" />
-  <VideoHeading />
-
-  <div
-    class="grid-rows-auto mx-auto grid w-full max-w-screen-2xl grid-cols-1 px-4 sm:px-4"
-  >
-    <DesignQuote />
-    <Animations />
-    <Commercials />
-    <WebDevelopment />
-    <HomePages />
-  </div>
+  <TextBlock
+    title="Bokningar"
+    text="All verksamhet i hemvärnsgården skall förbokas, även regelbunden
+        återkommande verksamhet. Bokning sker via David Wernold. Email:
+        boka_hv_garden@mail.com Tel./sms: 0703-356483 Nyckel hämtas/lämnas enl.
+        överenskommelse. Bokningsbart: Konferensrum, samlingssal, mäss,
+        logementen och projektor/kopiator. Ev. debitering enl. prislista.
+        Bokningsregler finns längre ner på denna sida. Bokningsregler finns
+        längre ner på denna sida."
+  />
 </template>
 
 <script>
