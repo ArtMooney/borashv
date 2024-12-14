@@ -1,5 +1,6 @@
 <script setup>
 import Header from "../components/Header.vue";
+import Bokningar from "../components/Bokningar.vue";
 import TextBlock from "../components/TextBlock.vue";
 import headerImage from "../assets/sean-foster-PMmb0MEE7Co-unsplash-2.jpg";
 </script>
@@ -7,6 +8,7 @@ import headerImage from "../assets/sean-foster-PMmb0MEE7Co-unsplash-2.jpg";
 <template>
   <Header :image="headerImage" />
   <TextBlock title="Bokningar" :text="text" />
+  <Bokningar />
 </template>
 
 <script>
