@@ -17,6 +17,12 @@ export default () =>
         props: true,
       },
       {
+        path: "/om-oss",
+        name: "Om oss",
+        component: () => import("./pages/OmOss.vue"),
+        props: true,
+      },
+      {
         path: "/hemvarnsgarden",
         name: "Hemvärnsgården",
         component: () => import("./pages/Hemvarnsgarden.vue"),
