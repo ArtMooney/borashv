@@ -4,14 +4,27 @@ import Button from "../elements/Button.vue";
 
 <template>
   <div
-    class="relative grid min-h-[20rem] grid-cols-1 p-4 md:grid-cols-slim md:p-12 md:px-0 lg:min-h-[40rem]"
+    class="relative grid grid-cols-1 md:grid-cols-slim md:px-0"
+    :class="
+      containImage ? 'min-h' : 'min-h-[20rem] p-4 md:p-12 lg:min-h-[40rem]'
+    "
   >
     <div
       v-if="image"
-      class="absolute bottom-0 left-0 right-0 top-0 flex items-center overflow-hidden"
+      class=""
+      :class="
+        containImage
+          ? 'col-span-1 w-full md:col-span-3'
+          : 'absolute bottom-0 left-0 right-0 top-0 flex items-center overflow-hidden'
+      "
     >
       <img
-        class="parallax-background-hero min-h-[60rem] w-full object-cover"
+        class=""
+        :class="
+          containImage
+            ? 'h-full w-full'
+            : 'parallax-background-hero min-h-[60rem] w-full object-cover'
+        "
         loading="lazy"
         alt=""
         :src="image"
@@ -71,6 +84,11 @@ export default {
   props: {
     image: {
       type: String,
+      required: false,
+    },
+    containImage: {
+      type: Boolean,
+      default: false,
       required: false,
     },
     title: {
