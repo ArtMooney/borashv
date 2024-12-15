@@ -23,6 +23,12 @@ export default () =>
         props: true,
       },
       {
+        path: "/styrelsen",
+        name: "Styrelsen",
+        component: () => import("./pages/Styrelsen.vue"),
+        props: true,
+      },
+      {
         path: "/hemvarnsgarden",
         name: "Hemvärnsgården",
         component: () => import("./pages/Hemvarnsgarden.vue"),
