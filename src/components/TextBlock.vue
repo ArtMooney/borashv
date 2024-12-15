@@ -2,10 +2,12 @@
   <div
     :id="id"
     v-if="text"
-    class="grid min-h-96 grid-cols-8 content-center py-12"
+    class="grid min-h-96 grid-cols-1 content-center px-8 py-12 lg:grid-cols-8 lg:px-0"
     :style="{ backgroundColor: backgroundColor }"
   >
-    <div class="col-start-2 col-end-8 flex flex-col items-start">
+    <div
+      class="col-start-1 col-end-1 flex flex-col items-start lg:col-start-2 lg:col-end-8"
+    >
       <h4 class="text-3xl uppercase">{{ title }}</h4>
       <div
         v-html="formattedText"
