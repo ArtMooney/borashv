@@ -23,9 +23,15 @@ import Button from "../elements/Button.vue";
     <div
       class="relative flex flex-col items-center justify-center text-center md:col-start-2 md:col-end-2"
     >
-      <h3 v-if="title" class="text-3xl uppercase md:text-4xl">{{ title }}</h3>
+      <h3
+        v-if="title"
+        class="hyphens-auto break-words text-3xl uppercase md:text-4xl"
+        lang="sv"
+      >
+        {{ title }}
+      </h3>
 
-      <div class="flex gap-4">
+      <div class="flex flex-col gap-4 sm:flex-row">
         <Button
           v-if="buttonTextOne"
           :text="buttonTextOne"
