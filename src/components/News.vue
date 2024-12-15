@@ -32,7 +32,7 @@ import Button from "../elements/Button.vue";
             {{ formatDate(item.datum) }}
           </p>
 
-          <p class="mb-4">
+          <p class="mb-4 hyphens-auto break-words" lang="sv">
             {{ item.info ? formattedString(item.info) : "" }}
           </p>
 
