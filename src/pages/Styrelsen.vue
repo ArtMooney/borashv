@@ -1,17 +1,12 @@
 <script setup>
 import Header from "../components/Header.vue";
-import TextBlock from "../components/TextBlock.vue";
-import headerImage from "../assets/Hemvarnsgarden-1024x768.jpg";
+import StyrelsenList from "../components/StyrelsenList.vue";
+import headerImage from "../assets/alex-moliski-aKY8ar4eI_w-unsplash-2.jpg";
 </script>
 
 <template>
-  <Header :image="headerImage" :contain-image="true" />
-  <TextBlock
-    title="Om Föreningen"
-    :text="textForening"
-    button-text="Bli medlem"
-    button-link="/bli-medlem"
-  />
+  <Header :image="headerImage" />
+  <StyrelsenList />
 </template>
 
 <script>
