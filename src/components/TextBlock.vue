@@ -1,3 +1,7 @@
+<script setup>
+import Button from "../elements/Button.vue";
+</script>
+
 <template>
   <div
     :id="id"
@@ -13,6 +17,21 @@
         v-html="formattedText"
         class="whitespace-pre-line [&>a:hover]:opacity-80 [&>a]:underline [&>a]:underline-offset-4"
       ></div>
+
+      <Button
+        v-if="buttonText"
+        :text="buttonText"
+        :link="buttonLink.split('#')[0]"
+        :hash="
+          buttonLink.split('#')[1] !== undefined
+            ? '#' + buttonLink.split('#')[1]
+            : ''
+        "
+        type="button"
+        data-wait=""
+        styling="dark"
+        class="mt-12"
+      />
     </div>
   </div>
 </template>
@@ -20,12 +39,6 @@
 <script>
 export default {
   name: "Text Block",
-
-  computed: {
-    formattedText() {
-      return this.text.replace(/\*/g, "•").replace(/\n/g, "<br>").trim();
-    },
-  },
 
   props: {
     id: {
@@ -46,6 +59,20 @@ export default {
       type: String,
       default: "transparent",
       required: false,
+    },
+    buttonText: {
+      type: String,
+      required: false,
+    },
+    buttonLink: {
+      type: String,
+      required: false,
+    },
+  },
+
+  computed: {
+    formattedText() {
+      return this.text.replace(/\*/g, "•").replace(/\n/g, "<br>").trim();
     },
   },
 };
