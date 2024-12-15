@@ -6,7 +6,12 @@ import headerImage from "../assets/Hemvarnsgarden-1024x768.jpg";
 
 <template>
   <Header :image="headerImage" :contain-image="true" />
-  <TextBlock title="Bokningar" :text="textBokningar" />
+  <TextBlock
+    title="Om Föreningen"
+    :text="textForening"
+    button-text="Bli medlem"
+    button-link="/bli-medlem"
+  />
 </template>
 
 <script>
@@ -15,26 +20,21 @@ export default {
 
   data() {
     return {
-      textBokningar: `
-      All verksamhet i hemvärnsgården skall förbokas, även regelbunden
-      återkommande verksamhet.
+      textForening: `
+      Borås Hemvärnsförening är sedan den 20:e februari 2007 namnet på Borås Hemvärnskompanis föreningsverksamhet. Ett utdrag från föreningen stadgar: Föreningen har till uppgift att ekonomiskt och lokalmässigt samt på andra lämpliga sätt stödja hemvärnsverksamheten eller av föreningen bedömd likvärdig verksamhet inom Borås Stad.
 
-      Bokning sker via David Wernold.
-      Email: <a href="mailto:boka_hv_garden@mail.com">boka_hv_garden@mail.com</a>
-      Tel./sms: <a href="tel:0703356483">0703-356483</a>
+      Detta innebär bland annat att föreningen administrerar och ansvarar för drift och underhåll av Hemvärnsgården m.m. Det är därför viktigt att Du som hemvärnssoldat också är medlem i föreningen, årsavgift endast 50 kr!
 
-      Nyckel hämtas/lämnas enl. överenskommelse.
+      Föreningen stödjer även Hemvärnet ekonomiskt.Detta kan t.ex. vara stöd till det mångåriga deltagandet i tävlingen Sommertræf på Fyn I Danmark. Är det så att ett kompani, pluton eller motsvarande vill genomföra någon trivselaktivitet så kan även då föreningen bidra ekonomiskt. Föreningen anordnar även fester som brukar vara mycket uppskattade.
 
-      Bokningsbart:
-      * Konferensrum
-      * Samlingssal
-      * Mäss
-      * Logementen
-      * Projektor/kopiator
+      Föreningen genomför också i samverkan med Borås Hvkomp ett årlig luciafirande som är en tradition som förmodligen är lika gammal som Hemvärnet i Borås.
 
-      Ev. debitering enl. prislista.
-      Bokningsregler finns längre ner på denna sida.
-    `,
+      Föreningen är en nödvändighet för Hemvärnet i Borås. Detta gäller särskilt förvaltandet av Hemvärnsgården och hållandet av en kassa(ett Hemvärnsförband får inte ha en egen kassa).
+
+      Vi behöver dig som medlem !
+      Bli medlem NU genom att sätta in 50kr på bg 5701-4920
+      OBS ! glöm inte att ange ditt namn och adress vid inbetalning
+      `,
     };
   },
 
