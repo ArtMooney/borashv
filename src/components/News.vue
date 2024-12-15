@@ -64,19 +64,23 @@ export default {
       itemsLoaded: false,
       errorMessage: "",
       showErrorMessage: false,
-      baserowClientToken: "ut84FNQWZzasN9CHp3Wgg9DX9ymhZcje",
     };
   },
 
   async created() {
-    this.getCmsData("218351");
+    this.getCmsData(`${import.meta.env.VITE_BASEROW_NYHETER}`);
   },
 
   methods: {
     getCmsData(tableid) {
       fetch(
         `https://api.baserow.io/api/database/rows/table/${tableid}/?user_field_names=true&order_by=index`,
-        { headers: { Authorization: "Token " + this.baserowClientToken } },
+        {
+          headers: {
+            Authorization:
+              "Token " + `${import.meta.env.VITE_BASEROW_CLIENT_TOKEN}`,
+          },
+        },
       )
         .then((response) => {
           if (!response.ok) throw new Error();
