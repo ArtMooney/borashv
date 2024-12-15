@@ -13,7 +13,10 @@ import LoadingSpinner from "./LoadingSpinner.vue";
       Bokningslista
     </h4>
 
-    <LoadingSpinner v-if="!itemsLoaded && !showErrorMessage" />
+    <LoadingSpinner
+      v-if="!itemsLoaded && !showErrorMessage"
+      class="col-start-1 col-end-1 lg:col-start-2 lg:col-end-8"
+    />
 
     <div
       v-if="itemsLoaded"
@@ -44,7 +47,10 @@ import LoadingSpinner from "./LoadingSpinner.vue";
       </div>
     </div>
 
-    <div v-if="showErrorMessage" class="bg-[#a38373] p-4 text-black">
+    <div
+      v-if="showErrorMessage"
+      class="col-start-1 col-end-1 bg-[#a38373] p-4 text-black lg:col-start-2 lg:col-end-8"
+    >
       {{ errorMessage }}
     </div>
   </div>
