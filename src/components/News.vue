@@ -14,8 +14,8 @@ import Button from "../elements/Button.vue";
       v-for="item of items"
       class="mb-4 border border-white/15 bg-[#32382d] p-4"
     >
-      <div class="flex gap-4 text-xs md:text-sm">
-        <div class="min-h-36 w-36 min-w-36">
+      <div class="flex flex-col gap-4 text-xs sm:flex-row sm:text-sm">
+        <div class="w-full sm:min-h-36 sm:w-36 sm:min-w-36">
           <img
             v-if="item.bild && item.bild[0]"
             :src="item.bild[0].thumbnails.card_cover.url"
