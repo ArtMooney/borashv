@@ -5,7 +5,7 @@ import { heart } from "ionicons/icons";
 
 <template>
   <div
-    class="bg-footer-gradient relative grid grid-cols-1 place-items-center gap-4 py-12 text-center font-gunplay text-neutral-400 no-underline md:grid-cols-3 md:px-28 md:text-start lg:py-24 xl:px-72"
+    class="bg-footer-gradient relative mt-8 grid grid-cols-1 place-items-center gap-4 py-12 text-center font-gunplay text-neutral-400 no-underline md:grid-cols-3 md:px-28 md:text-start lg:py-24 xl:px-72"
   >
     <div
       class="absolute bottom-0 left-0 right-0 top-0 flex items-center overflow-hidden"

@@ -3,13 +3,15 @@ import LoadingSpinner from "./LoadingSpinner.vue";
 </script>
 
 <template>
-  <div id="bokningslista" class="flex flex-col gap-2 p-8">
+  <div id="bokningslista" class="grid grid-cols-8 gap-2">
+    <h4 class="col-start-2 col-end-8 text-3xl uppercase">Bokningslista</h4>
+
     <LoadingSpinner v-if="!itemsLoaded && !showErrorMessage" />
 
     <div
       v-if="itemsLoaded"
       v-for="item of items"
-      class="cursor-pointer border border-white/15 bg-gradient-to-r from-[#32382d] to-[#353238] p-4 transition-colors duration-300 ease-in-out hover:from-[#343a2e] hover:to-[#37343a]"
+      class="col-start-2 col-end-8 cursor-pointer border border-white/15 bg-gradient-to-r from-[#32382d] to-[#353238] p-4 transition-colors duration-300 ease-in-out hover:from-[#343a2e] hover:to-[#37343a]"
     >
       <div class="grid grid-cols-2">
         <div
