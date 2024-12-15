@@ -23,7 +23,7 @@ import Button from "../elements/Button.vue";
       :class="[
         showNavbar
           ? 'opacity-100'
-          : 'pointer-events-none right-0 opacity-0 transition-none lg:opacity-100',
+          : 'pointer-events-none right-0 opacity-0 transition-none lg:pointer-events-auto lg:opacity-100',
       ]"
     >
       <a href="/bokningar" class="hover:opacity-75">BOKNINGAR</a>
