@@ -1,5 +1,6 @@
 <template>
   <div
+    :id="id"
     v-if="text"
     class="grid min-h-96 grid-cols-8 content-center py-12"
     :style="{ backgroundColor: backgroundColor }"
@@ -25,6 +26,11 @@ export default {
   },
 
   props: {
+    id: {
+      type: String,
+      default: "",
+      required: false,
+    },
     title: {
       type: String,
       default: "",
