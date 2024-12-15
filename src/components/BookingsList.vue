@@ -11,7 +11,7 @@ import LoadingSpinner from "./LoadingSpinner.vue";
     <div
       v-if="itemsLoaded"
       v-for="item of items"
-      class="col-start-2 col-end-8 cursor-pointer border border-white/15 bg-gradient-to-r from-[#32382d] to-[#353238] p-4 transition-colors duration-300 ease-in-out hover:from-[#343a2e] hover:to-[#37343a]"
+      class="col-start-2 col-end-8 cursor-pointer border border-white/15 bg-gradient-to-r from-[#32382d] to-[#353238] p-4 transition-colors duration-300 ease-in-out hover:from-[#343a2e] hover:to-[#37343a] hover:shadow-[0_0_20px_rgba(185,177,99,0.35)]"
     >
       <div class="grid grid-cols-2">
         <div
