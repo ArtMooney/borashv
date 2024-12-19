@@ -18,18 +18,18 @@ import { listTable } from "../js/listTable.js";
 
     <div
       v-if="itemsLoaded"
-      class="grid grid-cols-3 lg:col-start-2 lg:col-end-8"
+      class="col-start-1 col-end-1 flex flex-row flex-wrap justify-start lg:col-start-2 lg:col-end-8"
     >
       <div
         v-for="item of sortedItems"
         :key="item.id"
-        class="relative text-xs md:text-sm"
+        class="relative w-[25rem] text-xs sm:w-[16rem] md:w-[21rem] md:text-sm xl:w-[19rem]"
       >
         <img src="../assets/dogtag.png" :alt="item.name" />
         <div
-          class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pb-8 pr-8"
+          class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pb-5 pr-4 md:pb-8 md:pr-8"
         >
-          <span class="text-2xl font-bold">{{ item.name }}</span
+          <span class="text-base font-bold md:text-xl">{{ item.name }}</span
           ><br />
           {{ item.title }}<br v-if="item.title" />
           {{ item.email }}<br v-if="item.email" />
