@@ -13,7 +13,7 @@ import Button from "../elements/Button.vue";
       autoplay=""
       loop=""
     >
-      <source src="../assets/production%20ID_4374507.mp4" />
+      <source src="../assets/old/production%20ID_4374507.mp4" />
     </video>
 
     <div class="absolute bottom-0 left-0 right-0 top-0 bg-black/25"></div>
