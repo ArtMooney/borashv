@@ -1,18 +1,26 @@
 <script setup>
 import LoadingSpinner from "./LoadingSpinner.vue";
 import Button from "../elements/Button.vue";
+import { listTable } from "../js/listTable.js";
 </script>
 
 <template>
-  <div class="px-8 py-16">
-    <h4 class="text-3xl uppercase">Nyheter</h4>
+  <div class="grid grid-cols-1 gap-2 px-8 py-16 lg:grid-cols-8 lg:px-0">
+    <h4
+      class="col-start-1 col-end-1 text-3xl uppercase lg:col-start-2 lg:col-end-8"
+    >
+      Nyheter
+    </h4>
 
-    <LoadingSpinner v-if="!itemsLoaded && !showErrorMessage" />
+    <LoadingSpinner
+      v-if="!itemsLoaded && !showErrorMessage"
+      class="col-start-1 col-end-1 lg:col-start-2 lg:col-end-8"
+    />
 
     <div
       v-if="itemsLoaded"
       v-for="item of items"
-      class="mb-4 border border-white/15 bg-[#32382d] p-4"
+      class="col-start-1 col-end-1 mb-4 border border-white/15 bg-[#32382d] p-4 lg:col-start-2 lg:col-end-8"
     >
       <div class="flex flex-col gap-4 text-xs sm:flex-row sm:text-sm">
         <div class="w-full sm:min-h-36 sm:w-36 sm:min-w-36">
@@ -32,9 +40,11 @@ import Button from "../elements/Button.vue";
             {{ formatDate(item.datum) }}
           </p>
 
-          <p class="mb-4 hyphens-auto break-words" lang="sv">
-            {{ item.info ? formattedString(item.info) : "" }}
-          </p>
+          <p
+            class="mb-4 hyphens-auto break-words"
+            lang="sv"
+            v-html="item.info ? formattedString(item.info) : ''"
+          ></p>
 
           <Button
             v-show="item['kontakta oss']"
@@ -48,7 +58,10 @@ import Button from "../elements/Button.vue";
       </div>
     </div>
 
-    <div v-if="showErrorMessage" class="bg-[#a38373] p-4 text-black">
+    <div
+      v-if="showErrorMessage"
+      class="col-start-1 col-end-1 bg-[#a38373] p-4 text-black lg:col-start-2 lg:col-end-8"
+    >
       {{ errorMessage }}
     </div>
   </div>
@@ -68,47 +81,31 @@ export default {
   },
 
   async created() {
-    this.getCmsData(`${import.meta.env.VITE_BASEROW_NYHETER}`);
+    this.items = await listTable(`${import.meta.env.VITE_BASEROW_NYHETER}`);
+
+    if (this.items.error) {
+      this.errorMessage = "Något gick fel när aktiviteterna skulle hämtas.";
+      this.itemsLoaded = false;
+      this.showErrorMessage = true;
+    } else if (this.items.results.length > 0) {
+      this.items = this.items.results;
+      this.itemsLoaded = true;
+    } else {
+      this.errorMessage = "Det finns inga aktiviteter för tillfället.";
+      this.itemsLoaded = false;
+      this.showErrorMessage = true;
+    }
   },
 
   methods: {
-    getCmsData(tableid) {
-      fetch(
-        `https://api.baserow.io/api/database/rows/table/${tableid}/?user_field_names=true&order_by=index`,
-        {
-          headers: {
-            Authorization:
-              "Token " + `${import.meta.env.VITE_BASEROW_CLIENT_TOKEN}`,
-          },
-        },
-      )
-        .then((response) => {
-          if (!response.ok) throw new Error();
-          return response.json();
-        })
-        .then((result) => {
-          this.items = result.results;
-
-          if (Object.keys(this.items).length > 0) {
-            this.itemsLoaded = true;
-          } else {
-            this.itemsLoaded = false;
-            this.errorMessage = "Det finns inga aktiviteter för tillfället.";
-            this.showErrorMessage = true;
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-
-          this.itemsLoaded = false;
-          this.errorMessage = "Något gick fel när aktiviteterna skulle hämtas.";
-          this.showErrorMessage = true;
-        });
-    },
-
     formattedString(string) {
       const regexReplace1 = string.replace(/\n/g, "");
-      return regexReplace1.replace(/\r/g, "\n");
+      const withLineBreaks = regexReplace1.replace(/\r/g, "\n");
+
+      return withLineBreaks.replace(
+        /(https?:\/\/[^\s]+)/g,
+        '<span class="[word-break:break-all]">$1</span>',
+      );
     },
 
     formatDate(date) {
