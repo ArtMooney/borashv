@@ -29,7 +29,7 @@ import { listTable } from "../js/listTable.js";
         <div
           class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pb-5 pr-4 md:pb-8 md:pr-8"
         >
-          <span class="text-base font-bold md:text-xl">{{ item.name }}</span
+          <span class="text-base font-bold md:text-lg">{{ item.name }}</span
           ><br />
           {{ item.title }}<br v-if="item.title" />
           {{ item.email }}<br v-if="item.email" />
