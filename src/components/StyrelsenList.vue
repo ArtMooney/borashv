@@ -1,15 +1,37 @@
 <script setup>
 import LoadingSpinner from "./LoadingSpinner.vue";
 import { listTable } from "../js/listTable.js";
+import backgroundImage from "../assets/pexels-skylar-kang-6044253-2.jpg";
 </script>
 
 <template>
-  <div class="grid grid-cols-1 gap-2 px-8 py-12 lg:grid-cols-8 lg:px-0">
+  <div
+    class="relative grid grid-cols-1 gap-2 px-8 py-12 lg:grid-cols-8 lg:px-0"
+  >
+    <div
+      class="absolute bottom-0 left-0 right-0 top-0 flex items-center overflow-hidden"
+    >
+      <img
+        :src="backgroundImage"
+        class="parallax-background h-full w-full object-cover"
+        loading="lazy"
+        alt=""
+      />
+    </div>
+
+    <div
+      class="absolute bottom-0 left-0 right-0 top-0 bg-gradient-to-b from-neutral-900 to-black/75 sm:to-black/50"
+    ></div>
+
     <h4
-      class="col-start-1 col-end-1 text-3xl uppercase lg:col-start-2 lg:col-end-8"
+      class="relative col-start-1 col-end-1 text-3xl uppercase lg:col-start-2 lg:col-end-8"
     >
       Styrelsen
     </h4>
+
+    <div
+      class="relative col-start-1 col-end-1 mb-12 mt-0 h-[1px] w-full bg-white/40 lg:col-start-2 lg:col-end-8"
+    ></div>
 
     <LoadingSpinner
       v-if="!itemsLoaded && !showErrorMessage"
@@ -82,6 +104,28 @@ export default {
       this.itemsLoaded = false;
       this.showErrorMessage = true;
     }
+  },
+
+  methods: {
+    handleScroll() {
+      const scrolled = window.scrollY;
+      const parallaxElements = document.querySelectorAll(
+        ".parallax-background",
+      );
+      parallaxElements.forEach(function (el) {
+        const rate = 0.25;
+        const translateY = scrolled * rate;
+        el.style.transform = `translateY(${translateY}px)`;
+      });
+    },
+  },
+
+  beforeMount() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+
+  beforeUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
   },
 };
 </script>

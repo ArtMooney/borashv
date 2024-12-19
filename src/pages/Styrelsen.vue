@@ -1,11 +1,8 @@
 <script setup>
-import Header from "../components/Header.vue";
 import StyrelsenList from "../components/StyrelsenList.vue";
-import headerImage from "../assets/alex-moliski-aKY8ar4eI_w-unsplash-2.jpg";
 </script>
 
 <template>
-  <Header :image="headerImage" />
   <StyrelsenList />
 </template>
 
