@@ -3,15 +3,33 @@ import LoadingSpinner from "./LoadingSpinner.vue";
 </script>
 
 <template>
-  <div class="grid grid-cols-1 gap-2 px-8 py-12 lg:px-0">
-    <h4 class="col-start-1 col-end-1 text-3xl uppercase">Styrelsen</h4>
+  <div class="grid grid-cols-1 gap-2 px-8 py-12 lg:grid-cols-8 lg:px-0">
+    <h4
+      class="col-start-1 col-end-1 text-3xl uppercase lg:col-start-2 lg:col-end-8"
+    >
+      Styrelsen
+    </h4>
 
     <LoadingSpinner v-if="!itemsLoaded && !showErrorMessage" class="" />
 
-    <div v-if="itemsLoaded" v-for="item of items" class="">
-      <div class="">
-        <div class="mr-2 flex flex-col gap-2 text-xs md:text-sm">
-          {{ item.name }}
+    <div
+      v-if="itemsLoaded"
+      class="grid grid-cols-3 lg:col-start-2 lg:col-end-8"
+    >
+      <div
+        v-for="item of sortedItems"
+        :key="item.id"
+        class="relative text-xs md:text-sm"
+      >
+        <img src="../assets/dogtag.png" :alt="item.name" />
+        <div
+          class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pb-8 pr-8"
+        >
+          <span class="text-2xl font-bold">{{ item.name }}</span
+          ><br />
+          {{ item.title }}<br v-if="item.title" />
+          {{ item.email }}<br v-if="item.email" />
+          {{ item.phone }}<br v-if="item.phone" />
         </div>
       </div>
     </div>
@@ -24,7 +42,7 @@ import LoadingSpinner from "./LoadingSpinner.vue";
 
 <script>
 export default {
-  name: "Bokningar",
+  name: "StyrelsenList",
 
   data() {
     return {
@@ -33,6 +51,12 @@ export default {
       errorMessage: "",
       showErrorMessage: false,
     };
+  },
+
+  computed: {
+    sortedItems() {
+      return [...this.items].sort((a, b) => a.id - b.id);
+    },
   },
 
   created() {
@@ -60,14 +84,15 @@ export default {
             this.itemsLoaded = true;
           } else {
             this.itemsLoaded = false;
-            this.errorMessage = "Det finns inga aktiviteter för tillfället.";
+            this.errorMessage =
+              "Kan inte ladda några personer från styrelsen för tillfället.";
             this.showErrorMessage = true;
           }
         })
         .catch((error) => {
           console.log(error);
           this.itemsLoaded = false;
-          this.errorMessage = "Något gick fel när aktiviteterna skulle hämtas.";
+          this.errorMessage = "Något gick fel när listan skulle hämtas.";
           this.showErrorMessage = true;
         });
     },
