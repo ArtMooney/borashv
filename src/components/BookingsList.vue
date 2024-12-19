@@ -1,5 +1,6 @@
 <script setup>
 import LoadingSpinner from "./LoadingSpinner.vue";
+import { listTable } from "../js/listTable.js";
 </script>
 
 <template>
@@ -69,43 +70,24 @@ export default {
     };
   },
 
-  created() {
-    this.getCmsData(`${import.meta.env.VITE_BASEROW_BOKNINGAR}`);
+  async created() {
+    this.items = await listTable(`${import.meta.env.VITE_BASEROW_BOKNINGAR}`);
+
+    if (this.items.error) {
+      this.errorMessage = "Något gick fel när bokningarna skulle hämtas.";
+      this.itemsLoaded = false;
+      this.showErrorMessage = true;
+    } else if (this.items.results.length > 0) {
+      this.items = this.items.results;
+      this.itemsLoaded = true;
+    } else {
+      this.errorMessage = "Det finns inga bokningar för tillfället.";
+      this.itemsLoaded = false;
+      this.showErrorMessage = true;
+    }
   },
 
   methods: {
-    getCmsData(tableid) {
-      fetch(
-        `https://api.baserow.io/api/database/rows/table/${tableid}/?user_field_names=true&order_by=index`,
-        {
-          headers: {
-            Authorization:
-              "Token " + `${import.meta.env.VITE_BASEROW_CLIENT_TOKEN}`,
-          },
-        },
-      )
-        .then((response) => {
-          if (!response.ok) throw new Error();
-          return response.json();
-        })
-        .then((result) => {
-          this.items = result.results;
-          if (Object.keys(this.items).length > 0) {
-            this.itemsLoaded = true;
-          } else {
-            this.itemsLoaded = false;
-            this.errorMessage = "Det finns inga aktiviteter för tillfället.";
-            this.showErrorMessage = true;
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          this.itemsLoaded = false;
-          this.errorMessage = "Något gick fel när aktiviteterna skulle hämtas.";
-          this.showErrorMessage = true;
-        });
-    },
-
     displayToFromDate(date) {
       if (!date) return;
       date = JSON.parse(date);

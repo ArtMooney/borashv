@@ -1,5 +1,6 @@
 <script setup>
 import LoadingSpinner from "./LoadingSpinner.vue";
+import { listTable } from "../js/listTable.js";
 </script>
 
 <template>
@@ -10,7 +11,10 @@ import LoadingSpinner from "./LoadingSpinner.vue";
       Styrelsen
     </h4>
 
-    <LoadingSpinner v-if="!itemsLoaded && !showErrorMessage" class="" />
+    <LoadingSpinner
+      v-if="!itemsLoaded && !showErrorMessage"
+      class="col-start-1 col-end-1 lg:col-start-2 lg:col-end-8"
+    />
 
     <div
       v-if="itemsLoaded"
@@ -34,7 +38,10 @@ import LoadingSpinner from "./LoadingSpinner.vue";
       </div>
     </div>
 
-    <div v-if="showErrorMessage" class="bg-[#a38373] p-4 text-black">
+    <div
+      v-if="showErrorMessage"
+      class="col-start-1 col-end-1 bg-[#a38373] p-4 text-black lg:col-start-2 lg:col-end-8"
+    >
       {{ errorMessage }}
     </div>
   </div>
@@ -59,82 +66,22 @@ export default {
     },
   },
 
-  created() {
-    this.getCmsData(`${import.meta.env.VITE_BASEROW_STYRELSEN}`);
-  },
+  async created() {
+    this.items = await listTable(`${import.meta.env.VITE_BASEROW_STYRELSEN}`);
 
-  methods: {
-    getCmsData(tableid) {
-      fetch(
-        `https://api.baserow.io/api/database/rows/table/${tableid}/?user_field_names=true&order_by=index`,
-        {
-          headers: {
-            Authorization:
-              "Token " + `${import.meta.env.VITE_BASEROW_CLIENT_TOKEN}`,
-          },
-        },
-      )
-        .then((response) => {
-          if (!response.ok) throw new Error();
-          return response.json();
-        })
-        .then((result) => {
-          this.items = result.results;
-          if (Object.keys(this.items).length > 0) {
-            this.itemsLoaded = true;
-          } else {
-            this.itemsLoaded = false;
-            this.errorMessage =
-              "Kan inte ladda några personer från styrelsen för tillfället.";
-            this.showErrorMessage = true;
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          this.itemsLoaded = false;
-          this.errorMessage = "Något gick fel när listan skulle hämtas.";
-          this.showErrorMessage = true;
-        });
-    },
-
-    displayToFromDate(date) {
-      if (!date) return;
-      date = JSON.parse(date);
-      if (date) {
-        if (date[0] === date[1]) {
-          // output only first
-          return this.formatDate(date[0]);
-        } else {
-          // output both
-          return `${this.formatDate(date[0])} - ${this.formatDate(date[1])}`;
-        }
-      }
-
-      return "";
-    },
-
-    formatDate(date) {
-      let dateObj = new Date(date);
-      let day = dateObj.getDate();
-      let months = [
-        "Januari",
-        "Februari",
-        "Mars",
-        "April",
-        "Maj",
-        "Juni",
-        "Juli",
-        "Augusti",
-        "September",
-        "Oktober",
-        "November",
-        "December",
-      ];
-      let month = months[dateObj.getMonth()];
-      let year = dateObj.getFullYear();
-
-      return `${day} ${month} ${year}`;
-    },
+    if (this.items.error) {
+      this.errorMessage = "Något gick fel när listan skulle hämtas.";
+      this.itemsLoaded = false;
+      this.showErrorMessage = true;
+    } else if (this.items.results.length > 0) {
+      this.items = this.items.results;
+      this.itemsLoaded = true;
+    } else {
+      this.errorMessage =
+        "Kan inte ladda några personer från styrelsen för tillfället.";
+      this.itemsLoaded = false;
+      this.showErrorMessage = true;
+    }
   },
 };
 </script>
