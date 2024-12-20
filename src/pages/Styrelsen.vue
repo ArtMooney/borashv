@@ -8,27 +8,7 @@ import StyrelsenList from "../components/StyrelsenList.vue";
 
 <script>
 export default {
-  name: "OmOss",
-
-  data() {
-    return {
-      textForening: `
-      Borås Hemvärnsförening är sedan den 20:e februari 2007 namnet på Borås Hemvärnskompanis föreningsverksamhet. Ett utdrag från föreningen stadgar: Föreningen har till uppgift att ekonomiskt och lokalmässigt samt på andra lämpliga sätt stödja hemvärnsverksamheten eller av föreningen bedömd likvärdig verksamhet inom Borås Stad.
-
-      Detta innebär bland annat att föreningen administrerar och ansvarar för drift och underhåll av Hemvärnsgården m.m. Det är därför viktigt att Du som hemvärnssoldat också är medlem i föreningen, årsavgift endast 50 kr!
-
-      Föreningen stödjer även Hemvärnet ekonomiskt.Detta kan t.ex. vara stöd till det mångåriga deltagandet i tävlingen Sommertræf på Fyn I Danmark. Är det så att ett kompani, pluton eller motsvarande vill genomföra någon trivselaktivitet så kan även då föreningen bidra ekonomiskt. Föreningen anordnar även fester som brukar vara mycket uppskattade.
-
-      Föreningen genomför också i samverkan med Borås Hvkomp ett årlig luciafirande som är en tradition som förmodligen är lika gammal som Hemvärnet i Borås.
-
-      Föreningen är en nödvändighet för Hemvärnet i Borås. Detta gäller särskilt förvaltandet av Hemvärnsgården och hållandet av en kassa(ett Hemvärnsförband får inte ha en egen kassa).
-
-      Vi behöver dig som medlem !
-      Bli medlem NU genom att sätta in 50kr på bg 5701-4920
-      OBS ! glöm inte att ange ditt namn och adress vid inbetalning
-      `,
-    };
-  },
+  name: "Styrelsen",
 
   head: {
     title:

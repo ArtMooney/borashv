@@ -1,36 +1,14 @@
 <script setup>
-import VideoHeading from "../components/VideoHeading.vue";
-import DesignQuote from "../components/DesignQuote.vue";
-import Animations from "../components/Animations.vue";
-import Commercials from "../components/Commercials.vue";
-import WebDevelopment from "../components/WebDevelopment.vue";
-import HomePages from "../components/HomePages.vue";
-import Header from "../components/Header.vue";
-import headerImage from "../assets/sean-foster-PMmb0MEE7Co-unsplash-2.jpg";
+import DocumentList from "../components/DocumentList.vue";
 </script>
 
 <template>
-  <Header
-    :image="headerImage"
-    title="Borås Hemvärnsförening"
-    button-text="Bokningar"
-  />
-  <VideoHeading />
-
-  <div
-    class="grid-rows-auto mx-auto grid w-full max-w-screen-2xl grid-cols-1 px-4 sm:px-4"
-  >
-    <DesignQuote />
-    <Animations />
-    <Commercials />
-    <WebDevelopment />
-    <HomePages />
-  </div>
+  <DocumentList />
 </template>
 
 <script>
 export default {
-  name: "Hemvarnsgarden",
+  name: "Dokument",
 
   head: {
     title:

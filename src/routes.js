@@ -29,6 +29,12 @@ export default () =>
         props: true,
       },
       {
+        path: "/dokument",
+        name: "Dokument",
+        component: () => import("./pages/Dokument.vue"),
+        props: true,
+      },
+      {
         path: "/hemvarnsgarden",
         name: "Hemvärnsgården",
         component: () => import("./pages/Hemvarnsgarden.vue"),
