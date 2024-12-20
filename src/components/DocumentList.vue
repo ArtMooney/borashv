@@ -20,34 +20,27 @@ import { listTable } from "../js/listTable.js";
       class="col-start-1 col-end-1 lg:col-start-2 lg:col-end-8"
     />
 
-    <div
+    <a
       v-if="itemsLoaded"
       v-for="item of items"
-      class="col-start-1 col-end-1 cursor-pointer border border-white/15 bg-gradient-to-r from-[#32382d] to-[#353238] p-4 transition-colors duration-300 ease-in-out hover:from-[#343a2e] hover:to-[#37343a] hover:shadow-[0_0_20px_rgba(185,177,99,0.35)] lg:col-start-2 lg:col-end-8"
+      :href="item.file[0].url"
+      class="col-start-1 col-end-1 flex cursor-pointer flex-row items-center justify-between border border-white/15 bg-gradient-to-r from-[#32382d] to-[#353238] p-4 transition-colors duration-300 ease-in-out hover:from-[#343a2e] hover:to-[#37343a] hover:shadow-[0_0_20px_rgba(185,177,99,0.35)] lg:col-start-2 lg:col-end-8"
     >
-      <div class="grid grid-cols-2">
-        <div
-          class="mr-2 flex flex-col gap-2 border-r-2 border-white/15 text-xs md:text-sm"
-        >
-          <p class="text-gray-400 underline">
-            {{ displayToFromDate(item["datum|to-from"]) }}
-          </p>
-
-          <div
-            class="bold hyphens-auto break-words font-gunplay text-xl lg:text-2xl"
-            lang="sv"
-          >
-            {{ item.titel }}
-          </div>
-        </div>
-
-        <div class="flex flex-col gap-0.5 text-xs md:text-sm">
-          <p>{{ item.lokal ? "Lokal: " + item.lokal : "" }}</p>
-          <p>{{ item.org ? "Org: " + item.org : "" }}</p>
-          <p>{{ item.tid ? "Tid: " + item.tid : "" }}</p>
-        </div>
+      <div
+        class="bold hyphens-auto break-words pr-4 font-gunplay text-xl lg:text-2xl"
+        lang="sv"
+      >
+        {{ item.name }}
       </div>
-    </div>
+
+      <div class="flex-shrink-0 border-l-2 border-white/15 pl-4">
+        <img
+          :src="item.thumbnail[0].url"
+          class="h-32 w-auto"
+          :alt="item.file[0].visible_name"
+        />
+      </div>
+    </a>
 
     <div
       v-if="showErrorMessage"
@@ -72,61 +65,20 @@ export default {
   },
 
   async created() {
-    this.items = await listTable(`${import.meta.env.VITE_BASEROW_BOKNINGAR}`);
+    this.items = await listTable(`${import.meta.env.VITE_BASEROW_DOKUMENT}`);
 
     if (this.items.error) {
-      this.errorMessage = "Något gick fel när bokningarna skulle hämtas.";
+      this.errorMessage = "Något gick fel när dokumenten skulle hämtas.";
       this.itemsLoaded = false;
       this.showErrorMessage = true;
     } else if (this.items.results.length > 0) {
       this.items = this.items.results;
       this.itemsLoaded = true;
     } else {
-      this.errorMessage = "Det finns inga bokningar för tillfället.";
+      this.errorMessage = "Det finns inga dokument för tillfället.";
       this.itemsLoaded = false;
       this.showErrorMessage = true;
     }
-  },
-
-  methods: {
-    displayToFromDate(date) {
-      if (!date) return;
-      date = JSON.parse(date);
-      if (date) {
-        if (date[0] === date[1]) {
-          // output only first
-          return this.formatDate(date[0]);
-        } else {
-          // output both
-          return `${this.formatDate(date[0])} - ${this.formatDate(date[1])}`;
-        }
-      }
-
-      return "";
-    },
-
-    formatDate(date) {
-      let dateObj = new Date(date);
-      let day = dateObj.getDate();
-      let months = [
-        "Januari",
-        "Februari",
-        "Mars",
-        "April",
-        "Maj",
-        "Juni",
-        "Juli",
-        "Augusti",
-        "September",
-        "Oktober",
-        "November",
-        "December",
-      ];
-      let month = months[dateObj.getMonth()];
-      let year = dateObj.getFullYear();
-
-      return `${day} ${month} ${year}`;
-    },
   },
 };
 </script>
