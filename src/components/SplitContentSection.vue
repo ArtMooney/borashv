@@ -6,15 +6,19 @@
       loading="lazy"
       alt=""
       :class="[
-        'row-start-1 h-full w-full object-cover',
-        swapSides ? 'col-start-6 col-end-8' : 'col-start-2 col-end-4',
+        'h-full w-full object-cover lg:row-start-1',
+        swapSides
+          ? 'lg:col-start-6 lg:col-end-8'
+          : 'lg:col-start-2 lg:col-end-4',
       ]"
     />
 
     <div
       :class="[
-        'row-start-1 h-fit self-center p-8 md:px-0',
-        swapSides ? 'col-start-2 col-end-6' : 'col-start-4 col-end-8',
+        'h-fit self-center p-8 md:px-0 lg:row-start-1',
+        swapSides
+          ? 'lg:col-start-2 lg:col-end-6'
+          : 'lg:col-start-4 lg:col-end-8',
       ]"
     >
       <h2 v-if="textTitle" class="text-3xl uppercase">{{ textTitle }}</h2>

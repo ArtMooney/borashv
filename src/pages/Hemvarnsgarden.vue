@@ -11,22 +11,12 @@ import imageToday from "../assets/Hemvarnsgarden-1024x768.jpg";
     title="Borås Hemvärnsförening"
     button-text="Bokningar"
   />
-
-  <div
-    class="grid-rows-auto mx-auto grid w-full max-w-screen-2xl grid-cols-1 px-4 sm:px-4"
-  >
-    <SplitContentSection
-      text-title="Borås Hemvärnsgård"
-      :text="textToday1"
-      :image="imageToday"
-    />
-    <SplitContentSection
-      text-title="Borås Hemvärnsgård"
-      :text="textToday2"
-      :image="imageToday"
-      :swap-sides="true"
-    />
-  </div>
+  <SplitContentSection
+    text-title="Borås Hemvärnsgård"
+    :text="textToday1"
+    :image="imageToday"
+  />
+  <SplitContentSection :text="textToday2" :swap-sides="true" />
 </template>
 
 <script>
