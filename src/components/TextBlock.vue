@@ -12,7 +12,7 @@ import Button from "../elements/Button.vue";
     <div
       class="col-start-1 col-end-1 flex flex-col items-start lg:col-start-2 lg:col-end-8"
     >
-      <h4 class="text-3xl uppercase">{{ title }}</h4>
+      <h4 v-if="title" class="text-3xl uppercase">{{ title }}</h4>
       <div
         v-html="formattedText"
         class="whitespace-pre-line [&>a:hover]:opacity-80 [&>a]:underline [&>a]:underline-offset-4"
