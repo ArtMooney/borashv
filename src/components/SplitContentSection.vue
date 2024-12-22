@@ -45,14 +45,7 @@ export default {
 
   computed: {
     formattedText() {
-      if (!this.text) return "";
-
-      return this.text
-        .trim()
-        .replace(/\*/g, "•")
-        .split(/\n\n+/)
-        .map((paragraph) => `<p>${paragraph.trim().replace(/\n/g, " ")}</p>`)
-        .join("");
+      return this.text.replace(/\*/g, "•").replace(/\n/g, "<br>").trim();
     },
   },
 };
