@@ -6,13 +6,7 @@ import headerImage from "../assets/pexels-grizzlybear-421759-2.jpg";
 </script>
 
 <template>
-  <Header
-    :image="headerImage"
-    button-text-one="Bokningslista"
-    button-link-one="/bokningar#bokningslista"
-    button-text-two="Bokningsregler"
-    button-link-two="/bokningar#bokningsregler"
-  />
+  <Header :image="headerImage" />
   <TextBlock
     title="Bli Medlem"
     :text="textMedlemskap"
@@ -23,16 +17,15 @@ import headerImage from "../assets/pexels-grizzlybear-421759-2.jpg";
 
 <script>
 export default {
-  name: "Bokningar",
+  name: "BliMedlem",
 
   data() {
     return {
       textMedlemskap: `
         Att vara medlem kostar endast 50:-/år
 
-        Föreningen är en nödvändighet för Hemvärnet i Borås. Detta gäller särskilt
-        förvaltandet av Hemvärnsgården och hållandet av
-        en kassa (ett Hemvärnsförband får inte ha en egen kassa).
+        Föreningen är en nödvändighet för Hemvärnet i Borås. Detta gäller särskilt förvaltandet av Hemvärnsgården och hållandet av en kassa
+        (ett Hemvärnsförband får inte ha en egen kassa).
 
         <strong>Vi behöver dig som medlem!
         Bli medlem NU genom att sätta in 50kr på bg:

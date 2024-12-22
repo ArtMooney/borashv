@@ -4,141 +4,127 @@ import Input from "../elements/Input.vue";
 </script>
 
 <template>
-  <div
-    class="relative mb-16 mt-4 grid min-h-0 grid-cols-1 py-12 md:grid-cols-slim"
-  >
-    <div class="col-span-1 md:col-start-2 md:col-end-2">
-      <form
-        v-if="contactForm"
-        class="grid grid-cols-1 gap-4 text-white md:grid-cols-2"
-        name="kontakta-oss"
-      >
-        <div class="col-span-1 md:col-span-2">
-          <h4 class="text-3xl md:text-4xl">Hör av er!</h4>
-          <p>
-            Som en liten leverantör erbjuder vi kreativa lösningar för att
-            förbättra din kunds upplevelse. Vi arbetar tillsammans med dig för
-            att skapa en långsiktig relation och hjälpa dig att nå dina mål.<br /><br />
-          </p>
-        </div>
+  <div class="grid grow grid-cols-1 content-center px-4 py-12 md:px-8">
+    <form
+      v-if="contactForm"
+      class="grid grid-cols-1 gap-4 text-white md:grid-cols-2"
+    >
+      <Input
+        name="firstname"
+        type="text"
+        placeholder-text=""
+        :required="true"
+        label-text="Förnamn:"
+      />
 
+      <Input
+        name="lastname"
+        type="text"
+        placeholder-text=""
+        :required="true"
+        label-text="Efternamn:"
+      />
+
+      <Input
+        name="email"
+        type="email"
+        placeholder-text=""
+        :required="true"
+        label-text="Email:"
+      />
+
+      <Input
+        name="phone"
+        type="tel"
+        placeholder-text=""
+        :required="true"
+        label-text="Telefon:"
+      />
+
+      <Input
+        name="company"
+        type="text"
+        placeholder-text=""
+        :required="true"
+        label-text="Företag:"
+      />
+
+      <Input
+        class="col-span-1 md:col-span-2"
+        name="message"
+        type="message"
+        placeholder-text=""
+        :required="true"
+        label-text="Meddelande:"
+      />
+
+      <div class="hidden">
         <Input
-          name="firstname"
+          name="clientip"
           type="text"
-          placeholder-text=""
-          :required="true"
-          label-text="Förnamn:"
+          placeholder-text="clientip"
+          :required="false"
+          label-text=""
+          :value="extraFields.clientip"
         />
 
         <Input
-          name="lastname"
+          name="pageuri"
           type="text"
-          placeholder-text=""
-          :required="true"
-          label-text="Efternamn:"
+          placeholder-text="pageuri"
+          :required="false"
+          label-text=""
+          :value="extraFields.pageuri"
         />
 
         <Input
-          name="email"
-          type="email"
-          placeholder-text=""
-          :required="true"
-          label-text="Email:"
-        />
-
-        <Input
-          name="phone"
-          type="tel"
-          placeholder-text=""
-          :required="true"
-          label-text="Telefon:"
-        />
-
-        <Input
-          name="company"
+          name="pagename"
           type="text"
-          placeholder-text=""
-          :required="true"
-          label-text="Företag:"
+          placeholder-text="pagename"
+          :required="false"
+          label-text=""
+          :value="extraFields.pagename"
         />
 
         <Input
-          class="col-span-1 md:col-span-2"
-          name="message"
-          type="message"
-          placeholder-text=""
-          :required="true"
-          label-text="Meddelande:"
+          name="hubspotutk"
+          type="text"
+          placeholder-text="hubspotutk"
+          :required="false"
+          label-text=""
+          :value="extraFields.hubspotutk"
         />
 
-        <div class="hidden">
-          <Input
-            name="clientip"
-            type="text"
-            placeholder-text="clientip"
-            :required="false"
-            label-text=""
-            :value="extraFields.clientip"
-          />
-
-          <Input
-            name="pageuri"
-            type="text"
-            placeholder-text="pageuri"
-            :required="false"
-            label-text=""
-            :value="extraFields.pageuri"
-          />
-
-          <Input
-            name="pagename"
-            type="text"
-            placeholder-text="pagename"
-            :required="false"
-            label-text=""
-            :value="extraFields.pagename"
-          />
-
-          <Input
-            name="hubspotutk"
-            type="text"
-            placeholder-text="hubspotutk"
-            :required="false"
-            label-text=""
-            :value="extraFields.hubspotutk"
-          />
-
-          <Input
-            name="amex"
-            type="text"
-            placeholder-text="amex"
-            :required="false"
-            label-text=""
-            :value="extraFields.amex"
-          />
-        </div>
-
-        <div class="flex items-start pt-8">
-          <Button
-            @click="sendForm"
-            :text="buttonText"
-            link=""
-            hash=""
-            type="submit"
-            data-wait="Vänta..."
-          />
-        </div>
-      </form>
-
-      <div v-if="successMessage">
-        <div>
-          Tack för ert meddelande!<br /><br />Vi återkommer till er snart!<br /><br /><br /><br /><br />‍
-        </div>
+        <Input
+          name="amex"
+          type="text"
+          placeholder-text="amex"
+          :required="false"
+          label-text=""
+          :value="extraFields.amex"
+        />
       </div>
 
-      <div v-if="errorMessage" class="bg-pink-100 p-4 text-black">
-        <p>{{ defaultEmailMessage }}</p>
+      <div class="flex items-start pt-8">
+        <Button
+          @click="sendForm"
+          :text="buttonText"
+          link=""
+          hash=""
+          type="submit"
+          data-wait="Vänta..."
+        />
       </div>
+    </form>
+
+    <div v-if="successMessage">
+      <div>
+        Tack för ert meddelande!<br /><br />Vi återkommer till er snart!<br /><br /><br /><br /><br />‍
+      </div>
+    </div>
+
+    <div v-if="errorMessage" class="bg-pink-100 p-4 text-black">
+      <p>{{ defaultEmailMessage }}</p>
     </div>
   </div>
 </template>
