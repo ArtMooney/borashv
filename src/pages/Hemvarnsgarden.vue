@@ -2,7 +2,10 @@
 import SplitContentSection from "../components/SplitContentSection.vue";
 import Header from "../components/Header.vue";
 import headerImage from "../assets/skog.jpg";
-import imageToday from "../assets/Hemvarnsgarden-1024x768.jpg";
+import imageToday1 from "../assets/Hemvarnsgarden-1024x768.jpg";
+import imageToday2 from "../assets/matt-palmer-3IQMPV6NgyM-unsplash-2.jpg";
+import imageThen1 from "../assets/jay-heike-Fc-0gi4YylM-unsplash-2.jpg";
+import imageThen2 from "../assets/prometheus-Kac21UkYfbA-unsplash-2.jpg";
 </script>
 
 <template>
@@ -15,23 +18,23 @@ import imageToday from "../assets/Hemvarnsgarden-1024x768.jpg";
   <SplitContentSection
     text-title="Borås Hemvärnsgård"
     :text="textToday1"
-    :image="imageToday"
+    :image="imageToday1"
     class="mx-auto w-full max-w-screen-xl"
   />
   <SplitContentSection
     :text="textToday2"
-    :image="imageToday"
+    :image="imageToday2"
     :swap-sides="true"
     class="mx-auto w-full max-w-screen-xl"
   />
   <SplitContentSection
     :text="textThen1"
-    :image="imageToday"
+    :image="imageThen1"
     class="mx-auto w-full max-w-screen-xl"
   />
   <SplitContentSection
     :text="textThen2"
-    :image="imageToday"
+    :image="imageThen2"
     :swap-sides="true"
     class="mx-auto w-full max-w-screen-xl"
   />
