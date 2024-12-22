@@ -13,12 +13,17 @@ import headerImage from "../assets/sean-foster-PMmb0MEE7Co-unsplash-2.jpg";
     button-text-two="Bokningsregler"
     button-link-two="/bokningar#bokningsregler"
   />
-  <TextBlock title="Bokningar" :text="textBokningar" />
-  <BookingsList />
+  <TextBlock
+    title="Bokningar"
+    :text="textBokningar"
+    class="mx-auto w-full max-w-screen-xl"
+  />
+  <BookingsList class="mx-auto w-full max-w-screen-xl" />
   <TextBlock
     id="bokningsregler"
     title="Bokningsregler"
     :text="textBokningsregler"
+    class="mx-auto w-full max-w-screen-xl"
   />
 </template>
 

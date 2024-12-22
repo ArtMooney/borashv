@@ -5,22 +5,15 @@ import { listTable } from "../js/listTable.js";
 </script>
 
 <template>
-  <div class="grid grid-cols-1 gap-2 px-8 py-16 lg:grid-cols-8 lg:px-0">
-    <h4
-      class="col-start-1 col-end-1 text-3xl uppercase lg:col-start-2 lg:col-end-8"
-    >
-      Nyheter
-    </h4>
+  <div class="grid grid-cols-1 gap-2 px-4 py-16 md:px-8">
+    <h4 class="text-3xl uppercase">Nyheter</h4>
 
-    <LoadingSpinner
-      v-if="!itemsLoaded && !showErrorMessage"
-      class="col-start-1 col-end-1 lg:col-start-2 lg:col-end-8"
-    />
+    <LoadingSpinner v-if="!itemsLoaded && !showErrorMessage" />
 
     <div
       v-if="itemsLoaded"
       v-for="item of items"
-      class="col-start-1 col-end-1 mb-4 border border-white/15 bg-[#32382d] p-4 lg:col-start-2 lg:col-end-8"
+      class="mb-4 border border-white/15 bg-[#32382d] p-4"
     >
       <div class="flex flex-col gap-4 text-xs sm:flex-row sm:text-sm">
         <div class="w-full sm:min-h-36 sm:w-36 sm:min-w-36">

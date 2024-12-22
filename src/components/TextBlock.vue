@@ -6,12 +6,10 @@ import Button from "../elements/Button.vue";
   <div
     :id="id"
     v-if="text"
-    class="grid min-h-96 grid-cols-1 content-center px-8 py-12 lg:grid-cols-8 lg:px-0"
+    class="grid min-h-96 grid-cols-1 content-center px-4 py-12 md:px-8"
     :style="{ backgroundColor: backgroundColor }"
   >
-    <div
-      class="col-start-1 col-end-1 flex flex-col items-start lg:col-start-2 lg:col-end-8"
-    >
+    <div class="flex flex-col items-start">
       <h4 v-if="title" class="text-3xl uppercase">{{ title }}</h4>
       <div
         v-html="formattedText"

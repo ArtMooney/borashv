@@ -11,6 +11,7 @@ import headerImage from "../assets/Hemvarnsgarden-1024x768.jpg";
     :text="textForening"
     button-text="Bli medlem"
     button-link="/bli-medlem"
+    class="mx-auto w-full max-w-screen-xl"
   />
 </template>
 

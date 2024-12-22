@@ -1,9 +1,10 @@
 <script setup>
 import DocumentList from "../components/DocumentList.vue";
+import SplitContentSection from "../components/SplitContentSection.vue";
 </script>
 
 <template>
-  <DocumentList />
+  <DocumentList class="mx-auto w-full max-w-screen-xl" />
 </template>
 
 <script>

@@ -1,24 +1,20 @@
 <template>
-  <div class="grid grid-cols-1 gap-8 px-8 py-16 lg:grid-cols-8 lg:px-0">
+  <div class="grid grid-cols-3 gap-8 px-4 py-16 md:px-8">
     <img
       v-if="image"
       :src="image"
       loading="lazy"
       alt=""
       :class="[
-        'h-full w-full object-cover lg:row-start-1',
-        swapSides
-          ? 'lg:col-start-6 lg:col-end-8'
-          : 'lg:col-start-2 lg:col-end-4',
+        'row-start-1 h-full w-full object-cover',
+        swapSides ? 'col-start-3 col-end-4' : 'col-start-1 col-end-2',
       ]"
     />
 
     <div
       :class="[
-        'h-fit self-center p-8 md:px-0 lg:row-start-1',
-        swapSides
-          ? 'lg:col-start-2 lg:col-end-6'
-          : 'lg:col-start-4 lg:col-end-8',
+        'row-start-1 h-fit self-center p-8 md:px-0',
+        swapSides ? 'col-start-1 col-end-3' : 'col-start-2 col-end-4',
       ]"
     >
       <h2 v-if="textTitle" class="text-3xl uppercase">{{ textTitle }}</h2>

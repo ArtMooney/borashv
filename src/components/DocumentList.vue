@@ -4,16 +4,10 @@ import { listTable } from "../js/listTable.js";
 </script>
 
 <template>
-  <div class="grid grid-cols-1 gap-2 px-8 py-12 lg:grid-cols-8 lg:px-0">
-    <h4
-      class="col-start-1 col-end-1 text-3xl uppercase lg:col-start-2 lg:col-end-8"
-    >
-      Dokument
-    </h4>
+  <div class="grid grid-cols-1 gap-2 px-4 py-12 md:px-8">
+    <h4 class="text-3xl uppercase">Dokument</h4>
 
-    <p class="col-start-1 col-end-1 pb-12 lg:col-start-2 lg:col-end-8">
-      Här kan du ladda ner våra protokoll och stadgar
-    </p>
+    <p class="pb-12">Här kan du ladda ner våra protokoll och stadgar</p>
 
     <LoadingSpinner
       v-if="!itemsLoaded && !showErrorMessage"
@@ -24,7 +18,7 @@ import { listTable } from "../js/listTable.js";
       v-if="itemsLoaded"
       v-for="item of items"
       :href="item.file[0].url"
-      class="col-start-1 col-end-1 flex cursor-pointer flex-row items-center justify-between border border-white/15 bg-gradient-to-r from-[#32382d] to-[#353238] p-4 transition-colors duration-300 ease-in-out hover:from-[#343a2e] hover:to-[#37343a] hover:shadow-[0_0_20px_rgba(185,177,99,0.35)] lg:col-start-2 lg:col-end-8"
+      class="flex cursor-pointer flex-row items-center justify-between border border-white/15 bg-gradient-to-r from-[#32382d] to-[#353238] p-4 transition-colors duration-300 ease-in-out hover:from-[#343a2e] hover:to-[#37343a] hover:shadow-[0_0_20px_rgba(185,177,99,0.35)]"
     >
       <div
         class="bold hyphens-auto break-words pr-4 font-gunplay text-xl lg:text-2xl"
@@ -42,10 +36,7 @@ import { listTable } from "../js/listTable.js";
       </div>
     </a>
 
-    <div
-      v-if="showErrorMessage"
-      class="col-start-1 col-end-1 bg-[#a38373] p-4 text-black lg:col-start-2 lg:col-end-8"
-    >
+    <div v-if="showErrorMessage" class="bg-[#a38373] p-4 text-black">
       {{ errorMessage }}
     </div>
   </div>

@@ -5,9 +5,7 @@ import backgroundImage from "../assets/pexels-skylar-kang-6044253-2.jpg";
 </script>
 
 <template>
-  <div
-    class="relative grid grid-cols-1 gap-2 px-8 py-12 lg:grid-cols-8 lg:px-0"
-  >
+  <div class="relative px-4 py-12 md:px-8">
     <div
       class="absolute bottom-0 left-0 right-0 top-0 flex items-center overflow-hidden"
     >
@@ -23,24 +21,15 @@ import backgroundImage from "../assets/pexels-skylar-kang-6044253-2.jpg";
       class="absolute bottom-0 left-0 right-0 top-0 bg-gradient-to-b from-neutral-900 to-black/75 sm:to-black/50"
     ></div>
 
-    <h4
-      class="relative col-start-1 col-end-1 text-3xl uppercase lg:col-start-2 lg:col-end-8"
-    >
-      Styrelsen
-    </h4>
+    <h4 class="relative text-3xl uppercase">Styrelsen</h4>
 
-    <div
-      class="relative col-start-1 col-end-1 mb-12 mt-0 h-[1px] w-full bg-white/40 lg:col-start-2 lg:col-end-8"
-    ></div>
+    <div class="relative mb-12 mt-0 h-[1px] w-full bg-white/40"></div>
 
-    <LoadingSpinner
-      v-if="!itemsLoaded && !showErrorMessage"
-      class="col-start-1 col-end-1 lg:col-start-2 lg:col-end-8"
-    />
+    <LoadingSpinner v-if="!itemsLoaded && !showErrorMessage" />
 
     <div
       v-if="itemsLoaded"
-      class="col-start-1 col-end-1 flex flex-row flex-wrap justify-start lg:col-start-2 lg:col-end-8"
+      class="mx-auto flex w-full max-w-screen-xl flex-row flex-wrap justify-start"
     >
       <div
         v-for="item of sortedItems"
@@ -60,10 +49,7 @@ import backgroundImage from "../assets/pexels-skylar-kang-6044253-2.jpg";
       </div>
     </div>
 
-    <div
-      v-if="showErrorMessage"
-      class="col-start-1 col-end-1 bg-[#a38373] p-4 text-black lg:col-start-2 lg:col-end-8"
-    >
+    <div v-if="showErrorMessage" class="bg-[#a38373] p-4 text-black">
       {{ errorMessage }}
     </div>
   </div>

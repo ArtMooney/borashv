@@ -2,6 +2,7 @@
 import Header from "../components/Header.vue";
 import News from "../components/News.vue";
 import headerImage from "../assets/pexels-henkephotoart-29662829-2.jpg";
+import SplitContentSection from "../components/SplitContentSection.vue";
 </script>
 
 <template>
@@ -11,7 +12,7 @@ import headerImage from "../assets/pexels-henkephotoart-29662829-2.jpg";
     button-text-one="Bokningar"
     button-link-one="/bokningar"
   />
-  <News />
+  <News class="mx-auto w-full max-w-screen-xl" />
 </template>
 
 <script>
