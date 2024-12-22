@@ -21,9 +21,7 @@ import backgroundImage from "../assets/pexels-skylar-kang-6044253-2.jpg";
       class="absolute bottom-0 left-0 right-0 top-0 bg-gradient-to-b from-neutral-900 to-black/75 sm:to-black/50"
     ></div>
 
-    <h4 class="relative text-3xl uppercase">Styrelsen</h4>
-
-    <div class="relative mb-12 mt-0 h-[1px] w-full bg-white/40"></div>
+    <h4 class="relative pb-8 text-3xl uppercase">Styrelsen</h4>
 
     <LoadingSpinner v-if="!itemsLoaded && !showErrorMessage" />
 

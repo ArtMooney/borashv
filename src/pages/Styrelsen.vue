@@ -1,6 +1,5 @@
 <script setup>
 import StyrelsenList from "../components/StyrelsenList.vue";
-import SplitContentSection from "../components/SplitContentSection.vue";
 </script>
 
 <template>
