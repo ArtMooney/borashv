@@ -41,6 +41,12 @@ export default () =>
         props: true,
       },
       {
+        path: "/bli-medlem",
+        name: "Bli medlem",
+        component: () => import("./pages/BliMedlem.vue"),
+        props: true,
+      },
+      {
         path: "/:pathMatch(.*)*",
         name: "NotFound",
         component: () => import("./pages/NotFound.vue"),
