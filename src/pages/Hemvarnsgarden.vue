@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       textToday1: `
-        <strong>Idag</strong>
+        <strong>Idag</strong><br>
         Mellan ishallen och Borås Arena ligger idag Hemvärnsgården med sin speciella arkitektur och
         röda torn. Lokalen används idag till olika typer av verksamhet. Lottakåren, FRO (frivilliga
         radioorganisationen) är några föreningar som brukar använda lokalen. Den kan även bokas av
