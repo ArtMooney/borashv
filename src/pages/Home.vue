@@ -2,7 +2,6 @@
 import Header from "../components/Header.vue";
 import News from "../components/News.vue";
 import headerImage from "../assets/pexels-henkephotoart-29662829-2.jpg";
-import SplitContentSection from "../components/SplitContentSection.vue";
 </script>
 
 <template>

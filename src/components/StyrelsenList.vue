@@ -5,7 +5,7 @@ import backgroundImage from "../assets/pexels-skylar-kang-6044253-2.jpg";
 </script>
 
 <template>
-  <div class="relative px-4 py-12 md:px-8">
+  <div class="relative grow px-4 py-12 md:px-8">
     <div
       class="absolute bottom-0 left-0 right-0 top-0 flex items-center overflow-hidden"
     >
@@ -47,7 +47,7 @@ import backgroundImage from "../assets/pexels-skylar-kang-6044253-2.jpg";
       </div>
     </div>
 
-    <div v-if="showErrorMessage" class="bg-[#a38373] p-4 text-black">
+    <div v-if="showErrorMessage" class="relative bg-[#a38373] p-4 text-black">
       {{ errorMessage }}
     </div>
   </div>

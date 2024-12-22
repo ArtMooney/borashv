@@ -1,6 +1,5 @@
 <script setup>
 import DocumentList from "../components/DocumentList.vue";
-import SplitContentSection from "../components/SplitContentSection.vue";
 </script>
 
 <template>

@@ -51,10 +51,7 @@ import { listTable } from "../js/listTable.js";
       </div>
     </div>
 
-    <div
-      v-if="showErrorMessage"
-      class="col-start-1 col-end-1 bg-[#a38373] p-4 text-black lg:col-start-2 lg:col-end-8"
-    >
+    <div v-if="showErrorMessage" class="bg-[#a38373] p-4 text-black">
       {{ errorMessage }}
     </div>
   </div>
