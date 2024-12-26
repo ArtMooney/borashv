@@ -4,101 +4,63 @@ import Input from "../elements/Input.vue";
 </script>
 
 <template>
-  <div class="grid grow grid-cols-1 content-center px-4 py-12 md:px-8">
-    <form
-      v-if="contactForm"
-      @submit.prevent
-      class="grid grid-cols-1 gap-4 text-white md:grid-cols-2"
-      name="member"
-    >
-      <Input
-        name="firstname"
-        type="text"
-        placeholder-text=""
-        :required="true"
-        label-text="Förnamn:"
-      />
+  <div
+    class="col-span-1 grid grow content-center items-center gap-8 px-4 py-12 md:px-8 lg:grid-cols-5"
+  >
+    <div class="lg:col-span-2">
+      <h4 class="text-3xl uppercase">Eller så kontaktar vi dig!</h4>
+      <p>Fyll i din e-mail så kontaktar vi dig</p>
+    </div>
 
-      <Input
-        name="lastname"
-        type="text"
-        placeholder-text=""
-        :required="true"
-        label-text="Efternamn:"
-      />
-
-      <Input
-        name="email"
-        type="email"
-        placeholder-text=""
-        :required="true"
-        label-text="Email:"
-      />
-
-      <Input
-        name="phone"
-        type="tel"
-        placeholder-text=""
-        :required="true"
-        label-text="Telefon:"
-      />
-
-      <Input
-        name="company"
-        type="text"
-        placeholder-text=""
-        :required="true"
-        label-text="Företag:"
-      />
-
-      <Input
-        class="col-span-1 md:col-span-2"
-        name="message"
-        type="message"
-        placeholder-text=""
-        :required="true"
-        label-text="Meddelande:"
-      />
-
-      <div class="hidden">
+    <div class="lg:col-span-3">
+      <form
+        v-if="contactForm"
+        @submit.prevent
+        class="grid items-center gap-4 text-white lg:grid-cols-3"
+        name="contact"
+      >
         <Input
-          name="clientip"
-          type="text"
-          placeholder-text="clientip"
-          :required="false"
-          label-text=""
-          :value="extraFields.clientip"
+          name="email"
+          type="email"
+          placeholder-text="Email"
+          :required="true"
+          class="col-span-2"
         />
 
-        <Input
-          name="pageuri"
-          type="text"
-          placeholder-text="pageuri"
-          :required="false"
-          label-text=""
-          :value="extraFields.pageuri"
-        />
+        <div class="hidden">
+          <Input
+            name="clientip"
+            type="text"
+            placeholder-text="clientip"
+            :required="false"
+            :value="extraFields.clientip"
+          />
 
-        <Input
-          name="pagename"
-          type="text"
-          placeholder-text="pagename"
-          :required="false"
-          label-text=""
-          :value="extraFields.pagename"
-        />
+          <Input
+            name="pageuri"
+            type="text"
+            placeholder-text="pageuri"
+            :required="false"
+            :value="extraFields.pageuri"
+          />
 
-        <Input
-          name="amex"
-          type="text"
-          placeholder-text="amex"
-          :required="false"
-          label-text=""
-          :value="extraFields.amex"
-        />
-      </div>
+          <Input
+            name="pagename"
+            type="text"
+            placeholder-text="pagename"
+            :required="false"
+            :value="extraFields.pagename"
+          />
 
-      <div class="flex items-start pt-8">
+          <Input
+            name="amex"
+            type="text"
+            placeholder-text="amex"
+            :required="false"
+            :value="extraFields.amex"
+          />
+        </div>
+
         <Button
           @click="sendForm"
           :text="buttonText"
@@ -106,25 +68,26 @@ import Input from "../elements/Input.vue";
           hash=""
           type="submit"
           data-wait="Vänta..."
+          class="max-w-56"
         />
-      </div>
-    </form>
+      </form>
 
-    <div v-if="successMessage">
-      <div class="mt-4 bg-[#a38373] p-4 text-black">
-        {{ emailSuccessMessage }}
+      <div v-if="successMessage">
+        <div class="mt-4 bg-[#a38373] p-4 text-black">
+          {{ emailSuccessMessage }}
+        </div>
       </div>
-    </div>
 
-    <div v-if="errorMessage" class="mt-4 bg-[#a38373] p-4 text-black">
-      <p>{{ defaultEmailMessage }}</p>
+      <div v-if="errorMessage" class="mt-4 bg-[#a38373] p-4 text-black">
+        <p>{{ defaultEmailMessage }}</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Member",
+  name: "Contact",
 
   data() {
     return {
@@ -138,7 +101,7 @@ export default {
       },
       buttonText: "Skicka",
       defaultEmailMessage: "Något gick fel när formuläret skulle skickas.",
-      emailSuccessMessage: `Tack för ert meddelande! Vi återkommer till er snart!`,
+      emailSuccessMessage: `Tack för att ni kontaktar oss! Vi återkommer till er snart!`,
       emailErrorMessage:
         "En eller flera emailadresser som ni har angett tycks inte ha ett korrekt format.",
       emailReg:
@@ -163,7 +126,7 @@ export default {
         this.requiredFields(event.target.form) &&
         this.emailFormatError(event.target.form)
       ) {
-        const res = await fetch("/member", {
+        const res = await fetch("/contact", {
           method: "POST",
           headers: {
             Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
