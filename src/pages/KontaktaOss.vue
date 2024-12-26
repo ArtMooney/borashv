@@ -28,7 +28,7 @@ export default {
         Vill du bli medlem i föreningen?
 
         Vill du istället bli medlem i hemvärnet hänvisar vi till:
-        <a href="https://mitt.forsvarsmakten.se/homeguard-info">https://mitt.forsvarsmakten.se/homeguard-info</a>
+        <a href="https://mitt.forsvarsmakten.se/homeguard-info" target="_blank">https://mitt.forsvarsmakten.se/homeguard-info</a>
 
         Boka Hemvärnsgården?
 

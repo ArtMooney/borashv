@@ -51,6 +51,7 @@ import { heart } from "ionicons/icons";
     <a
       class="absolute bottom-3 col-span-1 flex text-xs text-white/50 opacity-50 hover:text-white/75 md:col-span-3"
       href="https://www.framecore.se"
+      target="_blank"
     >
       Powered by
       <span

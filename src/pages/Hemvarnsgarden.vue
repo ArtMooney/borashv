@@ -9,10 +9,13 @@ import imageThen2 from "../assets/prometheus-Kac21UkYfbA-unsplash-2.jpg";
 </script>
 
 <template>
-  <Header :image="headerImage" button-text="Bokningar" />
+  <Header
+    title="Borås Hemvärnsgård"
+    :image="headerImage"
+    button-text="Bokningar"
+  />
 
   <SplitContentSection
-    text-title="Borås Hemvärnsgård"
     :text="textToday1"
     :image="imageToday1"
     class="mx-auto w-full max-w-screen-xl"
