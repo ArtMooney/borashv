@@ -7,6 +7,7 @@ import Input from "../elements/Input.vue";
   <div class="grid grow grid-cols-1 content-center px-4 py-12 md:px-8">
     <form
       v-if="contactForm"
+      @submit.prevent
       class="grid grid-cols-1 gap-4 text-white md:grid-cols-2"
     >
       <Input
@@ -87,15 +88,6 @@ import Input from "../elements/Input.vue";
         />
 
         <Input
-          name="hubspotutk"
-          type="text"
-          placeholder-text="hubspotutk"
-          :required="false"
-          label-text=""
-          :value="extraFields.hubspotutk"
-        />
-
-        <Input
           name="amex"
           type="text"
           placeholder-text="amex"
@@ -118,12 +110,12 @@ import Input from "../elements/Input.vue";
     </form>
 
     <div v-if="successMessage">
-      <div>
-        Tack för ert meddelande!<br /><br />Vi återkommer till er snart!<br /><br /><br /><br /><br />‍
+      <div class="mt-4 bg-[#a38373] p-4 text-black">
+        {{ emailSuccessMessage }}
       </div>
     </div>
 
-    <div v-if="errorMessage" class="bg-pink-100 p-4 text-black">
+    <div v-if="errorMessage" class="mt-4 bg-[#a38373] p-4 text-black">
       <p>{{ defaultEmailMessage }}</p>
     </div>
   </div>
@@ -131,21 +123,21 @@ import Input from "../elements/Input.vue";
 
 <script>
 export default {
-  name: "Contact",
+  name: "Member",
 
   data() {
     return {
+      userName: `${import.meta.env.VITE_USERNAME}`,
+      userPass: `${import.meta.env.VITE_USERPASS}`,
       extraFields: {
         clientip: "",
         pageuri: window.location.href,
         pagename: document.title,
-        hubspotutk: this.getCookie("hubspotutk"),
         amex: "",
       },
-      userName: `${import.meta.env.VITE_USERNAME}`,
-      userPass: `${import.meta.env.VITE_USERPASS}`,
-      formWebhook: "/api/contact",
-      defaultEmailMessage: "Oj! Något gick fel när formuläret skulle skickas.",
+      buttonText: "Skicka",
+      defaultEmailMessage: "Något gick fel när formuläret skulle skickas.",
+      emailSuccessMessage: `Tack för ert meddelande! Vi återkommer till er snart!`,
       emailErrorMessage:
         "En eller flera emailadresser som ni har angett tycks inte ha ett korrekt format.",
       emailReg:
@@ -153,7 +145,6 @@ export default {
       contactForm: true,
       successMessage: false,
       errorMessage: false,
-      buttonText: "Skicka",
     };
   },
 
@@ -167,40 +158,31 @@ export default {
     async sendForm(event) {
       event.target.disabled = true;
 
-      if (this.requiredFields(event.target.form)) {
-        let res;
-        const savedText = this.buttonText;
-        this.buttonText = event.target.dataset.wait;
+      if (
+        this.requiredFields(event.target.form) &&
+        this.emailFormatError(event.target.form)
+      ) {
+        const res = await fetch("/member", {
+          method: "POST",
+          headers: {
+            Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
+          },
+          body: this.formCollector(event.target.form),
+        });
 
-        try {
-          res = await fetch(this.formWebhook, {
-            method: "POST",
-            headers: {
-              Authorization:
-                "Basic " + btoa(this.userName + ":" + this.userPass),
-            },
-            body: this.formCollector(event.target.form),
-            redirect: "follow",
-          });
+        const jsonResponse = await res.json();
 
-          const jsonResponse = await res.json();
-
-          if (!res.ok || jsonResponse.error) {
-            throw new Error("Request failed");
-            this.errorMessage = true;
-          } else {
-            console.log("success");
-
-            setTimeout(() => {
-              this.contactForm = false;
-              this.successMessage = true;
-              this.buttonText = savedText;
-            }, 1500);
-          }
-        } catch (error) {
-          console.error("An error occurred:", error);
+        if (jsonResponse === "error") {
           this.errorMessage = true;
-          this.buttonText = savedText;
+        } else if (jsonResponse === "ok") {
+          const savedText = this.buttonText;
+          this.buttonText = event.target.dataset.wait;
+
+          setTimeout(() => {
+            this.contactForm = false;
+            this.successMessage = true;
+            this.buttonText = savedText;
+          }, 1500);
         }
       } else {
         event.target.disabled = false;
@@ -212,24 +194,17 @@ export default {
       const textareas = form.querySelectorAll("textarea");
       const selectors = form.querySelectorAll("select");
       let requiredFilled = true;
-      let emailVerificationError = false;
       let radioButtonNames = [];
 
-      // check inputs
       for (const input of inputs) {
         if (input.required) {
           if (!input.value) requiredFilled = false;
           if (input.type === "checkbox" && !input.checked)
             requiredFilled = false;
           if (input.type === "radio") radioButtonNames.push(input.dataset.name); // push to list with radiobutton groups
-          if (input.type === "email" && !this.emailReg.test(input.value)) {
-            requiredFilled = false;
-            emailVerificationError = true;
-          }
         }
       }
 
-      // handle radiobuttons
       radioButtonNames = [...new Set(radioButtonNames)]; // removes duplicates
 
       for (const name of radioButtonNames) {
@@ -242,47 +217,55 @@ export default {
         if (!radioButtonCleared) requiredFilled = false;
       }
 
-      // check textareas
       for (const input of textareas) {
         if (input.required) {
           if (!input.value) requiredFilled = false;
         }
       }
 
-      // check selectors
       for (const input of selectors) {
         if (input.required) {
           if (!input.value) requiredFilled = false;
         }
       }
 
-      if (emailVerificationError) this.emailError(form);
-
       return requiredFilled;
     },
 
-    emailError(form) {
-      const savedErrorMessage = this.defaultEmailMessage;
-      this.defaultEmailMessage = this.emailErrorMessage;
-      this.errorMessage = true;
+    emailFormatError(form) {
+      let emailVerificationError = false;
+      const inputs = form.querySelectorAll("input");
 
-      setTimeout(() => {
-        window.addEventListener(
-          "click",
-          () => {
-            this.errorMessage = false;
-            this.defaultEmailMessage = savedErrorMessage;
-          },
-          { once: true },
-        );
-      }, 500);
+      for (const input of inputs) {
+        if (input.type === "email" && this.emailReg.test(input.value)) {
+          emailVerificationError = true;
+        }
+      }
+
+      if (!emailVerificationError) {
+        const savedErrorMessage = this.defaultEmailMessage;
+        this.defaultEmailMessage = this.emailErrorMessage;
+        this.errorMessage = true;
+
+        setTimeout(() => {
+          window.addEventListener(
+            "click",
+            () => {
+              this.errorMessage = false;
+              this.defaultEmailMessage = savedErrorMessage;
+            },
+            { once: true },
+          );
+        }, 500);
+      }
+
+      return emailVerificationError;
     },
 
     formCollector(form) {
       let formData = new FormData();
       formData.append("form-name", form.name);
 
-      // append all inputs except submit-button
       for (const item of form.querySelectorAll("input")) {
         if (item.type !== "submit") {
           if (item.type === "file") {
@@ -294,7 +277,6 @@ export default {
           } else if (
             item.name !== "gdpr-confirm" &&
             item.name !== "clientip" &&
-            item.name !== "hubspotutk" &&
             item.name !== "pageuri" &&
             item.name !== "pagename" &&
             item.name !== "amex"
@@ -310,30 +292,19 @@ export default {
         }
       }
 
-      // append all textareas
       for (const item of form.querySelectorAll("textarea")) {
         formData.append(item.name, item.value);
       }
 
-      // Get all relevant selectors
       for (const item of form.querySelectorAll("select")) {
         formData.append(item.name, item.value);
       }
 
-      // add the extra-fields
       for (const [key, value] of Object.entries(this.extraFields)) {
         formData.append(key, value);
       }
 
       return formData;
-    },
-
-    getCookie(name) {
-      var value = "; " + document.cookie;
-      var parts = value.split("; " + name + "=");
-      if (parts.length === 2) {
-        return parts.pop().split(";").shift();
-      }
     },
   },
 };

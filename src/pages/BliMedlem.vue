@@ -1,6 +1,6 @@
 <script setup>
 import Header from "../components/Header.vue";
-import Contact from "../components/Contact.vue";
+import Member from "../components/Member.vue";
 import TextBlock from "../components/TextBlock.vue";
 import headerImage from "../assets/pexels-grizzlybear-421759-2.jpg";
 </script>
@@ -12,7 +12,7 @@ import headerImage from "../assets/pexels-grizzlybear-421759-2.jpg";
     :text="textMedlemskap"
     class="mx-auto w-full max-w-screen-xl"
   />
-  <Contact class="mx-auto w-full max-w-screen-xl" />
+  <Member class="mx-auto w-full max-w-screen-xl" />
 </template>
 
 <script>
