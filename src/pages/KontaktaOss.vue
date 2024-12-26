@@ -1,14 +1,16 @@
 <script setup>
-import Header from "../components/Header.vue";
-import TextBlock from "../components/TextBlock.vue";
-import headerImage from "../assets/sean-foster-PMmb0MEE7Co-unsplash-2.jpg";
+import SplitContentSection from "../components/SplitContentSection.vue";
+import headerImage from "../assets/pexels-gabby-k-7794400-2.jpg";
+import imageContact from "../assets/militar-telefon.jpg";
 </script>
 
 <template>
-  <Header :image="headerImage" />
-  <TextBlock
-    title="Kontaktuppgifter"
-    :text="textBokningar"
+  <SplitContentSection
+    text-title="Kontaktuppgifter"
+    :text="textKontakt"
+    :image="imageContact"
+    :swap-sides="true"
+    :split-half="true"
     class="mx-auto w-full max-w-screen-xl"
   />
 </template>
@@ -19,26 +21,16 @@ export default {
 
   data() {
     return {
-      textBokningar: `
-      All verksamhet i hemvärnsgården skall förbokas, även regelbunden
-      återkommande verksamhet.
+      textKontakt: `
+        Vill du bli medlem i föreningen?
 
-      Bokning sker via David Wernold.
-      Email: <a href="mailto:boka_hv_garden@mail.com">boka_hv_garden@mail.com</a>
-      Tel./sms: <a href="tel:0703356483">0703-356483</a>
+        Vill du istället bli medlem i hemvärnet hänvisar vi till:
+        <a href="https://mitt.forsvarsmakten.se/homeguard-info">https://mitt.forsvarsmakten.se/homeguard-info</a>
 
-      Nyckel hämtas/lämnas enl. överenskommelse.
+        Boka Hemvärnsgården?
 
-      Bokningsbart:
-      * Konferensrum
-      * Samlingssal
-      * Mäss
-      * Logementen
-      * Projektor/kopiator
-
-      Ev. debitering enl. prislista.
-      Bokningsregler finns längre ner på denna sida.
-    `,
+        Veta mer om föreningen? Eller om du har några andra frågor.
+      `,
     };
   },
 

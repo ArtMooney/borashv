@@ -1,5 +1,8 @@
 <template>
-  <div class="grid gap-8 px-4 py-16 md:px-8 lg:grid-cols-3">
+  <div
+    class="grid gap-8 px-4 py-16 md:px-8 lg:grid-cols-3"
+    :class="splitHalf ? 'lg:grid-cols-2' : ''"
+  >
     <img
       v-if="image"
       :src="image"
@@ -8,7 +11,10 @@
       :class="['h-full w-full object-cover', swapSides && 'lg:order-last']"
     />
 
-    <div class="h-fit self-center lg:col-span-2">
+    <div
+      class="h-fit self-center lg:col-span-2"
+      :class="splitHalf ? 'lg:col-span-1' : ''"
+    >
       <h2 v-if="textTitle" class="mb-6 text-3xl uppercase">{{ textTitle }}</h2>
 
       <div
@@ -37,6 +43,11 @@ export default {
       required: false,
     },
     swapSides: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+    splitHalf: {
       type: Boolean,
       default: false,
       required: false,
