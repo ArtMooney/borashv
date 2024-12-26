@@ -1,6 +1,6 @@
 <script setup>
 import SplitContentSection from "../components/SplitContentSection.vue";
-import headerImage from "../assets/pexels-gabby-k-7794400-2.jpg";
+import ContactBlock from "../components/ContactBlock.vue";
 import imageContact from "../assets/militar-telefon.jpg";
 </script>
 
@@ -13,6 +13,7 @@ import imageContact from "../assets/militar-telefon.jpg";
     :split-half="true"
     class="mx-auto w-full max-w-screen-xl"
   />
+  <ContactBlock />
 </template>
 
 <script>
