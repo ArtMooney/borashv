@@ -18,7 +18,7 @@ import { location } from "ionicons/icons";
       />
     </div>
 
-    <a class="relative flex flex-col lg:items-center" href="tel:033-419191">
+    <a class="relative flex flex-col lg:items-center" href="tel:070-22777161">
       <ion-icon :icon="call" class="mb-4 h-20 w-20 text-white"></ion-icon>
       <div>Mobil:</div>
       <div class="underline">070-22777161</div>
