@@ -1,7 +1,7 @@
 <script setup>
 import { Vue3Lottie } from "vue3-lottie";
 import NavbarDropdown from "../components/NavbarDropdown.vue";
-import sandwich from "../assets/old/burger-menu.json";
+import sandwich from "../assets/burger-menu.json";
 import Button from "../elements/Button.vue";
 </script>
 
