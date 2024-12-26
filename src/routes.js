@@ -47,6 +47,12 @@ export default () =>
         props: true,
       },
       {
+        path: "/kontakta-oss",
+        name: "Kontakta oss",
+        component: () => import("./pages/KontaktaOss.vue"),
+        props: true,
+      },
+      {
         path: "/:pathMatch(.*)*",
         name: "NotFound",
         component: () => import("./pages/NotFound.vue"),

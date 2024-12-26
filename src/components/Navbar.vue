@@ -63,7 +63,7 @@ import Button from "../elements/Button.vue";
 
       <Button
         text="Kontakta oss"
-        link="/contact"
+        link="/kontakta-oss"
         type="button"
         data-wait=""
         styling="outline"
