@@ -29,15 +29,19 @@ import { heart } from "ionicons/icons";
     </a>
 
     <div class="relative flex flex-col">
-      <a class="mb-3 hover:text-neutral-300" href="/">Dokument</a>
-      <a class="mb-3 hover:text-neutral-300" href="/">Hemvärnsgården</a>
-      <a class="mb-3 hover:text-neutral-300" href="/">Bli medlem</a>
+      <a class="mb-3 hover:text-neutral-300" href="/dokument">Dokument</a>
+      <a class="mb-3 hover:text-neutral-300" href="/hemvarnsgarden"
+        >Hemvärnsgården</a
+      >
+      <a class="mb-3 hover:text-neutral-300" href="/bli-medlem">Bli medlem</a>
     </div>
 
     <div class="relative flex flex-col">
-      <a class="mb-3 hover:text-neutral-300" href="/">Styrelsen</a>
-      <a class="mb-3 hover:text-neutral-300" href="/">Bokningar</a>
-      <a class="mb-3 hover:text-neutral-300" href="/">Kontakta Oss</a>
+      <a class="mb-3 hover:text-neutral-300" href="/styrelsen">Styrelsen</a>
+      <a class="mb-3 hover:text-neutral-300" href="/bokningar">Bokningar</a>
+      <a class="mb-3 hover:text-neutral-300" href="/kontakta-oss"
+        >Kontakta Oss</a
+      >
     </div>
 
     <div
