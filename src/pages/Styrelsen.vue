@@ -35,7 +35,7 @@ export default {
       },
       {
         property: "og:image",
-        content: headerImage,
+        content: "",
       },
     ],
   },
