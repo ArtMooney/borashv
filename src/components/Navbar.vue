@@ -10,13 +10,13 @@ import Button from "../elements/Button.vue";
     id="navbar"
     class="relative z-10 flex items-center justify-between bg-transparent p-4 py-2 font-gunplay"
   >
-    <a href="/">
+    <router-link to="/">
       <img
         src="../assets/borashv-logo-1000px.png"
         alt="navbar logo"
         class="h-14 min-h-14 w-14 min-w-14 md:h-20 md:min-h-20 md:w-20 md:min-w-20"
       />
-    </a>
+    </router-link>
 
     <div
       class="absolute right-3 top-4 flex flex-col gap-5 bg-[#32382d] p-6 pt-14 transition-all duration-200 ease-in-out lg:static lg:flex-row lg:items-center lg:bg-transparent lg:p-0"
@@ -26,7 +26,12 @@ import Button from "../elements/Button.vue";
           : 'pointer-events-none right-0 opacity-0 transition-none lg:pointer-events-auto lg:opacity-100',
       ]"
     >
-      <a href="/bokningar" class="hover:opacity-75">BOKNINGAR</a>
+      <router-link
+        to="/bokningar"
+        @click="toggleNavbar"
+        class="hover:opacity-75"
+        >BOKNINGAR
+      </router-link>
       <NavbarDropdown
         text="FÖRENINGEN"
         :list="[
@@ -35,6 +40,7 @@ import Button from "../elements/Button.vue";
           { text: 'Dokument', link: '/dokument' },
         ]"
         :is-mobile="isMobile"
+        @button-clicked="toggleNavbar"
       />
       <NavbarDropdown
         text="LÄNKAR"
@@ -42,24 +48,44 @@ import Button from "../elements/Button.vue";
           {
             text: 'Hemvärnet Älvsborg',
             link: 'https://www.forsvarsmakten.se/sv/var-verksamhet/det-har-gor-forsvarsmakten/hemvarnet/elfsborgsgruppen/alvsborgsbataljonen/',
+            openInNewTab: true,
+            isExternal: true,
           },
           {
             text: 'Hemvärnets stridsskola',
             link: 'https://www.forsvarsmakten.se/hvss?fbclid=IwAR3c5l1LuOWExCda4RRo3RuIk_IwpgVu5mou05SMraNlxK1Ks5E9mcoixpw',
+            openInNewTab: true,
+            isExternal: true,
           },
           {
             text: 'Borås Lottakår',
             link: 'https://www.svenskalottakaren.se/lottakarer/boras-lottakar',
+            openInNewTab: true,
+            isExternal: true,
           },
           {
             text: 'Kläder Älvsborgsbataljonen',
             link: 'https://www.netshirt.se/foreningsklader/alvsborgsbataljonen',
+            openInNewTab: true,
+            isExternal: true,
           },
         ]"
         :is-mobile="isMobile"
+        :open-in-new-tab="true"
+        @button-clicked="toggleNavbar"
       />
-      <a href="/hemvarnsgarden" class="hover:opacity-75">HEMVÄRNSGÅRDEN</a>
-      <a href="/bli-medlem" class="hover:opacity-75">BLI MEDLEM</a>
+      <router-link
+        to="/hemvarnsgarden"
+        @click="toggleNavbar"
+        class="hover:opacity-75"
+        >HEMVÄRNSGÅRDEN
+      </router-link>
+      <router-link
+        to="/bli-medlem"
+        @click="toggleNavbar"
+        class="hover:opacity-75"
+        >BLI MEDLEM
+      </router-link>
 
       <Button
         text="Kontakta oss"
@@ -67,6 +93,7 @@ import Button from "../elements/Button.vue";
         type="button"
         data-wait=""
         styling="outline"
+        @click="toggleNavbar"
       />
     </div>
 

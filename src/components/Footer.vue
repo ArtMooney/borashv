@@ -20,28 +20,38 @@ import { heart } from "ionicons/icons";
 
     <div class="absolute bottom-0 left-0 right-0 top-0 bg-[#31382df5]/80"></div>
 
-    <a href="/">
+    <router-link to="/">
       <img
         src="../assets/borashv-logo-1000px.png"
         alt="footer logo"
         class="relative mb-6 h-36 min-h-36 w-36 min-w-36 md:mb-0 md:h-40 md:min-h-40 md:w-40 md:min-w-40"
       />
-    </a>
+    </router-link>
 
     <div class="relative flex flex-col">
-      <a class="mb-3 hover:text-neutral-300" href="/dokument">Dokument</a>
-      <a class="mb-3 hover:text-neutral-300" href="/hemvarnsgarden"
-        >Hemvärnsgården</a
-      >
-      <a class="mb-3 hover:text-neutral-300" href="/bli-medlem">Bli medlem</a>
+      <router-link class="mb-3 hover:text-neutral-300" to="/dokument#navbar"
+        >Dokument
+      </router-link>
+      <router-link
+        class="mb-3 hover:text-neutral-300"
+        to="/hemvarnsgarden#navbar"
+        >Hemvärnsgården
+      </router-link>
+      <router-link class="mb-3 hover:text-neutral-300" to="/bli-medlem#navbar"
+        >Bli medlem
+      </router-link>
     </div>
 
     <div class="relative flex flex-col">
-      <a class="mb-3 hover:text-neutral-300" href="/styrelsen">Styrelsen</a>
-      <a class="mb-3 hover:text-neutral-300" href="/bokningar">Bokningar</a>
-      <a class="mb-3 hover:text-neutral-300" href="/kontakta-oss"
-        >Kontakta Oss</a
-      >
+      <router-link class="mb-3 hover:text-neutral-300" to="/styrelsen#navbar"
+        >Styrelsen
+      </router-link>
+      <router-link class="mb-3 hover:text-neutral-300" to="/bokningar#navbar"
+        >Bokningar
+      </router-link>
+      <router-link class="mb-3 hover:text-neutral-300" to="/kontakta-oss#navbar"
+        >Kontakta Oss
+      </router-link>
     </div>
 
     <div
