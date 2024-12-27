@@ -76,33 +76,31 @@ export default {
   },
 
   head: {
-    title:
-      "Webb- och 3D-Animationstjänster | Kreativa Lösningar | FrameCore 2024",
+    title: "Hemvärnsgården Borås | Historia & Nutid | Est. 1953",
     meta: [
       {
         name: "keywords",
         content:
-          "webb- och 3D-animation, kreativa lösningar, visualiseringar, reklamfilmer, webbutveckling, hemsidor, FrameCore 2024",
+          "hemvärnsgården borås, villa armbåga, borås hemvärn historia, hemvärnets musikkår borås, historisk byggnad borås, militärhistoria borås, frivilligt försvar borås, hemvärnsgården älgårdsvägen",
       },
       { name: "robots", content: "index, follow" },
       {
         name: "description",
         content:
-          "Utforska skräddarsydda webbsidor och 3D-animationslösningar för ditt företag. Kontakta oss för en kostnadsfri konsultation idag!",
+          "Upptäck Hemvärnsgården i Borås, en historisk byggnad från 1899. Från Villa Armbåga till dagens aktiva mötesplats mellan ishallen och Borås Arena. Läs om invigningen 1953 och byggnadens rika historia.",
       },
       {
         property: "og:title",
-        content:
-          "Webb- och 3D-Animationstjänster | Kreativa Lösningar | FrameCore 2024",
+        content: "Hemvärnsgården Borås - En historisk mötesplats sedan 1953",
       },
       {
         property: "og:description",
         content:
-          "Utforska skräddarsydda webb- och 3D-animationslösningar för ditt företag. Kontakta oss för en kostnadsfri konsultation idag!",
+          "Belägen mellan ishallen och Borås Arena ligger den historiska Hemvärnsgården med sitt karakteristiska röda torn. En aktiv mötesplats för Lottakåren, FRO och andra föreningar sedan 1953.",
       },
       {
         property: "og:image",
-        content: "https://framecore.se/assets/Hand_new_utkast06-ChzJefJk.jpg",
+        content: headerImage,
       },
     ],
   },

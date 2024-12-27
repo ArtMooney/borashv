@@ -38,33 +38,31 @@ export default {
   },
 
   head: {
-    title:
-      "Webb- och 3D-Animationstjänster | Kreativa Lösningar | FrameCore 2024",
+    title: "Kontakta Oss | Borås Hemvärnsförening | Medlemskap & Bokningar",
     meta: [
       {
         name: "keywords",
         content:
-          "webb- och 3D-animation, kreativa lösningar, visualiseringar, reklamfilmer, webbutveckling, hemsidor, FrameCore 2024",
+          "kontakta hemvärnet borås, bli medlem hemvärnet, boka hemvärnsgården borås, hemvärnet kontaktuppgifter, borås hemvärnsförening kontakt, medlemskap hemvärnet",
       },
       { name: "robots", content: "index, follow" },
       {
         name: "description",
         content:
-          "Utforska skräddarsydda webbsidor och 3D-animationslösningar för ditt företag. Kontakta oss för en kostnadsfri konsultation idag!",
+          "Kontakta Borås Hemvärnsförening för medlemskap, lokalbokning eller andra frågor. Information om hur du blir medlem i Hemvärnet eller föreningsverksamheten i Borås.",
       },
       {
         property: "og:title",
-        content:
-          "Webb- och 3D-Animationstjänster | Kreativa Lösningar | FrameCore 2024",
+        content: "Kontakta Borås Hemvärnsförening - Medlemskap & Information",
       },
       {
         property: "og:description",
         content:
-          "Utforska skräddarsydda webb- och 3D-animationslösningar för ditt företag. Kontakta oss för en kostnadsfri konsultation idag!",
+          "Vill du bli medlem, boka Hemvärnsgården eller veta mer om föreningen? Här hittar du all kontaktinformation till Borås Hemvärnsförening.",
       },
       {
         property: "og:image",
-        content: "https://framecore.se/assets/Hand_new_utkast06-ChzJefJk.jpg",
+        content: imageContact,
       },
     ],
   },

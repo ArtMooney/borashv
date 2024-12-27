@@ -38,33 +38,31 @@ export default {
   },
 
   head: {
-    title:
-      "Webb- och 3D-Animationstjänster | Kreativa Lösningar | FrameCore 2024",
+    title: "Bli Medlem i Hemvärnets Förening Borås | Medlemskap",
     meta: [
       {
         name: "keywords",
         content:
-          "webb- och 3D-animation, kreativa lösningar, visualiseringar, reklamfilmer, webbutveckling, hemsidor, FrameCore 2024",
+          "Hemvärnet Borås, medlemskap hemvärnet, hemvärnsförening, hemvärnsgården borås, försvarsförening borås, hemvärnsmedlem",
       },
       { name: "robots", content: "index, follow" },
       {
         name: "description",
         content:
-          "Utforska skräddarsydda webbsidor och 3D-animationslösningar för ditt företag. Kontakta oss för en kostnadsfri konsultation idag!",
+          "Bli medlem i Hemvärnets förening i Borås för endast 50kr/år. Som medlem stödjer du förvaltningen av Hemvärnsgården och föreningens viktiga arbete. Anslut dig till vår gemenskap idag!",
       },
       {
         property: "og:title",
-        content:
-          "Webb- och 3D-Animationstjänster | Kreativa Lösningar | FrameCore 2024",
+        content: "Bli Medlem i Hemvärnets Förening Borås",
       },
       {
         property: "og:description",
         content:
-          "Utforska skräddarsydda webb- och 3D-animationslösningar för ditt företag. Kontakta oss för en kostnadsfri konsultation idag!",
+          "Stöd Hemvärnet i Borås genom medlemskap för endast 50kr/år. Din medlemsavgift bidrar till förvaltning av Hemvärnsgården och föreningens verksamhet.",
       },
       {
         property: "og:image",
-        content: "https://framecore.se/assets/Hand_new_utkast06-ChzJefJk.jpg",
+        content: headerImage,
       },
     ],
   },

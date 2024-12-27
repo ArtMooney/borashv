@@ -100,33 +100,32 @@ export default {
   },
 
   head: {
-    title:
-      "Webb- och 3D-Animationstjänster | Kreativa Lösningar | FrameCore 2024",
+    title: "Boka Lokaler | Hemvärnsgården Borås | Konferens & Samlingssal",
     meta: [
       {
         name: "keywords",
         content:
-          "webb- och 3D-animation, kreativa lösningar, visualiseringar, reklamfilmer, webbutveckling, hemsidor, FrameCore 2024",
+          "hemvärnsgården borås, lokalbokning borås, konferenslokal borås, samlingssal, mäss bokning, logement borås, militär konferenslokal, möteslokal borås",
       },
       { name: "robots", content: "index, follow" },
       {
         name: "description",
         content:
-          "Utforska skräddarsydda webbsidor och 3D-animationslösningar för ditt företag. Kontakta oss för en kostnadsfri konsultation idag!",
+          "Boka lokaler i Hemvärnsgården Borås - konferensrum, samlingssal, mäss och logement. Fullutrustat med projektor och kök. Enkel bokning via telefon eller e-post.",
       },
       {
         property: "og:title",
         content:
-          "Webb- och 3D-Animationstjänster | Kreativa Lösningar | FrameCore 2024",
+          "Lokalbokning Hemvärnsgården Borås - Konferens & Samlingslokaler",
       },
       {
         property: "og:description",
         content:
-          "Utforska skräddarsydda webb- och 3D-animationslösningar för ditt företag. Kontakta oss för en kostnadsfri konsultation idag!",
+          "Hyr våra lokaler i centrala Borås - konferensrum, samlingssal, mäss och logement. Perfekt för möten, evenemang och övernattning. Boka enkelt via vår bokningsansvarige.",
       },
       {
         property: "og:image",
-        content: "https://framecore.se/assets/Hand_new_utkast06-ChzJefJk.jpg",
+        content: headerImage,
       },
     ],
   },

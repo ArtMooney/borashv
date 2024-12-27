@@ -1,5 +1,6 @@
 <script setup>
 import DocumentList from "../components/DocumentList.vue";
+import logoImage from "../assets/borashv-logo-1000px.png";
 </script>
 
 <template>
@@ -11,33 +12,31 @@ export default {
   name: "Dokument",
 
   head: {
-    title:
-      "Webb- och 3D-Animationstjänster | Kreativa Lösningar | FrameCore 2024",
+    title: "Dokument & Protokoll | Hemvärnet Borås | Stadgar och Handlingar",
     meta: [
       {
         name: "keywords",
         content:
-          "webb- och 3D-animation, kreativa lösningar, visualiseringar, reklamfilmer, webbutveckling, hemsidor, FrameCore 2024",
+          "hemvärnet borås dokument, hemvärnsprotokoll, hemvärnets stadgar, föreningshandlingar borås, hemvärnsförening protokoll, borås hemvärn handlingar",
       },
       { name: "robots", content: "index, follow" },
       {
         name: "description",
         content:
-          "Utforska skräddarsydda webbsidor och 3D-animationslösningar för ditt företag. Kontakta oss för en kostnadsfri konsultation idag!",
+          "Ladda ner officiella dokument, protokoll och stadgar för Hemvärnet i Borås. Här hittar du aktuella föreningshandlingar och styrelsedokument.",
       },
       {
         property: "og:title",
-        content:
-          "Webb- och 3D-Animationstjänster | Kreativa Lösningar | FrameCore 2024",
+        content: "Dokument & Handlingar - Hemvärnet Borås",
       },
       {
         property: "og:description",
         content:
-          "Utforska skräddarsydda webb- och 3D-animationslösningar för ditt företag. Kontakta oss för en kostnadsfri konsultation idag!",
+          "Här finns alla officiella dokument för Hemvärnet i Borås samlade. Ladda ner protokoll, stadgar och andra viktiga föreningshandlingar.",
       },
       {
         property: "og:image",
-        content: "https://framecore.se/assets/Hand_new_utkast06-ChzJefJk.jpg",
+        content: logoImage,
       },
     ],
   },
