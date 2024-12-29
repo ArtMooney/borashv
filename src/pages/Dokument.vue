@@ -1,6 +1,6 @@
 <script setup>
 import DocumentList from "../components/DocumentList.vue";
-import logoImage from "../assets/borashv-logo-1000px.png";
+import logoImage from "../../public/assets/borashv-logo-1000px.png";
 </script>
 
 <template>

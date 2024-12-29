@@ -6,8 +6,8 @@ export default function responsiveImages() {
   return {
     name: "responsive-images",
     async buildStart() {
-      const sourceDir = "src/assets";
-      const outputDir = "src/assets/images";
+      const sourceDir = "src/assets/responsive-images";
+      const outputDir = "public/assets";
 
       try {
         const files = await fs.readdir(sourceDir);
@@ -55,7 +55,7 @@ export default function responsiveImages() {
           }
         }
       } catch (error) {
-        console.error("Error processing images:", error);
+        console.error("Error processing assets:", error);
       }
     },
   };

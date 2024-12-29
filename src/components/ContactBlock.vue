@@ -4,7 +4,7 @@ import { call } from "ionicons/icons";
 import { mail } from "ionicons/icons";
 import { location } from "ionicons/icons";
 import ResponsiveImage from "../components/ResponsiveImage.vue";
-import imageBackground from "../assets/images/old-wood.jpg";
+import imageBackground from "../../public/assets/old-wood.jpg";
 </script>
 
 <template>
