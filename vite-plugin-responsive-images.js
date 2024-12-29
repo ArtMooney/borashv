@@ -7,7 +7,7 @@ export default function responsiveImages() {
     name: "responsive-images",
     async buildStart() {
       const sourceDir = "src/assets";
-      const outputDir = "public";
+      const outputDir = "public/images";
 
       try {
         const files = await fs.readdir(sourceDir);
@@ -16,6 +16,7 @@ export default function responsiveImages() {
           if (file.match(/\.(jpg|png)$/i)) {
             const inputPath = path.join(sourceDir, file);
             const filename = path.parse(file).name;
+            const extension = path.extname(file);
 
             await Promise.all([
               // 2xl screens (1536px+)
@@ -48,11 +49,8 @@ export default function responsiveImages() {
                 .webp({ quality: 70 })
                 .toFile(`${outputDir}/${filename}-sm.webp`),
 
-              // Fallback JPEG (using lg breakpoint as default)
-              sharp(inputPath)
-                .resize(1024, null, { withoutEnlargement: true })
-                .jpeg({ quality: 80, mozjpeg: true })
-                .toFile(`${outputDir}/${filename}.jpg`),
+              // Fallback copy original file
+              fs.copyFile(inputPath, `${outputDir}/${filename}${extension}`),
             ]);
           }
         }
