@@ -1,6 +1,9 @@
 <script setup>
+import ResponsiveImage from "../components/ResponsiveImage.vue";
 import { IonIcon } from "@ionic/vue";
 import { heart } from "ionicons/icons";
+import imageBackground from "../../public/images/pexels-gabby-k-7794400.jpg";
+import imageLogo from "../../public/images/borashv-logo-1000px.png";
 </script>
 
 <template>
@@ -10,19 +13,18 @@ import { heart } from "ionicons/icons";
     <div
       class="absolute bottom-0 left-0 right-0 top-0 flex items-center overflow-hidden"
     >
-      <img
-        class="h-full w-full object-cover"
-        loading="lazy"
+      <ResponsiveImage
+        :src="imageBackground"
         alt=""
-        src="../assets/pexels-gabby-k-7794400-2.jpg"
+        class="h-full w-full object-cover"
       />
     </div>
 
     <div class="absolute bottom-0 left-0 right-0 top-0 bg-[#31382df5]/80"></div>
 
     <router-link to="/">
-      <img
-        src="../assets/borashv-logo-1000px.png"
+      <ResponsiveImage
+        :src="imageLogo"
         alt="footer logo"
         class="relative mb-6 h-36 min-h-36 w-36 min-w-36 md:mb-0 md:h-40 md:min-h-40 md:w-40 md:min-w-40"
       />

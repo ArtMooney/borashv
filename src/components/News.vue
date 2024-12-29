@@ -2,6 +2,7 @@
 import LoadingSpinner from "./LoadingSpinner.vue";
 import Button from "../elements/Button.vue";
 import { listTable } from "../js/listTable.js";
+import ResponsiveImage from "../components/ResponsiveImage.vue";
 </script>
 
 <template>
@@ -20,6 +21,7 @@ import { listTable } from "../js/listTable.js";
           <img
             v-if="item.bild && item.bild[0]"
             :src="item.bild[0].thumbnails.card_cover.url"
+            alt=""
             class="h-full w-full object-cover"
           />
         </div>

@@ -30,8 +30,8 @@ import { listTable } from "../js/listTable.js";
       <div class="flex-shrink-0 border-l-2 border-white/15 pl-4">
         <img
           :src="item.thumbnail[0].url"
-          class="h-32 w-auto"
           :alt="item.file[0].visible_name"
+          class="h-32 w-auto"
         />
       </div>
     </a>

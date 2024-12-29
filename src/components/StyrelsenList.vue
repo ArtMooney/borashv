@@ -1,7 +1,9 @@
 <script setup>
 import LoadingSpinner from "./LoadingSpinner.vue";
 import { listTable } from "../js/listTable.js";
-import backgroundImage from "../assets/pexels-skylar-kang-6044253-2.jpg";
+import backgroundImage from "../../public/images/pexels-skylar-kang-6044253.jpg";
+import dogtagImage from "../../public/images/dogtag-md.webp";
+import ResponsiveImage from "../components/ResponsiveImage.vue";
 </script>
 
 <template>
@@ -9,11 +11,10 @@ import backgroundImage from "../assets/pexels-skylar-kang-6044253-2.jpg";
     <div
       class="absolute bottom-0 left-0 right-0 top-0 flex items-center overflow-hidden"
     >
-      <img
+      <ResponsiveImage
         :src="backgroundImage"
-        class="parallax-background h-full w-full object-cover"
-        loading="lazy"
         alt=""
+        class="parallax-background h-full w-full object-cover"
       />
     </div>
 
@@ -34,7 +35,7 @@ import backgroundImage from "../assets/pexels-skylar-kang-6044253-2.jpg";
         :key="item.id"
         class="relative w-[25rem] text-xs sm:w-[16rem] md:w-[21rem] md:text-sm xl:w-[19rem]"
       >
-        <img src="../assets/dogtag.png" :alt="item.name" />
+        <img :src="dogtagImage" alt="item.name" />
         <div
           class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pb-5 pr-4 md:pb-8 md:pr-8"
         >

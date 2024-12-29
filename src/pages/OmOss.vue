@@ -1,7 +1,7 @@
 <script setup>
 import Header from "../components/Header.vue";
 import TextBlock from "../components/TextBlock.vue";
-import headerImage from "../assets/Hemvarnsgarden-1024x768.jpg";
+import headerImage from "../../public/images/Hemvarnsgarden-1024x768.jpg";
 </script>
 
 <template>
