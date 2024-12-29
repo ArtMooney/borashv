@@ -1,19 +1,19 @@
 <template>
-  <picture>
-    <source
-      v-for="(size, index) in ['2xl', 'xl', 'lg', 'md', 'sm', null]"
-      :key="index"
-      type="image/webp"
-      :srcset="`${basePath}-${size || 'sm'}.webp`"
-      :media="size ? `(min-width: ${getMinWidth(size)}px)` : null"
-    />
-    <img :src="src" :alt="alt" :class="imgClass" loading="lazy" />
-  </picture>
+  <img
+    :src="`${basePath}${originalExt}`"
+    :srcset="srcSet"
+    :sizes="sizes"
+    :alt="alt"
+    v-bind="$attrs"
+    loading="lazy"
+  />
 </template>
 
 <script>
 export default {
   name: "ResponsiveImage",
+
+  inheritAttrs: false,
 
   props: {
     src: {
@@ -24,28 +24,36 @@ export default {
       type: String,
       default: "",
     },
-    imgClass: {
-      type: String,
-      default: "",
-    },
-  },
-
-  methods: {
-    getMinWidth(size) {
-      const widths = {
-        "2xl": "1536",
-        xl: "1280",
-        lg: "1024",
-        md: "768",
-        sm: "640",
-      };
-      return widths[size];
-    },
   },
 
   computed: {
+    originalExt() {
+      const match = this.src.match(/\.(jpg|png|jpeg)$/i);
+      return match ? match[0] : ".jpg";
+    },
+
     basePath() {
       return this.src.replace(/\.(jpg|png|jpeg)$/i, "");
+    },
+
+    srcSet() {
+      return [
+        `${this.basePath}-sm.webp 640w`,
+        `${this.basePath}-md.webp 768w`,
+        `${this.basePath}-lg.webp 1024w`,
+        `${this.basePath}-xl.webp 1280w`,
+        `${this.basePath}-2xl.webp 1536w`,
+      ].join(", ");
+    },
+
+    sizes() {
+      return [
+        "(min-width: 1536px) 1536px",
+        "(min-width: 1280px) 1280px",
+        "(min-width: 1024px) 1024px",
+        "(min-width: 768px) 768px",
+        "640px",
+      ].join(", ");
     },
   },
 };

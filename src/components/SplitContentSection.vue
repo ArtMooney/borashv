@@ -1,12 +1,15 @@
+<script setup>
+import ResponsiveImage from "../components/ResponsiveImage.vue";
+</script>
+
 <template>
   <div
-    class="grid gap-8 px-4 py-16 md:px-8 lg:grid-cols-3"
+    class="grid h-auto gap-8 px-4 py-16 md:px-8 lg:grid-cols-3"
     :class="splitHalf ? 'lg:grid-cols-2' : ''"
   >
-    <img
+    <ResponsiveImage
       v-if="image"
       :src="image"
-      loading="lazy"
       :alt="image.split('/').pop()"
       :class="['h-full w-full object-cover', swapSides && 'lg:order-last']"
     />

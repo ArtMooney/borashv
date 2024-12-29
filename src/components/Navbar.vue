@@ -3,6 +3,8 @@ import { Vue3Lottie } from "vue3-lottie";
 import NavbarDropdown from "../components/NavbarDropdown.vue";
 import sandwich from "../assets/burger-menu.json";
 import Button from "../elements/Button.vue";
+import ResponsiveImage from "../components/ResponsiveImage.vue";
+import imageLogo from "../../public/images/borashv-logo-1000px.png";
 </script>
 
 <template>
@@ -11,8 +13,8 @@ import Button from "../elements/Button.vue";
     class="relative z-10 flex items-center justify-between bg-transparent p-4 py-2 font-gunplay"
   >
     <router-link to="/">
-      <img
-        src="../assets/borashv-logo-1000px.png"
+      <ResponsiveImage
+        :src="imageLogo"
         alt="navbar logo"
         class="h-14 min-h-14 w-14 min-w-14 md:h-20 md:min-h-20 md:w-20 md:min-w-20"
       />

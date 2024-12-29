@@ -1,7 +1,7 @@
 <script setup>
 import Header from "../components/Header.vue";
 import News from "../components/News.vue";
-import headerImage from "../assets/pexels-henkephotoart-29662829-2.jpg";
+import headerImage from "../../public/images/pexels-henkephotoart-29662829.jpg";
 </script>
 
 <template>

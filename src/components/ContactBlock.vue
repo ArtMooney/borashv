@@ -3,6 +3,8 @@ import { IonIcon } from "@ionic/vue";
 import { call } from "ionicons/icons";
 import { mail } from "ionicons/icons";
 import { location } from "ionicons/icons";
+import ResponsiveImage from "../components/ResponsiveImage.vue";
+import imageBackground from "../../public/images/old-wood.jpg";
 </script>
 
 <template>
@@ -10,11 +12,10 @@ import { location } from "ionicons/icons";
     class="relative grid min-h-[30rem] w-full items-center justify-center gap-24 px-4 py-16 md:px-8 lg:grid-cols-3"
   >
     <div class="absolute bottom-0 left-0 right-0 top-0 overflow-hidden">
-      <img
-        class="h-full w-full object-cover opacity-25"
-        loading="lazy"
+      <ResponsiveImage
+        :src="imageBackground"
         alt="image of old wood background"
-        src="../assets/old-wood.jpg"
+        class="h-full w-full object-cover opacity-25"
       />
     </div>
 
