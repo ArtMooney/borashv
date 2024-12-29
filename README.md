@@ -6,7 +6,7 @@ A new version of the homepage with design ported to vuejs
 
 wrangler pages dev --proxy=5173 -- npm run dev
 
-or
+or later
 
 npm run build
 wrangler pages dev dist
