@@ -7,7 +7,7 @@ export default function responsiveImages() {
     name: "responsive-images",
     async buildStart() {
       const sourceDir = "src/assets";
-      const outputDir = "public/images";
+      const outputDir = "src/assets/images";
 
       try {
         const files = await fs.readdir(sourceDir);

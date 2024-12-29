@@ -2,8 +2,8 @@
 import ResponsiveImage from "../components/ResponsiveImage.vue";
 import { IonIcon } from "@ionic/vue";
 import { heart } from "ionicons/icons";
-import imageBackground from "../../public/images/pexels-gabby-k-7794400.jpg";
-import imageLogo from "../../public/images/borashv-logo-1000px.png";
+import imageBackground from "../assets/images/pexels-gabby-k-7794400.jpg";
+import imageLogo from "../assets/images/borashv-logo-1000px.png";
 </script>
 
 <template>

@@ -2,7 +2,7 @@
 import Header from "../components/Header.vue";
 import BookingsList from "../components/BookingsList.vue";
 import TextBlock from "../components/TextBlock.vue";
-import headerImage from "../../public/images/sean-foster-PMmb0MEE7Co-unsplash.jpg";
+import headerImage from "../assets/images/sean-foster-PMmb0MEE7Co-unsplash.jpg";
 </script>
 
 <template>

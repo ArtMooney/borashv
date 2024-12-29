@@ -1,8 +1,8 @@
 <script setup>
 import LoadingSpinner from "./LoadingSpinner.vue";
 import { listTable } from "../js/listTable.js";
-import backgroundImage from "../../public/images/pexels-skylar-kang-6044253.jpg";
-import dogtagImage from "../../public/images/dogtag-md.webp";
+import backgroundImage from "../assets/images/pexels-skylar-kang-6044253.jpg";
+import dogtagImage from "../assets/images/dogtag-md.webp";
 import ResponsiveImage from "../components/ResponsiveImage.vue";
 </script>
 

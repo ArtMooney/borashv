@@ -2,7 +2,7 @@
 import Header from "../components/Header.vue";
 import Member from "../components/Member.vue";
 import TextBlock from "../components/TextBlock.vue";
-import headerImage from "../../public/images/pexels-grizzlybear-421759.jpg";
+import headerImage from "../assets/images/pexels-grizzlybear-421759.jpg";
 </script>
 
 <template>
