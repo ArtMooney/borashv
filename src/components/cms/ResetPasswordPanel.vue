@@ -4,36 +4,37 @@ import Input from "../../elements/Input.vue";
 </script>
 
 <template>
-  <div class="input-container w-form">
+  <div class="flex justify-center px-4 py-12 md:px-8">
     <form
-      @submit.prevent="resetPasswordForm"
-      class="login-form"
-      data-name="reset-password"
+      @submit.prevent
+      class="grid w-full gap-2 sm:w-2/3 md:w-1/2"
+      name="reset-password"
     >
-      <div id="w-node-fdb51ec0-2112-7bc5-fc06-a6656f9a439c-d10df2f5">
-        Reset password
-      </div>
-      <input
+      <div>Reset password</div>
+
+      <Input
         v-model="loginEmail"
-        type="email"
-        class="cms-input w-input"
-        maxlength="256"
         name="email"
-        placeholder="Enter email address"
-        autofocus
-      /><input
-        type="submit"
-        value="Send password reset link"
-        data-wait="Please wait..."
-        id="w-node-_8862a37a-1930-f237-f612-0f358c05ed9a-d10df2f5"
-        class="cms-button login w-button"
+        type="email"
+        placeholder-text="Enter email address"
       />
-      <a
-        @click="loginSwitch"
-        id="w-node-_5138d100-ab89-8d07-e386-535cf97da3f1-d10df2f5"
-        class="text-s pointer"
-        >Know your password?</a
+
+      <Button
+        @click="resetPasswordForm"
+        text="Send password reset link"
+        link=""
+        hash=""
+        type="submit"
+        data-wait="Please wait..."
+        class="mt-4 bg-[#548b63] text-white hover:bg-[#6bad7d]"
+      />
+
+      <div
+        @click="$emit('loginSwitch')"
+        class="cursor-pointer text-sm underline hover:text-white/75"
       >
+        Know your password?
+      </div>
     </form>
     <div class="success-message w-form-done">
       An email has been sent to your registered email address with a link to
@@ -47,6 +48,139 @@ import Input from "../../elements/Input.vue";
 
 <script>
 export default {
-  name: "NewPasswordPanel",
+  name: "ResetPasswordPanel",
+
+  data() {
+    return {
+      cmsReset: `${import.meta.env.VITE_APP_CMS_URL}/reset`,
+      resetPasswordPanel: false,
+      loginEmail: "",
+      emailErrorMessage:
+        "One or more email addresses that you have provided do not appear to have a correct format.",
+      passwordErrorMessage:
+        "Your email or password was not correct, please try again.",
+      emailReg:
+        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
+    };
+  },
+
+  methods: {
+    resetPasswordForm(event) {
+      const successMessage =
+        event.target.parentElement.getElementsByClassName("success-message")[0];
+      const errorMessage =
+        event.target.parentElement.getElementsByClassName("error-message")[0];
+      const submitterBak = event.submitter.value;
+      event.submitter.value = event.submitter.dataset.wait;
+
+      if (this.requiredFields(event.target.parentElement)) {
+        fetch(this.cmsReset, {
+          method: "POST",
+          body: JSON.stringify({
+            email: this.loginEmail,
+            pageuri: window.location.href,
+          }),
+        })
+          .then((response) => {
+            if (!response.ok) throw new Error();
+            return response.json();
+          })
+          .then((result) => {
+            // console.log("success", result);
+
+            if (result.status === "ok") {
+              event.target.style.display = "none";
+              successMessage.style.display = "block";
+
+              // location.reload();
+            } else {
+              this.triggerErrorMessage(errorMessage, this.passwordErrorMessage);
+              event.submitter.value = submitterBak;
+            }
+          })
+          .catch((error) => {
+            // console.log("error");
+
+            errorMessage.style.display = "block";
+            event.submitter.value = submitterBak;
+          });
+      }
+    },
+
+    requiredFields(form) {
+      const inputs = form.querySelectorAll("input");
+      const textareas = form.querySelectorAll("textarea");
+      const selectors = form.querySelectorAll("select");
+      let requiredFilled = true;
+      let emailVerificationError = false;
+      let radioButtonNames = [];
+
+      // check inputs
+      for (const input of inputs) {
+        if (input.required) {
+          if (!input.value) requiredFilled = false;
+          if (input.type === "checkbox" && !input.checked)
+            requiredFilled = false;
+          if (input.type === "radio") radioButtonNames.push(input.dataset.name); // push to list with radiobutton groups
+          if (input.type === "email" && !this.emailReg.test(input.value)) {
+            requiredFilled = false;
+            emailVerificationError = true;
+          }
+        }
+      }
+
+      // handle radiobuttons
+      radioButtonNames = [...new Set(radioButtonNames)]; // removes duplicates
+
+      for (const name of radioButtonNames) {
+        let radioButtonCleared = 0;
+        for (const input of inputs) {
+          if (input.type === "radio" && input.dataset.name === name) {
+            if (input.checked) radioButtonCleared++;
+          }
+        }
+        if (!radioButtonCleared) requiredFilled = false;
+      }
+
+      // check textareas
+      for (const input of textareas) {
+        if (input.required) {
+          if (!input.value) requiredFilled = false;
+        }
+      }
+
+      // check selectors
+      for (const input of selectors) {
+        if (input.required) {
+          if (!input.value) requiredFilled = false;
+        }
+      }
+
+      if (emailVerificationError)
+        this.triggerErrorMessage(
+          form.parentElement.getElementsByClassName("error-message")[0],
+          this.emailErrorMessage,
+        );
+
+      return requiredFilled;
+    },
+
+    triggerErrorMessage(errorMessage, message) {
+      const savedErrorMessage = errorMessage.innerText;
+      errorMessage.innerText = message;
+      errorMessage.style.display = "block";
+
+      setTimeout(() => {
+        window.addEventListener(
+          "click",
+          () => {
+            errorMessage.style.display = "none";
+            errorMessage.innerText = savedErrorMessage;
+          },
+          { once: true },
+        );
+      }, 500);
+    },
+  },
 };
 </script>

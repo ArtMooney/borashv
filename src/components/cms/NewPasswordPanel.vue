@@ -59,7 +59,7 @@ import Input from "../../elements/Input.vue";
 
 <script>
 export default {
-  name: "ResetPasswordPanel",
+  name: "NewPasswordPanel",
 
   data() {
     return {
