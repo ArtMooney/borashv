@@ -5,11 +5,13 @@ import Loader from "../components/cms/Loader.vue";
 </script>
 
 <template>
-  <div>
-    <Login v-if="loginFlag" @status="handleLoginStatus" />
-    <Cms v-if="cmsFlag" @initLoadedFlag="handleInitLoaded" />
-    <Loader v-if="loaderFlag" />
-  </div>
+  <Login
+    v-if="loginFlag"
+    @status="handleLoginStatus"
+    class="mx-auto w-full max-w-screen-xl"
+  />
+  <Cms v-if="cmsFlag" @initLoadedFlag="handleInitLoaded" />
+  <Loader v-if="loaderFlag" />
 </template>
 
 <script>

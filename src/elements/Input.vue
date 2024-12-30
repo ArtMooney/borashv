@@ -42,11 +42,13 @@ export default {
     },
     placeholderText: {
       type: String,
-      required: true,
+      default: "",
+      required: false,
     },
     required: {
       type: Boolean,
-      required: true,
+      default: false,
+      required: false,
     },
     labelText: {
       type: String,

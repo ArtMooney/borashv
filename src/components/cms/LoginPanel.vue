@@ -1,53 +1,74 @@
 <script setup>
-import LoginPanel from "./LoginPanel.vue";
-import ResetPasswordPanel from "./ResetPasswordPanel.vue";
-import NewPasswordPanel from "./NewPasswordPanel.vue";
+import Button from "../../elements/Button.vue";
+import Input from "../../elements/Input.vue";
 </script>
 
 <template>
-  <div>
-    <LoginPanel
-      v-if="panel === 'login'"
-      @resetPasswordPanel="resetPasswordSwitch"
-    />
-    <ResetPasswordPanel
-      v-if="panel === 'resetPassword'"
-      @loginSwitch="loginSwitch"
-    />
-    <!--    <NewPasswordPanel v-show="newPasswordPanel" />-->
+  <div class="flex justify-center px-4 py-12 md:px-8">
+    <form
+      @submit.prevent
+      class="grid w-full gap-2 sm:w-2/3 md:w-1/2"
+      name="login"
+    >
+      <div>Login</div>
+
+      <Input
+        v-model="loginEmail"
+        name="email"
+        type="email"
+        placeholder-text="Enter email address"
+        :required="true"
+      />
+
+      <Input
+        v-model="loginPassword"
+        name="password"
+        type="password"
+        placeholder-text="Enter password"
+      />
+
+      <Button
+        @click="loginForm"
+        text="Login"
+        link=""
+        hash=""
+        type="submit"
+        data-wait="Please wait..."
+        class="mt-4 bg-[#548b63] text-white hover:bg-[#6bad7d]"
+      />
+
+      <div
+        @click="$emit('resetPasswordPanel')"
+        class="cursor-pointer text-sm underline hover:text-white/75"
+      >
+        Forgot your password?
+      </div>
+    </form>
+
+    <div class="success-message w-form-done"></div>
+    <div class="error-message text-s w-form-fail">
+      An error occurred while sending the email.
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Login",
+  name: "LoginPanel",
 
   data() {
     return {
-      panel: "login",
-      userName: "FrameCore",
-      userPass: "CMS-development",
       cmsLogin: `${import.meta.env.VITE_APP_CMS_URL}/login`,
-      cmsReset: `${import.meta.env.VITE_APP_CMS_URL}/reset`,
       cmsValidation: `${import.meta.env.VITE_APP_CMS_URL}/validate`,
-      cmsNewPass: `${import.meta.env.VITE_APP_CMS_URL}/new-password`,
-      loadingFlag: true,
-      initLoadedFlag: false,
-      appError: false,
       loginPanel: false,
-      resetPasswordPanel: false,
       newPasswordPanel: false,
       loginEmail: "",
       loginPassword: "",
       validationCode: "",
-      inputPasswordOne: "",
-      inputPasswordTwo: "",
       emailErrorMessage:
         "One or more email addresses that you have provided do not appear to have a correct format.",
       passwordErrorMessage:
         "Your email or password was not correct, please try again.",
-      twoPasswordsErrorMessage:
-        "You must enter the same password twice to confirm your new password.",
       emailReg:
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
       extraFields: {
@@ -68,36 +89,6 @@ export default {
   },
 
   methods: {
-    getCmsData(urlEndpoint, options) {
-      return new Promise((resolve, reject) => {
-        var requestOptions = {
-          method: "GET",
-          headers: {
-            Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
-          },
-          redirect: "follow",
-        };
-
-        fetch(urlEndpoint + (options ? "?" + options : ""), requestOptions)
-          .then((response) => {
-            if (!response.ok) throw new Error();
-            return response.json();
-          })
-          .then((result) => {
-            // console.log(result);
-            resolve(result);
-          })
-          .catch((error) => {
-            // console.log(error);
-
-            this.loadingFlag = false;
-            this.initLoadedFlag = false;
-            this.appError = true;
-            reject(error);
-          });
-      });
-    },
-
     setLocalStorage(name, value, ttl) {
       const now = new Date();
       const item = {
@@ -151,43 +142,23 @@ export default {
       }
 
       if (isPasswordSwitch) {
-        this.newPasswordSwitch();
+        this.loginPanel = false;
+        this.newPasswordPanel = true;
       } else if (!this.getLocalStorage("simple-cms-login")) {
-        this.loginSwitch();
+        this.loginPanel = true;
+        this.newPasswordPanel = false;
+
+        const urlWithoutQueryString = window.location.href.split("?")[0];
+        history.replaceState({}, document.title, urlWithoutQueryString);
+        this.extraFields.pageuri = urlWithoutQueryString;
       }
     },
 
-    loginSwitch() {
-      this.panel = "login";
-      this.$router.push({
-        path: this.$route.path,
-      });
-
-      // const urlWithoutQueryString = window.location.href.split("?")[0];
-      // history.replaceState({}, document.title, urlWithoutQueryString);
-      // this.extraFields.pageuri = urlWithoutQueryString;
-    },
-
-    resetPasswordSwitch() {
-      this.panel = "resetPassword";
-      this.$router.push({
-        path: this.$route.path,
-      });
-
-      // const urlWithoutQueryString = window.location.href.split("?")[0];
-      // history.replaceState({}, document.title, urlWithoutQueryString);
-      // this.extraFields.pageuri = urlWithoutQueryString;
-    },
-
-    newPasswordSwitch() {
-      this.loginPanel = false;
-      this.resetPasswordPanel = false;
-      this.newPasswordPanel = true;
-    },
-
     loginForm(event) {
-      const successMessage = this.getSuccessElement(event);
-      const errorMessage = this.getErrorElement(event);
+      const successMessage =
+        event.target.parentElement.getElementsByClassName("success-message")[0];
+      const errorMessage =
+        event.target.parentElement.getElementsByClassName("error-message")[0];
       const submitterBak = event.submitter.value;
       event.submitter.value = event.submitter.dataset.wait;
 
@@ -231,114 +202,6 @@ export default {
             errorMessage.style.display = "block";
             event.submitter.value = submitterBak;
           });
-      }
-    },
-
-    resetPasswordForm(event) {
-      const successMessage = this.getSuccessElement(event);
-      const errorMessage = this.getErrorElement(event);
-      const submitterBak = event.submitter.value;
-      event.submitter.value = event.submitter.dataset.wait;
-
-      if (this.requiredFields(event.target.parentElement)) {
-        fetch(this.cmsReset, {
-          method: "POST",
-          body: JSON.stringify({
-            email: this.loginEmail,
-            pageuri: window.location.href,
-          }),
-        })
-          .then((response) => {
-            if (!response.ok) throw new Error();
-            return response.json();
-          })
-          .then((result) => {
-            // console.log("success", result);
-
-            if (result.status === "ok") {
-              event.target.style.display = "none";
-              successMessage.style.display = "block";
-
-              // location.reload();
-            } else {
-              this.triggerErrorMessage(errorMessage, this.passwordErrorMessage);
-              event.submitter.value = submitterBak;
-            }
-          })
-          .catch((error) => {
-            // console.log("error");
-
-            errorMessage.style.display = "block";
-            event.submitter.value = submitterBak;
-          });
-      }
-    },
-
-    newPasswordForm(event) {
-      const successMessage = this.getSuccessElement(event);
-      const errorMessage = this.getErrorElement(event);
-      const submitterBak = event.submitter.value;
-      event.submitter.value = event.submitter.dataset.wait;
-
-      if (!this.isPasswordSameTwice()) {
-        this.triggerErrorMessage(errorMessage, this.twoPasswordsErrorMessage);
-        return;
-      }
-
-      if (this.requiredFields(event.target.parentElement)) {
-        fetch(this.cmsNewPass, {
-          method: "POST",
-          body: JSON.stringify({
-            password: this.inputPasswordOne,
-            validation: this.validationCode,
-          }),
-        })
-          .then((response) => {
-            if (!response.ok) throw new Error();
-            return response.json();
-          })
-          .then((result) => {
-            // console.log("success", result);
-
-            if (result.status === "ok") {
-              event.target.style.display = "none";
-              successMessage.style.display = "block";
-
-              window.location.href = window.location.href.split("?")[0];
-              setTimeout(() => {
-                location.reload();
-              }, 1000);
-            } else {
-              this.triggerErrorMessage(errorMessage, this.passwordErrorMessage);
-              event.submitter.value = submitterBak;
-            }
-          })
-          .catch((error) => {
-            // console.log("error");
-
-            errorMessage.style.display = "block";
-            event.submitter.value = submitterBak;
-          });
-      }
-    },
-
-    getSuccessElement(event) {
-      return event.target.parentElement.getElementsByClassName(
-        "success-message",
-      )[0];
-    },
-
-    getErrorElement(event) {
-      return event.target.parentElement.getElementsByClassName(
-        "error-message",
-      )[0];
-    },
-
-    isPasswordSameTwice() {
-      if (this.inputPasswordOne === this.inputPasswordTwo) {
-        return true;
-      } else {
-        return false;
       }
     },
 
