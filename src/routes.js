@@ -53,6 +53,12 @@ export default () =>
         props: true,
       },
       {
+        path: "/admin",
+        name: "Admin",
+        component: () => import("./pages/Admin.vue"),
+        props: true,
+      },
+      {
         path: "/:pathMatch(.*)*",
         name: "NotFound",
         component: () => import("./pages/NotFound.vue"),
