@@ -2,7 +2,7 @@
 import SplitContentSection from "../components/SplitContentSection.vue";
 import ContactBlock from "../components/ContactBlock.vue";
 import Contact from "../components/Contact.vue";
-import imageContact from "../../public/assets/militar-telefon.jpg";
+import imageContact from "../assets/militar-telefon.jpg";
 </script>
 
 <template>

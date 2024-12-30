@@ -1,12 +1,12 @@
 <script setup>
 import Header from "../components/Header.vue";
 import News from "../components/News.vue";
-// import headerImage from "../../public/assets/pexels-henkephotoart-29662829.jpg";
+import headerImage from "../assets/pexels-henkephotoart-29662829.jpg";
 </script>
 
 <template>
   <Header
-    image="../../public/assets/pexels-henkephotoart-29662829.jpg"
+    :image="headerImage"
     title="Borås Hemvärnsförening"
     button-text-one="Bokningar"
     button-link-one="/bokningar"
@@ -43,7 +43,7 @@ export default {
       },
       {
         property: "og:image",
-        content: "../../public/assets/pexels-henkephotoart-29662829.jpg",
+        content: headerImage,
       },
     ],
   },

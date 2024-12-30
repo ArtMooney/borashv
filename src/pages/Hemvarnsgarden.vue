@@ -1,11 +1,11 @@
 <script setup>
 import SplitContentSection from "../components/SplitContentSection.vue";
 import Header from "../components/Header.vue";
-import headerImage from "../../public/assets/skog.jpg";
-import imageToday1 from "../../public/assets/Hemvarnsgarden-1024x768.jpg";
-import imageToday2 from "../../public/assets/matt-palmer-3IQMPV6NgyM-unsplash.jpg";
-import imageThen1 from "../../public/assets/jay-heike-Fc-0gi4YylM-unsplash.jpg";
-import imageThen2 from "../../public/assets/prometheus-Kac21UkYfbA-unsplash.jpg";
+import headerImage from "../assets/skog.jpg";
+import imageToday1 from "../assets/Hemvarnsgarden-1024x768.jpg";
+import imageToday2 from "../assets/matt-palmer-3IQMPV6NgyM-unsplash.jpg";
+import imageThen1 from "../assets/jay-heike-Fc-0gi4YylM-unsplash.jpg";
+import imageThen2 from "../assets/prometheus-Kac21UkYfbA-unsplash.jpg";
 </script>
 
 <template>
