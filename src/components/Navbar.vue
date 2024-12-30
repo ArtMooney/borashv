@@ -4,7 +4,7 @@ import NavbarDropdown from "../components/NavbarDropdown.vue";
 import sandwich from "../assets/burger-menu.json";
 import Button from "../elements/Button.vue";
 import ResponsiveImage from "../components/ResponsiveImage.vue";
-import imageLogo from "../assets/borashv-logo-1000px.png";
+import imageLogo from "/images/borashv-logo-1000px.png";
 </script>
 
 <template>

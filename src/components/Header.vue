@@ -77,7 +77,7 @@ import ResponsiveImage from "../components/ResponsiveImage.vue";
 
 <script>
 export default {
-  name: "Hero",
+  name: "Header",
 
   props: {
     image: {
