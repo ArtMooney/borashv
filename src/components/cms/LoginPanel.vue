@@ -34,7 +34,8 @@ import Input from "../../elements/Input.vue";
         hash=""
         type="submit"
         data-wait="Please wait..."
-        class="mt-4 bg-[#548b63] text-white hover:bg-[#6bad7d]"
+        styling="#548b63"
+        class="mt-4 text-white hover:bg-[#6bad7d]"
       />
 
       <div
@@ -59,33 +60,16 @@ export default {
   data() {
     return {
       cmsLogin: `${import.meta.env.VITE_APP_CMS_URL}/login`,
-      cmsValidation: `${import.meta.env.VITE_APP_CMS_URL}/validate`,
       loginPanel: false,
-      newPasswordPanel: false,
       loginEmail: "",
       loginPassword: "",
-      validationCode: "",
       emailErrorMessage:
         "One or more email addresses that you have provided do not appear to have a correct format.",
       passwordErrorMessage:
         "Your email or password was not correct, please try again.",
       emailReg:
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
-      extraFields: {
-        clientip: "",
-        pageuri: window.location.href,
-        pagename: document.title,
-        amex: "",
-      },
     };
-  },
-
-  async created() {
-    this.loginHandler();
-
-    const res = await fetch("https://api.ipify.org?format=json");
-    const ip = await res.json();
-    this.extraFields.clientip = ip.ip;
   },
 
   methods: {
@@ -117,41 +101,6 @@ export default {
 
     deleteLocalStorage(name) {
       localStorage.removeItem(name);
-    },
-
-    async loginHandler() {
-      const hrefCheck = window.location.href.split("?");
-      let isPasswordSwitch = false;
-
-      if (hrefCheck.length > 1) {
-        const varCheck = hrefCheck[1].split("=");
-
-        if (varCheck[0] === "validation" && varCheck[1]) {
-          const verification = await fetch(this.cmsValidation, {
-            method: "POST",
-            body: JSON.stringify({
-              validation: varCheck[1],
-            }),
-          }).then((response) => response.json());
-
-          if (verification.status === "ok") {
-            isPasswordSwitch = true;
-            this.validationCode = varCheck[1];
-          }
-        }
-      }
-
-      if (isPasswordSwitch) {
-        this.loginPanel = false;
-        this.newPasswordPanel = true;
-      } else if (!this.getLocalStorage("simple-cms-login")) {
-        this.loginPanel = true;
-        this.newPasswordPanel = false;
-
-        const urlWithoutQueryString = window.location.href.split("?")[0];
-        history.replaceState({}, document.title, urlWithoutQueryString);
-        this.extraFields.pageuri = urlWithoutQueryString;
-      }
     },
 
     loginForm(event) {

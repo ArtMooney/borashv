@@ -14,7 +14,10 @@ import NewPasswordPanel from "./NewPasswordPanel.vue";
       v-if="panel === 'resetPassword'"
       @loginSwitch="loginSwitch"
     />
-    <!--    <NewPasswordPanel v-show="newPasswordPanel" />-->
+    <NewPasswordPanel
+      v-if="panel === 'newPassword'"
+      @loginSwitch="loginSwitch"
+    />
   </div>
 </template>
 
@@ -60,7 +63,7 @@ export default {
   },
 
   async created() {
-    this.loginHandler();
+    // this.loginHandler();
 
     const res = await fetch("https://api.ipify.org?format=json");
     const ip = await res.json();

@@ -40,7 +40,8 @@ import Input from "../../elements/Input.vue";
         hash=""
         type="submit"
         data-wait="Please wait..."
-        class="mt-4 bg-[#548b63] text-white hover:bg-[#6bad7d]"
+        styling="#548b63"
+        class="mt-4 text-white hover:bg-[#6bad7d]"
       />
 
       <div
@@ -63,21 +64,7 @@ export default {
 
   data() {
     return {
-      panel: "login",
-      userName: "FrameCore",
-      userPass: "CMS-development",
-      cmsLogin: `${import.meta.env.VITE_APP_CMS_URL}/login`,
-      cmsReset: `${import.meta.env.VITE_APP_CMS_URL}/reset`,
-      cmsValidation: `${import.meta.env.VITE_APP_CMS_URL}/validate`,
       cmsNewPass: `${import.meta.env.VITE_APP_CMS_URL}/new-password`,
-      loadingFlag: true,
-      initLoadedFlag: false,
-      appError: false,
-      loginPanel: false,
-      resetPasswordPanel: false,
-      newPasswordPanel: false,
-      loginEmail: "",
-      loginPassword: "",
       validationCode: "",
       inputPasswordOne: "",
       inputPasswordTwo: "",
@@ -89,12 +76,6 @@ export default {
         "You must enter the same password twice to confirm your new password.",
       emailReg:
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
-      extraFields: {
-        clientip: "",
-        pageuri: window.location.href,
-        pagename: document.title,
-        amex: "",
-      },
     };
   },
 

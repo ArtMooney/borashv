@@ -1,9 +1,13 @@
 <template>
   <button
     @click="$router.push({ path: link, hash: hash })"
-    class="min-w-40 rounded px-6 py-3 text-center font-gunplay text-sm uppercase text-black no-underline duration-500 ease-in-out hover:scale-105"
+    class="min-w-40 rounded px-6 py-3 text-center font-gunplay text-sm uppercase text-black no-underline duration-200 hover:scale-[1.02]"
     :class="[
-      styling === 'dark' ? 'bg-[#5e5e5e] text-white' : 'bg-white/95',
+      styling === 'dark'
+        ? 'bg-[#5e5e5e] text-white'
+        : styling === 'light'
+          ? 'bg-white/95'
+          : `bg-[${styling}]`,
       outline
         ? styling === 'dark'
           ? 'border-2 border-white'
@@ -12,6 +16,7 @@
     ]"
     :type="type"
     :data-wait="dataWait"
+    text=""
   >
     {{ text }}
   </button>
