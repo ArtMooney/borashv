@@ -5,7 +5,7 @@ import NewPasswordPanel from "./NewPasswordPanel.vue";
 </script>
 
 <template>
-  <div>
+  <div class="py-32">
     <LoginPanel
       v-if="panel === 'login'"
       @resetPasswordPanel="resetPasswordSwitch"

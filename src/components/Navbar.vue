@@ -94,7 +94,6 @@ import imageLogo from "/images/borashv-logo-1000px.png";
         link="/kontakta-oss"
         type="button"
         data-wait=""
-        styling="outline"
         @click="toggleNavbar"
       />
     </div>

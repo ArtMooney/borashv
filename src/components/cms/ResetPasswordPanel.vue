@@ -4,7 +4,7 @@ import Input from "../../elements/Input.vue";
 </script>
 
 <template>
-  <div class="flex justify-center px-4 py-12 md:px-8">
+  <div class="flex flex-col items-center px-4 py-12 md:px-8">
     <form
       @submit.prevent
       class="grid w-full gap-2 sm:w-2/3 md:w-1/2"
@@ -37,12 +37,17 @@ import Input from "../../elements/Input.vue";
         Know your password?
       </div>
     </form>
-    <div class="success-message w-form-done">
-      An email has been sent to your registered email address with a link to
-      reset your password.
-    </div>
-    <div class="error-message text-s w-form-fail">
-      Oops! Something went wrong when sending the reset link.
+
+    <!--    <div class="success-message w-form-done">-->
+    <!--      An email has been sent to your registered email address with a link to-->
+    <!--      reset your password.-->
+    <!--    </div>-->
+    <!--    <div class="error-message text-s w-form-fail">-->
+    <!--      Oops! Something went wrong when sending the reset link.-->
+    <!--    </div>-->
+
+    <div class="mt-12 w-full bg-[#a38373] p-4 text-black sm:w-2/3 md:w-1/2">
+      {{ errorMessage }}
     </div>
   </div>
 </template>
@@ -62,6 +67,8 @@ export default {
         "Your email or password was not correct, please try again.",
       emailReg:
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
+      errorMessage:
+        "An email has been sent to your registered email address with a link to reset your password.",
     };
   },
 
