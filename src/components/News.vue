@@ -47,7 +47,7 @@ import ResponsiveImage from "../components/ResponsiveImage.vue";
             link="/contact"
             type="button"
             data-wait=""
-            styling="outline"
+            styling="dark"
           />
         </div>
       </div>
