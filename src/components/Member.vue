@@ -70,7 +70,7 @@ import { formCollector } from "../js/formCollector.js";
           placeholder-text="clientip"
           :required="false"
           label-text=""
-          :value="extraFields.clientip"
+          v-model="extraFields.clientip"
         />
 
         <Input
@@ -79,7 +79,7 @@ import { formCollector } from "../js/formCollector.js";
           placeholder-text="pageuri"
           :required="false"
           label-text=""
-          :value="extraFields.pageuri"
+          v-model="extraFields.pageuri"
         />
 
         <Input
@@ -88,7 +88,7 @@ import { formCollector } from "../js/formCollector.js";
           placeholder-text="pagename"
           :required="false"
           label-text=""
-          :value="extraFields.pagename"
+          v-model="extraFields.pagename"
         />
 
         <Input
@@ -97,7 +97,7 @@ import { formCollector } from "../js/formCollector.js";
           placeholder-text="amex"
           :required="false"
           label-text=""
-          :value="extraFields.amex"
+          v-model="extraFields.amex"
         />
       </div>
 

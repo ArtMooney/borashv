@@ -33,7 +33,7 @@ import Input from "../elements/Input.vue";
             type="text"
             placeholder-text="clientip"
             :required="false"
-            :value="extraFields.clientip"
+            v-model="extraFields.clientip"
           />
 
           <Input
@@ -41,7 +41,7 @@ import Input from "../elements/Input.vue";
             type="text"
             placeholder-text="pageuri"
             :required="false"
-            :value="extraFields.pageuri"
+            v-model="extraFields.pageuri"
           />
 
           <Input
@@ -49,7 +49,7 @@ import Input from "../elements/Input.vue";
             type="text"
             placeholder-text="pagename"
             :required="false"
-            :value="extraFields.pagename"
+            v-model="extraFields.pagename"
           />
 
           <Input
@@ -57,7 +57,7 @@ import Input from "../elements/Input.vue";
             type="text"
             placeholder-text="amex"
             :required="false"
-            :value="extraFields.amex"
+            v-model="extraFields.amex"
           />
         </div>
 

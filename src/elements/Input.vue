@@ -12,7 +12,8 @@
       :type="type"
       :placeholder="placeholderText"
       :required="required"
-      :value="value"
+      :value="modelValue"
+      @input="$emit('updateValue', $event.target.value)"
     />
 
     <textarea
@@ -22,7 +23,8 @@
       :name="name"
       :placeholder="placeholderText"
       :required="required"
-      :value="value"
+      :value="modelValue"
+      @input="$emit('updateValue', $event.target.value)"
     ></textarea>
   </div>
 </template>
@@ -54,10 +56,12 @@ export default {
       type: String,
       required: false,
     },
-    value: {
+    modelValue: {
       type: String,
       required: false,
     },
   },
+
+  emits: ["updateValue"],
 };
 </script>
