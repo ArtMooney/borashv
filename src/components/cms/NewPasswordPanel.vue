@@ -41,7 +41,7 @@ import Input from "../../elements/Input.vue";
         type="submit"
         data-wait="Please wait..."
         styling="#548b63"
-        class="mt-4 text-white hover:bg-[#6bad7d]"
+        class="mt-4 !bg-[#548b63] text-white hover:!bg-[#6bad7d]"
       />
 
       <div
