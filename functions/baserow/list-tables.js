@@ -19,7 +19,7 @@ export async function listTables(username, password, database_id) {
       );
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        return { error: `HTTP error! status: ${response.status}` };
       }
 
       return await response.json();
@@ -27,7 +27,7 @@ export async function listTables(username, password, database_id) {
       if (attempt < 3) {
         await new Promise((resolve) => setTimeout(resolve, 1000));
       } else {
-        return null;
+        return { error: `Network error: ${error.message}` };
       }
     }
   }
