@@ -34,7 +34,7 @@ export const onRequestPost = async ({ request, env, ctx }) => {
 
   const user = await listRows(env.BASEROW_BACKEND_TOKEN, userId, body.email);
 
-  if (user.results[0].password !== body.password) {
+  if (user.results.length === 0 || user.results[0].password !== body.password) {
     return new Response(JSON.stringify("error"), { headers: corsHeaders });
   }
 
