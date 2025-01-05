@@ -11,8 +11,8 @@ import Loader from "../components/cms/Loader.vue";
       @status="handleLoginStatus"
       class="mx-auto w-full max-w-screen-xl"
     />
-    <Cms v-if="cmsFlag" @initLoadedFlag="handleInitLoaded" />
-    <Loader v-if="loaderFlag" />
+    <!--    <Cms v-if="cmsFlag" @initLoadedFlag="handleInitLoaded" />-->
+    <!--    <Loader v-if="loaderFlag" />-->
   </div>
 </template>
 

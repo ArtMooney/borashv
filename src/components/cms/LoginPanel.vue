@@ -1,6 +1,8 @@
 <script setup>
 import Button from "../../elements/Button.vue";
 import Input from "../../elements/Input.vue";
+import { requiredFields } from "../../js/requiredFields.js";
+import { emailValidator } from "../../js/emailValidator.js";
 </script>
 
 <template>
@@ -14,6 +16,7 @@ import Input from "../../elements/Input.vue";
 
       <Input
         v-model="loginEmail"
+        @updateValue="loginEmail = $event"
         name="email"
         type="email"
         placeholder-text="Enter email address"
@@ -22,6 +25,7 @@ import Input from "../../elements/Input.vue";
 
       <Input
         v-model="loginPassword"
+        @updateValue="loginPassword = $event"
         name="password"
         type="password"
         placeholder-text="Enter password"
@@ -29,7 +33,7 @@ import Input from "../../elements/Input.vue";
 
       <Button
         @click="loginForm"
-        text="Login"
+        :text="buttonText"
         link=""
         hash=""
         type="submit"
@@ -39,19 +43,17 @@ import Input from "../../elements/Input.vue";
 
       <div
         @click="$emit('resetPasswordPanel')"
-        class="cursor-pointer text-sm underline hover:text-white/75"
+        class="flex cursor-pointer justify-self-start text-sm underline hover:text-white/75"
       >
         Forgot your password?
       </div>
     </form>
 
-    <!--    <div class="success-message w-form-done"></div>-->
-    <!--    <div class="error-message text-s w-form-fail">-->
-    <!--      An error occurred while sending the email.-->
-    <!--    </div>-->
-
-    <div class="mt-12 w-full bg-[#a38373] p-4 text-black sm:w-2/3 md:w-1/2">
-      {{ errorMessage }}
+    <div
+      v-if="showStatusMessage"
+      class="mt-12 w-full bg-[#a38373] p-4 text-base text-black sm:w-2/3 md:w-1/2"
+    >
+      {{ statusMessage }}
     </div>
   </div>
 </template>
@@ -62,18 +64,13 @@ export default {
 
   data() {
     return {
-      cmsLogin: `${import.meta.env.VITE_APP_CMS_URL}/login`,
-      loginPanel: false,
+      userName: `${import.meta.env.VITE_USERNAME}`,
+      userPass: `${import.meta.env.VITE_USERPASS}`,
       loginEmail: "",
       loginPassword: "",
-      emailErrorMessage:
-        "One or more email addresses that you have provided do not appear to have a correct format.",
-      passwordErrorMessage:
-        "Your email or password was not correct, please try again.",
-      emailReg:
-        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
-      errorMessage:
-        "One or more email addresses that you have provided do not appear to have a correct format.",
+      showStatusMessage: false,
+      statusMessage: "",
+      buttonText: "Login",
     };
   },
 
@@ -87,147 +84,70 @@ export default {
       localStorage.setItem(name, JSON.stringify(item));
     },
 
-    getLocalStorage(name) {
-      const itemStr = localStorage.getItem(name);
+    async loginForm(event) {
+      if (!emailValidator(event.target.parentElement)) {
+        this.statusMessage =
+          "One or more email addresses that you have provided do not appear to have a correct format.";
+        this.showStatusMessage = true;
 
-      if (!itemStr) {
-        return null;
+        this.clearErrorWhenClicked();
       }
 
-      const item = JSON.parse(itemStr);
-      const now = new Date();
+      if (
+        requiredFields(event.target.parentElement) &&
+        emailValidator(event.target.parentElement)
+      ) {
+        const savedText = this.buttonText;
+        this.buttonText = event.target.dataset.wait;
 
-      if (now.getTime() > item.expiry) {
-        localStorage.removeItem(name);
-        return null;
-      }
-      return item.value;
-    },
-
-    deleteLocalStorage(name) {
-      localStorage.removeItem(name);
-    },
-
-    loginForm(event) {
-      const successMessage =
-        event.target.parentElement.getElementsByClassName("success-message")[0];
-      const errorMessage =
-        event.target.parentElement.getElementsByClassName("error-message")[0];
-      const submitterBak = event.submitter.value;
-      event.submitter.value = event.submitter.dataset.wait;
-
-      if (this.requiredFields(event.target.parentElement)) {
-        fetch(this.cmsLogin, {
+        const res = await fetch("/login", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
-            Authorization:
-              "Basic " + btoa(`${this.loginEmail}:${this.loginPassword}`),
+            Authorization: "Basic " + btoa(`${this.userName}:${this.userPass}`),
           },
-        })
-          .then((response) => {
-            if (!response.ok) throw new Error();
-            return response.json();
-          })
-          .then((result) => {
-            // console.log("success", result);
+          body: JSON.stringify({
+            email: this.loginEmail,
+            password: this.loginPassword,
+          }),
+        });
 
-            if (result.status === "ok") {
-              event.target.style.display = "none";
-              successMessage.style.display = "block";
+        const jsonResponse = await res.json();
 
-              this.setLocalStorage(
-                "simple-cms-login",
-                { email: this.loginEmail, password: this.loginPassword },
-                1000 * 60 * 43200,
-              );
+        if (jsonResponse === "ok") {
+          this.showStatusMessage = false;
 
-              this.loginPanel = false;
-              this.$emit("status", "ok");
-            } else {
-              this.triggerErrorMessage(errorMessage, this.passwordErrorMessage);
-              this.$emit("status", "error");
-              event.submitter.value = submitterBak;
-            }
-          })
-          .catch((error) => {
-            // console.log("error");
+          this.setLocalStorage(
+            "simple-cms-login",
+            { email: this.loginEmail, password: this.loginPassword },
+            1000 * 60 * 43200,
+          );
 
-            errorMessage.style.display = "block";
-            event.submitter.value = submitterBak;
-          });
+          this.buttonText = savedText;
+          this.$emit("status", "ok");
+        } else if (jsonResponse === "error") {
+          this.statusMessage =
+            "Your email or password was not correct, please try again.";
+          this.showStatusMessage = true;
+          this.buttonText = savedText;
+
+          this.clearErrorWhenClicked();
+        } else {
+          this.statusMessage =
+            "Something went wrong while logging in, please try again.";
+          this.showStatusMessage = true;
+          this.buttonText = savedText;
+
+          this.clearErrorWhenClicked();
+        }
       }
     },
 
-    requiredFields(form) {
-      const inputs = form.querySelectorAll("input");
-      const textareas = form.querySelectorAll("textarea");
-      const selectors = form.querySelectorAll("select");
-      let requiredFilled = true;
-      let emailVerificationError = false;
-      let radioButtonNames = [];
-
-      // check inputs
-      for (const input of inputs) {
-        if (input.required) {
-          if (!input.value) requiredFilled = false;
-          if (input.type === "checkbox" && !input.checked)
-            requiredFilled = false;
-          if (input.type === "radio") radioButtonNames.push(input.dataset.name); // push to list with radiobutton groups
-          if (input.type === "email" && !this.emailReg.test(input.value)) {
-            requiredFilled = false;
-            emailVerificationError = true;
-          }
-        }
-      }
-
-      // handle radiobuttons
-      radioButtonNames = [...new Set(radioButtonNames)]; // removes duplicates
-
-      for (const name of radioButtonNames) {
-        let radioButtonCleared = 0;
-        for (const input of inputs) {
-          if (input.type === "radio" && input.dataset.name === name) {
-            if (input.checked) radioButtonCleared++;
-          }
-        }
-        if (!radioButtonCleared) requiredFilled = false;
-      }
-
-      // check textareas
-      for (const input of textareas) {
-        if (input.required) {
-          if (!input.value) requiredFilled = false;
-        }
-      }
-
-      // check selectors
-      for (const input of selectors) {
-        if (input.required) {
-          if (!input.value) requiredFilled = false;
-        }
-      }
-
-      if (emailVerificationError)
-        this.triggerErrorMessage(
-          form.parentElement.getElementsByClassName("error-message")[0],
-          this.emailErrorMessage,
-        );
-
-      return requiredFilled;
-    },
-
-    triggerErrorMessage(errorMessage, message) {
-      const savedErrorMessage = errorMessage.innerText;
-      errorMessage.innerText = message;
-      errorMessage.style.display = "block";
-
+    clearErrorWhenClicked() {
       setTimeout(() => {
         window.addEventListener(
           "click",
           () => {
-            errorMessage.style.display = "none";
-            errorMessage.innerText = savedErrorMessage;
+            this.showStatusMessage = false;
           },
           { once: true },
         );

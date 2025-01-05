@@ -46,7 +46,7 @@ import Input from "../../elements/Input.vue";
 
       <div
         @click="$emit('loginSwitch')"
-        class="cursor-pointer text-sm underline hover:text-white/75"
+        class="flex cursor-pointer justify-self-start text-sm underline hover:text-white/75"
       >
         Know your password?
       </div>
@@ -57,8 +57,11 @@ import Input from "../../elements/Input.vue";
     <!--      Oops! Something went wrong while resetting the password.-->
     <!--    </div>-->
 
-    <div class="mt-12 w-full bg-[#a38373] p-4 text-black sm:w-2/3 md:w-1/2">
-      {{ errorMessage }}
+    <div
+      v-if="showStatusMessage"
+      class="mt-12 w-full bg-[#a38373] p-4 text-base text-black sm:w-2/3 md:w-1/2"
+    >
+      {{ statusMessage }}
     </div>
   </div>
 </template>
@@ -81,7 +84,8 @@ export default {
         "You must enter the same password twice to confirm your new password.",
       emailReg:
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
-      errorMessage: "Oops! Something went wrong while resetting the password.",
+      showStatusMessage: true,
+      statusMessage: "Oops! Something went wrong while resetting the password.",
     };
   },
 
