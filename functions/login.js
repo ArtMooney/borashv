@@ -26,13 +26,19 @@ export const onRequestPost = async ({ request, env, ctx }) => {
     env.BASEROW_DB_ID,
   );
 
-  const userId = schemas.find((schema) => schema.name === "CMS users")?.id;
+  const usersTableId = schemas.find(
+    (schema) => schema.name === "CMS users",
+  )?.id;
 
-  if (!userId) {
+  if (!usersTableId) {
     return new Response(JSON.stringify("error"), { headers: corsHeaders });
   }
 
-  const user = await listRows(env.BASEROW_BACKEND_TOKEN, userId, body.email);
+  const user = await listRows(
+    env.BASEROW_BACKEND_TOKEN,
+    usersTableId,
+    body.email,
+  );
 
   if (user.results.length === 0 || user.results[0].password !== body.password) {
     return new Response(JSON.stringify("error"), { headers: corsHeaders });

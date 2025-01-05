@@ -30,13 +30,15 @@ export const onRequestPost = async ({ request, env, ctx }) => {
     env.BASEROW_DB_ID,
   );
 
-  const userId = schemas.find((schema) => schema.name === "CMS users")?.id;
+  const usersTableId = schemas.find(
+    (schema) => schema.name === "CMS users",
+  )?.id;
 
-  if (!userId) {
+  if (!usersTableId) {
     return new Response(JSON.stringify("error"), { headers: corsHeaders });
   }
 
-  const users = await listRows(env.BASEROW_BACKEND_TOKEN, userId); // need to compare id's
+  const users = await listRows(env.BASEROW_BACKEND_TOKEN, usersTableId); // needed to compare id's
   const user = users.results.find((user) => user.email === body.email);
 
   if (!user) {
@@ -46,7 +48,7 @@ export const onRequestPost = async ({ request, env, ctx }) => {
   user["reset-id"] = generateUserId(users);
   const saveUser = await updateRow(
     env.BASEROW_BACKEND_TOKEN,
-    userId,
+    usersTableId,
     user.id,
     user,
   );
@@ -62,6 +64,6 @@ export const onRequestPost = async ({ request, env, ctx }) => {
     await messageEmailReset(body.pageuri, user["reset-id"]),
     env.MAILGUN_API_KEY,
   );
-  
+
   return new Response(JSON.stringify("ok"), { headers: corsHeaders });
 };
