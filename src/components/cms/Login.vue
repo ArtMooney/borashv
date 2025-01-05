@@ -18,6 +18,7 @@ import LoadingSpinner from "../LoadingSpinner.vue";
     />
     <NewPasswordPanel
       v-if="panel === 'newPassword'"
+      :validation="validationCode"
       @loginSwitch="loginSwitch"
     />
     <LoadingSpinner v-if="panel === 'loading'" class="justify-self-center" />

@@ -1,6 +1,7 @@
 <script setup>
 import Button from "../../elements/Button.vue";
 import Input from "../../elements/Input.vue";
+import { requiredFields } from "../../js/requiredFields.js";
 </script>
 
 <template>
@@ -18,6 +19,7 @@ import Input from "../../elements/Input.vue";
         name="password"
         type="password"
         placeholder-text="Enter new password"
+        :required="true"
       />
 
       <Input
@@ -26,19 +28,12 @@ import Input from "../../elements/Input.vue";
         name="password2"
         type="password"
         placeholder-text="Enter new password again"
-      />
-
-      <Input
-        v-model="validationCode"
-        @updateValue="validationCode = $event"
-        name="validation"
-        type="text"
-        class="hidden"
+        :required="true"
       />
 
       <Button
         @click="newPasswordForm"
-        text="Change password"
+        :text="buttonText"
         link=""
         hash=""
         type="submit"
@@ -55,11 +50,6 @@ import Input from "../../elements/Input.vue";
       </div>
     </form>
 
-    <!--    <div class="success-message w-form-done"></div>-->
-    <!--    <div class="error-message text-s w-form-fail">-->
-    <!--      Oops! Something went wrong while resetting the password.-->
-    <!--    </div>-->
-
     <div
       v-if="showStatusMessage"
       class="mt-12 w-full bg-[#a38373] p-4 text-base text-black sm:w-2/3 md:w-1/2"
@@ -73,153 +63,88 @@ import Input from "../../elements/Input.vue";
 export default {
   name: "NewPasswordPanel",
 
+  props: {
+    validation: {
+      type: String,
+      required: false,
+      default: "",
+    },
+  },
+
   data() {
     return {
-      cmsNewPass: `${import.meta.env.VITE_APP_CMS_URL}/new-password`,
-      validationCode: "",
+      userName: `${import.meta.env.VITE_USERNAME}`,
+      userPass: `${import.meta.env.VITE_USERPASS}`,
       inputPasswordOne: "",
       inputPasswordTwo: "",
-      emailErrorMessage:
-        "One or more email addresses that you have provided do not appear to have a correct format.",
-      passwordErrorMessage:
-        "Your email or password was not correct, please try again.",
-      twoPasswordsErrorMessage:
-        "You must enter the same password twice to confirm your new password.",
-      emailReg:
-        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
-      showStatusMessage: true,
-      statusMessage: "Oops! Something went wrong while resetting the password.",
+      showStatusMessage: false,
+      statusMessage: "",
+      buttonText: "Change password",
     };
   },
 
   methods: {
-    newPasswordForm(event) {
-      const successMessage =
-        event.target.parentElement.getElementsByClassName("success-message")[0];
-      const errorMessage =
-        event.target.parentElement.getElementsByClassName("error-message")[0];
-      const submitterBak = event.submitter.value;
-      event.submitter.value = event.submitter.dataset.wait;
+    async newPasswordForm(event) {
+      if (this.inputPasswordOne !== this.inputPasswordTwo) {
+        this.statusMessage =
+          "You must enter the same password twice to confirm your new password.";
+        this.showStatusMessage = true;
 
-      if (!this.isPasswordSameTwice()) {
-        this.triggerErrorMessage(errorMessage, this.twoPasswordsErrorMessage);
-        return;
+        this.clearErrorWhenClicked();
       }
 
-      if (this.requiredFields(event.target.parentElement)) {
-        fetch(this.cmsNewPass, {
+      if (
+        requiredFields(event.target.parentElement) &&
+        this.inputPasswordOne === this.inputPasswordTwo
+      ) {
+        const savedText = this.buttonText;
+        this.buttonText = event.target.dataset.wait;
+
+        const res = await fetch("/new-password", {
           method: "POST",
+          headers: {
+            Authorization: "Basic " + btoa(`${this.userName}:${this.userPass}`),
+          },
           body: JSON.stringify({
             password: this.inputPasswordOne,
-            validation: this.validationCode,
+            validation: this.validation,
           }),
-        })
-          .then((response) => {
-            if (!response.ok) throw new Error();
-            return response.json();
-          })
-          .then((result) => {
-            // console.log("success", result);
+        });
 
-            if (result.status === "ok") {
-              event.target.style.display = "none";
-              successMessage.style.display = "block";
+        const jsonResponse = await res.json();
 
-              window.location.href = window.location.href.split("?")[0];
-              setTimeout(() => {
-                location.reload();
-              }, 1000);
-            } else {
-              this.triggerErrorMessage(errorMessage, this.passwordErrorMessage);
-              event.submitter.value = submitterBak;
-            }
-          })
-          .catch((error) => {
-            // console.log("error");
+        if (jsonResponse === "ok") {
+          this.statusMessage = "Your password has been successfully changed.";
+          this.showStatusMessage = true;
+          this.buttonText = savedText;
+          this.inputPasswordOne = "";
+          this.inputPasswordTwo = "";
 
-            errorMessage.style.display = "block";
-            event.submitter.value = submitterBak;
-          });
+          this.$emit("status", "ok");
+          this.clearErrorWhenClicked();
+        } else if (jsonResponse) {
+          this.statusMessage = `Error: ${jsonResponse.error}`;
+          this.showStatusMessage = true;
+          this.buttonText = savedText;
+
+          this.clearErrorWhenClicked();
+        } else {
+          this.statusMessage =
+            "Something went wrong while communicating with the server, please try again.";
+          this.showStatusMessage = true;
+          this.buttonText = savedText;
+
+          this.clearErrorWhenClicked();
+        }
       }
     },
 
-    isPasswordSameTwice() {
-      if (this.inputPasswordOne === this.inputPasswordTwo) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-
-    requiredFields(form) {
-      const inputs = form.querySelectorAll("input");
-      const textareas = form.querySelectorAll("textarea");
-      const selectors = form.querySelectorAll("select");
-      let requiredFilled = true;
-      let emailVerificationError = false;
-      let radioButtonNames = [];
-
-      // check inputs
-      for (const input of inputs) {
-        if (input.required) {
-          if (!input.value) requiredFilled = false;
-          if (input.type === "checkbox" && !input.checked)
-            requiredFilled = false;
-          if (input.type === "radio") radioButtonNames.push(input.dataset.name); // push to list with radiobutton groups
-          if (input.type === "email" && !this.emailReg.test(input.value)) {
-            requiredFilled = false;
-            emailVerificationError = true;
-          }
-        }
-      }
-
-      // handle radiobuttons
-      radioButtonNames = [...new Set(radioButtonNames)]; // removes duplicates
-
-      for (const name of radioButtonNames) {
-        let radioButtonCleared = 0;
-        for (const input of inputs) {
-          if (input.type === "radio" && input.dataset.name === name) {
-            if (input.checked) radioButtonCleared++;
-          }
-        }
-        if (!radioButtonCleared) requiredFilled = false;
-      }
-
-      // check textareas
-      for (const input of textareas) {
-        if (input.required) {
-          if (!input.value) requiredFilled = false;
-        }
-      }
-
-      // check selectors
-      for (const input of selectors) {
-        if (input.required) {
-          if (!input.value) requiredFilled = false;
-        }
-      }
-
-      if (emailVerificationError)
-        this.triggerErrorMessage(
-          form.parentElement.getElementsByClassName("error-message")[0],
-          this.emailErrorMessage,
-        );
-
-      return requiredFilled;
-    },
-
-    triggerErrorMessage(errorMessage, message) {
-      const savedErrorMessage = errorMessage.innerText;
-      errorMessage.innerText = message;
-      errorMessage.style.display = "block";
-
+    clearErrorWhenClicked() {
       setTimeout(() => {
         window.addEventListener(
           "click",
           () => {
-            errorMessage.style.display = "none";
-            errorMessage.innerText = savedErrorMessage;
+            this.showStatusMessage = false;
           },
           { once: true },
         );

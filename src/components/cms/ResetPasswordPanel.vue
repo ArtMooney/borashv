@@ -95,7 +95,6 @@ export default {
         });
 
         const jsonResponse = await res.json();
-        console.log("jsonResponse", jsonResponse);
 
         if (jsonResponse === "ok") {
           this.statusMessage =
