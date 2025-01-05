@@ -49,7 +49,6 @@ export const onRequestPost = async ({ request, env, ctx }) => {
       headers: corsHeaders,
     });
   }
-
-  return new Response(JSON.stringify(user), { headers: corsHeaders });
+  
   return new Response(JSON.stringify("ok"), { headers: corsHeaders });
 };
