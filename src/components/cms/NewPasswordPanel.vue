@@ -14,6 +14,7 @@ import Input from "../../elements/Input.vue";
 
       <Input
         v-model="inputPasswordOne"
+        @updateValue="inputPasswordOne = $event"
         name="password"
         type="password"
         placeholder-text="Enter new password"
@@ -21,6 +22,7 @@ import Input from "../../elements/Input.vue";
 
       <Input
         v-model="inputPasswordTwo"
+        @updateValue="inputPasswordTwo = $event"
         name="password2"
         type="password"
         placeholder-text="Enter new password again"
@@ -28,6 +30,7 @@ import Input from "../../elements/Input.vue";
 
       <Input
         v-model="validationCode"
+        @updateValue="validationCode = $event"
         name="validation"
         type="text"
         class="hidden"
