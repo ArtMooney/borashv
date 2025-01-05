@@ -1,6 +1,8 @@
 <script setup>
 import Button from "../../elements/Button.vue";
 import Input from "../../elements/Input.vue";
+import { requiredFields } from "../../js/requiredFields.js";
+import { emailValidator } from "../../js/emailValidator.js";
 </script>
 
 <template>
@@ -14,6 +16,7 @@ import Input from "../../elements/Input.vue";
 
       <Input
         v-model="loginEmail"
+        @updateValue="loginEmail = $event"
         name="email"
         type="email"
         placeholder-text="Enter email address"
@@ -21,7 +24,7 @@ import Input from "../../elements/Input.vue";
 
       <Button
         @click="resetPasswordForm"
-        text="Send password reset link"
+        :text="buttonText"
         link=""
         hash=""
         type="submit"
@@ -38,14 +41,6 @@ import Input from "../../elements/Input.vue";
       </div>
     </form>
 
-    <!--    <div class="success-message w-form-done">-->
-    <!--      An email has been sent to your registered email address with a link to-->
-    <!--      reset your password.-->
-    <!--    </div>-->
-    <!--    <div class="error-message text-s w-form-fail">-->
-    <!--      Oops! Something went wrong when sending the reset link.-->
-    <!--    </div>-->
-
     <div
       v-if="showStatusMessage"
       class="mt-12 w-full bg-[#a38373] p-4 text-base text-black sm:w-2/3 md:w-1/2"
@@ -61,133 +56,80 @@ export default {
 
   data() {
     return {
-      cmsReset: `${import.meta.env.VITE_APP_CMS_URL}/reset`,
+      userName: `${import.meta.env.VITE_USERNAME}`,
+      userPass: `${import.meta.env.VITE_USERPASS}`,
       resetPasswordPanel: false,
       loginEmail: "",
-      emailErrorMessage:
-        "One or more email addresses that you have provided do not appear to have a correct format.",
-      passwordErrorMessage:
-        "Your email or password was not correct, please try again.",
-      emailReg:
-        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
-      showStatusMessage: true,
-      statusMessage:
-        "An email has been sent to your registered email address with a link to reset your password.",
+      showStatusMessage: false,
+      statusMessage: "",
+      buttonText: "Send password reset link",
     };
   },
 
   methods: {
-    resetPasswordForm(event) {
-      const successMessage =
-        event.target.parentElement.getElementsByClassName("success-message")[0];
-      const errorMessage =
-        event.target.parentElement.getElementsByClassName("error-message")[0];
-      const submitterBak = event.submitter.value;
-      event.submitter.value = event.submitter.dataset.wait;
+    async resetPasswordForm(event) {
+      if (!emailValidator(event.target.parentElement)) {
+        this.statusMessage =
+          "One or more email addresses that you have provided do not appear to have a correct format.";
+        this.showStatusMessage = true;
 
-      if (this.requiredFields(event.target.parentElement)) {
-        fetch(this.cmsReset, {
+        this.clearErrorWhenClicked();
+      }
+
+      if (
+        requiredFields(event.target.parentElement) &&
+        emailValidator(event.target.parentElement)
+      ) {
+        const savedText = this.buttonText;
+        this.buttonText = event.target.dataset.wait;
+
+        const res = await fetch("/reset", {
           method: "POST",
+          headers: {
+            Authorization: "Basic " + btoa(`${this.userName}:${this.userPass}`),
+          },
           body: JSON.stringify({
             email: this.loginEmail,
             pageuri: window.location.href,
           }),
-        })
-          .then((response) => {
-            if (!response.ok) throw new Error();
-            return response.json();
-          })
-          .then((result) => {
-            // console.log("success", result);
+        });
 
-            if (result.status === "ok") {
-              event.target.style.display = "none";
-              successMessage.style.display = "block";
+        const jsonResponse = await res.json();
+        console.log("jsonResponse", jsonResponse);
 
-              // location.reload();
-            } else {
-              this.triggerErrorMessage(errorMessage, this.passwordErrorMessage);
-              event.submitter.value = submitterBak;
-            }
-          })
-          .catch((error) => {
-            // console.log("error");
+        if (jsonResponse === "ok") {
+          this.statusMessage =
+            "An email has been sent to your registered email address with a link to reset your password.";
+          this.showStatusMessage = true;
+          this.buttonText = savedText;
 
-            errorMessage.style.display = "block";
-            event.submitter.value = submitterBak;
-          });
+          this.$emit("status", "ok");
+          this.loginEmail = "";
+          this.clearErrorWhenClicked();
+        } else if (jsonResponse === "error") {
+          this.statusMessage =
+            "Your email does not exist in the system, please try again.";
+          this.showStatusMessage = true;
+          this.buttonText = savedText;
+
+          this.clearErrorWhenClicked();
+        } else {
+          this.statusMessage =
+            "Something went wrong while communicating with the server, please try again.";
+          this.showStatusMessage = true;
+          this.buttonText = savedText;
+
+          this.clearErrorWhenClicked();
+        }
       }
     },
 
-    requiredFields(form) {
-      const inputs = form.querySelectorAll("input");
-      const textareas = form.querySelectorAll("textarea");
-      const selectors = form.querySelectorAll("select");
-      let requiredFilled = true;
-      let emailVerificationError = false;
-      let radioButtonNames = [];
-
-      // check inputs
-      for (const input of inputs) {
-        if (input.required) {
-          if (!input.value) requiredFilled = false;
-          if (input.type === "checkbox" && !input.checked)
-            requiredFilled = false;
-          if (input.type === "radio") radioButtonNames.push(input.dataset.name); // push to list with radiobutton groups
-          if (input.type === "email" && !this.emailReg.test(input.value)) {
-            requiredFilled = false;
-            emailVerificationError = true;
-          }
-        }
-      }
-
-      // handle radiobuttons
-      radioButtonNames = [...new Set(radioButtonNames)]; // removes duplicates
-
-      for (const name of radioButtonNames) {
-        let radioButtonCleared = 0;
-        for (const input of inputs) {
-          if (input.type === "radio" && input.dataset.name === name) {
-            if (input.checked) radioButtonCleared++;
-          }
-        }
-        if (!radioButtonCleared) requiredFilled = false;
-      }
-
-      // check textareas
-      for (const input of textareas) {
-        if (input.required) {
-          if (!input.value) requiredFilled = false;
-        }
-      }
-
-      // check selectors
-      for (const input of selectors) {
-        if (input.required) {
-          if (!input.value) requiredFilled = false;
-        }
-      }
-
-      if (emailVerificationError)
-        this.triggerErrorMessage(
-          form.parentElement.getElementsByClassName("error-message")[0],
-          this.emailErrorMessage,
-        );
-
-      return requiredFilled;
-    },
-
-    triggerErrorMessage(errorMessage, message) {
-      const savedErrorMessage = errorMessage.innerText;
-      errorMessage.innerText = message;
-      errorMessage.style.display = "block";
-
+    clearErrorWhenClicked() {
       setTimeout(() => {
         window.addEventListener(
           "click",
           () => {
-            errorMessage.style.display = "none";
-            errorMessage.innerText = savedErrorMessage;
+            this.showStatusMessage = false;
           },
           { once: true },
         );
