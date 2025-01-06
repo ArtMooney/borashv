@@ -116,11 +116,11 @@ export default {
         if (jsonResponse === "ok") {
           this.showStatusMessage = false;
 
-          // this.setLocalStorage(
-          //   "simple-cms-login",
-          //   { email: this.loginEmail, password: this.loginPassword },
-          //   1000 * 60 * 43200,
-          // );
+          this.setLocalStorage(
+            "simple-cms-login",
+            { email: this.loginEmail, password: this.loginPassword },
+            1000 * 60 * 43200,
+          );
 
           this.buttonText = savedText;
           this.$emit("status", "ok");
