@@ -20,25 +20,19 @@ export const onRequestPost = async ({ request, env, ctx }) => {
     return new Response(JSON.stringify("error"), { headers: corsHeaders });
   }
 
-  const schemas = await listTables(
+  const schema = await listTables(
     env.BASEROW_USERNAME,
     env.BASEROW_PASSWORD,
     env.BASEROW_DB_ID,
   );
 
-  const usersTableId = schemas.find(
-    (schema) => schema.name === "CMS users",
-  )?.id;
+  const usersId = schema.find((table) => table.name === "CMS users")?.id;
 
-  if (!usersTableId) {
+  if (!usersId) {
     return new Response(JSON.stringify("error"), { headers: corsHeaders });
   }
 
-  const user = await listRows(
-    env.BASEROW_BACKEND_TOKEN,
-    usersTableId,
-    body.email,
-  );
+  const user = await listRows(env.BASEROW_BACKEND_TOKEN, usersId, body.email);
 
   if (user.results.length === 0 || user.results[0].password !== body.password) {
     return new Response(JSON.stringify("error"), { headers: corsHeaders });

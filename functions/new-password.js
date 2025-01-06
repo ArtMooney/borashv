@@ -25,17 +25,15 @@ export const onRequestPost = async ({ request, env, ctx }) => {
     });
   }
 
-  const schemas = await listTables(
+  const schema = await listTables(
     env.BASEROW_USERNAME,
     env.BASEROW_PASSWORD,
     env.BASEROW_DB_ID,
   );
 
-  const usersTableId = schemas.find(
-    (schema) => schema.name === "CMS users",
-  )?.id;
+  const usersId = schema.find((table) => table.name === "CMS users")?.id;
 
-  if (!usersTableId) {
+  if (!usersId) {
     return new Response(JSON.stringify({ error: "error" }), {
       headers: corsHeaders,
     });
@@ -43,7 +41,7 @@ export const onRequestPost = async ({ request, env, ctx }) => {
 
   const user = await listRows(
     env.BASEROW_BACKEND_TOKEN,
-    usersTableId,
+    usersId,
     body.validation,
   );
 
@@ -57,7 +55,7 @@ export const onRequestPost = async ({ request, env, ctx }) => {
   user.results[0]["reset-id"] = "";
   const savePassword = await updateRow(
     env.BASEROW_BACKEND_TOKEN,
-    usersTableId,
+    usersId,
     user.results[0].id,
     user.results[0],
   );

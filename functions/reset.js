@@ -24,21 +24,19 @@ export const onRequestPost = async ({ request, env, ctx }) => {
     return new Response(JSON.stringify("error"), { headers: corsHeaders });
   }
 
-  const schemas = await listTables(
+  const schema = await listTables(
     env.BASEROW_USERNAME,
     env.BASEROW_PASSWORD,
     env.BASEROW_DB_ID,
   );
 
-  const usersTableId = schemas.find(
-    (schema) => schema.name === "CMS users",
-  )?.id;
+  const usersId = schema.find((table) => table.name === "CMS users")?.id;
 
-  if (!usersTableId) {
+  if (!usersId) {
     return new Response(JSON.stringify("error"), { headers: corsHeaders });
   }
 
-  const users = await listRows(env.BASEROW_BACKEND_TOKEN, usersTableId); // needed to compare id's
+  const users = await listRows(env.BASEROW_BACKEND_TOKEN, usersId); // needed to compare id's
   const user = users.results.find((user) => user.email === body.email);
 
   if (!user) {
@@ -48,7 +46,7 @@ export const onRequestPost = async ({ request, env, ctx }) => {
   user["reset-id"] = generateUserId(users);
   const saveUser = await updateRow(
     env.BASEROW_BACKEND_TOKEN,
-    usersTableId,
+    usersId,
     user.id,
     user,
   );
