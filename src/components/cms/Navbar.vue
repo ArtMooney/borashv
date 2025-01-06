@@ -1,0 +1,63 @@
+<script setup>
+import { IonIcon } from "@ionic/vue";
+import { home, cog } from "ionicons/icons";
+</script>
+
+<template>
+  <div class="flex items-center justify-between p-2 text-base">
+    <ion-icon
+      :icon="home"
+      @click="backHomepage"
+      class="h-8 w-8 cursor-pointer"
+    ></ion-icon>
+
+    <div class="flex items-center gap-2">
+      <h1 class="mb-0 text-4xl">{{ cmsName }}</h1>
+      <div class="text-xs">by FrameCore</div>
+    </div>
+
+    <div class="relative">
+      <ion-icon
+        :icon="cog"
+        @click="cmsSettingsMenu = !cmsSettingsMenu"
+        class="h-8 w-8 cursor-pointer"
+      ></ion-icon>
+
+      <div
+        v-show="cmsSettingsMenu"
+        class="absolute right-2 mt-4 min-w-40 bg-black/90 p-4"
+      >
+        <div @click="logOut" class="text-center hover:text-white/50">
+          Log out
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "Navbar",
+
+  data() {
+    return {
+      cmsSettingsMenu: false,
+      cmsName: "{{ simple }} CMS",
+    };
+  },
+
+  methods: {
+    backHomepage() {
+      const protocol = window.location.protocol + "//";
+      const siteDomain = window.location.host;
+
+      window.location.href = protocol + siteDomain;
+    },
+
+    logOut() {
+      // this.deleteLocalStorage("simple-cms-login");
+      location.reload();
+    },
+  },
+};
+</script>
