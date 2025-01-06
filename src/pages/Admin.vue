@@ -7,11 +7,11 @@ import Loader from "../components/cms/Loader.vue";
 <template>
   <div class="flex h-full w-full grow items-center justify-center">
     <Login
-      v-if="loginFlag"
+      v-if="panel === 'login'"
       @status="handleLoginStatus"
       class="mx-auto w-full max-w-screen-xl"
     />
-    <!--    <Cms v-if="cmsFlag" @initLoadedFlag="handleInitLoaded" />-->
+    <Cms v-if="panel === 'cms'" @initLoadedFlag="handleInitLoaded" />
     <!--    <Loader v-if="loaderFlag" />-->
   </div>
 </template>
@@ -22,6 +22,7 @@ export default {
 
   data() {
     return {
+      panel: "cms",
       loaderFlag: false,
       loginFlag: false,
       cmsFlag: false,
@@ -42,8 +43,7 @@ export default {
   methods: {
     handleLoginStatus(status) {
       if (status === "ok") {
-        this.loaderFlag = true;
-        this.cmsFlag = true;
+        this.panel = "cms";
       }
     },
 

@@ -10,7 +10,7 @@ import LoadingSpinner from "../LoadingSpinner.vue";
     <LoginPanel
       v-if="panel === 'login'"
       @resetPasswordPanel="resetPasswordSwitch"
-      @status="resetPasswordSwitch"
+      @status="$emit('status', $event)"
     />
     <ResetPasswordPanel
       v-if="panel === 'resetPassword'"
