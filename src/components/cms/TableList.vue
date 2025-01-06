@@ -1,17 +1,12 @@
-<script setup>
-import { IonIcon } from "@ionic/vue";
-import { home, cog } from "ionicons/icons";
-</script>
-
 <template>
   <div
     class="mx-auto mt-8 flex max-w-screen-md flex-wrap justify-center gap-4 text-base"
   >
-    <div v-for="(table, index) of schema">
+    <div v-for="(table, index) of tables">
       <div
-        @click="schemaIndex = index"
+        @click="tableIndex = index"
         :class="[
-          schemaIndex === index
+          tableIndex === index
             ? 'cursor-pointer border-b-2 border-white hover:bg-gradient-to-r hover:from-[#ff6363] hover:via-[#b776e5] hover:to-white hover:bg-clip-text hover:text-transparent'
             : 'cursor-pointer hover:bg-gradient-to-r hover:from-[#ff6363] hover:via-[#b776e5] hover:to-white hover:bg-clip-text hover:text-transparent',
         ]"
@@ -26,17 +21,24 @@ import { home, cog } from "ionicons/icons";
 export default {
   name: "TableList",
 
+  props: {
+    tables: {
+      type: Array,
+      required: false,
+      default: [],
+    },
+  },
+
   data() {
     return {
-      schema: [
-        { name: "jkshbdjahs" },
-        { name: "jkshbdjahs" },
-        { name: "jkshbdjahs" },
-      ],
-      schemaIndex: 0,
+      tableIndex: 0,
     };
   },
 
-  methods: {},
+  watch: {
+    tableIndex() {
+      this.$emit("tableIndex", this.tableIndex);
+    },
+  },
 };
 </script>
