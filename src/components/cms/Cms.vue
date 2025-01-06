@@ -12,6 +12,7 @@ import xmark from "../../assets/xmark.vue";
 
 import Navbar from "./Navbar.vue";
 import TableList from "./TableList.vue";
+import AddRemoveItems from "./AddRemoveItems.vue";
 </script>
 
 <template>
@@ -21,38 +22,8 @@ import TableList from "./TableList.vue";
       class="absolute top-0 z-20 min-h-screen w-full bg-[#363636]"
     >
       <Navbar />
-      <TableList />
-
-      <div class="text-s">Add, edit or remove content below</div>
-
-      <div class="cms-items-menu">
-        <div @click="addItem()" class="cms-button add-new-item w-button">
-          + Add new item
-        </div>
-        <div class="relative">
-          <div @click.stop="sortItems" class="cms-button sort-by-date w-button">
-            Sort list by date
-          </div>
-
-          <div v-if="showDateList" class="datelist-wrapper">
-            <div class="text-s">Choose date field</div>
-            <div class="datelist-content">
-              <div v-if="getDateList().length < 1" class="text-s datelist">
-                No date fields
-              </div>
-              <div
-                v-for="date of getDateList()"
-                @click="sortDateField"
-                class="text-s datelist"
-              >
-                {{
-                  date.name.includes("|") ? date.name.split("|")[0] : date.name
-                }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <TableList :tables="schema" @tableIndex="schemaIndex = $event" />
+      <AddRemoveItems :tables="schema" :tableIndex="schemaIndex" />
 
       <div v-if="!localItems.length" class="cms-items-block">
         <div v-show="!loadingFlag" class="text-s list-message">
@@ -384,6 +355,8 @@ export default {
       items: [],
       localItems: [],
       login: {},
+      userName: `${import.meta.env.VITE_USERNAME}`,
+      userPass: `${import.meta.env.VITE_USERPASS}`,
       cmsGetSchema: `${import.meta.env.VITE_APP_CMS_URL}/schema`,
       cmsUpdateItem: `${import.meta.env.VITE_APP_CMS_URL}/update`,
       cmsUpdateItems: `${import.meta.env.VITE_APP_CMS_URL}/update-batch`,
@@ -417,14 +390,19 @@ export default {
       this.login = this.getLocalStorage("simple-cms-login");
     }
 
-    this.schema = await this.postFetch(
-      this.cmsGetSchema,
-      new Headers({
-        "Content-Type": "application/json",
-        Authorization:
-          "Basic " + btoa(`${this.login.email}:${this.login.password}`),
+    const res = await fetch("/list-tables", {
+      method: "POST",
+      headers: {
+        Authorization: "Basic " + btoa(`${this.userName}:${this.userPass}`),
+      },
+      body: JSON.stringify({
+        email: this.login.email,
+        password: this.login.password,
       }),
-    );
+    });
+
+    this.schema = await res.json();
+    console.log("TABLES", this.schema);
 
     for (const schema of this.schema) {
       schema.fields = await this.getFetch(
