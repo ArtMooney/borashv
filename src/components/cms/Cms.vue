@@ -11,30 +11,17 @@ import gripVertical from "../../assets/grip-vertical.vue";
 import xmark from "../../assets/xmark.vue";
 
 import Navbar from "./Navbar.vue";
+import TableList from "./TableList.vue";
 </script>
 
 <template>
   <teleport to="body">
     <div
       @click="handleClickOutside"
-      class="absolute top-0 z-20 min-h-screen w-full bg-[coral]"
+      class="absolute top-0 z-20 min-h-screen w-full bg-[#363636]"
     >
       <Navbar />
-
-      <div class="collection-wrapper">
-        <div v-for="(table, index) of schema">
-          <div
-            @click="schemaIndex = index"
-            :class="[
-              schemaIndex === index
-                ? 'collection-text chosen'
-                : 'collection-text',
-            ]"
-          >
-            {{ table.name }}
-          </div>
-        </div>
-      </div>
+      <TableList />
 
       <div class="text-s">Add, edit or remove content below</div>
 
