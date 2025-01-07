@@ -19,7 +19,13 @@ import CmsItems from "./CmsItems.vue";
         No items found
       </div>
 
-      <CmsItems :schema="schema" :items="items" :localItems="localItems" />
+      <CmsItems
+        :schema="schema"
+        :items="items"
+        :localItems="localItems"
+        :loading-flag="loadingFlag"
+        @loadingFlag="loadingFlag = $event"
+      />
 
       <div
         v-if="savingItemFlag || savingAllItemsFlag"

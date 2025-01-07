@@ -12,300 +12,281 @@ import xmark from "../../assets/xmark.vue";
 </script>
 
 <template>
-  <div class="cms-items-block w-form">
-    <div class="cms-item-wrapper">
-      <Vue3Lottie
-        :animationData="loaderAnim"
-        :height="200"
-        :width="200"
-        v-if="loadingFlag"
-      />
+  <div class="mx-auto mt-8 max-w-screen-md justify-center gap-4">
+    <Vue3Lottie
+      :animationData="loaderAnim"
+      :height="200"
+      :width="200"
+      v-if="loadingFlag"
+    />
 
-      <drop-list
-        :items="localItems"
-        class="cms-items"
-        @reorder="
-          $event.apply(localItems);
-          saveAllItems();
-        "
-      >
-        <template v-slot:item="{ item, index }">
-          <drag
-            :delay="dragDelay"
-            :vibration="dragVibration"
-            @click="handleClick($event, index)"
-            class="cms-item"
-            v-show="!loadingFlag"
-            :ref="`list-item-${index}`"
-            :key="item"
-            handle=".dragdrop-handle"
+    <drop-list
+      :items="localItems"
+      @reorder="
+        $event.apply(localItems);
+        saveAllItems();
+      "
+    >
+      <template v-slot:item="{ item, index }">
+        <drag
+          :delay="dragDelay"
+          :vibration="dragVibration"
+          @click="handleClick($event, index)"
+          class="m-h-16 mb-4 grid cursor-pointer rounded bg-black/25 p-4 shadow-[3px_4px_12px_rgba(0,0,0,0.22)]"
+          v-show="!loadingFlag"
+          :ref="`list-item-${index}`"
+          :key="item"
+          handle=".dragdrop-handle"
+        >
+          <div class="item-title-wrapper">
+            <div class="item-title-wrapper">
+              <gripVertical style="color: white" class="dragdrop-handle" />
+              <div style="pointer-events: none">
+                {{ item.titel }}
+              </div>
+            </div>
+            <div class="item-grid show4">
+              <chevronDown
+                v-if="
+                  (!savingItemFlag ||
+                    (savingItemFlag && currentIndex !== index)) &&
+                  !savingAllItemsFlag
+                "
+                :class="[
+                  showItem === index
+                    ? 'arrow-down-white rotated w-embed'
+                    : 'arrow-down-white w-embed',
+                ]"
+              />
+              <div
+                class="loader-wrapper"
+                v-show="
+                  (savingItemFlag && currentIndex === index) ||
+                  savingAllItemsFlag
+                "
+              >
+                <div class="loader-anim">
+                  <Vue3Lottie
+                    :animationData="loaderAnim"
+                    :height="60"
+                    :width="60"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            id="w-node-_363c6eb4-ad8c-d7ce-141b-573850873513-d10df2f5"
+            :class="[
+              showItem === index
+                ? 'item-control-wrapper'
+                : 'item-control-wrapper hide4',
+            ]"
           >
             <div
-              id="w-node-_5f4e042c-c275-1c4b-7191-70138bfa36f8-d10df2f5"
-              class="item-title-wrapper"
+              id="w-node-_1d27ccc1-0f7f-00b3-b75f-85f2d1900c66-d10df2f5"
+              class="item-grid"
             >
               <div
-                id="w-node-e97159e2-8ebc-f0c7-089d-ad3d67bfd80a-d10df2f5"
-                class="item-title-wrapper"
+                id="w-node-_0b476731-d8fb-2341-5ad4-24f0f7c9aac8-d10df2f5"
+                v-if="showItem === index && saveFlag"
+                @click.stop="saveItem(index, item)"
+                :class="[
+                  blinkAnim === true
+                    ? 'cms-button controls w-button blinking'
+                    : 'cms-button controls w-button',
+                ]"
               >
-                <gripVertical
-                  id="w-node-_3152d18a-1e62-e7da-3fba-64d3117471a9-d10df2f5"
-                  style="color: white"
-                  class="dragdrop-handle"
-                />
-                <div
-                  id="w-node-ec545091-3119-9423-b023-febb8072a9c9-d10df2f5"
-                  style="pointer-events: none"
-                >
-                  {{ item.titel }}
-                </div>
+                Save
               </div>
-              <div class="item-grid show4">
-                <chevronDown
-                  v-if="
-                    (!savingItemFlag ||
-                      (savingItemFlag && currentIndex !== index)) &&
-                    !savingAllItemsFlag
-                  "
-                  id="w-node-ca2ac5e0-9092-1cea-f525-5ac925d9f1af-d10df2f5"
-                  :class="[
-                    showItem === index
-                      ? 'arrow-down-white rotated w-embed'
-                      : 'arrow-down-white w-embed',
-                  ]"
-                />
-                <div
-                  id="w-node-ca2ac5e0-9092-1cea-f525-5ac925d9f1b0-d10df2f5"
-                  class="loader-wrapper"
-                  v-show="
-                    (savingItemFlag && currentIndex === index) ||
-                    savingAllItemsFlag
-                  "
-                >
-                  <div class="loader-anim">
-                    <Vue3Lottie
-                      :animationData="loaderAnim"
-                      :height="60"
-                      :width="60"
-                    />
-                  </div>
-                </div>
+              <div
+                id="w-node-b1b7d981-a5e9-7138-58d8-3d72cfc97804-d10df2f5"
+                v-if="showItem === index && saveFlag"
+                @click.stop="cancelItem(index)"
+                :class="[
+                  blinkAnim === true
+                    ? 'cms-button controls w-button blinking'
+                    : 'cms-button controls w-button',
+                ]"
+              >
+                Cancel
+              </div>
+              <div
+                id="w-node-_75f843bd-5bf3-9a52-8a05-85a2c9f5e6dc-d10df2f5"
+                :class="[
+                  showItem === index
+                    ? 'cms-button controls w-button'
+                    : 'cms-button controls hide4 w-button',
+                ]"
+                @click.stop="deleteItem(index)"
+                v-show="currentIndex !== index || !editingNewItem"
+              >
+                Delete
               </div>
             </div>
-
             <div
-              id="w-node-_363c6eb4-ad8c-d7ce-141b-573850873513-d10df2f5"
-              :class="[
-                showItem === index
-                  ? 'item-control-wrapper'
-                  : 'item-control-wrapper hide4',
-              ]"
+              id="w-node-_9213f67d-0cf0-9708-3dd0-d741737ab529-d10df2f5"
+              class="item-grid hide4"
             >
+              <chevronDown
+                v-if="
+                  (!savingItemFlag ||
+                    (savingItemFlag && currentIndex !== index)) &&
+                  !savingAllItemsFlag
+                "
+                id="w-node-_3a59ea88-5010-113e-e088-49750bc9b22a-d10df2f5"
+                :class="[
+                  showItem === index
+                    ? 'arrow-down-white rotated w-embed'
+                    : 'arrow-down-white w-embed',
+                ]"
+              />
               <div
-                id="w-node-_1d27ccc1-0f7f-00b3-b75f-85f2d1900c66-d10df2f5"
-                class="item-grid"
+                id="w-node-e9ae915b-0548-dc33-9e2a-f43e8d03efd7-d10df2f5"
+                class="loader-wrapper"
+                v-show="
+                  (savingItemFlag && currentIndex === index) ||
+                  savingAllItemsFlag
+                "
               >
-                <div
-                  id="w-node-_0b476731-d8fb-2341-5ad4-24f0f7c9aac8-d10df2f5"
-                  v-if="showItem === index && saveFlag"
-                  @click.stop="saveItem(index, item)"
-                  :class="[
-                    blinkAnim === true
-                      ? 'cms-button controls w-button blinking'
-                      : 'cms-button controls w-button',
-                  ]"
-                >
-                  Save
-                </div>
-                <div
-                  id="w-node-b1b7d981-a5e9-7138-58d8-3d72cfc97804-d10df2f5"
-                  v-if="showItem === index && saveFlag"
-                  @click.stop="cancelItem(index)"
-                  :class="[
-                    blinkAnim === true
-                      ? 'cms-button controls w-button blinking'
-                      : 'cms-button controls w-button',
-                  ]"
-                >
-                  Cancel
-                </div>
-                <div
-                  id="w-node-_75f843bd-5bf3-9a52-8a05-85a2c9f5e6dc-d10df2f5"
-                  :class="[
-                    showItem === index
-                      ? 'cms-button controls w-button'
-                      : 'cms-button controls hide4 w-button',
-                  ]"
-                  @click.stop="deleteItem(index)"
-                  v-show="currentIndex !== index || !editingNewItem"
-                >
-                  Delete
-                </div>
-              </div>
-              <div
-                id="w-node-_9213f67d-0cf0-9708-3dd0-d741737ab529-d10df2f5"
-                class="item-grid hide4"
-              >
-                <chevronDown
-                  v-if="
-                    (!savingItemFlag ||
-                      (savingItemFlag && currentIndex !== index)) &&
-                    !savingAllItemsFlag
-                  "
-                  id="w-node-_3a59ea88-5010-113e-e088-49750bc9b22a-d10df2f5"
-                  :class="[
-                    showItem === index
-                      ? 'arrow-down-white rotated w-embed'
-                      : 'arrow-down-white w-embed',
-                  ]"
-                />
-                <div
-                  id="w-node-e9ae915b-0548-dc33-9e2a-f43e8d03efd7-d10df2f5"
-                  class="loader-wrapper"
-                  v-show="
-                    (savingItemFlag && currentIndex === index) ||
-                    savingAllItemsFlag
-                  "
-                >
-                  <div class="loader-anim">
-                    <Vue3Lottie
-                      :animationData="loaderAnim"
-                      :height="60"
-                      :width="60"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              id="w-node-_7a854a61-d8eb-6699-c242-c06bb6827dc0-d10df2f5"
-              class="cms-inputs"
-              v-show="showItem === index"
-            >
-              <div
-                id="w-node-_8932dee4-4a00-e945-bd60-da5622cea0d4-d10df2f5"
-                class="cms-item-line"
-              ></div>
-
-              <template v-for="input of schema[schemaIndex].fields">
-                <div v-if="input.name !== 'index'" class="text-s">
-                  {{
-                    input.name.includes("|")
-                      ? input.name.split("|")[0]
-                      : input.name
-                  }}
-                </div>
-                <input
-                  v-if="
-                    input.name !== 'index' &&
-                    getInputType(input.type) !== 'textarea' &&
-                    getInputType(input.type) !== 'file' &&
-                    getInputType(input.type) !== 'date' &&
-                    getInputType(input.type) !== 'checkbox' &&
-                    !isToFromType(input.name)
-                  "
-                  @click="handleInput"
-                  v-model="item[input.name]"
-                  :type="getInputType(input.type)"
-                  class="cms-input w-input"
-                  :name="input.name"
-                />
-
-                <label
-                  v-if="
-                    input.name !== 'index' &&
-                    getInputType(input.type) === 'checkbox'
-                  "
-                  class="w-checkbox checkbox-wrapper"
-                  @click="handleInput"
-                >
-                  <input
-                    type="checkbox"
-                    v-model="item[input.name]"
-                    :name="input.name"
-                    style="opacity: 0; position: absolute; z-index: -1"
+                <div class="loader-anim">
+                  <Vue3Lottie
+                    :animationData="loaderAnim"
+                    :height="60"
+                    :width="60"
                   />
-                  <span
-                    class="w-checkbox-input w-checkbox-input--inputType-custom cms-input checkbox"
-                  ></span>
-                </label>
+                </div>
+              </div>
+            </div>
+          </div>
 
-                <VueDatePicker
-                  v-if="
-                    input.name !== 'index' &&
-                    (getInputType(input.type) === 'date' ||
-                      isToFromType(input.name))
-                  "
+          <div
+            id="w-node-_7a854a61-d8eb-6699-c242-c06bb6827dc0-d10df2f5"
+            class="cms-inputs"
+            v-show="showItem === index"
+          >
+            <div
+              id="w-node-_8932dee4-4a00-e945-bd60-da5622cea0d4-d10df2f5"
+              class="cms-item-line"
+            ></div>
+
+            <template v-for="input of schema[schemaIndex].fields">
+              <div v-if="input.name !== 'index'" class="text-s">
+                {{
+                  input.name.includes("|")
+                    ? input.name.split("|")[0]
+                    : input.name
+                }}
+              </div>
+              <input
+                v-if="
+                  input.name !== 'index' &&
+                  getInputType(input.type) !== 'textarea' &&
+                  getInputType(input.type) !== 'file' &&
+                  getInputType(input.type) !== 'date' &&
+                  getInputType(input.type) !== 'checkbox' &&
+                  !isToFromType(input.name)
+                "
+                @click="handleInput"
+                v-model="item[input.name]"
+                :type="getInputType(input.type)"
+                class="cms-input w-input"
+                :name="input.name"
+              />
+
+              <label
+                v-if="
+                  input.name !== 'index' &&
+                  getInputType(input.type) === 'checkbox'
+                "
+                class="w-checkbox checkbox-wrapper"
+                @click="handleInput"
+              >
+                <input
+                  type="checkbox"
                   v-model="item[input.name]"
-                  :format="'yyyy-MM-dd'"
-                  locale="sv"
-                  auto-apply=""
-                  input-class-name="cms-input dp-custom-input w-input"
                   :name="input.name"
-                  :range="isToFromType(input.name)"
-                  @cleared="datePickerCleared"
-                >
-                </VueDatePicker>
+                  style="opacity: 0; position: absolute; z-index: -1"
+                />
+                <span
+                  class="w-checkbox-input w-checkbox-input--inputType-custom cms-input checkbox"
+                ></span>
+              </label>
 
-                <textarea
-                  v-if="
-                    input.name !== 'index' &&
-                    getInputType(input.type) === 'textarea'
-                  "
-                  @click="handleInput"
-                  v-model="item[input.name]"
-                  :type="getInputType(input.type)"
-                  class="cms-input message w-input"
-                  :name="input.name"
-                ></textarea>
+              <VueDatePicker
+                v-if="
+                  input.name !== 'index' &&
+                  (getInputType(input.type) === 'date' ||
+                    isToFromType(input.name))
+                "
+                v-model="item[input.name]"
+                :format="'yyyy-MM-dd'"
+                locale="sv"
+                auto-apply=""
+                input-class-name="cms-input dp-custom-input w-input"
+                :name="input.name"
+                :range="isToFromType(input.name)"
+                @cleared="datePickerCleared"
+              >
+              </VueDatePicker>
 
-                <div
+              <textarea
+                v-if="
+                  input.name !== 'index' &&
+                  getInputType(input.type) === 'textarea'
+                "
+                @click="handleInput"
+                v-model="item[input.name]"
+                :type="getInputType(input.type)"
+                class="cms-input message w-input"
+                :name="input.name"
+              ></textarea>
+
+              <div
+                v-if="
+                  input.name !== 'index' && getInputType(input.type) === 'file'
+                "
+                id="w-node-_59be39db-3067-b4db-62e1-04f78c919737-d10df2f5"
+                class="filename-wrapper"
+              >
+                <input
                   v-if="
                     input.name !== 'index' &&
                     getInputType(input.type) === 'file'
                   "
-                  id="w-node-_59be39db-3067-b4db-62e1-04f78c919737-d10df2f5"
-                  class="filename-wrapper"
+                  @click="handleInput"
+                  @change="handleFileInput($event, input.name, item)"
+                  :id="`${input.name}-${index}`"
+                  :ref="`${input.name}-${index}`"
+                  class="hide1"
+                  :type="getInputType(input.type)"
+                  :name="`${input.name}`"
+                  accept=".jpg, .jpeg, .png"
+                />
+
+                <label
+                  @click="handleInput"
+                  :for="`${input.name}-${index}`"
+                  class="text-s linkstyle"
                 >
-                  <input
-                    v-if="
-                      input.name !== 'index' &&
-                      getInputType(input.type) === 'file'
-                    "
-                    @click="handleInput"
-                    @change="handleFileInput($event, input.name, item)"
-                    :id="`${input.name}-${index}`"
-                    :ref="`${input.name}-${index}`"
-                    class="hide1"
-                    :type="getInputType(input.type)"
-                    :name="`${input.name}`"
-                    accept=".jpg, .jpeg, .png"
-                  />
+                  {{ displayFilename(item[input.name]) }}
+                </label>
 
-                  <label
-                    @click="handleInput"
-                    :for="`${input.name}-${index}`"
-                    class="text-s linkstyle"
-                  >
-                    {{ displayFilename(item[input.name]) }}
-                  </label>
-
-                  <xmark
-                    @click.stop="
-                      removeFile(index, `${input.name}-${index}`, input.name)
-                    "
-                    style="color: white"
-                    class="remove-image"
-                  />
-                </div>
-              </template>
-            </div>
-          </drag>
-        </template>
-        <template v-slot:feedback="{ data }"></template>
-      </drop-list>
-    </div>
+                <xmark
+                  @click.stop="
+                    removeFile(index, `${input.name}-${index}`, input.name)
+                  "
+                  style="color: white"
+                  class="remove-image"
+                />
+              </div>
+            </template>
+          </div>
+        </drag>
+      </template>
+      <template v-slot:feedback="{ data }"></template>
+    </drop-list>
   </div>
 </template>
 
@@ -329,6 +310,11 @@ export default {
       required: false,
       default: [],
     },
+    loadingFlag: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
 
   data() {
@@ -350,7 +336,6 @@ export default {
       currentIndex: false,
       schemaIndex: 0,
       loaderAnim,
-      loadingFlag: false,
       initLoadedFlag: false,
       blinkAnim: false,
       dragDelay: 0,
@@ -423,7 +408,7 @@ export default {
     },
 
     async loadData() {
-      this.loadingFlag = true;
+      this.$emit("loadingFlag", true);
 
       this.items = await fetch(
         `https://api.baserow.io/api/database/rows/table/${
@@ -453,7 +438,7 @@ export default {
 
       this.localItems = JSON.parse(JSON.stringify(this.items));
 
-      this.loadingFlag = false;
+      this.$emit("loadingFlag", false);
       this.initLoadedFlag = true;
       this.$emit("initLoadedFlag", true);
     },
