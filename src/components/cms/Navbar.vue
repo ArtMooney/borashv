@@ -4,7 +4,7 @@ import { home, cog } from "ionicons/icons";
 </script>
 
 <template>
-  <div class="flex items-center justify-between p-2 text-base">
+  <div class="flex items-center justify-between px-2 py-3 text-base">
     <ion-icon
       :icon="home"
       @click="backHomepage"
