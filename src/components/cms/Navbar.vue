@@ -8,7 +8,7 @@ import { home, cog } from "ionicons/icons";
     <ion-icon
       :icon="home"
       @click="backHomepage"
-      class="h-8 w-8 cursor-pointer"
+      class="h-7 w-7 cursor-pointer hover:text-white/75"
     ></ion-icon>
 
     <div class="flex items-center gap-2">
@@ -20,7 +20,7 @@ import { home, cog } from "ionicons/icons";
       <ion-icon
         :icon="cog"
         @click="cmsSettingsMenu = !cmsSettingsMenu"
-        class="h-8 w-8 cursor-pointer"
+        class="h-8 w-8 cursor-pointer hover:text-white/75"
       ></ion-icon>
 
       <div
