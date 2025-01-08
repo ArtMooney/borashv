@@ -1,6 +1,4 @@
 <script setup>
-import { Vue3Lottie } from "vue3-lottie";
-import loaderAnim from "../../assets/77076-loading.json";
 import { Drag, DropList } from "vue-easy-dnd";
 import "vue-easy-dnd/dist/dnd.css";
 import VueDatePicker from "@vuepic/vue-datepicker";
@@ -8,15 +6,15 @@ import "@vuepic/vue-datepicker/dist/main.css";
 
 import xmark from "../../assets/xmark.vue";
 import CmsItemTitle from "./CmsItemTitle.vue";
+import LoadingSpinner from "../LoadingSpinner.vue";
 </script>
 
 <template>
   <div class="mx-auto mt-8 max-w-screen-md justify-center gap-4">
-    <Vue3Lottie
-      :animationData="loaderAnim"
-      :height="200"
-      :width="200"
+    <LoadingSpinner
       v-if="loadingFlag"
+      class="!h-12 !w-12 justify-self-center py-12"
+      color="#fac725"
     />
 
     <drop-list

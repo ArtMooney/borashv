@@ -53,7 +53,7 @@ import LoadingSpinner from "../LoadingSpinner.vue";
         v-show="
           (savingItemFlag && currentIndex === index) || savingAllItemsFlag
         "
-        class="max-h-5 max-w-5"
+        class="!h-5 !w-5"
         color="#fac725"
       />
     </div>
