@@ -1,8 +1,13 @@
 <template>
   <div class="flex h-8 w-8 items-center justify-center">
-    <svg class="loading-spinner" viewBox="0 0 50 50">
+    <svg class="animate-spin" viewBox="0 0 50 50">
       <circle
-        class="loading-spinner-circle"
+        class="animate-[dash_1.5s_ease-in-out_infinite] fill-none stroke-[5px]"
+        :style="{
+          stroke: color,
+          strokeDasharray: '90,150',
+          strokeDashoffset: 0,
+        }"
         cx="25"
         cy="25"
         r="18"
@@ -15,39 +20,13 @@
 <script>
 export default {
   name: "LoadingSpinner",
+
+  props: {
+    color: {
+      type: String,
+      required: false,
+      default: "white",
+    },
+  },
 };
 </script>
-
-<style scoped>
-.loading-spinner {
-  animation: rotate 2s linear infinite;
-}
-
-.loading-spinner-circle {
-  stroke: white;
-  stroke-width: 5;
-  fill: none;
-  animation: dash 1.5s ease-in-out infinite;
-}
-
-@keyframes rotate {
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes dash {
-  0% {
-    stroke-dasharray: 1, 150;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -35;
-  }
-  100% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -124;
-  }
-}
-</style>

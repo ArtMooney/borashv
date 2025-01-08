@@ -6,8 +6,6 @@ import "vue-easy-dnd/dist/dnd.css";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 
-import chevronDown from "../../assets/chevron-down.vue";
-import gripVertical from "../../assets/grip-vertical.vue";
 import xmark from "../../assets/xmark.vue";
 import CmsItemTitle from "./CmsItemTitle.vue";
 </script>
