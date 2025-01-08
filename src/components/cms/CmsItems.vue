@@ -46,21 +46,22 @@ import LoadingSpinner from "../LoadingSpinner.vue";
             :blink-anim="blinkAnim"
             :editing-new-item="editingNewItem"
           />
-          
+
           <div
-            class="col-span-2 grid grid-cols-[0.1fr,1fr] gap-3"
+            class="col-span-2 grid grid-cols-[0.1fr,1fr] gap-3 text-sm"
             v-show="showItem === index"
           >
             <div class="col-span-2 my-4 h-px w-full bg-white/25"></div>
 
             <template v-for="input of schema[schemaIndex].fields">
-              <div v-if="input.name !== 'index'" class="text-s">
+              <div v-if="input.name !== 'index'">
                 {{
                   input.name.includes("|")
                     ? input.name.split("|")[0]
                     : input.name
                 }}
               </div>
+
               <input
                 v-if="
                   input.name !== 'index' &&
@@ -73,28 +74,21 @@ import LoadingSpinner from "../LoadingSpinner.vue";
                 @click="handleInput"
                 v-model="item[input.name]"
                 :type="getInputType(input.type)"
-                class="cms-input w-input"
+                class="border border-white/25 bg-[#4a4644] p-2"
                 :name="input.name"
               />
 
-              <label
+              <input
                 v-if="
                   input.name !== 'index' &&
                   getInputType(input.type) === 'checkbox'
                 "
-                class="w-checkbox checkbox-wrapper"
                 @click="handleInput"
-              >
-                <input
-                  type="checkbox"
-                  v-model="item[input.name]"
-                  :name="input.name"
-                  style="opacity: 0; position: absolute; z-index: -1"
-                />
-                <span
-                  class="w-checkbox-input w-checkbox-input--inputType-custom cms-input checkbox"
-                ></span>
-              </label>
+                type="checkbox"
+                class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                v-model="item[input.name]"
+                :name="input.name"
+              />
 
               <VueDatePicker
                 v-if="
@@ -106,7 +100,6 @@ import LoadingSpinner from "../LoadingSpinner.vue";
                 :format="'yyyy-MM-dd'"
                 locale="sv"
                 auto-apply=""
-                input-class-name="cms-input dp-custom-input w-input"
                 :name="input.name"
                 :range="isToFromType(input.name)"
                 @cleared="datePickerCleared"
@@ -862,71 +855,25 @@ export default {
 };
 </script>
 
-<style scoped>
-.text-s.button-controls {
-  pointer-events: auto;
-}
-
-@keyframes blink {
-  0% {
-    background-color: #8a548b;
-  }
-  50% {
-    background-color: white;
-  }
-  100% {
-    background-color: #8a548b;
-  }
-}
-
-.blinking {
-  animation: blink 700ms 2;
-}
-
-.cms-item {
-  cursor: pointer;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(100%) brightness(100%);
-}
-
-.saveblocker {
-  display: block;
-}
-</style>
-
 <style>
-.dp-custom-input {
-  padding-left: 2.3rem !important;
-  border-radius: 0px;
+.dp__menu {
+  background: #e6e6e6 !important;
+  font-size: 14px !important;
 }
 
-input[type="checkbox"]:checked + span {
-  background-color: #3898ec;
-  background-image: url("https://d3e54v103j8qbb.cloudfront.net/static/custom-checkbox-checkmark.589d534424.svg");
-  background-position: 50%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  border-color: #3898ec;
+.dp__input {
+  background: #4a4644 !important;
+  font-size: 14px !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  border-radius: 0 !important;
+  color: white !important;
 }
 
-.datelist-content {
-  scrollbar-width: thin;
-  scrollbar-color: dimgray rgba(42, 43, 42, 0.95);
+.dp__cell_inner {
+  font-size: 12px !important;
 }
 
-.datelist-content::-webkit-scrollbar {
-  width: 10px;
-}
-
-.datelist-content::-webkit-scrollbar-track {
-  background: rgba(42, 43, 42, 0.95);
-}
-
-.datelist-content::-webkit-scrollbar-thumb {
-  background-color: dimgray;
-  border-radius: 20px;
-  border: 3px solid rgba(42, 43, 42, 0.95);
+.dp__month_year_select {
+  font-size: 16px !important;
 }
 </style>
