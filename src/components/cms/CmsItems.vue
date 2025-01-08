@@ -46,16 +46,12 @@ import LoadingSpinner from "../LoadingSpinner.vue";
             :blink-anim="blinkAnim"
             :editing-new-item="editingNewItem"
           />
-
+          
           <div
-            id="w-node-_7a854a61-d8eb-6699-c242-c06bb6827dc0-d10df2f5"
-            class="cms-inputs"
+            class="col-span-2 grid grid-cols-[0.1fr,1fr] gap-3"
             v-show="showItem === index"
           >
-            <div
-              id="w-node-_8932dee4-4a00-e945-bd60-da5622cea0d4-d10df2f5"
-              class="cms-item-line"
-            ></div>
+            <div class="col-span-2 my-4 h-px w-full bg-white/25"></div>
 
             <template v-for="input of schema[schemaIndex].fields">
               <div v-if="input.name !== 'index'" class="text-s">
@@ -221,7 +217,6 @@ export default {
       savingAllItemsFlag: false,
       currentIndex: 0,
       schemaIndex: 0,
-      loaderAnim,
       initLoadedFlag: false,
       blinkAnim: false,
       dragDelay: 0,
