@@ -9,6 +9,7 @@ import "@vuepic/vue-datepicker/dist/main.css";
 import chevronDown from "../../assets/chevron-down.vue";
 import gripVertical from "../../assets/grip-vertical.vue";
 import xmark from "../../assets/xmark.vue";
+import CmsItemTitle from "./CmsItemTitle.vue";
 </script>
 
 <template>
@@ -32,134 +33,23 @@ import xmark from "../../assets/xmark.vue";
           :delay="dragDelay"
           :vibration="dragVibration"
           @click="handleClick($event, index)"
-          class="m-h-16 mb-4 grid cursor-pointer rounded bg-black/25 p-4 shadow-[3px_4px_12px_rgba(0,0,0,0.22)]"
+          class="m-h-16 mb-4 grid cursor-pointer grid-cols-2 rounded bg-black/25 p-4 shadow-[3px_4px_12px_rgba(0,0,0,0.22)]"
           v-show="!loadingFlag"
           :ref="`list-item-${index}`"
           :key="item"
           handle=".dragdrop-handle"
         >
-          <div class="item-title-wrapper">
-            <div class="item-title-wrapper">
-              <gripVertical style="color: white" class="dragdrop-handle" />
-              <div style="pointer-events: none">
-                {{ item.titel }}
-              </div>
-            </div>
-            <div class="item-grid show4">
-              <chevronDown
-                v-if="
-                  (!savingItemFlag ||
-                    (savingItemFlag && currentIndex !== index)) &&
-                  !savingAllItemsFlag
-                "
-                :class="[
-                  showItem === index
-                    ? 'arrow-down-white rotated w-embed'
-                    : 'arrow-down-white w-embed',
-                ]"
-              />
-              <div
-                class="loader-wrapper"
-                v-show="
-                  (savingItemFlag && currentIndex === index) ||
-                  savingAllItemsFlag
-                "
-              >
-                <div class="loader-anim">
-                  <Vue3Lottie
-                    :animationData="loaderAnim"
-                    :height="60"
-                    :width="60"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div
-            id="w-node-_363c6eb4-ad8c-d7ce-141b-573850873513-d10df2f5"
-            :class="[
-              showItem === index
-                ? 'item-control-wrapper'
-                : 'item-control-wrapper hide4',
-            ]"
-          >
-            <div
-              id="w-node-_1d27ccc1-0f7f-00b3-b75f-85f2d1900c66-d10df2f5"
-              class="item-grid"
-            >
-              <div
-                id="w-node-_0b476731-d8fb-2341-5ad4-24f0f7c9aac8-d10df2f5"
-                v-if="showItem === index && saveFlag"
-                @click.stop="saveItem(index, item)"
-                :class="[
-                  blinkAnim === true
-                    ? 'cms-button controls w-button blinking'
-                    : 'cms-button controls w-button',
-                ]"
-              >
-                Save
-              </div>
-              <div
-                id="w-node-b1b7d981-a5e9-7138-58d8-3d72cfc97804-d10df2f5"
-                v-if="showItem === index && saveFlag"
-                @click.stop="cancelItem(index)"
-                :class="[
-                  blinkAnim === true
-                    ? 'cms-button controls w-button blinking'
-                    : 'cms-button controls w-button',
-                ]"
-              >
-                Cancel
-              </div>
-              <div
-                id="w-node-_75f843bd-5bf3-9a52-8a05-85a2c9f5e6dc-d10df2f5"
-                :class="[
-                  showItem === index
-                    ? 'cms-button controls w-button'
-                    : 'cms-button controls hide4 w-button',
-                ]"
-                @click.stop="deleteItem(index)"
-                v-show="currentIndex !== index || !editingNewItem"
-              >
-                Delete
-              </div>
-            </div>
-            <div
-              id="w-node-_9213f67d-0cf0-9708-3dd0-d741737ab529-d10df2f5"
-              class="item-grid hide4"
-            >
-              <chevronDown
-                v-if="
-                  (!savingItemFlag ||
-                    (savingItemFlag && currentIndex !== index)) &&
-                  !savingAllItemsFlag
-                "
-                id="w-node-_3a59ea88-5010-113e-e088-49750bc9b22a-d10df2f5"
-                :class="[
-                  showItem === index
-                    ? 'arrow-down-white rotated w-embed'
-                    : 'arrow-down-white w-embed',
-                ]"
-              />
-              <div
-                id="w-node-e9ae915b-0548-dc33-9e2a-f43e8d03efd7-d10df2f5"
-                class="loader-wrapper"
-                v-show="
-                  (savingItemFlag && currentIndex === index) ||
-                  savingAllItemsFlag
-                "
-              >
-                <div class="loader-anim">
-                  <Vue3Lottie
-                    :animationData="loaderAnim"
-                    :height="60"
-                    :width="60"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+          <CmsItemTitle
+            :item="item"
+            :index="index"
+            :saving-item-flag="savingItemFlag"
+            :current-index="currentIndex"
+            :saving-all-items-flag="savingAllItemsFlag"
+            :show-item="showItem"
+            :save-flag="saveFlag"
+            :blink-anim="blinkAnim"
+            :editing-new-item="editingNewItem"
+          />
 
           <div
             id="w-node-_7a854a61-d8eb-6699-c242-c06bb6827dc0-d10df2f5"
@@ -329,11 +219,11 @@ export default {
       cmsDeleteItem: `${import.meta.env.VITE_APP_CMS_URL}/delete`,
       cmsName: "{{ simple }} CMS",
       baserowClientToken: `${import.meta.env.VITE_BASEROW_CLIENT_TOKEN}`,
-      showItem: false,
+      showItem: 0,
       saveFlag: false,
       savingItemFlag: false,
       savingAllItemsFlag: false,
-      currentIndex: false,
+      currentIndex: 0,
       schemaIndex: 0,
       loaderAnim,
       initLoadedFlag: false,
@@ -458,7 +348,7 @@ export default {
       // if delete is clicked, do not change showItem panel
       if (event.target.innerText !== "Delete") {
         event.target.scrollIntoView({ behavior: "smooth", block: "start" });
-        this.showItem = this.showItem === index ? false : index;
+        this.showItem = this.showItem === index ? 0 : index;
       }
 
       this.currentIndex = index;
@@ -493,7 +383,7 @@ export default {
     },
 
     handleInput(event) {
-      this.showItem = true;
+      this.showItem = 1;
     },
 
     async handleFileInput(event, name, inputFields) {
@@ -657,7 +547,7 @@ export default {
       this.items = JSON.parse(JSON.stringify(this.localItems));
       this.savingItemFlag = false;
       this.saveFlag = false;
-      this.showItem = false;
+      this.showItem = 0;
     },
 
     convertDateToIso(date) {
@@ -707,7 +597,7 @@ export default {
     async cancelItem(index) {
       this.saveFlag = false;
       this.localItems = JSON.parse(JSON.stringify(this.items));
-      this.showItem = false;
+      this.showItem = 0;
     },
 
     deleteItem(index) {
@@ -716,7 +606,7 @@ export default {
       this.currentIndex = index;
 
       setTimeout(async () => {
-        this.showItem = false;
+        this.showItem = 0;
 
         const currentItem = this.getItemJson(index);
         const deletedItem = await this.postFetch(
@@ -769,7 +659,7 @@ export default {
         id: "",
       });
 
-      this.showItem = this.showItem === index ? false : index;
+      this.showItem = this.showItem === index ? 0 : index;
 
       this.$nextTick(() => {
         this.saveFlag = true;
@@ -961,13 +851,13 @@ export default {
     },
 
     schemaIndex() {
-      this.showItem = false;
+      this.showItem = 0;
       this.loadData();
       window.scrollTo(0, 0);
     },
 
     showItem() {
-      if (this.showItem === false) {
+      if (this.showItem === 0) {
         this.dragDelay = 0;
       } else {
         this.dragDelay = 86400000;
