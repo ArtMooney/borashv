@@ -98,11 +98,6 @@ export default {
       required: false,
       default: false,
     },
-    blinkAnim: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
     editingNewItem: {
       type: Boolean,
       required: false,

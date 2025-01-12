@@ -46,7 +46,6 @@ import { listTable } from "../../js/listTable.js";
             :saving-all-items-flag="savingAllItemsFlag"
             :show-item="showItem"
             :save-flag="saveFlag"
-            :blink-anim="blinkAnim"
             :editing-new-item="editingNewItem"
           />
 
@@ -107,24 +106,15 @@ export default {
       login: {},
       userName: `${import.meta.env.VITE_USERNAME}`,
       userPass: `${import.meta.env.VITE_USERPASS}`,
-      cmsGetSchema: `${import.meta.env.VITE_APP_CMS_URL}/schema`,
-      cmsUpdateItem: `${import.meta.env.VITE_APP_CMS_URL}/update`,
       cmsUpdateItems: `${import.meta.env.VITE_APP_CMS_URL}/update-batch`,
-      cmsAddItem: `${import.meta.env.VITE_APP_CMS_URL}/add`,
-      cmsDeleteItem: `${import.meta.env.VITE_APP_CMS_URL}/delete`,
-      cmsName: "{{ simple }} CMS",
-      baserowClientToken: `${import.meta.env.VITE_BASEROW_CLIENT_TOKEN}`,
       showItem: 1000,
       saveFlag: false,
       savingItemFlag: false,
       savingAllItemsFlag: false,
       currentIndex: 0,
-      blinkAnim: false,
       dragDelay: 0,
       dragVibration: 100,
       editingNewItem: false,
-      cmsSettingsMenu: false,
-      selectDate: new Date(),
       showDateList: false,
       sortOrder: false,
     };
@@ -161,33 +151,6 @@ export default {
         this.$emit("loadingFlag", false);
         this.$emit("initLoadedFlag", true);
       }
-    },
-
-    getFetch(urlEndpoint, headers, options) {
-      return new Promise((resolve, reject) => {
-        var requestOptions = {
-          method: "GET",
-          redirect: "follow",
-        };
-
-        if (headers !== null && headers !== undefined) {
-          requestOptions.headers = headers;
-        }
-
-        fetch(urlEndpoint + (options ? "?" + options : ""), requestOptions)
-          .then((response) => {
-            if (!response.ok) throw new Error();
-            return response.json();
-          })
-          .then((result) => {
-            // console.log(result);
-            resolve(result);
-          })
-          .catch((error) => {
-            // console.log(error);
-            reject(error);
-          });
-      });
     },
 
     postFetch(urlEndpoint, headers, body) {
@@ -242,20 +205,6 @@ export default {
       this.currentIndex = index;
     },
 
-    datePickerCleared(value) {
-      if (!value) {
-        this.$nextTick(() => {
-          this.saveFlag = true;
-        }, 1000);
-      }
-    },
-
-    handleClickOutside(event) {
-      if (event.target.className !== "sort-by-date") {
-        this.showDateList = false;
-      }
-    },
-
     alertSaveFlag() {
       const element = this.$refs["list-item-" + this.showItem].$el;
 
@@ -263,73 +212,6 @@ export default {
         behavior: "smooth",
         block: "start",
       });
-
-      this.blinkAnim = true;
-      setTimeout(() => {
-        this.blinkAnim = false;
-      }, 2000);
-    },
-
-    handleInput(event) {
-      this.showItem = 1;
-    },
-
-    async handleFileInput(event, name, inputFields) {
-      if (!event.target.files[0].name) return;
-
-      inputFields[name] = [
-        {
-          name: event.target.files[0].name,
-          file: await this.readEncodeFiles(event.target.files),
-        },
-      ];
-    },
-
-    readEncodeFiles(files) {
-      return new Promise((resolve, reject) => {
-        if (files.length > 0) {
-          var selectedFile = files[0];
-          var reader = new FileReader();
-
-          reader.onload = function (e) {
-            var base64Data = e.target.result.split(",")[1];
-            resolve(base64Data);
-          };
-
-          reader.onerror = function (error) {
-            reject(error);
-          };
-
-          // Read the file as a data URL, which will be Base64-encoded
-          reader.readAsDataURL(selectedFile);
-        } else {
-          reject(new Error("No files to process."));
-        }
-      });
-    },
-
-    getInputType(type) {
-      let inputType = "text";
-
-      if (type === "long_text") {
-        inputType = "textarea";
-      } else if (type === "date") {
-        inputType = "date";
-      } else if (type === "boolean") {
-        inputType = "checkbox";
-      } else if (type === "file") {
-        inputType = "file";
-      }
-
-      return inputType;
-    },
-
-    isToFromType(inputName) {
-      if (inputName.includes("|") && inputName.split("|")[1] === "to-from") {
-        return true;
-      }
-
-      return false;
     },
 
     isItemChanged(localItems, items) {
@@ -356,23 +238,6 @@ export default {
       return modified;
     },
 
-    getItemJson(index) {
-      let itemJson = {};
-      itemJson = JSON.parse(JSON.stringify(this.localItems[index]));
-
-      // delete keys where values are empty
-      for (const item of Object.entries(itemJson)) {
-        if (!item[1]) {
-          delete itemJson[item[0]];
-        }
-      }
-
-      itemJson.id = this.localItems[index].id;
-      itemJson.tableid = this.schema.id;
-
-      return itemJson;
-    },
-
     getItemOrder(index) {
       let itemJson = {};
       itemJson = {};
@@ -380,77 +245,6 @@ export default {
       itemJson.id = this.localItems[index].id;
 
       return itemJson;
-    },
-
-    async saveItem(index, item) {
-      this.savingItemFlag = true;
-      this.saveFlag = false;
-      const saveData = JSON.parse(JSON.stringify(item));
-
-      // convert date-format if needed and stringify multidate-fields
-      for (const field of this.schema) {
-        if (field.type === "date") {
-          saveData[field.name] = this.convertDateToIso(saveData[field.name]);
-        }
-
-        if (field.name.includes("|") && field.name.includes("to-from")) {
-          saveData[field.name] = JSON.stringify(saveData[field.name]);
-        }
-      }
-
-      if (this.editingNewItem) {
-        const savedItem = await this.postFetch(
-          this.cmsAddItem,
-          new Headers({
-            "Content-Type": "application/json",
-            Authorization:
-              "Basic " + btoa(`${this.login.email}:${this.login.password}`),
-          }),
-          {
-            item: saveData,
-            tableid: this.schema.id,
-            fields: this.schema,
-          },
-        );
-
-        this.editingNewItem = false;
-        this.localItems[index] = savedItem;
-        this.localItems[index].id = savedItem.id;
-      } else {
-        const updateItem = await this.postFetch(
-          this.cmsUpdateItem,
-          new Headers({
-            "Content-Type": "application/json",
-            Authorization:
-              "Basic " + btoa(`${this.login.email}:${this.login.password}`),
-          }),
-          {
-            item: saveData,
-            tableid: this.schema.id,
-            fields: this.schema,
-          },
-        );
-      }
-
-      this.items = JSON.parse(JSON.stringify(this.localItems));
-      this.savingItemFlag = false;
-      this.saveFlag = false;
-      this.showItem = 0;
-    },
-
-    convertDateToIso(date) {
-      if (!date) return null;
-
-      const originalDate = date;
-      const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
-
-      if (isoDatePattern.test(originalDate)) {
-        return originalDate;
-      } else {
-        // Convert the non-ISO date to ISO format and extract only the date part
-        const isoDate = new Date(originalDate).toISOString().split("T")[0];
-        return isoDate;
-      }
     },
 
     async saveAllItems() {
@@ -481,242 +275,6 @@ export default {
       this.savingAllItemsFlag = false;
       this.saveFlag = false;
     },
-
-    async cancelItem(index) {
-      this.saveFlag = false;
-      this.localItems = JSON.parse(JSON.stringify(this.items));
-      this.showItem = 0;
-    },
-
-    deleteItem(index) {
-      this.savingItemFlag = true;
-      this.saveFlag = false;
-      this.currentIndex = index;
-
-      setTimeout(async () => {
-        this.showItem = 0;
-
-        const currentItem = this.getItemJson(index);
-        const deletedItem = await this.postFetch(
-          this.cmsDeleteItem,
-          new Headers({
-            "Content-Type": "application/json",
-            Authorization:
-              "Basic " + btoa(`${this.login.email}:${this.login.password}`),
-          }),
-          {
-            tableid: currentItem.tableid,
-            id: currentItem.id,
-          },
-        );
-
-        this.localItems.splice(index, 1);
-
-        this.items = JSON.parse(JSON.stringify(this.localItems));
-        this.savingItemFlag = false;
-
-        this.saveAllItems(); // to reindex after delete
-      }, 100);
-    },
-
-    addItem() {
-      if (this.saveFlag) {
-        this.alertSaveFlag();
-        return;
-      }
-
-      this.editingNewItem = true;
-      const index = this.localItems.length;
-      this.currentIndex = index;
-      let fields = {};
-
-      for (const item of this.schema) {
-        if (item.type === "boolean") {
-          fields[item.name] = false;
-        } else if (item.type === "file") {
-          fields[item.name] = [];
-        } else {
-          fields[item.name] = "";
-        }
-      }
-
-      fields.index = index;
-
-      this.localItems.push({
-        ...fields,
-        id: "",
-      });
-
-      this.showItem = this.showItem === index ? 0 : index;
-
-      this.$nextTick(() => {
-        this.saveFlag = true;
-        const element = this.$refs["list-item-" + this.showItem].$el;
-        const inputs = element.querySelectorAll("input");
-
-        element.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-
-        inputs[0].focus();
-      });
-    },
-
-    sortItems() {
-      if (this.saveFlag) {
-        this.alertSaveFlag();
-        return;
-      }
-
-      this.showDateList = !this.showDateList;
-    },
-
-    getDateList() {
-      const dateList = [];
-
-      for (const item of this.schema) {
-        if (item.type === "date") {
-          dateList.push(item);
-        }
-
-        if (item.name.includes("|") && item.name.includes("to-from")) {
-          dateList.push(item);
-        }
-      }
-
-      return dateList;
-    },
-
-    sortDateField(event) {
-      const sortedItems = [];
-      const sortedItemNulls = [];
-      let sortName = event.target.innerText;
-
-      // assure that we have the full name if special date format
-      for (const item of this.schema) {
-        if (`${sortName}|to-from` === item.name) {
-          sortName = item.name;
-        }
-      }
-
-      for (const item of this.localItems) {
-        if (item[sortName]) {
-          sortedItems.push(item);
-        } else {
-          sortedItemNulls.push(item);
-        }
-      }
-
-      if (!this.sortOrder) {
-        this.sortOrder = true;
-
-        sortedItems.sort((a, b) => {
-          const dateA =
-            typeof a[sortName] === "object"
-              ? new Date(a[sortName][0])
-              : new Date(a[sortName]);
-          const dateB =
-            typeof b[sortName] === "object"
-              ? new Date(b[sortName][0])
-              : new Date(b[sortName]);
-
-          return dateA - dateB; // Ascending order
-        });
-      } else {
-        this.sortOrder = false;
-
-        sortedItems.sort((a, b) => {
-          const dateA =
-            typeof a[sortName] === "object"
-              ? new Date(a[sortName][0])
-              : new Date(a[sortName]);
-          const dateB =
-            typeof b[sortName] === "object"
-              ? new Date(b[sortName][0])
-              : new Date(b[sortName]);
-
-          return dateB - dateA; // Descending order
-        });
-      }
-
-      const allItems = sortedItems.concat(sortedItemNulls);
-      const newList = [];
-      let numberNulls = 0;
-
-      // pair them based on the index and with the nulls (undated objects) always in their original place
-      for (const [index, all] of Object.entries(allItems)) {
-        let isNull = false;
-
-        for (const nullItem of sortedItemNulls) {
-          if (parseInt(nullItem.index) === parseInt(index)) {
-            newList.push(nullItem);
-            isNull = true;
-            numberNulls = numberNulls + 1;
-          }
-        }
-
-        if (!isNull) {
-          newList.push(sortedItems[parseInt(index - numberNulls)]);
-        }
-      }
-
-      this.localItems = JSON.parse(JSON.stringify(newList));
-      this.showDateList = false;
-      this.saveAllItems();
-    },
-
-    getLocalStorage(name) {
-      const itemStr = localStorage.getItem(name);
-
-      if (!itemStr) {
-        return null;
-      }
-
-      const item = JSON.parse(itemStr);
-      const now = new Date();
-
-      if (now.getTime() > item.expiry) {
-        localStorage.removeItem(name);
-        return null;
-      }
-      return item.value;
-    },
-
-    deleteLocalStorage(name) {
-      localStorage.removeItem(name);
-    },
-
-    backHomepage() {
-      const protocol = window.location.protocol + "//";
-      const siteDomain = window.location.host;
-
-      window.location.href = protocol + siteDomain;
-    },
-
-    logOut() {
-      this.deleteLocalStorage("simple-cms-login");
-      location.reload();
-    },
-
-    displayFilename(filename) {
-      if (filename && filename.length > 0) {
-        if (filename[0].visible_name) {
-          return filename[0].visible_name;
-        } else if (filename[0].name) {
-          return filename[0].name;
-        }
-      }
-
-      return "Click here to choose an image.";
-    },
-
-    removeFile(index, inputName, fieldName) {
-      if (this.localItems[index] && this.localItems[index][fieldName]) {
-        this.$refs[inputName][0].value = "";
-        this.localItems[index][fieldName] = [];
-      }
-    },
   },
 
   watch: {
@@ -742,12 +300,6 @@ export default {
       },
     },
 
-    schemaIndex() {
-      this.showItem = 0;
-      this.loadData();
-      window.scrollTo(0, 0);
-    },
-
     showItem() {
       if (this.showItem === 0) {
         this.dragDelay = 0;
@@ -755,33 +307,6 @@ export default {
         this.dragDelay = 86400000;
       }
     },
-
-    selectDate(date) {
-      this.selectDate = date;
-    },
   },
 };
 </script>
-
-<style>
-.dp__menu {
-  background: #e6e6e6 !important;
-  font-size: 14px !important;
-}
-
-.dp__input {
-  background: #4a4644 !important;
-  font-size: 14px !important;
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
-  border-radius: 0 !important;
-  color: white !important;
-}
-
-.dp__cell_inner {
-  font-size: 12px !important;
-}
-
-.dp__month_year_select {
-  font-size: 16px !important;
-}
-</style>

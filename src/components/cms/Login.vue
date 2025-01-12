@@ -3,6 +3,7 @@ import LoginPanel from "./LoginPanel.vue";
 import ResetPasswordPanel from "./ResetPasswordPanel.vue";
 import NewPasswordPanel from "./NewPasswordPanel.vue";
 import LoadingSpinner from "../LoadingSpinner.vue";
+import { getLocalStorage } from "../../js/getLocalStorage.js";
 </script>
 
 <template>
@@ -54,36 +55,6 @@ export default {
   },
 
   methods: {
-    setLocalStorage(name, value, ttl) {
-      const now = new Date();
-      const item = {
-        value: value,
-        expiry: now.getTime() + ttl,
-      };
-      localStorage.setItem(name, JSON.stringify(item));
-    },
-
-    getLocalStorage(name) {
-      const itemStr = localStorage.getItem(name);
-
-      if (!itemStr) {
-        return null;
-      }
-
-      const item = JSON.parse(itemStr);
-      const now = new Date();
-
-      if (now.getTime() > item.expiry) {
-        localStorage.removeItem(name);
-        return null;
-      }
-      return item.value;
-    },
-
-    deleteLocalStorage(name) {
-      localStorage.removeItem(name);
-    },
-
     async loginHandler() {
       const hrefCheck = window.location.href.split("?");
       let isPasswordSwitch = false;
@@ -119,7 +90,7 @@ export default {
 
       if (isPasswordSwitch) {
         this.newPasswordSwitch();
-      } else if (!this.getLocalStorage("simple-cms-login")) {
+      } else if (!getLocalStorage("simple-cms-login")) {
         this.loginSwitch();
       }
     },
