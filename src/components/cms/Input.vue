@@ -1,9 +1,8 @@
 <script setup>
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-import xmark from "../../assets/xmark.vue";
 import { IonIcon } from "@ionic/vue";
-import { home, cog } from "ionicons/icons";
+import { closeCircleOutline } from "ionicons/icons";
 </script>
 
 <template>
@@ -81,11 +80,11 @@ import { home, cog } from "ionicons/icons";
       {{ displayFilename(item[input.name]) }}
     </label>
 
-    <xmark
+    <ion-icon
       @click.stop="removeFile(index, `${input.name}-${index}`, input.name)"
-      style="color: white"
-      class="remove-image"
-    />
+      :icon="closeCircleOutline"
+      class="h-4 w-4 px-0.5 text-red-600"
+    ></ion-icon>
   </div>
 </template>
 
