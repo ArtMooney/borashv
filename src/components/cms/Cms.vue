@@ -45,7 +45,6 @@ export default {
       tables: [],
       schema: [],
       items: [],
-      localItems: [],
       login: {},
       userName: `${import.meta.env.VITE_USERNAME}`,
       userPass: `${import.meta.env.VITE_USERPASS}`,
@@ -66,97 +65,10 @@ export default {
   },
 
   methods: {
-    getFetch(urlEndpoint, headers, options) {
-      return new Promise((resolve, reject) => {
-        var requestOptions = {
-          method: "GET",
-          redirect: "follow",
-        };
-
-        if (headers !== null && headers !== undefined) {
-          requestOptions.headers = headers;
-        }
-
-        fetch(urlEndpoint + (options ? "?" + options : ""), requestOptions)
-          .then((response) => {
-            if (!response.ok) throw new Error();
-            return response.json();
-          })
-          .then((result) => {
-            // console.log(result);
-            resolve(result);
-          })
-          .catch((error) => {
-            // console.log(error);
-            reject(error);
-          });
-      });
-    },
-
-    async loadData() {
-      this.loadingFlag = true;
-
-      this.items = await fetch(
-        `https://api.baserow.io/api/database/rows/table/${
-          this.schema[this.schemaIndex].id
-        }/?size=200&user_field_names=true`,
-        { headers: { Authorization: "Token " + this.baserowClientToken } },
-      )
-        .then((response) => response.json())
-        .then((data) => data.results);
-
-      this.items.sort((a, b) => {
-        const indexA = a.index;
-        const indexB = b.index;
-        return indexA - indexB; // Ascending order
-      });
-
-      // parse to-from date-fields to json
-      for (const item of this.items) {
-        for (const field of Object.entries(item)) {
-          if (field[0].includes("|") && field[0].includes("to-from")) {
-            if (item[field[0]]) {
-              item[field[0]] = JSON.parse(item[field[0]]);
-            }
-          }
-        }
-      }
-
-      this.localItems = JSON.parse(JSON.stringify(this.items));
-
-      this.loadingFlag = false;
-      this.initLoadedFlag = true;
-      this.$emit("initLoadedFlag", true);
-    },
-
     handleClickOutside(event) {
       if (event.target.className !== "sort-by-date") {
         this.showDateList = false;
       }
-    },
-
-    isItemChanged(localItems, items) {
-      if ((!items && !localItems) || this.editingNewItem) return null;
-
-      let modified = false;
-
-      for (const [index, input] of Object.entries(localItems)) {
-        const localObject = JSON.stringify(input);
-        const itemsObject = JSON.stringify(items[index]);
-
-        if (
-          (localObject !== itemsObject &&
-            index === this.schema[this.schemaIndex].fields[0].name &&
-            input.trim() !== "") ||
-          (localObject !== itemsObject &&
-            input !== null &&
-            index !== this.schema[this.schemaIndex].fields[0].name)
-        ) {
-          modified = true;
-        }
-      }
-
-      return modified;
     },
 
     getLocalStorage(name) {
@@ -178,27 +90,8 @@ export default {
   },
 
   watch: {
-    localItems: {
-      deep: true,
-      handler(allInputs) {
-        if (this.currentIndex === false || this.editingNewItem) return;
-
-        if (
-          this.isItemChanged(
-            allInputs[this.currentIndex],
-            this.items[this.currentIndex],
-          )
-        ) {
-          this.saveFlag = true;
-        } else {
-          this.saveFlag = false;
-        }
-      },
-    },
-
     schemaIndex() {
       this.showItem = false;
-      // this.loadData();
       window.scrollTo(0, 0);
     },
 
