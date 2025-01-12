@@ -68,6 +68,7 @@ import { listTable } from "../../js/listTable.js";
               <Input
                 :input="input"
                 :item="item"
+                :index="index"
                 :localItems="localItems"
                 @showItem="showItem = $event"
                 @saveFlag="saveFlag = $event"
