@@ -2,7 +2,7 @@
 import Navbar from "./Navbar.vue";
 import TableList from "./TableList.vue";
 import AddRemoveItems from "./AddRemoveItems.vue";
-import CmsItems from "./CmsItems.vue";
+import Items from "./Items.vue";
 </script>
 
 <template>
@@ -19,7 +19,7 @@ import CmsItems from "./CmsItems.vue";
         No items found
       </div>
 
-      <CmsItems
+      <Items
         :schema="schema"
         :items="items"
         :localItems="localItems"

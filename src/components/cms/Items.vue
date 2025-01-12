@@ -5,8 +5,9 @@ import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 
 import xmark from "../../assets/xmark.vue";
-import CmsItemTitle from "./CmsItemTitle.vue";
+import CmsItemTitle from "./ItemTitle.vue";
 import LoadingSpinner from "../LoadingSpinner.vue";
+import Input from "./Input.vue";
 </script>
 
 <template>
@@ -77,6 +78,8 @@ import LoadingSpinner from "../LoadingSpinner.vue";
                 class="border border-white/25 bg-[#4a4644] p-2"
                 :name="input.name"
               />
+
+              <!--              <Input />-->
 
               <input
                 v-if="
@@ -204,7 +207,7 @@ export default {
       cmsDeleteItem: `${import.meta.env.VITE_APP_CMS_URL}/delete`,
       cmsName: "{{ simple }} CMS",
       baserowClientToken: `${import.meta.env.VITE_BASEROW_CLIENT_TOKEN}`,
-      showItem: 0,
+      showItem: 1000,
       saveFlag: false,
       savingItemFlag: false,
       savingAllItemsFlag: false,
