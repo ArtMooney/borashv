@@ -13,11 +13,11 @@ import Items from "./Items.vue";
     >
       <Navbar />
       <TableList
-        @tableIndex="schemaIndex = $event"
+        @tableIndex="tableIndex = $event"
         @loadingFlag="loadingFlag = $event"
         @schema="schema = $event"
       />
-      <AddRemoveItems :tables="schema" :tableIndex="schemaIndex" />
+      <AddRemoveItems :tables="schema" :tableIndex="tableIndex" />
 
       <Items
         :schema="schema"
@@ -45,21 +45,10 @@ export default {
       tables: [],
       schema: [],
       items: [],
-      login: {},
-      userName: `${import.meta.env.VITE_USERNAME}`,
-      userPass: `${import.meta.env.VITE_USERPASS}`,
-      baserowClientToken: `${import.meta.env.VITE_BASEROW_CLIENT_TOKEN}`,
-      showItem: false,
-      saveFlag: false,
       savingItemFlag: false,
       savingAllItemsFlag: false,
-      currentIndex: false,
-      schemaIndex: 0,
+      tableIndex: 0,
       loadingFlag: true,
-      initLoadedFlag: false,
-      dragDelay: 0,
-      editingNewItem: false,
-      selectDate: new Date(),
       showDateList: false,
     };
   },
@@ -70,41 +59,11 @@ export default {
         this.showDateList = false;
       }
     },
-
-    getLocalStorage(name) {
-      const itemStr = localStorage.getItem(name);
-
-      if (!itemStr) {
-        return null;
-      }
-
-      const item = JSON.parse(itemStr);
-      const now = new Date();
-
-      if (now.getTime() > item.expiry) {
-        localStorage.removeItem(name);
-        return null;
-      }
-      return item.value;
-    },
   },
 
   watch: {
-    schemaIndex() {
-      this.showItem = false;
+    tableIndex() {
       window.scrollTo(0, 0);
-    },
-
-    showItem() {
-      if (this.showItem === false) {
-        this.dragDelay = 0;
-      } else {
-        this.dragDelay = 86400000;
-      }
-    },
-
-    selectDate(date) {
-      this.selectDate = date;
     },
   },
 };
