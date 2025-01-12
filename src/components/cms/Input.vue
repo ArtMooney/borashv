@@ -93,6 +93,8 @@ import { home, cog } from "ionicons/icons";
 export default {
   name: "Input",
 
+  emits: ["showItem", "saveFlag", "localItems"],
+
   props: {
     input: {
       type: Object,
@@ -100,6 +102,10 @@ export default {
     },
     item: {
       type: Object,
+      required: true,
+    },
+    localItems: {
+      type: Array,
       required: true,
     },
   },
@@ -126,7 +132,7 @@ export default {
     },
 
     handleInput(event) {
-      this.showItem = 1;
+      this.$emit("showItem", 1);
     },
 
     isToFromType(inputName) {
@@ -140,7 +146,7 @@ export default {
     datePickerCleared(value) {
       if (!value) {
         this.$nextTick(() => {
-          this.saveFlag = true;
+          this.$emit("saveFlag", true);
         }, 1000);
       }
     },
@@ -194,7 +200,10 @@ export default {
     removeFile(index, inputName, fieldName) {
       if (this.localItems[index] && this.localItems[index][fieldName]) {
         this.$refs[inputName][0].value = "";
-        this.localItems[index][fieldName] = [];
+
+        const localItems = JSON.parse(JSON.stringify(this.localItems));
+        localItems[index][fieldName] = [];
+        this.$emit("localItems", localItems);
       }
     },
   },

@@ -59,7 +59,14 @@ import Input from "./Input.vue";
                 }}
               </div>
 
-              <Input :input="input" :item="item" />
+              <Input
+                :input="input"
+                :item="item"
+                :localItems="localItems"
+                @showItem="showItem = $event"
+                @saveFlag="saveFlag = $event"
+                @localItems="localItems = $event"
+              />
             </template>
           </div>
         </drag>
