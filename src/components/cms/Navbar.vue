@@ -4,15 +4,15 @@ import { home, cog } from "ionicons/icons";
 </script>
 
 <template>
-  <div class="flex items-center justify-between px-2 py-3 text-base">
+  <div class="flex justify-between px-2 py-3 text-base">
     <ion-icon
       :icon="home"
       @click="backHomepage"
-      class="h-7 w-7 cursor-pointer hover:text-white/75"
+      class="h-7 w-7 shrink-0 cursor-pointer hover:text-white/75"
     ></ion-icon>
 
-    <div class="flex items-center gap-2">
-      <h1 class="mb-0 text-4xl">{{ cmsName }}</h1>
+    <div class="flex flex-col items-center gap-2 text-center sm:flex-row">
+      <h1 class="mb-0 text-2xl sm:text-4xl">{{ cmsName }}</h1>
       <div class="text-xs">by FrameCore</div>
     </div>
 
@@ -20,7 +20,7 @@ import { home, cog } from "ionicons/icons";
       <ion-icon
         :icon="cog"
         @click="cmsSettingsMenu = !cmsSettingsMenu"
-        class="h-8 w-8 cursor-pointer hover:text-white/75"
+        class="h-8 w-8 shrink-0 cursor-pointer hover:text-white/75"
       ></ion-icon>
 
       <div
