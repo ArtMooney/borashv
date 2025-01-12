@@ -1,10 +1,6 @@
 <script setup>
 import { Drag, DropList } from "vue-easy-dnd";
 import "vue-easy-dnd/dist/dnd.css";
-import VueDatePicker from "@vuepic/vue-datepicker";
-import "@vuepic/vue-datepicker/dist/main.css";
-
-import xmark from "../../assets/xmark.vue";
 import CmsItemTitle from "./ItemTitle.vue";
 import LoadingSpinner from "../LoadingSpinner.vue";
 import Input from "./Input.vue";
@@ -63,102 +59,7 @@ import Input from "./Input.vue";
                 }}
               </div>
 
-              <input
-                v-if="
-                  input.name !== 'index' &&
-                  getInputType(input.type) !== 'textarea' &&
-                  getInputType(input.type) !== 'file' &&
-                  getInputType(input.type) !== 'date' &&
-                  getInputType(input.type) !== 'checkbox' &&
-                  !isToFromType(input.name)
-                "
-                @click="handleInput"
-                v-model="item[input.name]"
-                :type="getInputType(input.type)"
-                class="border border-white/25 bg-[#4a4644] p-2"
-                :name="input.name"
-              />
-
-              <!--              <Input />-->
-
-              <input
-                v-if="
-                  input.name !== 'index' &&
-                  getInputType(input.type) === 'checkbox'
-                "
-                @click="handleInput"
-                type="checkbox"
-                class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                v-model="item[input.name]"
-                :name="input.name"
-              />
-
-              <VueDatePicker
-                v-if="
-                  input.name !== 'index' &&
-                  (getInputType(input.type) === 'date' ||
-                    isToFromType(input.name))
-                "
-                v-model="item[input.name]"
-                :format="'yyyy-MM-dd'"
-                locale="sv"
-                auto-apply=""
-                :name="input.name"
-                :range="isToFromType(input.name)"
-                @cleared="datePickerCleared"
-              >
-              </VueDatePicker>
-
-              <textarea
-                v-if="
-                  input.name !== 'index' &&
-                  getInputType(input.type) === 'textarea'
-                "
-                @click="handleInput"
-                v-model="item[input.name]"
-                :type="getInputType(input.type)"
-                class="cms-input message w-input"
-                :name="input.name"
-              ></textarea>
-
-              <div
-                v-if="
-                  input.name !== 'index' && getInputType(input.type) === 'file'
-                "
-                id="w-node-_59be39db-3067-b4db-62e1-04f78c919737-d10df2f5"
-                class="filename-wrapper"
-              >
-                <input
-                  v-if="
-                    input.name !== 'index' &&
-                    getInputType(input.type) === 'file'
-                  "
-                  @click="handleInput"
-                  @change="handleFileInput($event, input.name, item)"
-                  :id="`${input.name}-${index}`"
-                  :ref="`${input.name}-${index}`"
-                  class="hide1"
-                  :type="getInputType(input.type)"
-                  :name="`${input.name}`"
-                  accept=".jpg, .jpeg, .png"
-                />
-
-                <label
-                  @click="handleInput"
-                  :for="`${input.name}-${index}`"
-                  class="text-s linkstyle"
-                >
-                  {{ displayFilename(item[input.name]) }}
-                </label>
-
-                <xmark
-                  @click.stop="
-                    removeFile(index, `${input.name}-${index}`, input.name)
-                  "
-                  style="color: white"
-                  class="remove-image"
-                />
-              </div>
+              <Input :input="input" :item="item" />
             </template>
           </div>
         </drag>
