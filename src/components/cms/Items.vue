@@ -42,7 +42,6 @@ import { listTable } from "../../js/listTable.js";
             :item="item"
             :index="index"
             :saving-item-flag="savingItemFlag"
-            :current-index="currentIndex"
             :saving-all-items-flag="savingAllItemsFlag"
             :show-item="showItem"
             :save-flag="saveFlag"
@@ -51,7 +50,7 @@ import { listTable } from "../../js/listTable.js";
 
           <div
             class="col-span-2 grid grid-cols-[0.15fr,1fr] gap-3 text-sm"
-            v-show="showItem === index"
+            v-show="itemOpen && showItem === index"
           >
             <div class="col-span-2 my-4 h-px w-full bg-white/25"></div>
 
@@ -106,11 +105,11 @@ export default {
       login: {},
       userName: `${import.meta.env.VITE_USERNAME}`,
       userPass: `${import.meta.env.VITE_USERPASS}`,
-      showItem: 1000,
+      showItem: 0,
+      itemOpen: false,
       saveFlag: false,
       savingItemFlag: false,
       savingAllItemsFlag: false,
-      currentIndex: 0,
       dragDelay: 0,
       dragVibration: 100,
       editingNewItem: false,
@@ -184,58 +183,37 @@ export default {
     },
 
     handleClick(event, index) {
-      if (
-        this.saveFlag &&
-        event.target.nodeName !== "INPUT" &&
-        event.target.nodeName !== "TEXTAREA" &&
-        event.target.nodeName !== "SPAN" &&
-        event.target.nodeName !== "LABEL"
-      ) {
-        this.alertSaveFlag();
-        return;
+      if (this.showItem === index) {
+        this.itemOpen = !this.itemOpen;
+      } else {
+        this.showItem = index;
+        this.itemOpen = true;
       }
-
-      // if delete is clicked, do not change showItem panel
-      if (event.target.innerText !== "Delete") {
-        event.target.scrollIntoView({ behavior: "smooth", block: "start" });
-        this.showItem = this.showItem === index ? 0 : index;
-      }
-
-      this.currentIndex = index;
     },
 
-    alertSaveFlag() {
-      const element = this.$refs["list-item-" + this.showItem].$el;
-
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    },
-
-    isItemChanged(localItems, items) {
-      if ((!items && !localItems) || this.editingNewItem) return null;
-
-      let modified = false;
-
-      for (const [index, input] of Object.entries(localItems)) {
-        const localObject = JSON.stringify(input);
-        const itemsObject = JSON.stringify(items[index]);
-
-        if (
-          (localObject !== itemsObject &&
-            index === this.schema.name &&
-            input.trim() !== "") ||
-          (localObject !== itemsObject &&
-            input !== null &&
-            index !== this.schema.name)
-        ) {
-          modified = true;
-        }
-      }
-
-      return modified;
-    },
+    // isItemChanged(localItems, items) {
+    //   if ((!items && !localItems) || this.editingNewItem) return null;
+    //
+    //   let modified = false;
+    //
+    //   for (const [index, input] of Object.entries(localItems)) {
+    //     const localObject = JSON.stringify(input);
+    //     const itemsObject = JSON.stringify(items[index]);
+    //
+    //     if (
+    //       (localObject !== itemsObject &&
+    //         index === this.schema.name &&
+    //         input.trim() !== "") ||
+    //       (localObject !== itemsObject &&
+    //         input !== null &&
+    //         index !== this.schema.name)
+    //     ) {
+    //       modified = true;
+    //     }
+    //   }
+    //
+    //   return modified;
+    // },
 
     getItemOrder(index) {
       let itemJson = {};
@@ -278,34 +256,36 @@ export default {
 
   watch: {
     schema() {
+      this.showItem = 0;
+      this.itemOpen = false;
       this.loadData();
     },
 
-    localItems: {
-      deep: true,
-      handler(allInputs) {
-        if (this.currentIndex === false || this.editingNewItem) return;
+    // localItems: {
+    //   deep: true,
+    //   handler(allInputs) {
+    //     if (this.currentIndex === false || this.editingNewItem) return;
+    //
+    //     if (
+    //       this.isItemChanged(
+    //         allInputs[this.currentIndex],
+    //         this.items[this.currentIndex],
+    //       )
+    //     ) {
+    //       this.saveFlag = true;
+    //     } else {
+    //       this.saveFlag = false;
+    //     }
+    //   },
+    // },
 
-        if (
-          this.isItemChanged(
-            allInputs[this.currentIndex],
-            this.items[this.currentIndex],
-          )
-        ) {
-          this.saveFlag = true;
-        } else {
-          this.saveFlag = false;
-        }
-      },
-    },
-
-    showItem() {
-      if (this.showItem === 0) {
-        this.dragDelay = 0;
-      } else {
-        this.dragDelay = 86400000;
-      }
-    },
+    // showItem() {
+    //   if (this.showItem === 0) {
+    //     this.dragDelay = 0;
+    //   } else {
+    //     this.dragDelay = 86400000;
+    //   }
+    // },
   },
 };
 </script>

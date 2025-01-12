@@ -14,7 +14,7 @@ import LoadingSpinner from "../LoadingSpinner.vue";
   </div>
 
   <div class="flex justify-end gap-2">
-    <div class="flex gap-2">
+    <div class="flex items-center gap-2">
       <div
         v-if="showItem === index && saveFlag"
         @click.stop="saveItem(index, item)"
@@ -34,7 +34,7 @@ import LoadingSpinner from "../LoadingSpinner.vue";
       <div
         class="rounded border border-white/25 bg-[#8a548b] px-2 py-0.5 text-sm hover:bg-[#b280b4]"
         @click.stop="deleteItem(index)"
-        v-show="currentIndex !== index || !editingNewItem"
+        v-show="showItem !== index || !editingNewItem"
       >
         Delete
       </div>
@@ -43,16 +43,14 @@ import LoadingSpinner from "../LoadingSpinner.vue";
     <div class="flex items-center gap-2">
       <chevronDown
         v-if="
-          (!savingItemFlag || (savingItemFlag && currentIndex !== index)) &&
+          (!savingItemFlag || (savingItemFlag && showItem !== index)) &&
           !savingAllItemsFlag
         "
         class="h-5 w-5"
       />
 
       <LoadingSpinner
-        v-show="
-          (savingItemFlag && currentIndex === index) || savingAllItemsFlag
-        "
+        v-show="(savingItemFlag && showItem === index) || savingAllItemsFlag"
         class="!h-5 !w-5"
         color="#fac725"
       />
@@ -77,11 +75,6 @@ export default {
       type: Boolean,
       required: false,
       default: false,
-    },
-    currentIndex: {
-      type: Number,
-      required: false,
-      default: 0,
     },
     savingAllItemsFlag: {
       type: Boolean,
