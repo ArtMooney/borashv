@@ -12,22 +12,16 @@ import { closeCircleOutline } from "ionicons/icons";
       getInputType(input.type) !== 'textarea' &&
       getInputType(input.type) !== 'file' &&
       getInputType(input.type) !== 'date' &&
-      getInputType(input.type) !== 'checkbox' &&
       !isToFromType(input.name)
     "
     @click="handleInput"
     v-model="item[input.name]"
     :type="getInputType(input.type)"
-    class="border border-white/25 bg-[#4a4644] p-2"
-    :name="input.name"
-  />
-
-  <input
-    v-if="input.name !== 'index' && getInputType(input.type) === 'checkbox'"
-    @click="handleInput"
-    type="checkbox"
-    class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-    v-model="item[input.name]"
+    :class="[
+      getInputType(input.type) === 'checkbox'
+        ? 'h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500'
+        : 'border border-white/25 bg-[#4a4644] p-2',
+    ]"
     :name="input.name"
   />
 
@@ -50,15 +44,13 @@ import { closeCircleOutline } from "ionicons/icons";
     v-if="input.name !== 'index' && getInputType(input.type) === 'textarea'"
     @click="handleInput"
     v-model="item[input.name]"
-    :type="getInputType(input.type)"
     class="cms-input message w-input"
     :name="input.name"
   ></textarea>
 
   <div
     v-if="input.name !== 'index' && getInputType(input.type) === 'file'"
-    id="w-node-_59be39db-3067-b4db-62e1-04f78c919737-d10df2f5"
-    class="filename-wrapper"
+    class="flex gap-1"
   >
     <input
       v-if="input.name !== 'index' && getInputType(input.type) === 'file'"
@@ -66,7 +58,7 @@ import { closeCircleOutline } from "ionicons/icons";
       @change="handleFileInput($event, input.name, item)"
       :id="`${input.name}-${index}`"
       :ref="`${input.name}-${index}`"
-      class="hide1"
+      class="hidden"
       :type="getInputType(input.type)"
       :name="`${input.name}`"
       accept=".jpg, .jpeg, .png"
@@ -75,7 +67,7 @@ import { closeCircleOutline } from "ionicons/icons";
     <label
       @click="handleInput"
       :for="`${input.name}-${index}`"
-      class="text-s linkstyle"
+      class="cursor-pointer text-sm text-white underline"
     >
       {{ displayFilename(item[input.name]) }}
     </label>

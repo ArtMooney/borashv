@@ -50,7 +50,7 @@ import { listTable } from "../../js/listTable.js";
           />
 
           <div
-            class="col-span-2 grid grid-cols-[0.1fr,1fr] gap-3 text-sm"
+            class="col-span-2 grid grid-cols-[0.15fr,1fr] gap-3 text-sm"
             v-show="showItem === index"
           >
             <div class="col-span-2 my-4 h-px w-full bg-white/25"></div>
