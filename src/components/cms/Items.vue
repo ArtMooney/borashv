@@ -106,7 +106,6 @@ export default {
       login: {},
       userName: `${import.meta.env.VITE_USERNAME}`,
       userPass: `${import.meta.env.VITE_USERPASS}`,
-      cmsUpdateItems: `${import.meta.env.VITE_APP_CMS_URL}/update-batch`,
       showItem: 1000,
       saveFlag: false,
       savingItemFlag: false,
@@ -258,7 +257,7 @@ export default {
       }
 
       const updateItems = await this.postFetch(
-        this.cmsUpdateItems,
+        `${import.meta.env.VITE_APP_CMS_URL}/update-batch`,
         new Headers({
           "Content-Type": "application/json",
           Authorization:
