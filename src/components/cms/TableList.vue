@@ -1,10 +1,15 @@
+<script setup>
+import { listFields } from "../../js/listFields.js";
+import { getLocalStorage } from "../../js/getLocalStorage.js";
+</script>
+
 <template>
   <div
     class="mx-auto mt-8 flex max-w-screen-md flex-wrap justify-center gap-4 text-base"
   >
     <div v-for="(table, index) of tables">
       <div
-        @click="tableIndex = index"
+        @click="changeTable(index)"
         :class="[
           tableIndex === index
             ? 'cursor-pointer border-b-2 border-white hover:bg-gradient-to-r hover:from-[#ff6363] hover:via-[#b776e5] hover:to-white hover:bg-clip-text hover:text-transparent'
@@ -21,23 +26,53 @@
 export default {
   name: "TableList",
 
-  props: {
-    tables: {
-      type: Array,
-      required: false,
-      default: [],
-    },
-  },
-
   data() {
     return {
+      userName: `${import.meta.env.VITE_USERNAME}`,
+      userPass: `${import.meta.env.VITE_USERPASS}`,
       tableIndex: 0,
+      login: {},
+      tables: [],
+      schema: [],
     };
   },
 
-  watch: {
-    tableIndex() {
-      this.$emit("tableIndex", this.tableIndex);
+  async created() {
+    if (getLocalStorage("simple-cms-login")) {
+      this.login = getLocalStorage("simple-cms-login");
+    }
+
+    this.$emit("loadingFlag", true);
+
+    this.tables = await this.listTables();
+    this.schema = await listFields(this.tables[this.tableIndex].id);
+
+    this.$emit("schema", this.schema);
+  },
+
+  methods: {
+    async changeTable(index) {
+      this.$emit("loadingFlag", true);
+
+      this.tableIndex = index;
+      this.schema = await listFields(this.tables[this.tableIndex].id);
+
+      this.$emit("schema", this.schema);
+    },
+
+    async listTables() {
+      const res = await fetch("/list-tables", {
+        method: "POST",
+        headers: {
+          Authorization: "Basic " + btoa(`${this.userName}:${this.userPass}`),
+        },
+        body: JSON.stringify({
+          email: this.login.email,
+          password: this.login.password,
+        }),
+      });
+
+      return await res.json();
     },
   },
 };

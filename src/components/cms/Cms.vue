@@ -12,24 +12,23 @@ import Items from "./Items.vue";
       class="absolute top-0 z-20 min-h-screen w-full bg-[#363636]"
     >
       <Navbar />
-      <TableList :tables="schema" @tableIndex="schemaIndex = $event" />
+      <TableList
+        @tableIndex="schemaIndex = $event"
+        @loadingFlag="loadingFlag = $event"
+        @schema="schema = $event"
+      />
       <AddRemoveItems :tables="schema" :tableIndex="schemaIndex" />
-
-      <div v-if="!localItems.length && !loadingFlag" class="py-16 text-center">
-        No items found
-      </div>
 
       <Items
         :schema="schema"
-        :items="items"
-        :localItems="localItems"
         :loading-flag="loadingFlag"
         @loadingFlag="loadingFlag = $event"
+        @initLoadedFlag="$emit('initLoadedFlag', $event)"
       />
 
       <div
         v-if="savingItemFlag || savingAllItemsFlag"
-        class="bottom-o fixed left-0 right-0 top-0 z-[1000000] block bg-black"
+        class="fixed bottom-0 left-0 right-0 top-0 z-[1000000] block bg-black"
       ></div>
     </div>
   </teleport>
@@ -43,6 +42,7 @@ export default {
 
   data() {
     return {
+      tables: [],
       schema: [],
       items: [],
       localItems: [],
@@ -63,37 +63,6 @@ export default {
       selectDate: new Date(),
       showDateList: false,
     };
-  },
-
-  async created() {
-    if (this.getLocalStorage("simple-cms-login")) {
-      this.login = this.getLocalStorage("simple-cms-login");
-    }
-
-    this.loadingFlag = true;
-
-    const res = await fetch("/list-tables", {
-      method: "POST",
-      headers: {
-        Authorization: "Basic " + btoa(`${this.userName}:${this.userPass}`),
-      },
-      body: JSON.stringify({
-        email: this.login.email,
-        password: this.login.password,
-      }),
-    });
-
-    this.schema = await res.json();
-    console.log("TABLES", this.schema);
-
-    for (const schema of this.schema) {
-      schema.fields = await this.getFetch(
-        `https://api.baserow.io/api/database/fields/table/${schema.id}/`,
-        new Headers({ Authorization: "Token " + this.baserowClientToken }),
-      );
-    }
-
-    this.loadData();
   },
 
   methods: {
@@ -229,7 +198,7 @@ export default {
 
     schemaIndex() {
       this.showItem = false;
-      this.loadData();
+      // this.loadData();
       window.scrollTo(0, 0);
     },
 

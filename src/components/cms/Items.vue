@@ -4,6 +4,8 @@ import "vue-easy-dnd/dist/dnd.css";
 import CmsItemTitle from "./ItemTitle.vue";
 import LoadingSpinner from "../LoadingSpinner.vue";
 import Input from "./Input.vue";
+import { getLocalStorage } from "../../js/getLocalStorage.js";
+import { listTable } from "../../js/listTable.js";
 </script>
 
 <template>
@@ -13,6 +15,10 @@ import Input from "./Input.vue";
       class="!h-12 !w-12 justify-self-center py-12"
       color="#fac725"
     />
+
+    <div v-if="!items.length && !loadingFlag" class="py-16 text-center">
+      No items found
+    </div>
 
     <drop-list
       :items="localItems"
@@ -50,7 +56,7 @@ import Input from "./Input.vue";
           >
             <div class="col-span-2 my-4 h-px w-full bg-white/25"></div>
 
-            <template v-for="input of schema[schemaIndex].fields">
+            <template v-for="input of schema">
               <div v-if="input.name !== 'index'">
                 {{
                   input.name.includes("|")
@@ -86,16 +92,6 @@ export default {
       required: false,
       default: [],
     },
-    items: {
-      type: Array,
-      required: false,
-      default: [],
-    },
-    localItems: {
-      type: Array,
-      required: false,
-      default: [],
-    },
     loadingFlag: {
       type: Boolean,
       required: false,
@@ -105,6 +101,8 @@ export default {
 
   data() {
     return {
+      items: [],
+      localItems: [],
       login: {},
       userName: `${import.meta.env.VITE_USERNAME}`,
       userPass: `${import.meta.env.VITE_USERPASS}`,
@@ -120,8 +118,6 @@ export default {
       savingItemFlag: false,
       savingAllItemsFlag: false,
       currentIndex: 0,
-      schemaIndex: 0,
-      initLoadedFlag: false,
       blinkAnim: false,
       dragDelay: 0,
       dragVibration: 100,
@@ -133,7 +129,39 @@ export default {
     };
   },
 
+  async created() {
+    if (getLocalStorage("simple-cms-login")) {
+      this.login = getLocalStorage("simple-cms-login");
+    }
+
+    this.loadData();
+  },
+
   methods: {
+    async loadData() {
+      this.$emit("loadingFlag", true);
+
+      if (this.schema.length > 0) {
+        const items = await listTable(this.schema[0].table_id);
+        this.items = items.results;
+
+        // parse to-from date-fields to json array
+        for (const item of this.items) {
+          for (const field of Object.entries(item)) {
+            if (field[0].includes("|") && field[0].includes("to-from")) {
+              if (item[field[0]]) {
+                item[field[0]] = JSON.parse(item[field[0]]);
+              }
+            }
+          }
+        }
+
+        this.localItems = JSON.parse(JSON.stringify(this.items));
+        this.$emit("loadingFlag", false);
+        this.$emit("initLoadedFlag", true);
+      }
+    },
+
     getFetch(urlEndpoint, headers, options) {
       return new Promise((resolve, reject) => {
         var requestOptions = {
@@ -190,42 +218,6 @@ export default {
             reject(error);
           });
       });
-    },
-
-    async loadData() {
-      this.$emit("loadingFlag", true);
-
-      this.items = await fetch(
-        `https://api.baserow.io/api/database/rows/table/${
-          this.schema[this.schemaIndex].id
-        }/?size=200&user_field_names=true`,
-        { headers: { Authorization: "Token " + this.baserowClientToken } },
-      )
-        .then((response) => response.json())
-        .then((data) => data.results);
-
-      this.items.sort((a, b) => {
-        const indexA = a.index;
-        const indexB = b.index;
-        return indexA - indexB; // Ascending order
-      });
-
-      // parse to-from date-fields to json
-      for (const item of this.items) {
-        for (const field of Object.entries(item)) {
-          if (field[0].includes("|") && field[0].includes("to-from")) {
-            if (item[field[0]]) {
-              item[field[0]] = JSON.parse(item[field[0]]);
-            }
-          }
-        }
-      }
-
-      this.localItems = JSON.parse(JSON.stringify(this.items));
-
-      this.$emit("loadingFlag", false);
-      this.initLoadedFlag = true;
-      this.$emit("initLoadedFlag", true);
     },
 
     handleClick(event, index) {
@@ -350,11 +342,11 @@ export default {
 
         if (
           (localObject !== itemsObject &&
-            index === this.schema[this.schemaIndex].fields[0].name &&
+            index === this.schema.name &&
             input.trim() !== "") ||
           (localObject !== itemsObject &&
             input !== null &&
-            index !== this.schema[this.schemaIndex].fields[0].name)
+            index !== this.schema.name)
         ) {
           modified = true;
         }
@@ -375,7 +367,7 @@ export default {
       }
 
       itemJson.id = this.localItems[index].id;
-      itemJson.tableid = this.schema[this.schemaIndex].id;
+      itemJson.tableid = this.schema.id;
 
       return itemJson;
     },
@@ -395,7 +387,7 @@ export default {
       const saveData = JSON.parse(JSON.stringify(item));
 
       // convert date-format if needed and stringify multidate-fields
-      for (const field of this.schema[this.schemaIndex].fields) {
+      for (const field of this.schema) {
         if (field.type === "date") {
           saveData[field.name] = this.convertDateToIso(saveData[field.name]);
         }
@@ -415,8 +407,8 @@ export default {
           }),
           {
             item: saveData,
-            tableid: this.schema[this.schemaIndex].id,
-            fields: this.schema[this.schemaIndex].fields,
+            tableid: this.schema.id,
+            fields: this.schema,
           },
         );
 
@@ -433,8 +425,8 @@ export default {
           }),
           {
             item: saveData,
-            tableid: this.schema[this.schemaIndex].id,
-            fields: this.schema[this.schemaIndex].fields,
+            tableid: this.schema.id,
+            fields: this.schema,
           },
         );
       }
@@ -479,8 +471,8 @@ export default {
         }),
         {
           items: itemArray,
-          tableid: this.schema[this.schemaIndex].id,
-          fields: this.schema[this.schemaIndex].fields,
+          tableid: this.schema.id,
+          fields: this.schema,
         },
       );
 
@@ -537,7 +529,7 @@ export default {
       this.currentIndex = index;
       let fields = {};
 
-      for (const item of this.schema[this.schemaIndex].fields) {
+      for (const item of this.schema) {
         if (item.type === "boolean") {
           fields[item.name] = false;
         } else if (item.type === "file") {
@@ -582,7 +574,7 @@ export default {
     getDateList() {
       const dateList = [];
 
-      for (const item of this.schema[this.schemaIndex].fields) {
+      for (const item of this.schema) {
         if (item.type === "date") {
           dateList.push(item);
         }
@@ -601,7 +593,7 @@ export default {
       let sortName = event.target.innerText;
 
       // assure that we have the full name if special date format
-      for (const item of this.schema[this.schemaIndex].fields) {
+      for (const item of this.schema) {
         if (`${sortName}|to-from` === item.name) {
           sortName = item.name;
         }
@@ -727,6 +719,10 @@ export default {
   },
 
   watch: {
+    schema() {
+      this.loadData();
+    },
+
     localItems: {
       deep: true,
       handler(allInputs) {
