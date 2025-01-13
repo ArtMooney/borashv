@@ -9,7 +9,7 @@ import LoadingSpinner from "../LoadingSpinner.vue";
     <gripVertical style="color: white" class="dragdrop-handle" />
 
     <div class="pointer-events-none">
-      {{ item.titel }}
+      {{ item.titel ? item.titel : item.name }}
     </div>
   </div>
 
@@ -97,19 +97,5 @@ export default {
       default: false,
     },
   },
-
-  data() {
-    return {};
-  },
-
-  methods: {
-    async saveItem(index, item) {},
-
-    async cancelItem(index) {},
-
-    deleteItem(index) {},
-  },
-
-  watch: {},
 };
 </script>
