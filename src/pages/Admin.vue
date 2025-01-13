@@ -2,6 +2,8 @@
 import Login from "../components/cms/Login.vue";
 import Cms from "../components/cms/Cms.vue";
 import Loader from "../components/cms/Loader.vue";
+import { getLocalStorage } from "../js/getLocalStorage.js";
+import { deleteLocalStorage } from "../js/deleteLocalStorage.js";
 </script>
 
 <template>
@@ -30,9 +32,9 @@ export default {
   },
 
   created() {
-    // this.deleteLocalStorage("simple-cms-login");
+    // deleteLocalStorage("simple-cms-login");
 
-    if (!this.getLocalStorage("simple-cms-login")) {
+    if (!getLocalStorage("simple-cms-login")) {
       this.loginFlag = true;
     } else {
       this.loaderFlag = true;
@@ -53,32 +55,6 @@ export default {
         this.cmsFlag = true;
       }
     },
-
-    getLocalStorage(name) {
-      const itemStr = localStorage.getItem(name);
-
-      if (!itemStr) {
-        return null;
-      }
-
-      const item = JSON.parse(itemStr);
-      const now = new Date();
-
-      if (now.getTime() > item.expiry) {
-        localStorage.removeItem(name);
-        return null;
-      }
-      return item.value;
-    },
-
-    deleteLocalStorage(name) {
-      localStorage.removeItem(name);
-    },
   },
 };
 </script>
-
-<style>
-@import "../css/webflow.css";
-@import "../css/simple-cms.css";
-</style>
