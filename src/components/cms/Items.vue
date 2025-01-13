@@ -1,7 +1,7 @@
 <script setup>
 import { Drag, DropList } from "vue-easy-dnd";
 import "vue-easy-dnd/dist/dnd.css";
-import CmsItemTitle from "./ItemTitle.vue";
+import ItemTitle from "./ItemTitle.vue";
 import LoadingSpinner from "../LoadingSpinner.vue";
 import Input from "./Input.vue";
 import { getLocalStorage } from "../../js/getLocalStorage.js";
@@ -38,7 +38,7 @@ import { listTable } from "../../js/listTable.js";
           :key="item"
           handle=".dragdrop-handle"
         >
-          <CmsItemTitle
+          <ItemTitle
             :item="item"
             :index="index"
             :saving-item-flag="savingItemFlag"

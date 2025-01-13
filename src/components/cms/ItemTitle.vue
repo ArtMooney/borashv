@@ -1,12 +1,12 @@
 <script setup>
-import chevronDown from "../../assets/chevron-down.vue";
-import gripVertical from "../../assets/grip-vertical.vue";
 import LoadingSpinner from "../LoadingSpinner.vue";
+import { IonIcon } from "@ionic/vue";
+import { grid, chevronDownOutline } from "ionicons/icons";
 </script>
 
 <template>
   <div class="flex cursor-pointer items-center gap-4">
-    <gripVertical style="color: white" class="dragdrop-handle" />
+    <ion-icon :icon="grid" class="h-6 w-6 text-white"></ion-icon>
 
     <div class="pointer-events-none">
       {{ item.titel ? item.titel : item.name }}
@@ -41,13 +41,14 @@ import LoadingSpinner from "../LoadingSpinner.vue";
     </div>
 
     <div class="flex items-center gap-2">
-      <chevronDown
+      <ion-icon
         v-if="
           (!savingItemFlag || (savingItemFlag && showItem !== index)) &&
           !savingAllItemsFlag
         "
-        class="h-5 w-5"
-      />
+        :icon="chevronDownOutline"
+        class="h-6 w-6 text-white"
+      ></ion-icon>
 
       <LoadingSpinner
         v-show="(savingItemFlag && showItem === index) || savingAllItemsFlag"

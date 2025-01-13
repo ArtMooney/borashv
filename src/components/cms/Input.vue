@@ -44,7 +44,7 @@ import { closeCircleOutline } from "ionicons/icons";
     v-if="input.name !== 'index' && getInputType(input.type) === 'textarea'"
     @click="handleInput"
     v-model="item[input.name]"
-    class="cms-input message w-input"
+    class="h-40 border border-white/25 bg-[#4a4644] p-2"
     :name="input.name"
   ></textarea>
 
@@ -75,7 +75,7 @@ import { closeCircleOutline } from "ionicons/icons";
     <ion-icon
       @click.stop="removeFile(index, `${input.name}-${index}`, input.name)"
       :icon="closeCircleOutline"
-      class="h-4 w-4 px-0.5 text-red-600"
+      class="h-4 w-4 cursor-pointer px-0.5 text-red-600"
     ></ion-icon>
   </div>
 </template>

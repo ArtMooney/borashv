@@ -7,7 +7,7 @@
     <div class="flex w-full justify-between">
       <div
         @click="addItem()"
-        class="cursor-pointer rounded border border-white/25 bg-[#548b63] p-1 text-sm hover:bg-[#6bad7d]"
+        class="cursor-pointer rounded border border-white/25 bg-[#548b63] px-2 py-1 text-sm hover:bg-[#6bad7d]"
       >
         + Add new item
       </div>
@@ -15,7 +15,7 @@
       <div class="relative flex text-sm">
         <div
           @click.stop="sortItems"
-          class="cursor-pointer rounded border border-white/25 bg-[#534d75] p-1 hover:bg-[#5f587f]"
+          class="cursor-pointer rounded border border-white/25 bg-[#534d75] px-2 py-1 hover:bg-[#5f587f]"
         >
           Sort list by date
         </div>
