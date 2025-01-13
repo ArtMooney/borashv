@@ -50,7 +50,7 @@ import { closeCircleOutline } from "ionicons/icons";
 
   <div
     v-if="input.name !== 'index' && getInputType(input.type) === 'file'"
-    class="flex gap-1"
+    class="flex gap-1 justify-self-start"
   >
     <input
       v-if="input.name !== 'index' && getInputType(input.type) === 'file'"

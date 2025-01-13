@@ -5,7 +5,7 @@ import LoadingSpinner from "../LoadingSpinner.vue";
 </script>
 
 <template>
-  <div class="flex items-center gap-4">
+  <div class="flex cursor-pointer items-center gap-4">
     <gripVertical style="color: white" class="dragdrop-handle" />
 
     <div class="pointer-events-none">
@@ -13,7 +13,7 @@ import LoadingSpinner from "../LoadingSpinner.vue";
     </div>
   </div>
 
-  <div class="flex justify-end gap-2">
+  <div class="flex cursor-pointer justify-end gap-2">
     <div class="flex items-center gap-2">
       <div
         v-if="showItem === index && saveFlag"

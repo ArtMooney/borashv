@@ -32,7 +32,7 @@ import { listTable } from "../../js/listTable.js";
           :delay="dragDelay"
           :vibration="dragVibration"
           @click="handleClick($event, index)"
-          class="m-h-16 mb-4 grid cursor-pointer grid-cols-2 rounded bg-black/25 p-4 shadow-[3px_4px_12px_rgba(0,0,0,0.22)]"
+          class="m-h-16 mb-4 grid grid-cols-2 rounded bg-black/25 p-4 shadow-[3px_4px_12px_rgba(0,0,0,0.22)]"
           v-show="!loadingFlag"
           :ref="`list-item-${index}`"
           :key="item"
