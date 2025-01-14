@@ -17,13 +17,17 @@ import Items from "./Items.vue";
         @loadingFlag="loadingFlag = $event"
         @schema="schema = $event"
       />
-      <AddRemoveItems :tables="schema" :tableIndex="tableIndex" />
-
+      <AddRemoveItems
+        :tables="schema"
+        :tableIndex="tableIndex"
+        :saveFlag="saveFlag"
+      />
       <Items
         :schema="schema"
         :loading-flag="loadingFlag"
         @loadingFlag="loadingFlag = $event"
         @initLoadedFlag="$emit('initLoadedFlag', $event)"
+        @saveFlag="saveFlag = $event"
       />
 
       <div
@@ -45,6 +49,7 @@ export default {
       tables: [],
       schema: [],
       items: [],
+      saveFlag: false,
       savingItemFlag: false,
       savingAllItemsFlag: false,
       tableIndex: 0,

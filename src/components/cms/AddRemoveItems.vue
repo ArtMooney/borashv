@@ -67,47 +67,47 @@ export default {
 
   methods: {
     addItem() {
-      // if (this.saveFlag) {
-      //   this.alertSaveFlag();
-      //   return;
-      // }
-      //
-      // this.editingNewItem = true;
-      // const index = this.localItems.length;
-      // this.currentIndex = index;
-      // let fields = {};
-      //
-      // for (const item of this.schema[this.schemaIndex].fields) {
-      //   if (item.type === "boolean") {
-      //     fields[item.name] = false;
-      //   } else if (item.type === "file") {
-      //     fields[item.name] = [];
-      //   } else {
-      //     fields[item.name] = "";
+      //   if (this.saveFlag) {
+      //     this.alertSaveFlag();
+      //     return;
       //   }
-      // }
       //
-      // fields.index = index;
+      //   this.editingNewItem = true;
+      //   const index = this.localItems.length;
+      //   this.currentIndex = index;
+      //   let fields = {};
       //
-      // this.localItems.push({
-      //   ...fields,
-      //   id: "",
-      // });
+      //   for (const item of this.schema[this.schemaIndex].fields) {
+      //     if (item.type === "boolean") {
+      //       fields[item.name] = false;
+      //     } else if (item.type === "file") {
+      //       fields[item.name] = [];
+      //     } else {
+      //       fields[item.name] = "";
+      //     }
+      //   }
       //
-      // this.showItem = this.showItem === index ? false : index;
+      //   fields.index = index;
       //
-      // this.$nextTick(() => {
-      //   this.saveFlag = true;
-      //   const element = this.$refs["list-item-" + this.showItem].$el;
-      //   const inputs = element.querySelectorAll("input");
-      //
-      //   element.scrollIntoView({
-      //     behavior: "smooth",
-      //     block: "start",
+      //   this.localItems.push({
+      //     ...fields,
+      //     id: "",
       //   });
       //
-      //   inputs[0].focus();
-      // });
+      //   this.showItem = this.showItem === index ? false : index;
+      //
+      //   this.$nextTick(() => {
+      //     this.saveFlag = true;
+      //     const element = this.$refs["list-item-" + this.showItem].$el;
+      //     const inputs = element.querySelectorAll("input");
+      //
+      //     element.scrollIntoView({
+      //       behavior: "smooth",
+      //       block: "start",
+      //     });
+      //
+      //     inputs[0].focus();
+      //   });
     },
 
     sortItems() {

@@ -69,7 +69,7 @@ import { listTable } from "../../js/listTable.js";
                 :index="index"
                 :localItems="localItems"
                 @showItem="showItem = $event"
-                @saveFlag="saveFlag = $event"
+                @saveFlag="$emit('saveFlag', $event)"
                 @localItems="localItems = $event"
               />
             </template>
@@ -96,6 +96,11 @@ export default {
       required: false,
       default: false,
     },
+    saveFlag: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
 
   data() {
@@ -107,7 +112,6 @@ export default {
       userPass: `${import.meta.env.VITE_USERPASS}`,
       showItem: 0,
       itemOpen: false,
-      saveFlag: false,
       savingItemFlag: false,
       savingAllItemsFlag: false,
       dragDelay: 0,
@@ -227,7 +231,7 @@ export default {
     async saveAllItems() {
       const itemArray = [];
       this.savingAllItemsFlag = true;
-      this.saveFlag = true;
+      this.$emit("saveFlag", true);
 
       for (const [index, item] of Object.entries(this.localItems)) {
         item.index = index;
@@ -250,7 +254,7 @@ export default {
 
       this.items = JSON.parse(JSON.stringify(this.localItems));
       this.savingAllItemsFlag = false;
-      this.saveFlag = false;
+      this.$emit("saveFlag", false);
     },
   },
 
@@ -272,9 +276,9 @@ export default {
     //         this.items[this.currentIndex],
     //       )
     //     ) {
-    //       this.saveFlag = true;
+    //       this.$emit("saveFlag", true);
     //     } else {
-    //       this.saveFlag = false;
+    //       this.$emit("saveFlag", false);
     //     }
     //   },
     // },
