@@ -70,7 +70,7 @@ import { listTable } from "../../js/listTable.js";
                 :localItems="localItems"
                 @showItem="showItem = $event"
                 @saveFlag="$emit('saveFlag', $event)"
-                @localItems="localItems = $event"
+                @localItems="$emit('localItems', $event)"
               />
             </template>
           </div>
@@ -106,12 +106,16 @@ export default {
       required: false,
       default: false,
     },
+    localItems: {
+      type: Array,
+      required: false,
+      default: [],
+    },
   },
 
   data() {
     return {
       items: [],
-      localItems: [],
       login: {},
       userName: `${import.meta.env.VITE_USERNAME}`,
       userPass: `${import.meta.env.VITE_USERPASS}`,
@@ -153,7 +157,7 @@ export default {
           }
         }
 
-        this.localItems = JSON.parse(JSON.stringify(this.items));
+        this.$emit("localItems", JSON.parse(JSON.stringify(this.items)));
         this.$emit("loadingFlag", false);
         this.$emit("initLoadedFlag", true);
       }

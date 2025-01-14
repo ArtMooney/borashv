@@ -62,6 +62,11 @@ export default {
       required: false,
       default: false,
     },
+    localItems: {
+      type: Array,
+      required: false,
+      default: [],
+    },
   },
 
   data() {
