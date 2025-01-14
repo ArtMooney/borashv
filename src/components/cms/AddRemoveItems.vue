@@ -83,7 +83,8 @@ export default {
       //   }
 
       this.$emit("editingNewItem", true);
-      const index = this.localItems.length;
+      const localItems = JSON.parse(JSON.stringify(this.localItems));
+      const index = localItems.length;
       this.currentIndex = index;
       let fields = {};
 
@@ -99,10 +100,12 @@ export default {
 
       fields.index = index;
 
-      this.localItems.push({
+      localItems.push({
         ...fields,
         id: "",
       });
+
+      this.$emit("localItems", localItems);
 
       this.showItem = this.showItem === index ? false : index;
 
