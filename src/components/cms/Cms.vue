@@ -21,10 +21,12 @@ import Items from "./Items.vue";
         :tables="schema"
         :tableIndex="tableIndex"
         :saveFlag="saveFlag"
+        @editingNewItem="editingNewItem = $event"
       />
       <Items
         :schema="schema"
         :loading-flag="loadingFlag"
+        :editing-new-item="editingNewItem"
         @loadingFlag="loadingFlag = $event"
         @initLoadedFlag="$emit('initLoadedFlag', $event)"
         @saveFlag="saveFlag = $event"
@@ -55,6 +57,7 @@ export default {
       tableIndex: 0,
       loadingFlag: true,
       showDateList: false,
+      editingNewItem: false,
     };
   },
 

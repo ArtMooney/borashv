@@ -57,6 +57,11 @@ export default {
       required: false,
       default: 0,
     },
+    saveFlag: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
 
   data() {
@@ -71,43 +76,43 @@ export default {
       //     this.alertSaveFlag();
       //     return;
       //   }
-      //
-      //   this.editingNewItem = true;
-      //   const index = this.localItems.length;
-      //   this.currentIndex = index;
-      //   let fields = {};
-      //
-      //   for (const item of this.schema[this.schemaIndex].fields) {
-      //     if (item.type === "boolean") {
-      //       fields[item.name] = false;
-      //     } else if (item.type === "file") {
-      //       fields[item.name] = [];
-      //     } else {
-      //       fields[item.name] = "";
-      //     }
-      //   }
-      //
-      //   fields.index = index;
-      //
-      //   this.localItems.push({
-      //     ...fields,
-      //     id: "",
-      //   });
-      //
-      //   this.showItem = this.showItem === index ? false : index;
-      //
-      //   this.$nextTick(() => {
-      //     this.saveFlag = true;
-      //     const element = this.$refs["list-item-" + this.showItem].$el;
-      //     const inputs = element.querySelectorAll("input");
-      //
-      //     element.scrollIntoView({
-      //       behavior: "smooth",
-      //       block: "start",
-      //     });
-      //
-      //     inputs[0].focus();
-      //   });
+
+      this.$emit("editingNewItem", true);
+      const index = this.localItems.length;
+      this.currentIndex = index;
+      let fields = {};
+
+      for (const item of this.schema[this.schemaIndex].fields) {
+        if (item.type === "boolean") {
+          fields[item.name] = false;
+        } else if (item.type === "file") {
+          fields[item.name] = [];
+        } else {
+          fields[item.name] = "";
+        }
+      }
+
+      fields.index = index;
+
+      this.localItems.push({
+        ...fields,
+        id: "",
+      });
+
+      this.showItem = this.showItem === index ? false : index;
+
+      this.$nextTick(() => {
+        this.saveFlag = true;
+        const element = this.$refs["list-item-" + this.showItem].$el;
+        const inputs = element.querySelectorAll("input");
+
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+
+        inputs[0].focus();
+      });
     },
 
     sortItems() {

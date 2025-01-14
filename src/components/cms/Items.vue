@@ -101,6 +101,11 @@ export default {
       required: false,
       default: false,
     },
+    editingNewItem: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
 
   data() {
@@ -116,7 +121,6 @@ export default {
       savingAllItemsFlag: false,
       dragDelay: 0,
       dragVibration: 100,
-      editingNewItem: false,
       showDateList: false,
       sortOrder: false,
     };
