@@ -6,7 +6,10 @@ import { grid, chevronDownOutline } from "ionicons/icons";
 
 <template>
   <div class="flex cursor-pointer items-center gap-4">
-    <ion-icon :icon="grid" class="h-6 w-6 text-white"></ion-icon>
+    <ion-icon
+      :icon="grid"
+      class="h-6 w-6 cursor-grabbing text-white"
+    ></ion-icon>
 
     <div class="pointer-events-none">
       {{ item.titel ? item.titel : item.name }}
