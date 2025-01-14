@@ -199,29 +199,29 @@ export default {
       }
     },
 
-    // isItemChanged(localItems, items) {
-    //   if ((!items && !localItems) || this.editingNewItem) return null;
-    //
-    //   let modified = false;
-    //
-    //   for (const [index, input] of Object.entries(localItems)) {
-    //     const localObject = JSON.stringify(input);
-    //     const itemsObject = JSON.stringify(items[index]);
-    //
-    //     if (
-    //       (localObject !== itemsObject &&
-    //         index === this.schema.name &&
-    //         input.trim() !== "") ||
-    //       (localObject !== itemsObject &&
-    //         input !== null &&
-    //         index !== this.schema.name)
-    //     ) {
-    //       modified = true;
-    //     }
-    //   }
-    //
-    //   return modified;
-    // },
+    isItemChanged(localItems, items) {
+      if ((!items && !localItems) || this.editingNewItem) return null;
+
+      let modified = false;
+
+      for (const [index, input] of Object.entries(localItems)) {
+        const localObject = JSON.stringify(input);
+        const itemsObject = JSON.stringify(items[index]);
+
+        if (
+          (localObject !== itemsObject &&
+            index === this.schema.name &&
+            input.trim() !== "") ||
+          (localObject !== itemsObject &&
+            input !== null &&
+            index !== this.schema.name)
+        ) {
+          modified = true;
+        }
+      }
+
+      return modified;
+    },
 
     getItemOrder(index) {
       let itemJson = {};
@@ -269,31 +269,31 @@ export default {
       this.loadData();
     },
 
-    // localItems: {
-    //   deep: true,
-    //   handler(allInputs) {
-    //     if (this.currentIndex === false || this.editingNewItem) return;
-    //
-    //     if (
-    //       this.isItemChanged(
-    //         allInputs[this.currentIndex],
-    //         this.items[this.currentIndex],
-    //       )
-    //     ) {
-    //       this.$emit("saveFlag", true);
-    //     } else {
-    //       this.$emit("saveFlag", false);
-    //     }
-    //   },
-    // },
+    localItems: {
+      deep: true,
+      handler(allInputs) {
+        if (this.currentIndex === false || this.editingNewItem) return;
 
-    // showItem() {
-    //   if (this.showItem === 0) {
-    //     this.dragDelay = 0;
-    //   } else {
-    //     this.dragDelay = 86400000;
-    //   }
-    // },
+        if (
+          this.isItemChanged(
+            allInputs[this.currentIndex],
+            this.items[this.currentIndex],
+          )
+        ) {
+          this.$emit("saveFlag", true);
+        } else {
+          this.$emit("saveFlag", false);
+        }
+      },
+    },
+
+    showItem() {
+      if (this.showItem === 0) {
+        this.dragDelay = 0;
+      } else {
+        this.dragDelay = 86400000;
+      }
+    },
   },
 };
 </script>
