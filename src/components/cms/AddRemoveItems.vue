@@ -124,7 +124,7 @@ export default {
       this.$emit("showItem", this.showItem === index ? false : index);
 
       this.$nextTick(() => {
-        this.saveFlag = true;
+        this.$emit("saveFlag", true);
         const element = this.$refs["list-item-" + this.showItem].$el;
         const inputs = element.querySelectorAll("input");
 

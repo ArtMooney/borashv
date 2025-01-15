@@ -3,6 +3,7 @@ import Navbar from "./Navbar.vue";
 import TableList from "./TableList.vue";
 import AddRemoveItems from "./AddRemoveItems.vue";
 import Items from "./Items.vue";
+import { save } from "ionicons/icons";
 </script>
 
 <template>
@@ -27,6 +28,8 @@ import Items from "./Items.vue";
         :item-open="itemOpen"
         @editingNewItem="editingNewItem = $event"
         @localItems="localItems = $event"
+        @showItem="showItem = $event"
+        @saveFlag="saveFlag = $event"
       />
       <Items
         :schema="schema"
