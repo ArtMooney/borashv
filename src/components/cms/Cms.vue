@@ -19,9 +19,12 @@ import Items from "./Items.vue";
       />
       <AddRemoveItems
         :tables="schema"
-        :tableIndex="tableIndex"
-        :saveFlag="saveFlag"
-        :localItems="localItems"
+        :table-index="tableIndex"
+        :save-flag="saveFlag"
+        :local-items="localItems"
+        :schema="schema"
+        :show-item="showItem"
+        :item-open="itemOpen"
         @editingNewItem="editingNewItem = $event"
         @localItems="localItems = $event"
       />
@@ -29,11 +32,15 @@ import Items from "./Items.vue";
         :schema="schema"
         :loading-flag="loadingFlag"
         :editing-new-item="editingNewItem"
-        :localItems="localItems"
+        :local-items="localItems"
+        :show-item="showItem"
+        :item-open="itemOpen"
         @loadingFlag="loadingFlag = $event"
         @initLoadedFlag="$emit('initLoadedFlag', $event)"
         @saveFlag="saveFlag = $event"
         @localItems="localItems = $event"
+        @showItem="showItem = $event"
+        @itemOpen="itemOpen = $event"
       />
 
       <div
@@ -55,6 +62,8 @@ export default {
       tables: [],
       schema: [],
       localItems: [],
+      showItem: 0,
+      itemOpen: false,
       saveFlag: false,
       savingItemFlag: false,
       savingAllItemsFlag: false,

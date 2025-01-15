@@ -68,7 +68,7 @@ import { listTable } from "../../js/listTable.js";
                 :item="item"
                 :index="index"
                 :localItems="localItems"
-                @showItem="showItem = $event"
+                @showItem="$emit('showItem', $event)"
                 @saveFlag="$emit('saveFlag', $event)"
                 @localItems="$emit('localItems', $event)"
               />
@@ -111,6 +111,14 @@ export default {
       required: false,
       default: [],
     },
+    showItem: {
+      type: Number,
+      required: false,
+    },
+    itemOpen: {
+      type: Boolean,
+      required: false,
+    },
   },
 
   data() {
@@ -119,8 +127,6 @@ export default {
       login: {},
       userName: `${import.meta.env.VITE_USERNAME}`,
       userPass: `${import.meta.env.VITE_USERPASS}`,
-      showItem: 0,
-      itemOpen: false,
       savingItemFlag: false,
       savingAllItemsFlag: false,
       dragDelay: 0,
@@ -196,10 +202,10 @@ export default {
 
     handleClick(event, index) {
       if (this.showItem === index) {
-        this.itemOpen = !this.itemOpen;
+        this.$emit("itemOpen", !this.itemOpen);
       } else {
-        this.showItem = index;
-        this.itemOpen = true;
+        this.$emit("showItem", index);
+        this.$emit("itemOpen", true);
       }
     },
 
@@ -268,8 +274,8 @@ export default {
 
   watch: {
     schema() {
-      this.showItem = 0;
-      this.itemOpen = false;
+      this.$emit("showItem", 0);
+      this.$emit("itemOpen", false);
       this.loadData();
     },
 

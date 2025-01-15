@@ -67,6 +67,21 @@ export default {
       required: false,
       default: [],
     },
+    schema: {
+      type: Array,
+      required: false,
+      default: [],
+    },
+    showItem: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    itemOpen: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
 
   data() {
@@ -85,10 +100,10 @@ export default {
       this.$emit("editingNewItem", true);
       const localItems = JSON.parse(JSON.stringify(this.localItems));
       const index = localItems.length;
-      this.currentIndex = index;
+      // this.currentIndex = index;
       let fields = {};
 
-      for (const item of this.schema[this.schemaIndex].fields) {
+      for (const item of this.schema) {
         if (item.type === "boolean") {
           fields[item.name] = false;
         } else if (item.type === "file") {
@@ -106,8 +121,7 @@ export default {
       });
 
       this.$emit("localItems", localItems);
-
-      this.showItem = this.showItem === index ? false : index;
+      this.$emit("showItem", this.showItem === index ? false : index);
 
       this.$nextTick(() => {
         this.saveFlag = true;
