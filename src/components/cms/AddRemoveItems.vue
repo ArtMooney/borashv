@@ -92,15 +92,9 @@ export default {
 
   methods: {
     addItem() {
-      //   if (this.saveFlag) {
-      //     this.alertSaveFlag();
-      //     return;
-      //   }
-
       this.$emit("editingNewItem", true);
       const localItems = JSON.parse(JSON.stringify(this.localItems));
       const index = localItems.length;
-      // this.currentIndex = index;
       let fields = {};
 
       for (const item of this.schema) {
@@ -121,19 +115,12 @@ export default {
       });
 
       this.$emit("localItems", localItems);
-      this.$emit("showItem", this.showItem === index ? false : index);
+      this.$emit("showItem", index);
+      this.$emit("itemOpen", true);
+      this.$emit("saveFlag", true);
 
       this.$nextTick(() => {
-        this.$emit("saveFlag", true);
-        const element = this.$refs["list-item-" + this.showItem].$el;
-        const inputs = element.querySelectorAll("input");
-
-        element.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-
-        inputs[0].focus();
+        this.$router.push({ hash: "#items-list-bottom" });
       });
     },
 

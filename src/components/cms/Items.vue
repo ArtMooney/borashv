@@ -9,7 +9,10 @@ import { listTable } from "../../js/listTable.js";
 </script>
 
 <template>
-  <div class="mx-auto mt-8 max-w-screen-md justify-center gap-4">
+  <div
+    class="mx-auto mt-8 max-w-screen-md justify-center gap-4"
+    id="items-list-top"
+  >
     <LoadingSpinner
       v-if="loadingFlag"
       class="!h-12 !w-12 justify-self-center py-12"
@@ -79,11 +82,21 @@ import { listTable } from "../../js/listTable.js";
       <template v-slot:feedback="{ data }"></template>
     </drop-list>
   </div>
+  <div id="items-list-bottom"></div>
 </template>
 
 <script>
 export default {
   name: "CmsItems",
+
+  emits: [
+    "loadingFlag",
+    "initLoadedFlag",
+    "saveFlag",
+    "localItems",
+    "showItem",
+    "itemOpen",
+  ],
 
   props: {
     schema: {
@@ -201,9 +214,9 @@ export default {
     },
 
     handleClick(event, index) {
-      if (this.showItem === index) {
+      if (this.showItem === index && !this.editingNewItem) {
         this.$emit("itemOpen", !this.itemOpen);
-      } else {
+      } else if (!this.editingNewItem) {
         this.$emit("showItem", index);
         this.$emit("itemOpen", true);
       }

@@ -19,7 +19,7 @@ import { grid, chevronDownOutline } from "ionicons/icons";
   <div class="flex cursor-pointer justify-end gap-2">
     <div class="flex items-center gap-2">
       <div
-        v-if="showItem === index && saveFlag"
+        v-if="showItem === index && editingNewItem"
         @click.stop="saveItem(index, item)"
         class="rounded border border-white/25 bg-[#8a548b] px-2 py-0.5 text-sm hover:bg-[#b280b4]"
       >
@@ -27,7 +27,7 @@ import { grid, chevronDownOutline } from "ionicons/icons";
       </div>
 
       <div
-        v-if="showItem === index && saveFlag"
+        v-if="showItem === index && editingNewItem"
         @click.stop="cancelItem(index)"
         class="rounded border border-white/25 bg-[#8a548b] px-2 py-0.5 text-sm hover:bg-[#b280b4]"
       >
