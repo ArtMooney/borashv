@@ -6,14 +6,13 @@ import Items from "./Items.vue";
 </script>
 
 <template>
-  <teleport to="body">
+  <Teleport to="body">
     <div
       @click="handleClickOutside"
       class="absolute left-0 top-0 z-20 min-h-screen w-full bg-[#363636] px-4"
     >
       <Navbar />
       <TableList
-        @tableIndex="tableIndex = $event"
         @loadingFlag="loadingFlag = $event"
         @schema="schema = $event"
       />
@@ -39,7 +38,7 @@ import Items from "./Items.vue";
         class="fixed bottom-0 left-0 right-0 top-0 z-[1000000] block bg-black"
       ></div>
     </div>
-  </teleport>
+  </Teleport>
 </template>
 
 <script>
