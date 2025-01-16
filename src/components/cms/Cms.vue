@@ -38,6 +38,7 @@ import Items from "./Items.vue";
         :local-items="localItems"
         :show-item="showItem"
         :item-open="itemOpen"
+        :save-flag="saveFlag"
         @loadingFlag="loadingFlag = $event"
         @initLoadedFlag="$emit('initLoadedFlag', $event)"
         @saveFlag="saveFlag = $event"
