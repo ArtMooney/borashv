@@ -17,20 +17,7 @@ import Items from "./Items.vue";
         @loadingFlag="loadingFlag = $event"
         @schema="schema = $event"
       />
-      <AddRemoveItems
-        :tables="schema"
-        :table-index="tableIndex"
-        :save-flag="saveFlag"
-        :local-items="localItems"
-        :schema="schema"
-        :show-item="showItem"
-        :item-open="itemOpen"
-        @editingNewItem="editingNewItem = $event"
-        @localItems="localItems = $event"
-        @showItem="showItem = $event"
-        @saveFlag="saveFlag = $event"
-        @itemOpen="itemOpen = $event"
-      />
+      <AddRemoveItems :items="items" :schema="schema" />
       <Items
         :schema="schema"
         :loading-flag="loadingFlag"
@@ -63,6 +50,7 @@ export default {
 
   data() {
     return {
+      items: [],
       tables: [],
       schema: [],
       localItems: [],

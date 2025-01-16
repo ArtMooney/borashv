@@ -47,6 +47,11 @@ export default {
   name: "AddRemoveItems",
 
   props: {
+    items: {
+      type: Array,
+      required: false,
+      default: [],
+    },
     schema: {
       type: Array,
       required: false,
