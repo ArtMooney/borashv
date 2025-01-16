@@ -55,7 +55,7 @@ export default {
     },
 
     logOut() {
-      // this.deleteLocalStorage("simple-cms-login");
+      this.deleteLocalStorage("simple-cms-login");
       location.reload();
     },
   },
