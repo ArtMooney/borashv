@@ -8,7 +8,7 @@ import { grid, chevronDownOutline } from "ionicons/icons";
   <div class="dragdrop-handle flex cursor-pointer items-center gap-4">
     <ion-icon
       :icon="grid"
-      class="h-6 w-6 cursor-grabbing text-white"
+      class="h-6 w-6 shrink-0 cursor-grabbing text-white"
     ></ion-icon>
 
     <div class="pointer-events-none">
