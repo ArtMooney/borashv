@@ -45,19 +45,11 @@ import { grid, chevronDownOutline } from "ionicons/icons";
 
     <div class="flex items-center gap-2">
       <ion-icon
-        v-if="
-          (!savingItemFlag || (savingItemFlag && showItem !== index)) &&
-          !savingAllItemsFlag
-        "
         :icon="chevronDownOutline"
         class="h-6 w-6 text-white"
       ></ion-icon>
 
-      <LoadingSpinner
-        v-show="(savingItemFlag && showItem === index) || savingAllItemsFlag"
-        class="!h-5 !w-5"
-        color="#fac725"
-      />
+      <LoadingSpinner class="!h-5 !w-5" color="#fac725" />
     </div>
   </div>
 </template>
@@ -75,16 +67,6 @@ export default {
       type: Number,
       required: true,
     },
-    savingItemFlag: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    savingAllItemsFlag: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
     showItem: {
       type: Number,
       required: false,
@@ -100,6 +82,14 @@ export default {
       required: false,
       default: false,
     },
+  },
+
+  methods: {
+    saveItem(index, item) {},
+
+    cancelItem(index) {},
+
+    deleteItem(index) {},
   },
 };
 </script>

@@ -44,8 +44,6 @@ import { listTable } from "../../js/listTable.js";
           <ItemTitle
             :item="item"
             :index="index"
-            :saving-item-flag="savingItemFlag"
-            :saving-all-items-flag="savingAllItemsFlag"
             :show-item="showItem"
             :save-flag="saveFlag"
             :editing-new-item="editingNewItem"
@@ -135,8 +133,6 @@ export default {
   data() {
     return {
       login: {},
-      userName: `${import.meta.env.VITE_USERNAME}`,
-      userPass: `${import.meta.env.VITE_USERPASS}`,
       savingItemFlag: false,
       savingAllItemsFlag: false,
       dragDelay: 0,
