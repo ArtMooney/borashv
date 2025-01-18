@@ -101,10 +101,6 @@ export default {
     },
   },
 
-  data() {
-    return {};
-  },
-
   methods: {
     getInputType(type) {
       let inputType = "text";

@@ -13,7 +13,7 @@ import { deleteLocalStorage } from "../js/deleteLocalStorage.js";
       @status="handleLoginStatus"
       class="mx-auto w-full max-w-screen-xl"
     />
-    <Cms v-if="panel === 'cms'" @initLoadedFlag="handleInitLoaded" />
+    <Cms v-if="panel === 'cms'" />
     <!--    <Loader v-if="loaderFlag" />-->
   </div>
 </template>
@@ -46,13 +46,6 @@ export default {
     handleLoginStatus(status) {
       if (status === "ok") {
         this.panel = "cms";
-      }
-    },
-
-    handleInitLoaded(initLoadedFlag) {
-      if (initLoadedFlag) {
-        this.loaderFlag = false;
-        this.cmsFlag = true;
       }
     },
   },

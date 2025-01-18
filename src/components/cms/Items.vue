@@ -85,14 +85,7 @@ import { listTable } from "../../js/listTable.js";
 export default {
   name: "CmsItems",
 
-  emits: [
-    "loadingFlag",
-    "initLoadedFlag",
-    "saveFlag",
-    "items",
-    "showItem",
-    "itemOpen",
-  ],
+  emits: ["loadingFlag", "saveFlag", "items", "showItem", "itemOpen"],
 
   props: {
     schema: {
@@ -133,12 +126,8 @@ export default {
   data() {
     return {
       login: {},
-      savingItemFlag: false,
-      savingAllItemsFlag: false,
       dragDelay: 0,
       dragVibration: 100,
-      showDateList: false,
-      sortOrder: false,
     };
   },
 
@@ -171,11 +160,18 @@ export default {
 
         this.$emit("items", JSON.parse(JSON.stringify(items)));
         this.$emit("loadingFlag", false);
-        this.$emit("initLoadedFlag", true);
       }
     },
 
-    handleClick(event, index) {},
+    handleClick(event, index) {
+      if (this.showItem === index) {
+        this.$emit("showItem", index);
+        this.$emit("itemOpen", !this.itemOpen);
+      } else {
+        this.$emit("showItem", index);
+        this.$emit("itemOpen", true);
+      }
+    },
 
     async saveAllItems() {},
   },

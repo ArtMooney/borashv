@@ -33,7 +33,6 @@ export default {
       tableIndex: 0,
       login: {},
       tables: [],
-      schema: [],
     };
   },
 
@@ -45,9 +44,9 @@ export default {
     this.$emit("loadingFlag", true);
 
     this.tables = await this.listTables();
-    this.schema = await listFields(this.tables[this.tableIndex].id);
+    const schema = await listFields(this.tables[this.tableIndex].id);
 
-    this.$emit("schema", this.schema);
+    this.$emit("schema", schema);
   },
 
   methods: {
@@ -55,9 +54,9 @@ export default {
       this.$emit("loadingFlag", true);
 
       this.tableIndex = index;
-      this.schema = await listFields(this.tables[this.tableIndex].id);
+      const schema = await listFields(this.tables[this.tableIndex].id);
 
-      this.$emit("schema", this.schema);
+      this.$emit("schema", schema);
     },
 
     async listTables() {

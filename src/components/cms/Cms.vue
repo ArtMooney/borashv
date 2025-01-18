@@ -18,24 +18,23 @@ import Items from "./Items.vue";
       />
       <AddRemoveItems :items="items" :schema="schema" />
       <Items
-        :schema="schema"
-        :loading-flag="loadingFlag"
-        :editing-new-item="editingNewItem"
         :items="items"
+        :schema="schema"
         :show-item="showItem"
         :item-open="itemOpen"
         :save-flag="saveFlag"
-        @loadingFlag="loadingFlag = $event"
-        @initLoadedFlag="$emit('initLoadedFlag', $event)"
-        @saveFlag="saveFlag = $event"
+        :loading-flag="loadingFlag"
+        :editing-new-item="editingNewItem"
         @items="items = $event"
         @showItem="showItem = $event"
         @itemOpen="itemOpen = $event"
+        @saveFlag="saveFlag = $event"
+        @loadingFlag="loadingFlag = $event"
       />
 
       <div
-        v-if="savingItemFlag || savingAllItemsFlag"
-        class="fixed bottom-0 left-0 right-0 top-0 z-[1000000] block bg-black"
+        v-if="saveFlag || loadingFlag"
+        class="fixed bottom-0 left-0 right-0 top-0 z-[1000000] block bg-black/50"
       ></div>
     </div>
   </Teleport>
@@ -50,32 +49,13 @@ export default {
   data() {
     return {
       items: [],
-      tables: [],
       schema: [],
       showItem: 0,
       itemOpen: false,
       saveFlag: false,
-      savingItemFlag: false,
-      savingAllItemsFlag: false,
-      tableIndex: 0,
       loadingFlag: true,
-      showDateList: false,
       editingNewItem: false,
     };
-  },
-
-  methods: {
-    handleClickOutside(event) {
-      if (event.target.className !== "sort-by-date") {
-        this.showDateList = false;
-      }
-    },
-  },
-
-  watch: {
-    tableIndex() {
-      window.scrollTo(0, 0);
-    },
   },
 };
 </script>
