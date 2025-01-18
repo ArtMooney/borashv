@@ -24,9 +24,9 @@ import { listTable } from "../../js/listTable.js";
     </div>
 
     <drop-list
-      :items="localItems"
+      :items="items"
       @reorder="
-        $event.apply(localItems);
+        $event.apply(items);
         saveAllItems();
       "
     >
@@ -70,10 +70,8 @@ import { listTable } from "../../js/listTable.js";
                 :input="input"
                 :item="item"
                 :index="index"
-                :localItems="localItems"
                 @showItem="$emit('showItem', $event)"
                 @saveFlag="$emit('saveFlag', $event)"
-                @localItems="$emit('localItems', $event)"
               />
             </template>
           </div>
@@ -93,7 +91,7 @@ export default {
     "loadingFlag",
     "initLoadedFlag",
     "saveFlag",
-    "localItems",
+    "items",
     "showItem",
     "itemOpen",
   ],
@@ -119,7 +117,7 @@ export default {
       required: false,
       default: false,
     },
-    localItems: {
+    items: {
       type: Array,
       required: false,
       default: [],
@@ -136,7 +134,6 @@ export default {
 
   data() {
     return {
-      items: [],
       login: {},
       userName: `${import.meta.env.VITE_USERNAME}`,
       userPass: `${import.meta.env.VITE_USERPASS}`,
@@ -162,11 +159,11 @@ export default {
       this.$emit("loadingFlag", true);
 
       if (this.schema.length > 0) {
-        const items = await listTable(this.schema[0].table_id);
-        this.items = items.results;
+        let items = await listTable(this.schema[0].table_id);
+        items = items.results;
 
         // parse to-from date-fields to json array
-        for (const item of this.items) {
+        for (const item of items) {
           for (const field of Object.entries(item)) {
             if (field[0].includes("|") && field[0].includes("to-from")) {
               if (item[field[0]]) {
@@ -176,113 +173,15 @@ export default {
           }
         }
 
-        this.$emit("localItems", JSON.parse(JSON.stringify(this.items)));
+        this.$emit("items", JSON.parse(JSON.stringify(items)));
         this.$emit("loadingFlag", false);
         this.$emit("initLoadedFlag", true);
       }
     },
 
-    postFetch(urlEndpoint, headers, body) {
-      return new Promise((resolve, reject) => {
-        var requestOptions = {
-          method: "POST",
-          redirect: "follow",
-        };
+    handleClick(event, index) {},
 
-        if (headers !== null && headers !== undefined) {
-          requestOptions.headers = headers;
-        }
-
-        if (body !== null && body !== undefined) {
-          requestOptions.body = JSON.stringify(body);
-        }
-
-        fetch(urlEndpoint, requestOptions)
-          .then((response) => {
-            if (!response.ok) throw new Error();
-            return response.json();
-          })
-          .then((result) => {
-            // console.log(result);
-            resolve(result);
-          })
-          .catch((error) => {
-            // console.log(error);
-            reject(error);
-          });
-      });
-    },
-
-    handleClick(event, index) {
-      if (this.showItem === index && !this.editingNewItem) {
-        this.$emit("itemOpen", !this.itemOpen);
-      } else if (!this.editingNewItem) {
-        this.$emit("showItem", index);
-        this.$emit("itemOpen", true);
-      }
-    },
-
-    isItemChanged(localItems, items) {
-      if ((!items && !localItems) || this.editingNewItem) return null;
-
-      let modified = false;
-
-      for (const [index, input] of Object.entries(localItems)) {
-        const localObject = JSON.stringify(input);
-        const itemsObject = JSON.stringify(items[index]);
-
-        if (
-          (localObject !== itemsObject &&
-            index === this.schema.name &&
-            input.trim() !== "") ||
-          (localObject !== itemsObject &&
-            input !== null &&
-            index !== this.schema.name)
-        ) {
-          modified = true;
-        }
-      }
-
-      return modified;
-    },
-
-    getItemOrder(index) {
-      let itemJson = {};
-      itemJson = {};
-      itemJson.index = index;
-      itemJson.id = this.localItems[index].id;
-
-      return itemJson;
-    },
-
-    async saveAllItems() {
-      const itemArray = [];
-      this.savingAllItemsFlag = true;
-      this.$emit("saveFlag", true);
-
-      for (const [index, item] of Object.entries(this.localItems)) {
-        item.index = index;
-        itemArray.push(this.getItemOrder(index));
-      }
-
-      const updateItems = await this.postFetch(
-        `${import.meta.env.VITE_APP_CMS_URL}/update-batch`,
-        new Headers({
-          "Content-Type": "application/json",
-          Authorization:
-            "Basic " + btoa(`${this.login.email}:${this.login.password}`),
-        }),
-        {
-          items: itemArray,
-          tableid: this.schema.id,
-          fields: this.schema,
-        },
-      );
-
-      this.items = JSON.parse(JSON.stringify(this.localItems));
-      this.savingAllItemsFlag = false;
-      this.$emit("saveFlag", false);
-    },
+    async saveAllItems() {},
   },
 
   watch: {
@@ -290,24 +189,6 @@ export default {
       this.$emit("showItem", 0);
       this.$emit("itemOpen", false);
       this.loadData();
-    },
-
-    localItems: {
-      deep: true,
-      handler(allInputs) {
-        if (this.currentIndex === false || this.editingNewItem) return;
-
-        if (
-          this.isItemChanged(
-            allInputs[this.currentIndex],
-            this.items[this.currentIndex],
-          )
-        ) {
-          this.$emit("saveFlag", true);
-        } else {
-          this.$emit("saveFlag", false);
-        }
-      },
     },
 
     showItem() {

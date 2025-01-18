@@ -84,7 +84,7 @@ import { closeCircleOutline } from "ionicons/icons";
 export default {
   name: "Input",
 
-  emits: ["showItem", "saveFlag", "localItems"],
+  emits: ["showItem", "saveFlag"],
 
   props: {
     input: {
@@ -97,10 +97,6 @@ export default {
     },
     index: {
       type: Number,
-      required: true,
-    },
-    localItems: {
-      type: Array,
       required: true,
     },
   },
@@ -192,15 +188,7 @@ export default {
       return "Click here to choose an image.";
     },
 
-    removeFile(index, inputName, fieldName) {
-      if (this.localItems[index] && this.localItems[index][fieldName]) {
-        this.$refs[inputName][0].value = "";
-
-        const localItems = JSON.parse(JSON.stringify(this.localItems));
-        localItems[index][fieldName] = [];
-        this.$emit("localItems", localItems);
-      }
-    },
+    removeFile(index, inputName, fieldName) {},
   },
 };
 </script>

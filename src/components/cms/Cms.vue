@@ -21,14 +21,14 @@ import Items from "./Items.vue";
         :schema="schema"
         :loading-flag="loadingFlag"
         :editing-new-item="editingNewItem"
-        :local-items="localItems"
+        :items="items"
         :show-item="showItem"
         :item-open="itemOpen"
         :save-flag="saveFlag"
         @loadingFlag="loadingFlag = $event"
         @initLoadedFlag="$emit('initLoadedFlag', $event)"
         @saveFlag="saveFlag = $event"
-        @localItems="localItems = $event"
+        @items="items = $event"
         @showItem="showItem = $event"
         @itemOpen="itemOpen = $event"
       />
@@ -52,7 +52,6 @@ export default {
       items: [],
       tables: [],
       schema: [],
-      localItems: [],
       showItem: 0,
       itemOpen: false,
       saveFlag: false,
