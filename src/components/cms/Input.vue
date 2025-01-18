@@ -123,18 +123,13 @@ export default {
     },
 
     isToFromType(inputName) {
-      if (inputName.includes("|") && inputName.split("|")[1] === "to-from") {
-        return true;
-      }
-
-      return false;
+      return !!(
+        inputName.includes("|") && inputName.split("|")[1] === "to-from"
+      );
     },
 
     datePickerCleared(value) {
       if (!value) {
-        this.$nextTick(() => {
-          this.$emit("saveFlag", true);
-        }, 1000);
       }
     },
 
@@ -152,11 +147,11 @@ export default {
     readEncodeFiles(files) {
       return new Promise((resolve, reject) => {
         if (files.length > 0) {
-          var selectedFile = files[0];
-          var reader = new FileReader();
+          let selectedFile = files[0];
+          let reader = new FileReader();
 
           reader.onload = function (e) {
-            var base64Data = e.target.result.split(",")[1];
+            let base64Data = e.target.result.split(",")[1];
             resolve(base64Data);
           };
 
