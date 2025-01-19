@@ -131,10 +131,10 @@ export default {
       }
     },
 
-    async handleFileInput(event, name, inputFields) {
+    async handleFileInput(event, name, item) {
       if (!event.target.files[0].name) return;
 
-      inputFields[name] = [
+      item[name] = [
         {
           name: event.target.files[0].name,
           file: await this.readEncodeFiles(event.target.files),

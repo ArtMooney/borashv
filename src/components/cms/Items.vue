@@ -211,7 +211,7 @@ export default {
           email: this.login.email,
           password: this.login.password,
           items: { items: items },
-          table_id: this.schema.find((item) => item.table_id)?.table_id,
+          schema: this.schema,
         }),
       });
 
@@ -247,7 +247,7 @@ export default {
               email: this.login.email,
               password: this.login.password,
               item: item,
-              table_id: this.schema.find((item) => item.table_id)?.table_id,
+              schema: this.schema,
             }),
           },
         );

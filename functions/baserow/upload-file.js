@@ -1,28 +1,44 @@
-export async function sendFile(fileName, base64Data) {
-  var byteCharacters = atob(base64Data);
-  var byteNumbers = new Array(byteCharacters.length);
-  for (var i = 0; i < byteCharacters.length; i++) {
+export async function uploadFile(token, fileName, base64Data) {
+  const byteCharacters = atob(base64Data);
+  let byteNumbers = new Array(byteCharacters.length);
+
+  for (let i = 0; i < byteCharacters.length; i++) {
     byteNumbers[i] = byteCharacters.charCodeAt(i);
   }
-  var byteArray = new Uint8Array(byteNumbers);
-  var blob = new Blob([byteArray], { type: "application/octet-stream" });
 
-  let headersList = {
-    Accept: "*/*",
-    Authorization: "Token " + baserowBackendToken,
-  };
+  const byteArray = new Uint8Array(byteNumbers);
+  const blob = new Blob([byteArray], { type: "application/octet-stream" });
 
   let bodyContent = new FormData();
   bodyContent.append("file", blob, fileName);
 
-  let response = await fetch(
-    "https://api.baserow.io/api/user-files/upload-file/",
-    {
-      method: "POST",
-      body: bodyContent,
-      headers: headersList,
-    },
-  );
+  let headersList = {
+    Accept: "*/*",
+    Authorization: "Token " + token,
+  };
 
-  return await response.json();
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      let response = await fetch(
+        "https://api.baserow.io/api/user-files/upload-file/",
+        {
+          method: "POST",
+          body: bodyContent,
+          headers: headersList,
+        },
+      );
+
+      if (!response.ok) {
+        return { error: `HTTP error! status: ${response.status}` };
+      }
+
+      return await response.json();
+    } catch (error) {
+      if (attempt < 3) {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      } else {
+        return { error: `Network error: ${error.message}` };
+      }
+    }
+  }
 }

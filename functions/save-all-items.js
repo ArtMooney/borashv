@@ -23,7 +23,7 @@ export const onRequestPost = async ({ request, env, ctx }) => {
 
   const saveAllItems = await updateRows(
     env.BASEROW_BACKEND_TOKEN,
-    body.table_id,
+    body.schema.find((item) => item.table_id)?.table_id,
     body.items,
   );
 
