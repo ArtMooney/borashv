@@ -14,7 +14,7 @@ import { closeCircleOutline } from "ionicons/icons";
       getInputType(input.type) !== 'date' &&
       !isToFromType(input.name)
     "
-    @click="handleInput"
+    @click.stop
     v-model="item[input.name]"
     :type="getInputType(input.type)"
     :class="[
@@ -31,7 +31,7 @@ import { closeCircleOutline } from "ionicons/icons";
       (getInputType(input.type) === 'date' || isToFromType(input.name))
     "
     v-model="item[input.name]"
-    :format="'yyyy-MM-dd'"
+    :format="'yyyy-mm-dd'"
     locale="sv"
     auto-apply=""
     :name="input.name"
@@ -42,7 +42,7 @@ import { closeCircleOutline } from "ionicons/icons";
 
   <textarea
     v-if="input.name !== 'index' && getInputType(input.type) === 'textarea'"
-    @click="handleInput"
+    @click.stop
     v-model="item[input.name]"
     class="h-40 border border-white/25 bg-[#4a4644] p-2"
     :name="input.name"
@@ -54,7 +54,7 @@ import { closeCircleOutline } from "ionicons/icons";
   >
     <input
       v-if="input.name !== 'index' && getInputType(input.type) === 'file'"
-      @click="handleInput"
+      @click.stop
       @change="handleFileInput($event, input.name, item)"
       :id="`${input.name}-${index}`"
       :ref="`${input.name}-${index}`"
@@ -65,7 +65,7 @@ import { closeCircleOutline } from "ionicons/icons";
     />
 
     <label
-      @click="handleInput"
+      @click.stop
       :for="`${input.name}-${index}`"
       class="cursor-pointer text-sm text-white underline"
     >
@@ -116,10 +116,6 @@ export default {
       }
 
       return inputType;
-    },
-
-    handleInput(event) {
-      this.$emit("showItem", 1);
     },
 
     isToFromType(inputName) {

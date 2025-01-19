@@ -34,7 +34,7 @@ import { listTable } from "../../js/listTable.js";
         <drag
           :delay="dragDelay"
           :vibration="dragVibration"
-          @click="handleClick($event, index)"
+          @click="handleClick($event, item, index)"
           class="m-h-16 mb-4 grid grid-cols-2 rounded bg-black/25 p-4 shadow-[3px_4px_12px_rgba(0,0,0,0.22)]"
           v-show="!loadingFlag"
           :ref="`list-item-${index}`"
@@ -128,6 +128,8 @@ export default {
       login: {},
       dragDelay: 0,
       dragVibration: 100,
+      editingItem: false,
+      itemCopy: null,
     };
   },
 
@@ -163,7 +165,11 @@ export default {
       }
     },
 
-    handleClick(event, index) {
+    handleClick(event, item, index) {
+      if (this.editingItem) return;
+
+      this.itemCopy = JSON.parse(JSON.stringify(item));
+
       if (this.showItem === index) {
         this.$emit("showItem", index);
         this.$emit("itemOpen", !this.itemOpen);
@@ -189,6 +195,22 @@ export default {
       } else {
         this.dragDelay = 86400000;
       }
+    },
+
+    items: {
+      handler(newVal, oldVal) {
+        if (!this.itemOpen) return;
+
+        if (
+          JSON.stringify(newVal[this.showItem]) ===
+          JSON.stringify(this.itemCopy)
+        ) {
+          this.editingItem = false;
+        } else {
+          this.editingItem = true;
+        }
+      },
+      deep: true,
     },
   },
 };
