@@ -19,6 +19,7 @@ import { grid, chevronDownOutline } from "ionicons/icons";
   <div class="flex cursor-pointer justify-end gap-2">
     <div class="flex items-center gap-2">
       <div
+        v-if="index === showItem && itemOpen"
         @click.stop="$emit('saveItem', index)"
         class="rounded border border-white/25 bg-[#8a548b] px-2 py-0.5 text-sm hover:bg-[#b280b4]"
       >
@@ -26,6 +27,7 @@ import { grid, chevronDownOutline } from "ionicons/icons";
       </div>
 
       <div
+        v-if="index === showItem && itemOpen"
         @click.stop="$emit('cancelItem', index)"
         class="rounded border border-white/25 bg-[#8a548b] px-2 py-0.5 text-sm hover:bg-[#b280b4]"
       >
@@ -42,11 +44,16 @@ import { grid, chevronDownOutline } from "ionicons/icons";
 
     <div class="flex items-center gap-2">
       <ion-icon
+        v-if="index !== showItem || !saveFlag"
         :icon="chevronDownOutline"
         class="h-6 w-6 text-white"
       ></ion-icon>
 
-      <LoadingSpinner class="!h-5 !w-5" color="#fac725" />
+      <LoadingSpinner
+        v-if="index === showItem && saveFlag"
+        class="!h-5 !w-5"
+        color="#fac725"
+      />
     </div>
   </div>
 </template>
@@ -70,6 +77,11 @@ export default {
       type: Number,
       required: false,
       default: 0,
+    },
+    itemOpen: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
     saveFlag: {
       type: Boolean,

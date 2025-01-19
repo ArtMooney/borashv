@@ -45,6 +45,7 @@ import { listTable } from "../../js/listTable.js";
             :item="item"
             :index="index"
             :show-item="showItem"
+            :item-open="itemOpen"
             :save-flag="saveFlag"
             :editing-new-item="editingNewItem"
             @save-item="saveItem($event)"
