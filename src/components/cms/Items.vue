@@ -88,7 +88,14 @@ import { listTable } from "../../js/listTable.js";
 export default {
   name: "CmsItems",
 
-  emits: ["loadingFlag", "saveFlag", "items", "showItem", "itemOpen"],
+  emits: [
+    "loadingFlag",
+    "saveFlag",
+    "items",
+    "showItem",
+    "itemOpen",
+    "editingNewItem",
+  ],
 
   props: {
     schema: {
@@ -193,28 +200,41 @@ export default {
           JSON.parse(JSON.stringify(this.items[index])),
         );
 
-        const res = await fetch("/save-item", {
-          method: "POST",
-          headers: {
-            Authorization: "Basic " + btoa(`${this.userName}:${this.userPass}`),
+        const res = await fetch(
+          !this.editingNewItem ? "/save-item" : "/add-item",
+          {
+            method: "POST",
+            headers: {
+              Authorization:
+                "Basic " + btoa(`${this.userName}:${this.userPass}`),
+            },
+            body: JSON.stringify({
+              email: this.login.email,
+              password: this.login.password,
+              item: item,
+              table_id: this.schema.find((item) => item.table_id)?.table_id,
+            }),
           },
-          body: JSON.stringify({
-            email: this.login.email,
-            password: this.login.password,
-            item: item,
-            table_id: this.schema.find((item) => item.table_id)?.table_id,
-          }),
-        });
+        );
 
         const response = await res.json();
 
         if (response.error) {
           console.log(response.error);
+          this.$emit("saveFlag", false);
+
           return;
+        }
+
+        if (this.editingNewItem) {
+          const items = JSON.parse(JSON.stringify(this.items));
+          items[index] = response;
+          this.$emit("items", items);
         }
 
         this.$emit("itemOpen", false);
         this.$emit("saveFlag", false);
+        this.$emit("editingNewItem", false);
         this.editingItem = false;
       }
     },

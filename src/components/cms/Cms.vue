@@ -16,7 +16,14 @@ import Items from "./Items.vue";
         @loading-flag="loadingFlag = $event"
         @schema="schema = $event"
       />
-      <AddRemoveItems :items="items" :schema="schema" />
+      <AddRemoveItems
+        :items="items"
+        :schema="schema"
+        @items="items = $event"
+        @show-item="showItem = $event"
+        @item-open="itemOpen = $event"
+        @editing-new-item="editingNewItem = $event"
+      />
       <Items
         :items="items"
         :schema="schema"
@@ -30,6 +37,7 @@ import Items from "./Items.vue";
         @item-open="itemOpen = $event"
         @save-flag="saveFlag = $event"
         @loading-flag="loadingFlag = $event"
+        @editing-new-item="editingNewItem = $event"
       />
 
       <div

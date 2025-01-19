@@ -1,20 +1,32 @@
-export async function createRow(requestData) {
+export async function createRow(token, tableId, data) {
   let headersList = {
     Accept: "*/*",
     "Content-Type": "application/json",
-    Authorization: "Token " + baserowBackendToken,
+    Authorization: "Token " + token,
   };
 
-  let bodyContent = JSON.stringify(requestData.item);
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      let response = await fetch(
+        `https://api.baserow.io/api/database/rows/table/${tableId}/?user_field_names=true`,
+        {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: headersList,
+        },
+      );
 
-  let response = await fetch(
-    `https://api.baserow.io/api/database/rows/table/${requestData.tableid}/?user_field_names=true`,
-    {
-      method: "POST",
-      body: bodyContent,
-      headers: headersList,
-    },
-  );
+      if (!response.ok) {
+        return { error: `HTTP error! status: ${response.status}` };
+      }
 
-  return await response.json();
+      return await response.json();
+    } catch (error) {
+      if (attempt < 3) {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      } else {
+        return { error: `Network error: ${error.message}` };
+      }
+    }
+  }
 }

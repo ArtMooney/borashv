@@ -46,6 +46,8 @@
 export default {
   name: "AddRemoveItems",
 
+  emits: ["items", "showItem", "itemOpen", "editingNewItem"],
+
   props: {
     items: {
       type: Array,
@@ -71,10 +73,36 @@ export default {
     },
   },
 
-  mounted() {},
-
   methods: {
-    addItem() {},
+    addItem() {
+      const index = this.items.length;
+      let fields = {};
+      const items = JSON.parse(JSON.stringify(this.items));
+
+      for (const field of this.schema) {
+        if (field.type === "boolean") {
+          fields[field.name] = false;
+        } else if (field.type === "file") {
+          fields[field.name] = [];
+        } else if (field.name.split("|")[1] === "to-from") {
+          fields[field.name] = [];
+        } else {
+          fields[field.name] = "";
+        }
+      }
+
+      fields.index = index.toString();
+
+      items.push({
+        ...fields,
+        id: "",
+      });
+
+      this.$emit("items", items);
+      this.$emit("showItem", index);
+      this.$emit("itemOpen", true);
+      this.$emit("editingNewItem", true);
+    },
 
     sortDateField() {},
   },
