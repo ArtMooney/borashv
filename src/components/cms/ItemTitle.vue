@@ -19,7 +19,7 @@ import { grid, chevronDownOutline } from "ionicons/icons";
   <div class="flex cursor-pointer justify-end gap-2">
     <div class="flex items-center gap-2">
       <div
-        @click.stop="saveItem(index, item)"
+        @click.stop="$emit('saveItem', index)"
         class="rounded border border-white/25 bg-[#8a548b] px-2 py-0.5 text-sm hover:bg-[#b280b4]"
       >
         Save
@@ -55,7 +55,7 @@ import { grid, chevronDownOutline } from "ionicons/icons";
 export default {
   name: "CmsItemTitle",
 
-  emits: ["cancelItem"],
+  emits: ["saveItem", "cancelItem"],
 
   props: {
     item: {
@@ -84,8 +84,6 @@ export default {
   },
 
   methods: {
-    saveItem(index, item) {},
-
     deleteItem(index) {},
   },
 };

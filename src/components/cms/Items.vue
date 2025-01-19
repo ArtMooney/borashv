@@ -47,12 +47,14 @@ import { listTable } from "../../js/listTable.js";
             :show-item="showItem"
             :save-flag="saveFlag"
             :editing-new-item="editingNewItem"
-            @cancelItem="cancelItem($event)"
+            @save-item="saveItem($event)"
+            @cancel-item="cancelItem($event)"
           />
 
           <div
             class="col-span-2 grid grid-cols-[0.15fr,1fr] gap-3 text-sm"
             v-show="itemOpen && showItem === index"
+            @click.stop
           >
             <div class="col-span-2 my-4 h-px w-full bg-white/25"></div>
 
@@ -126,6 +128,8 @@ export default {
 
   data() {
     return {
+      userName: `${import.meta.env.VITE_USERNAME}`,
+      userPass: `${import.meta.env.VITE_USERPASS}`,
       login: {},
       dragDelay: 0,
       dragVibration: 100,
@@ -182,14 +186,74 @@ export default {
 
     async saveAllItems() {},
 
-    cancelItem(event) {
-      if (event === this.showItem) {
+    async saveItem(index) {
+      if (index === this.showItem) {
+        this.$emit("saveFlag", true);
+        const item = this.processDateFormats(
+          JSON.parse(JSON.stringify(this.items[index])),
+        );
+
+        const res = await fetch("/save-item", {
+          method: "POST",
+          headers: {
+            Authorization: "Basic " + btoa(`${this.userName}:${this.userPass}`),
+          },
+          body: JSON.stringify({
+            email: this.login.email,
+            password: this.login.password,
+            item: item,
+            table_id: this.schema.find((item) => item.table_id)?.table_id,
+          }),
+        });
+
+        const response = await res.json();
+
+        if (response.error) {
+          console.log(response.error);
+          return;
+        }
+
+        this.$emit("itemOpen", false);
+        this.$emit("saveFlag", false);
+        this.editingItem = false;
+      }
+    },
+
+    cancelItem(index) {
+      if (index === this.showItem) {
         const items = JSON.parse(JSON.stringify(this.items));
-        items[event] = this.itemCopy;
+        items[index] = this.itemCopy;
 
         this.$emit("itemOpen", false);
         this.editingItem = false;
         this.$emit("items", JSON.parse(JSON.stringify(items)));
+      }
+    },
+
+    processDateFormats(item) {
+      for (const field of this.schema) {
+        if (field.type === "date") {
+          item[field.name] = this.convertDateToIso(item[field.name]);
+        }
+
+        if (field.name.includes("|") && field.name.includes("to-from")) {
+          item[field.name] = JSON.stringify(item[field.name]);
+        }
+      }
+
+      return item;
+    },
+
+    convertDateToIso(date) {
+      if (!date) return null;
+
+      const originalDate = date;
+      const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
+
+      if (isoDatePattern.test(originalDate)) {
+        return originalDate;
+      } else {
+        return new Date(originalDate).toISOString().split("T")[0]; // extract only the date part
       }
     },
   },
