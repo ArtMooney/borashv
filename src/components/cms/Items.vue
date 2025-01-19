@@ -47,6 +47,7 @@ import { listTable } from "../../js/listTable.js";
             :show-item="showItem"
             :save-flag="saveFlag"
             :editing-new-item="editingNewItem"
+            @cancelItem="cancelItem($event)"
           />
 
           <div
@@ -180,6 +181,17 @@ export default {
     },
 
     async saveAllItems() {},
+
+    cancelItem(event) {
+      if (event === this.showItem) {
+        const items = JSON.parse(JSON.stringify(this.items));
+        items[event] = this.itemCopy;
+
+        this.$emit("itemOpen", false);
+        this.editingItem = false;
+        this.$emit("items", JSON.parse(JSON.stringify(items)));
+      }
+    },
   },
 
   watch: {
