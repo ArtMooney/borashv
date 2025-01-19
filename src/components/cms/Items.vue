@@ -191,7 +191,41 @@ export default {
       }
     },
 
-    async saveAllItems() {},
+    async saveAllItems() {
+      const items = JSON.parse(JSON.stringify(this.items));
+
+      for (let [index, item] of items.entries()) {
+        item.index = index.toString();
+        item = this.processDateFormats(item);
+      }
+
+      this.$emit("saveFlag", true);
+
+      const res = await fetch("/save-all-items", {
+        method: "POST",
+        headers: {
+          Authorization: "Basic " + btoa(`${this.userName}:${this.userPass}`),
+        },
+        body: JSON.stringify({
+          email: this.login.email,
+          password: this.login.password,
+          items: { items: items },
+          table_id: this.schema.find((item) => item.table_id)?.table_id,
+        }),
+      });
+
+      const response = await res.json();
+
+      if (response.error) {
+        console.log(response.error);
+        this.$emit("saveFlag", false);
+
+        return;
+      }
+
+      this.$emit("itemOpen", false);
+      this.$emit("saveFlag", false);
+    },
 
     async saveItem(index) {
       if (index === this.showItem) {
