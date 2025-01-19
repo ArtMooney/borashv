@@ -5,10 +5,10 @@ import { grid, chevronDownOutline } from "ionicons/icons";
 </script>
 
 <template>
-  <div class="dragdrop-handle flex cursor-pointer items-center gap-4">
+  <div class="flex cursor-pointer items-center gap-4">
     <ion-icon
       :icon="grid"
-      class="h-6 w-6 shrink-0 cursor-grabbing text-white"
+      class="dragdrop-handle h-6 w-6 shrink-0 cursor-grabbing text-white"
     ></ion-icon>
 
     <div class="pointer-events-none">
@@ -46,7 +46,8 @@ import { grid, chevronDownOutline } from "ionicons/icons";
       <ion-icon
         v-if="index !== showItem || !saveFlag"
         :icon="chevronDownOutline"
-        class="h-6 w-6 text-white"
+        class="h-6 w-6 text-white transition-transform duration-300 ease-in-out"
+        :class="[index === showItem && itemOpen ? 'rotate-180' : '']"
       ></ion-icon>
 
       <LoadingSpinner
