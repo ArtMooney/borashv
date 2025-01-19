@@ -21,6 +21,8 @@ import { closeCircleOutline } from "ionicons/icons";
       getInputType(input.type) === 'checkbox'
         ? 'h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500'
         : 'border border-white/25 bg-[#4a4644] p-2',
+      isEmailValid ? 'bg-pink-800/50' : '',
+      isPhoneNumberValid ? 'bg-pink-800/50' : '',
     ]"
     :name="input.name"
   />
@@ -36,7 +38,6 @@ import { closeCircleOutline } from "ionicons/icons";
     auto-apply=""
     :name="input.name"
     :range="isToFromType(input.name)"
-    @cleared="datePickerCleared"
   >
   </VueDatePicker>
 
@@ -86,7 +87,7 @@ import { closeCircleOutline } from "ionicons/icons";
 export default {
   name: "Input",
 
-  emits: ["showItem", "saveFlag"],
+  emits: ["showItem", "saveFlag", "inputError"],
 
   props: {
     input: {
@@ -100,6 +101,33 @@ export default {
     index: {
       type: Number,
       required: true,
+    },
+  },
+
+  data() {
+    return {
+      emailReg:
+        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
+      internationalPhoneReg:
+        /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
+    };
+  },
+
+  computed: {
+    isEmailValid() {
+      return (
+        this.input.type === "email" &&
+        !this.emailReg.test(this.item[this.input.name]) &&
+        this.item[this.input.name] !== ""
+      );
+    },
+
+    isPhoneNumberValid() {
+      return (
+        this.input.type === "phone_number" &&
+        !this.internationalPhoneReg.test(this.item[this.input.name]) &&
+        this.item[this.input.name] !== ""
+      );
     },
   },
 
@@ -124,11 +152,6 @@ export default {
       return !!(
         inputName.includes("|") && inputName.split("|")[1] === "to-from"
       );
-    },
-
-    datePickerCleared(value) {
-      if (!value) {
-      }
     },
 
     async handleFileInput(event, name, item) {
@@ -180,6 +203,16 @@ export default {
     removeFile(item, index, inputName, fieldName) {
       this.$refs[inputName].value = "";
       this.item[fieldName] = [];
+    },
+  },
+
+  watch: {
+    isEmailValid(newVal) {
+      this.$emit("inputError", this.isEmailValid);
+    },
+
+    isPhoneNumberValid(newVal) {
+      this.$emit("inputError", this.isPhoneNumberValid);
     },
   },
 };

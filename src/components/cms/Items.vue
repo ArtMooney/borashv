@@ -48,6 +48,7 @@ import { listTable } from "../../js/listTable.js";
             :item-open="itemOpen"
             :save-flag="saveFlag"
             :editing-new-item="editingNewItem"
+            :input-error="inputError"
             @save-item="saveItem($event)"
             @cancel-item="cancelItem($event)"
             @delete-item="deleteItem($event)"
@@ -75,6 +76,7 @@ import { listTable } from "../../js/listTable.js";
                 :index="index"
                 @show-item="$emit('showItem', $event)"
                 @save-flag="$emit('saveFlag', $event)"
+                @input-error="inputError = $event"
               />
             </template>
           </div>
@@ -144,6 +146,7 @@ export default {
       dragVibration: 100,
       editingItem: false,
       itemCopy: null,
+      inputError: false,
     };
   },
 

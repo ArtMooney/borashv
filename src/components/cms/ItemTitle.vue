@@ -20,8 +20,9 @@ import { grid, chevronDownOutline } from "ionicons/icons";
     <div class="flex items-center gap-2">
       <div
         v-if="index === showItem && itemOpen"
-        @click.stop="$emit('saveItem', index)"
+        @click.stop="saveItem(index)"
         class="rounded border border-white/25 bg-[#8a548b] px-2 py-0.5 text-sm hover:bg-[#b280b4]"
+        :class="[inputError ? 'opacity-50' : '']"
       >
         Save
       </div>
@@ -93,6 +94,19 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    inputError: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+
+  methods: {
+    saveItem(index) {
+      if (!this.inputError) {
+        this.$emit("saveItem", index);
+      }
     },
   },
 };
