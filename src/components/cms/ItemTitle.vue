@@ -33,7 +33,7 @@ import { grid, chevronDownOutline } from "ionicons/icons";
       </div>
 
       <div
-        @click.stop="deleteItem(index)"
+        @click.stop="$emit('deleteItem', index)"
         class="rounded border border-white/25 bg-[#8a548b] px-2 py-0.5 text-sm hover:bg-[#b280b4]"
       >
         Delete
@@ -55,7 +55,7 @@ import { grid, chevronDownOutline } from "ionicons/icons";
 export default {
   name: "CmsItemTitle",
 
-  emits: ["saveItem", "cancelItem"],
+  emits: ["saveItem", "cancelItem", "deleteItem"],
 
   props: {
     item: {
@@ -81,10 +81,6 @@ export default {
       required: false,
       default: false,
     },
-  },
-
-  methods: {
-    deleteItem(index) {},
   },
 };
 </script>
