@@ -16,7 +16,7 @@ import { emailValidator } from "../../js/emailValidator.js";
 
       <Input
         v-model="loginEmail"
-        @updateValue="loginEmail = $event"
+        @update-value="loginEmail = $event"
         name="email"
         type="email"
         placeholder-text="Enter email address"
@@ -25,7 +25,7 @@ import { emailValidator } from "../../js/emailValidator.js";
 
       <Input
         v-model="loginPassword"
-        @updateValue="loginPassword = $event"
+        @update-value="loginPassword = $event"
         name="password"
         type="password"
         placeholder-text="Enter password"

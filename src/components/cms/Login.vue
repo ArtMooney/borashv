@@ -10,17 +10,17 @@ import { getLocalStorage } from "../../js/getLocalStorage.js";
   <div class="py-32">
     <LoginPanel
       v-if="panel === 'login'"
-      @resetPasswordPanel="resetPasswordSwitch"
+      @reset-password-panel="resetPasswordSwitch"
       @status="$emit('status', $event)"
     />
     <ResetPasswordPanel
       v-if="panel === 'resetPassword'"
-      @loginSwitch="loginSwitch"
+      @login-switch="loginSwitch"
     />
     <NewPasswordPanel
       v-if="panel === 'newPassword'"
       :validation="validationCode"
-      @loginSwitch="loginSwitch"
+      @login-switch="loginSwitch"
     />
     <LoadingSpinner v-if="panel === 'loading'" class="justify-self-center" />
 

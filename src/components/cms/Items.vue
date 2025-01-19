@@ -71,8 +71,8 @@ import { listTable } from "../../js/listTable.js";
                 :input="input"
                 :item="item"
                 :index="index"
-                @showItem="$emit('showItem', $event)"
-                @saveFlag="$emit('saveFlag', $event)"
+                @show-item="$emit('showItem', $event)"
+                @save-flag="$emit('saveFlag', $event)"
               />
             </template>
           </div>

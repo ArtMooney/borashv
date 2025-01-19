@@ -13,7 +13,7 @@ import Items from "./Items.vue";
     >
       <Navbar />
       <TableList
-        @loadingFlag="loadingFlag = $event"
+        @loading-flag="loadingFlag = $event"
         @schema="schema = $event"
       />
       <AddRemoveItems :items="items" :schema="schema" />
@@ -26,10 +26,10 @@ import Items from "./Items.vue";
         :loading-flag="loadingFlag"
         :editing-new-item="editingNewItem"
         @items="items = $event"
-        @showItem="showItem = $event"
-        @itemOpen="itemOpen = $event"
-        @saveFlag="saveFlag = $event"
-        @loadingFlag="loadingFlag = $event"
+        @show-item="showItem = $event"
+        @item-open="itemOpen = $event"
+        @save-flag="saveFlag = $event"
+        @loading-flag="loadingFlag = $event"
       />
 
       <div

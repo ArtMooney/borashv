@@ -15,7 +15,7 @@ import { requiredFields } from "../../js/requiredFields.js";
 
       <Input
         v-model="inputPasswordOne"
-        @updateValue="inputPasswordOne = $event"
+        @update-value="inputPasswordOne = $event"
         name="password"
         type="password"
         placeholder-text="Enter new password"
@@ -24,7 +24,7 @@ import { requiredFields } from "../../js/requiredFields.js";
 
       <Input
         v-model="inputPasswordTwo"
-        @updateValue="inputPasswordTwo = $event"
+        @update-value="inputPasswordTwo = $event"
         name="password2"
         type="password"
         placeholder-text="Enter new password again"
