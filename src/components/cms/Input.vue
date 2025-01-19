@@ -73,7 +73,9 @@ import { closeCircleOutline } from "ionicons/icons";
     </label>
 
     <ion-icon
-      @click.stop="removeFile(index, `${input.name}-${index}`, input.name)"
+      @click.stop="
+        removeFile(item, index, `${input.name}-${index}`, input.name)
+      "
       :icon="closeCircleOutline"
       class="h-4 w-4 cursor-pointer px-0.5 text-red-600"
     ></ion-icon>
@@ -175,7 +177,10 @@ export default {
       return "Click here to choose an image.";
     },
 
-    removeFile(index, inputName, fieldName) {},
+    removeFile(item, index, inputName, fieldName) {
+      this.$refs[inputName].value = "";
+      this.item[fieldName] = [];
+    },
   },
 };
 </script>
