@@ -192,14 +192,13 @@ export default {
     },
 
     async saveAllItems() {
+      this.$emit("saveFlag", true);
       const items = JSON.parse(JSON.stringify(this.items));
 
       for (let [index, item] of items.entries()) {
         item.index = index.toString();
         item = this.processDateFormats(item);
       }
-
-      this.$emit("saveFlag", true);
 
       const res = await fetch("/save-all-items", {
         method: "POST",
@@ -319,12 +318,8 @@ export default {
       this.loadData();
     },
 
-    showItem() {
-      if (this.showItem === 0) {
-        this.dragDelay = 0;
-      } else {
-        this.dragDelay = 86400000;
-      }
+    itemOpen() {
+      this.dragDelay = this.itemOpen ? 86400000 : 0;
     },
 
     items: {
