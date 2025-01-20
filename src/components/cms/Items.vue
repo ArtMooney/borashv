@@ -280,13 +280,21 @@ export default {
     },
 
     cancelItem(index) {
-      if (index === this.showItem) {
+      if (this.editingNewItem) {
+        const items = JSON.parse(JSON.stringify(this.items));
+        items.pop();
+
+        this.$emit("items", JSON.parse(JSON.stringify(items)));
+        this.$emit("itemOpen", false);
+        this.$emit("editingNewItem", false);
+        this.editingItem = false;
+      } else if (index === this.showItem) {
         const items = JSON.parse(JSON.stringify(this.items));
         items[index] = this.itemCopy;
 
         this.$emit("itemOpen", false);
-        this.editingItem = false;
         this.$emit("items", JSON.parse(JSON.stringify(items)));
+        this.editingItem = false;
       }
     },
 
