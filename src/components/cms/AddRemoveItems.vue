@@ -59,6 +59,11 @@ export default {
       required: false,
       default: [],
     },
+    editingNewItem: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
 
   data() {
@@ -75,6 +80,8 @@ export default {
 
   methods: {
     addItem() {
+      if (this.editingNewItem) return;
+
       const index = this.items.length;
       let fields = {};
       const items = JSON.parse(JSON.stringify(this.items));

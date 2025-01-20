@@ -18,6 +18,7 @@ import Items from "./Items.vue";
       <AddRemoveItems
         :items="items"
         :schema="schema"
+        :editing-new-item="editingNewItem"
         @items="items = $event"
         @show-item="showItem = $event"
         @item-open="itemOpen = $event"
