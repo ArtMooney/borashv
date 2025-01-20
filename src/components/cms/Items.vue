@@ -61,7 +61,7 @@ import { listTable } from "../../js/listTable.js";
           >
             <div class="col-span-2 my-4 h-px w-full bg-white/25"></div>
 
-            <template v-for="input of schema">
+            <template v-for="(input, inputIndex) of schema">
               <div v-if="input.name !== 'index'">
                 {{
                   input.name.includes("|")
@@ -74,9 +74,10 @@ import { listTable } from "../../js/listTable.js";
                 :input="input"
                 :item="item"
                 :index="index"
+                :item-open="itemOpen"
                 @show-item="$emit('showItem', $event)"
                 @save-flag="$emit('saveFlag', $event)"
-                @input-error="inputError = $event"
+                @input-error="handleInputError($event, inputIndex)"
               />
             </template>
           </div>
@@ -147,6 +148,7 @@ export default {
       editingItem: false,
       itemCopy: null,
       inputError: false,
+      inputErrorIndex: [],
     };
   },
 
@@ -347,6 +349,11 @@ export default {
         return new Date(originalDate).toISOString().split("T")[0]; // extract only the date part
       }
     },
+
+    handleInputError(event, index) {
+      this.inputErrorIndex[index] = event;
+      this.inputError = !!this.inputErrorIndex.find((input) => input);
+    },
   },
 
   watch: {
@@ -358,6 +365,10 @@ export default {
 
     itemOpen() {
       this.dragDelay = this.itemOpen ? 86400000 : 0;
+
+      if (this.itemOpen) {
+        this.inputErrorIndex = Array(this.schema.length - 1).fill(null); // do not include index
+      }
     },
 
     items: {

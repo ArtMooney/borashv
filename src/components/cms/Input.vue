@@ -98,6 +98,11 @@ export default {
       type: Object,
       required: true,
     },
+    itemOpen: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     index: {
       type: Number,
       required: true,
@@ -208,11 +213,15 @@ export default {
 
   watch: {
     isEmailValid(newVal) {
-      this.$emit("inputError", this.isEmailValid);
+      if (this.itemOpen) {
+        this.$emit("inputError", this.isEmailValid);
+      }
     },
 
     isPhoneNumberValid(newVal) {
-      this.$emit("inputError", this.isPhoneNumberValid);
+      if (this.itemOpen) {
+        this.$emit("inputError", this.isPhoneNumberValid);
+      }
     },
   },
 };
