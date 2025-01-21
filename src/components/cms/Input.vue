@@ -33,7 +33,7 @@ import { closeCircleOutline } from "ionicons/icons";
       (getInputType(input.type) === 'date' || isToFromType(input.name))
     "
     v-model="item[input.name]"
-    :format="'yyyy-mm-dd'"
+    :format="'yyyy-MM-dd'"
     locale="sv"
     auto-apply=""
     :name="input.name"

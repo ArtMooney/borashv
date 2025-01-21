@@ -46,14 +46,14 @@ import { grid, chevronDownOutline } from "ionicons/icons";
 
     <div class="flex items-center gap-2">
       <ion-icon
-        v-if="index !== showItem || !saveFlag"
+        v-if="!saveAllFlag && (index !== showItem || !saveFlag)"
         :icon="chevronDownOutline"
         class="h-6 w-6 text-white transition-transform duration-300 ease-in-out"
         :class="[index === showItem && itemOpen ? 'rotate-180' : '']"
       ></ion-icon>
 
       <LoadingSpinner
-        v-if="index === showItem && saveFlag"
+        v-if="(index === showItem && saveFlag) || saveAllFlag"
         class="!h-5 !w-5"
         color="#fac725"
       />
@@ -87,6 +87,11 @@ export default {
       default: false,
     },
     saveFlag: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    saveAllFlag: {
       type: Boolean,
       required: false,
       default: false,

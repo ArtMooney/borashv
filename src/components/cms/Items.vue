@@ -47,6 +47,7 @@ import { listTable } from "../../js/listTable.js";
             :show-item="showItem"
             :item-open="itemOpen"
             :save-flag="saveFlag"
+            :save-all-flag="saveAllFlag"
             :editing-new-item="editingNewItem"
             :input-error="inputError"
             @save-item="saveItem($event)"
@@ -149,6 +150,7 @@ export default {
       itemCopy: null,
       inputError: false,
       inputErrorIndex: [],
+      saveAllFlag: false,
     };
   },
 
@@ -200,6 +202,7 @@ export default {
 
     async saveAllItems() {
       this.$emit("saveFlag", true);
+      this.saveAllFlag = true;
       const items = JSON.parse(JSON.stringify(this.items));
 
       for (let [index, item] of items.entries()) {
@@ -225,12 +228,14 @@ export default {
       if (response.error) {
         console.log(response.error);
         this.$emit("saveFlag", false);
+        this.saveAllFlag = false;
 
         return;
       }
 
       this.$emit("itemOpen", false);
       this.$emit("saveFlag", false);
+      this.saveAllFlag = false;
     },
 
     async saveItem(index) {

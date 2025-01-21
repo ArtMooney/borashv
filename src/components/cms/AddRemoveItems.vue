@@ -109,6 +109,10 @@ export default {
       this.$emit("showItem", index);
       this.$emit("itemOpen", true);
       this.$emit("editingNewItem", true);
+
+      this.$router.push({
+        hash: "#items-list-bottom",
+      });
     },
 
     sortDateField() {},
