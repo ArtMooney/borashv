@@ -26,12 +26,10 @@
         >
           <div class="mb-2 justify-self-end">Choose date field</div>
 
-          <div v-if="getDateList.length < 1" class="w-full text-right">
-            No date fields
-          </div>
+          <div v-if="getDateList.length < 1" class="w-full text-right">-</div>
           <div
             v-for="date of getDateList"
-            @click="sortDateField"
+            @click="sortDateFields"
             class="w-full cursor-pointer text-right hover:bg-white/25"
           >
             {{ date.name }}
@@ -74,8 +72,18 @@ export default {
 
   computed: {
     getDateList() {
-      return [{ name: "datum" }];
+      const dateFields = this.schema.filter(
+        (field) =>
+          field.type === "date" || field.name.split("|")[0] === "datum",
+      );
+
+      return dateFields.map((field) => ({
+        ...field,
+        name: field.name.split("|")[0],
+      }));
     },
+
+    sortDateFields() {},
   },
 
   methods: {
@@ -114,8 +122,6 @@ export default {
         hash: "#items-list-bottom",
       });
     },
-
-    sortDateField() {},
   },
 };
 </script>
