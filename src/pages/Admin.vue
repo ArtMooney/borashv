@@ -1,9 +1,7 @@
 <script setup>
 import Login from "../components/cms/Login.vue";
 import Cms from "../components/cms/Cms.vue";
-import Loader from "../components/cms/Loader.vue";
 import { getLocalStorage } from "../js/getLocalStorage.js";
-import { deleteLocalStorage } from "../js/deleteLocalStorage.js";
 </script>
 
 <template>
@@ -14,7 +12,6 @@ import { deleteLocalStorage } from "../js/deleteLocalStorage.js";
       class="mx-auto w-full max-w-screen-xl"
     />
     <Cms v-if="panel === 'cms'" />
-    <!--    <Loader v-if="loaderFlag" />-->
   </div>
 </template>
 
@@ -24,21 +21,13 @@ export default {
 
   data() {
     return {
-      panel: "cms",
-      loaderFlag: false,
-      loginFlag: false,
-      cmsFlag: false,
+      panel: "login",
     };
   },
 
   created() {
-    // deleteLocalStorage("simple-cms-login");
-
-    if (!getLocalStorage("simple-cms-login")) {
-      this.loginFlag = true;
-    } else {
-      this.loaderFlag = true;
-      this.cmsFlag = true;
+    if (getLocalStorage("simple-cms-login")) {
+      this.panel = "cms";
     }
   },
 
@@ -46,6 +35,8 @@ export default {
     handleLoginStatus(status) {
       if (status === "ok") {
         this.panel = "cms";
+      } else {
+        this.panel = "login";
       }
     },
   },

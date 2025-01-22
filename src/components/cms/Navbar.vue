@@ -1,6 +1,7 @@
 <script setup>
 import { IonIcon } from "@ionic/vue";
 import { home, cog } from "ionicons/icons";
+import { deleteLocalStorage } from "../../js/deleteLocalStorage.js";
 </script>
 
 <template>
@@ -24,10 +25,19 @@ import { home, cog } from "ionicons/icons";
       ></ion-icon>
 
       <div
+        v-if="cmsSettingsMenu"
+        @click="cmsSettingsMenu = false"
+        class="fixed inset-0 z-0 bg-transparent"
+      ></div>
+
+      <div
         v-show="cmsSettingsMenu"
         class="absolute right-2 mt-4 min-w-40 bg-black/90 p-4"
       >
-        <div @click="logOut" class="text-center hover:text-white/50">
+        <div
+          @click="logOut"
+          class="cursor-pointer text-center hover:text-white/50"
+        >
           Log out
         </div>
       </div>
@@ -55,7 +65,7 @@ export default {
     },
 
     logOut() {
-      this.deleteLocalStorage("simple-cms-login");
+      deleteLocalStorage("simple-cms-login");
       location.reload();
     },
   },
