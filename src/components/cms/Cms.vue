@@ -23,6 +23,7 @@ import Items from "./Items.vue";
         @show-item="showItem = $event"
         @item-open="itemOpen = $event"
         @editing-new-item="editingNewItem = $event"
+        @save-new-item-order="saveNewItemOrder = $event"
       />
       <Items
         :items="items"
@@ -32,12 +33,14 @@ import Items from "./Items.vue";
         :save-flag="saveFlag"
         :loading-flag="loadingFlag"
         :editing-new-item="editingNewItem"
+        :save-new-item-order="saveNewItemOrder"
         @items="items = $event"
         @show-item="showItem = $event"
         @item-open="itemOpen = $event"
         @save-flag="saveFlag = $event"
         @loading-flag="loadingFlag = $event"
         @editing-new-item="editingNewItem = $event"
+        @save-new-item-order="saveNewItemOrder = $event"
       />
 
       <div
@@ -63,6 +66,7 @@ export default {
       saveFlag: false,
       loadingFlag: true,
       editingNewItem: false,
+      saveNewItemOrder: false,
     };
   },
 };

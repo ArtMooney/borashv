@@ -1,4 +1,4 @@
-export async function listTable(tableid) {
+export async function listTable(tableid, orderBy, order) {
   let headersList = {
     Accept: "*/*",
     "Content-Type": "application/json",
@@ -6,7 +6,7 @@ export async function listTable(tableid) {
   };
 
   let response = await fetch(
-    `https://api.baserow.io/api/database/rows/table/${tableid}/?size=200&user_field_names=true&order_by=index`,
+    `https://api.baserow.io/api/database/rows/table/${tableid}/?size=200&user_field_names=true&order_by=${order ? "-" : ""}${orderBy ? orderBy : "index"}`,
     {
       method: "GET",
       headers: headersList,

@@ -101,6 +101,7 @@ export default {
     "showItem",
     "itemOpen",
     "editingNewItem",
+    "saveNewItemOrder",
   ],
 
   props: {
@@ -136,6 +137,11 @@ export default {
     itemOpen: {
       type: Boolean,
       required: false,
+    },
+    saveNewItemOrder: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
 
@@ -398,6 +404,13 @@ export default {
         }
       },
       deep: true,
+    },
+
+    saveNewItemOrder() {
+      if (this.saveNewItemOrder) {
+        this.saveAllItems();
+        this.$emit("saveNewItemOrder", false);
+      }
     },
   },
 };

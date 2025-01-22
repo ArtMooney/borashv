@@ -1,3 +1,7 @@
+<script setup>
+import { listTable } from "../../js/listTable.js";
+</script>
+
 <template>
   <div
     class="mx-auto mt-8 flex max-w-screen-md select-none flex-wrap justify-center gap-4 text-base"
@@ -35,8 +39,8 @@
           <div v-if="getDateList.length < 1" class="w-full text-right">-</div>
           <div
             v-for="date of getDateList"
-            @click="sortDateFields"
-            class="w-full cursor-pointer text-right hover:bg-white/25"
+            @click="sortDateFields(date.fieldName)"
+            class="w-full cursor-pointer py-1 text-right hover:bg-white/25"
           >
             {{ date.name }}
           </div>
@@ -50,7 +54,13 @@
 export default {
   name: "AddRemoveItems",
 
-  emits: ["items", "showItem", "itemOpen", "editingNewItem"],
+  emits: [
+    "items",
+    "showItem",
+    "itemOpen",
+    "editingNewItem",
+    "saveNewItemOrder",
+  ],
 
   props: {
     items: {
@@ -73,23 +83,25 @@ export default {
   data() {
     return {
       showDateList: false,
+      order: false,
     };
   },
 
   computed: {
     getDateList() {
-      const dateFields = this.schema.filter(
-        (field) =>
-          field.type === "date" || field.name.split("|")[0] === "datum",
-      );
+      const dateList = [];
 
-      return dateFields.map((field) => ({
-        ...field,
-        name: field.name.split("|")[0],
-      }));
+      for (const field of this.schema) {
+        if (field.type === "date" || field.name.split("|")[0] === "datum") {
+          dateList.push({
+            name: field.name.split("|")[0],
+            fieldName: field.name,
+          });
+        }
+      }
+
+      return dateList;
     },
-
-    sortDateFields() {},
   },
 
   methods: {
@@ -127,6 +139,41 @@ export default {
       this.$router.push({
         hash: "#items-list-bottom",
       });
+    },
+
+    async sortDateFields(fieldName) {
+      if (this.schema.length > 0) {
+        this.order = !this.order;
+
+        let items = await listTable(
+          this.schema[0].table_id,
+          fieldName,
+          this.order,
+        );
+
+        items = items.results;
+
+        // parse to-from date-fields to json array
+        for (const item of items) {
+          for (const field of Object.entries(item)) {
+            if (field[0].includes("|") && field[0].includes("to-from")) {
+              if (item[field[0]]) {
+                item[field[0]] = JSON.parse(item[field[0]]);
+              }
+            }
+          }
+        }
+
+        this.$emit("items", JSON.parse(JSON.stringify(items)));
+        this.$emit("saveNewItemOrder", true);
+        this.showDateList = false;
+      }
+    },
+  },
+
+  watch: {
+    schema() {
+      this.order = false;
     },
   },
 };
