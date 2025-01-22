@@ -62,7 +62,7 @@ import { closeCircleOutline } from "ionicons/icons";
       class="hidden"
       :type="getInputType(input.type)"
       :name="`${input.name}`"
-      accept=".jpg, .jpeg, .png"
+      :accept="isToFromType(input.name) ? '.jpg, .jpeg, .png' : ''"
     />
 
     <label
@@ -70,7 +70,7 @@ import { closeCircleOutline } from "ionicons/icons";
       :for="`${input.name}-${index}`"
       class="cursor-pointer text-sm text-white underline"
     >
-      {{ displayFilename(item[input.name]) }}
+      {{ displayFilename(item[input.name], input.name) }}
     </label>
 
     <ion-icon
@@ -159,6 +159,10 @@ export default {
       );
     },
 
+    isDocType(inputName) {
+      return !!(inputName.includes("|") && inputName.split("|")[1] === "doc");
+    },
+
     async handleFileInput(event, name, item) {
       if (!event.target.files[0].name) return;
 
@@ -193,7 +197,7 @@ export default {
       });
     },
 
-    displayFilename(filename) {
+    displayFilename(filename, inputName) {
       if (filename && filename.length > 0) {
         if (filename[0].visible_name) {
           return filename[0].visible_name;
@@ -202,7 +206,9 @@ export default {
         }
       }
 
-      return "Click here to choose an image.";
+      return this.isDocType(inputName)
+        ? "Click here to choose a file."
+        : "Click here to choose an image.";
     },
 
     removeFile(item, index, inputName, fieldName) {
