@@ -22,6 +22,12 @@
 
         <div
           v-if="showDateList"
+          @click="showDateList = false"
+          class="fixed inset-0 z-0 bg-transparent"
+        ></div>
+
+        <div
+          v-if="showDateList"
           class="absolute right-0 top-0 z-10 mt-8 min-w-56 rounded bg-black p-4"
         >
           <div class="mb-2 justify-self-end">Choose date field</div>
