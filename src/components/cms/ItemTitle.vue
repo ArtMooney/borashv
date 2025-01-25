@@ -2,63 +2,69 @@
 import LoadingSpinner from "../LoadingSpinner.vue";
 import { IonIcon } from "@ionic/vue";
 import { grid, chevronDownOutline } from "ionicons/icons";
+import ItemTitleButtons from "./ItemTitleButtons.vue";
 </script>
 
 <template>
-  <div class="flex cursor-pointer items-center gap-4">
-    <ion-icon
-      :icon="grid"
-      class="dragdrop-handle h-6 w-6 shrink-0 cursor-grabbing text-white"
-    ></ion-icon>
-
-    <div class="pointer-events-none mr-4">
-      {{ item.titel ? item.titel : item.name }}
-    </div>
-  </div>
-
-  <div class="flex cursor-pointer justify-end gap-2">
-    <div class="flex items-center gap-2">
-      <div
-        v-if="index === showItem && itemOpen"
-        @click.stop="saveItem(index)"
-        class="rounded border border-white/25 bg-[#8a548b] px-2 py-0.5 text-sm hover:bg-[#b280b4]"
-        :class="[inputError ? 'opacity-50' : '']"
-      >
-        Save
-      </div>
-
-      <div
-        v-if="index === showItem && itemOpen"
-        @click.stop="$emit('cancelItem', index)"
-        class="rounded border border-white/25 bg-[#8a548b] px-2 py-0.5 text-sm hover:bg-[#b280b4]"
-      >
-        Cancel
-      </div>
-
-      <div
-        v-if="showItem !== index || !editingNewItem"
-        @click.stop="$emit('deleteItem', index)"
-        class="rounded border border-white/25 bg-[#8a548b] px-2 py-0.5 text-sm hover:bg-[#b280b4]"
-      >
-        Delete
-      </div>
-    </div>
-
-    <div class="flex items-center gap-2">
+  <div class="col-span-2 flex justify-between">
+    <div class="flex cursor-pointer items-center gap-4">
       <ion-icon
-        v-if="!saveAllFlag && (index !== showItem || !saveFlag)"
-        :icon="chevronDownOutline"
-        class="h-6 w-6 text-white transition-transform duration-300 ease-in-out"
-        :class="[index === showItem && itemOpen ? 'rotate-180' : '']"
+        :icon="grid"
+        class="dragdrop-handle h-6 w-6 shrink-0 cursor-grabbing text-white"
       ></ion-icon>
 
-      <LoadingSpinner
-        v-if="(index === showItem && saveFlag) || saveAllFlag"
-        class="!h-5 !w-5"
-        color="#fac725"
+      <div
+        class="word-break-all pointer-events-none mr-4 hyphens-auto font-gunplay"
+        lang="sv"
+      >
+        {{ item.titel ? item.titel : item.name }}
+      </div>
+    </div>
+
+    <div class="flex cursor-pointer gap-2">
+      <ItemTitleButtons
+        class="hidden sm:flex"
+        :show-item="showItem"
+        :index="index"
+        :item="item"
+        :item-open="itemOpen"
+        :editing-new-item="editingNewItem"
+        :input-error="inputError"
+        @save-item="$emit('saveItem', index)"
+        @cancel-item="$emit('cancelItem', index)"
+        @delete-item="$emit('deleteItem', index)"
       />
+
+      <div class="flex items-center gap-2">
+        <ion-icon
+          v-if="!saveAllFlag && (index !== showItem || !saveFlag)"
+          :icon="chevronDownOutline"
+          class="h-6 w-6 text-white transition-transform duration-300 ease-in-out"
+          :class="[index === showItem && itemOpen ? 'rotate-180' : '']"
+        ></ion-icon>
+
+        <LoadingSpinner
+          v-if="(index === showItem && saveFlag) || saveAllFlag"
+          class="!h-5 !w-5"
+          color="#fac725"
+        />
+      </div>
     </div>
   </div>
+
+  <ItemTitleButtons
+    v-if="index === showItem && itemOpen"
+    class="mt-4 flex justify-self-start sm:hidden"
+    :show-item="showItem"
+    :index="index"
+    :item="item"
+    :item-open="itemOpen"
+    :editing-new-item="editingNewItem"
+    :input-error="inputError"
+    @save-item="$emit('saveItem', index)"
+    @cancel-item="$emit('cancelItem', index)"
+    @delete-item="$emit('deleteItem', index)"
+  />
 </template>
 
 <script>
@@ -105,14 +111,6 @@ export default {
       type: Boolean,
       required: false,
       default: false,
-    },
-  },
-
-  methods: {
-    saveItem(index) {
-      if (!this.inputError) {
-        this.$emit("saveItem", index);
-      }
     },
   },
 };
