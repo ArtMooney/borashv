@@ -31,7 +31,7 @@ import ResponsiveImage from "../components/ResponsiveImage.vue";
       class="mx-auto flex w-full max-w-screen-xl flex-row flex-wrap justify-start"
     >
       <div
-        v-for="item of sortedItems"
+        v-for="item of items"
         :key="item.id"
         class="relative w-[25rem] text-xs sm:w-[16rem] md:w-[21rem] md:text-sm xl:w-[19rem]"
       >
@@ -65,12 +65,6 @@ export default {
       errorMessage: "",
       showErrorMessage: false,
     };
-  },
-
-  computed: {
-    sortedItems() {
-      return [...this.items].sort((a, b) => a.id - b.id);
-    },
   },
 
   async created() {

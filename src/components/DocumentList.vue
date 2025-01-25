@@ -17,7 +17,8 @@ import { listTable } from "../js/listTable.js";
     <a
       v-if="itemsLoaded"
       v-for="item of items"
-      :href="item.file[0].url"
+      :href="item['file|doc'][0]?.url ? item['file|doc'][0].url : ''"
+      target="_blank"
       class="flex cursor-pointer flex-row items-center justify-between border border-white/15 bg-gradient-to-r from-[#32382d] to-[#353238] p-4 transition-colors duration-300 ease-in-out hover:from-[#343a2e] hover:to-[#37343a] hover:shadow-[0_0_20px_rgba(185,177,99,0.35)]"
     >
       <div
@@ -30,7 +31,7 @@ import { listTable } from "../js/listTable.js";
       <div class="flex-shrink-0 border-l-2 border-white/15 pl-4">
         <img
           :src="item.thumbnail[0].url"
-          :alt="item.file[0].visible_name"
+          :alt="item['file|doc'][0]?.url ? item['file|doc'][0].url : ''"
           class="h-32 w-auto"
         />
       </div>
