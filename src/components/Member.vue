@@ -201,6 +201,10 @@ export default {
             this.contactForm = false;
             this.successMessage = true;
             this.buttonText = savedText;
+
+            this.$router.push({
+              hash: "#navbar",
+            });
           }, 1500);
         }
       } else {
