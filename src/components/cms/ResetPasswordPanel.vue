@@ -20,6 +20,7 @@ import { emailValidator } from "../../js/emailValidator.js";
         name="email"
         type="email"
         placeholder-text="Enter email address"
+        autocomplete="email"
       />
 
       <Button

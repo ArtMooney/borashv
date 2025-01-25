@@ -25,6 +25,7 @@ import { closeCircleOutline } from "ionicons/icons";
       isPhoneNumberValid ? 'bg-pink-800/50' : '',
     ]"
     :name="input.name"
+    autocomplete="off"
   />
 
   <VueDatePicker
@@ -47,6 +48,7 @@ import { closeCircleOutline } from "ionicons/icons";
     v-model="item[input.name]"
     class="h-40 border border-white/25 bg-[#4a4644] p-2"
     :name="input.name"
+    autocomplete="off"
   ></textarea>
 
   <div
@@ -63,6 +65,7 @@ import { closeCircleOutline } from "ionicons/icons";
       :type="getInputType(input.type)"
       :name="`${input.name}`"
       :accept="isToFromType(input.name) ? '.jpg, .jpeg, .png' : ''"
+      autocomplete="off"
     />
 
     <label

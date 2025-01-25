@@ -21,6 +21,7 @@ import { emailValidator } from "../../js/emailValidator.js";
         type="email"
         placeholder-text="Enter email address"
         :required="true"
+        autocomplete="email"
       />
 
       <Input
@@ -29,6 +30,7 @@ import { emailValidator } from "../../js/emailValidator.js";
         name="password"
         type="password"
         placeholder-text="Enter password"
+        autocomplete="password"
       />
 
       <Button

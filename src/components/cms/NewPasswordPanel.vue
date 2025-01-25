@@ -20,6 +20,7 @@ import { requiredFields } from "../../js/requiredFields.js";
         type="password"
         placeholder-text="Enter new password"
         :required="true"
+        autocomplete="new-password"
       />
 
       <Input
@@ -29,6 +30,7 @@ import { requiredFields } from "../../js/requiredFields.js";
         type="password"
         placeholder-text="Enter new password again"
         :required="true"
+        autocomplete="new-password"
       />
 
       <Button
