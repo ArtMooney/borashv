@@ -35,7 +35,7 @@ import { listTable } from "../../js/listTable.js";
           :delay="dragDelay"
           :vibration="dragVibration"
           @click="handleClick($event, item, index)"
-          class="m-h-16 mb-4 grid grid-cols-[2fr,1fr] rounded bg-black/25 p-4 shadow-[3px_4px_12px_rgba(0,0,0,0.22)] hover:bg-[#242424]"
+          class="mb-4 grid grid-cols-2 rounded bg-black/25 p-4 shadow-[3px_4px_12px_rgba(0,0,0,0.22)] hover:bg-[#242424]"
           v-show="!loadingFlag"
           :ref="`list-item-${index}`"
           :key="item"
@@ -63,7 +63,7 @@ import { listTable } from "../../js/listTable.js";
             <div class="col-span-2 my-4 h-px w-full bg-white/25"></div>
 
             <template v-for="(input, inputIndex) of schema">
-              <div v-if="input.name !== 'index'">
+              <div v-if="input.name !== 'index'" class="whitespace-nowrap">
                 {{
                   input.name.includes("|")
                     ? input.name.split("|")[0]
