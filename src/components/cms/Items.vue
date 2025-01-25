@@ -377,8 +377,10 @@ export default {
 
   watch: {
     schema() {
+      this.editingItem = false;
       this.$emit("showItem", 0);
       this.$emit("itemOpen", false);
+      this.$emit("editingNewItem", false);
       this.loadData();
     },
 
