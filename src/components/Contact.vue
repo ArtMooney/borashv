@@ -5,6 +5,7 @@ import Input from "../elements/Input.vue";
 
 <template>
   <div
+    id="contact"
     class="col-span-1 grid grow content-center items-center gap-8 px-4 py-12 md:px-8 lg:grid-cols-5"
   >
     <div class="lg:col-span-2">
@@ -148,7 +149,7 @@ export default {
             this.buttonText = savedText;
 
             this.$router.push({
-              hash: "#navbar",
+              hash: "#contact",
             });
           }, 1500);
         }

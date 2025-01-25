@@ -7,7 +7,10 @@ import { formCollector } from "../js/formCollector.js";
 </script>
 
 <template>
-  <div class="grid grow grid-cols-1 content-center px-4 py-12 md:px-8">
+  <div
+    id="member"
+    class="grid grow grid-cols-1 content-center px-4 py-12 md:px-8"
+  >
     <form
       v-if="contactForm"
       @submit.prevent
@@ -203,7 +206,7 @@ export default {
             this.buttonText = savedText;
 
             this.$router.push({
-              hash: "#navbar",
+              hash: "#member",
             });
           }, 1500);
         }
