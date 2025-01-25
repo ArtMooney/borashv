@@ -30,7 +30,7 @@ import { emailValidator } from "../../js/emailValidator.js";
         name="password"
         type="password"
         placeholder-text="Enter password"
-        autocomplete="password"
+        autocomplete="current-password"
       />
 
       <Button
