@@ -26,7 +26,7 @@ import imageLogo from "/images/borashv-logo-1000px.png";
       <ResponsiveImage
         :src="imageLogo"
         alt="footer logo"
-        class="relative mb-6 h-36 min-h-36 w-36 min-w-36 md:mb-0 md:h-40 md:min-h-40 md:w-40 md:min-w-40"
+        class="relative mb-6 h-36 min-h-36 w-36 min-w-36 md:mb-4 md:h-40 md:min-h-40 md:w-40 md:min-w-40"
       />
     </router-link>
 
@@ -42,17 +42,20 @@ import imageLogo from "/images/borashv-logo-1000px.png";
       <router-link class="mb-3 hover:text-neutral-300" to="/bli-medlem#navbar"
         >Bli medlem
       </router-link>
-    </div>
-
-    <div class="relative flex flex-col">
       <router-link class="mb-3 hover:text-neutral-300" to="/styrelsen#navbar"
         >Styrelsen
       </router-link>
+    </div>
+
+    <div class="relative flex flex-col">
       <router-link class="mb-3 hover:text-neutral-300" to="/bokningar#navbar"
         >Bokningar
       </router-link>
       <router-link class="mb-3 hover:text-neutral-300" to="/kontakta-oss#navbar"
         >Kontakta Oss
+      </router-link>
+      <router-link class="mb-3 hover:text-neutral-300" to="/admin#navbar"
+        >Admin
       </router-link>
     </div>
 
