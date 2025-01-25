@@ -8,7 +8,7 @@ import Items from "./Items.vue";
 <template>
   <Teleport to="body">
     <div
-      class="absolute left-0 top-0 z-20 min-h-screen w-full bg-[#363636] px-4 pb-24"
+      class="absolute left-0 top-0 z-20 min-h-screen w-full min-w-[480px] bg-[#363636] px-4 pb-24"
     >
       <Navbar />
       <TableList

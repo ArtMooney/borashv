@@ -11,7 +11,7 @@ import { grid, chevronDownOutline } from "ionicons/icons";
       class="dragdrop-handle h-6 w-6 shrink-0 cursor-grabbing text-white"
     ></ion-icon>
 
-    <div class="pointer-events-none">
+    <div class="pointer-events-none mr-4">
       {{ item.titel ? item.titel : item.name }}
     </div>
   </div>

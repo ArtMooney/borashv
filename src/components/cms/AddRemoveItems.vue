@@ -4,7 +4,7 @@ import { listTable } from "../../js/listTable.js";
 
 <template>
   <div
-    class="mx-auto mt-8 flex max-w-screen-md select-none flex-wrap justify-center gap-4 text-base"
+    class="mx-auto mt-8 flex max-w-screen-md select-none flex-wrap justify-center gap-4 text-center text-base"
   >
     <div>Add, edit or remove content below</div>
 
