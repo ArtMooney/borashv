@@ -65,7 +65,7 @@ export default {
     },
 
     logOut() {
-      deleteLocalStorage("simple-cms-login");
+      deleteLocalStorage("borashv-cms");
       location.reload();
     },
   },

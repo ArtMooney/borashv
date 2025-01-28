@@ -26,7 +26,7 @@ export default {
   },
 
   created() {
-    if (getLocalStorage("simple-cms-login")) {
+    if (getLocalStorage("borashv-cms")) {
       this.panel = "cms";
     }
   },

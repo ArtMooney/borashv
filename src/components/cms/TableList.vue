@@ -37,8 +37,8 @@ export default {
   },
 
   async created() {
-    if (getLocalStorage("simple-cms-login")) {
-      this.login = getLocalStorage("simple-cms-login");
+    if (getLocalStorage("borashv-cms")) {
+      this.login = getLocalStorage("borashv-cms");
     }
 
     this.$emit("loadingFlag", true);

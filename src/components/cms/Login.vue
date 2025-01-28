@@ -90,7 +90,7 @@ export default {
 
       if (isPasswordSwitch) {
         this.newPasswordSwitch();
-      } else if (!getLocalStorage("simple-cms-login")) {
+      } else if (!getLocalStorage("borashv-cms")) {
         this.loginSwitch();
       }
     },

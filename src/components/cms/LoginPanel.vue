@@ -119,7 +119,7 @@ export default {
           this.showStatusMessage = false;
 
           this.setLocalStorage(
-            "simple-cms-login",
+            "borashv-cms",
             { email: this.loginEmail, password: this.loginPassword },
             1000 * 60 * 43200,
           );
