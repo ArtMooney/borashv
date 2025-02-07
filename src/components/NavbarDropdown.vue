@@ -29,7 +29,7 @@ import { chevronDown } from "ionicons/icons";
           :to="!item.isExternal ? item.link : undefined"
           :href="item.isExternal ? item.link : undefined"
           :target="item.openInNewTab ? '_blank' : '_self'"
-          class="pl-2 hover:opacity-75 lg:pl-0"
+          class="whitespace-nowrap pl-2 hover:opacity-75 lg:pl-0"
           @click="$emit('button-clicked')"
         >
           {{ item.text }}
