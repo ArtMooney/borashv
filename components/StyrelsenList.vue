@@ -1,6 +1,6 @@
 <script setup>
 import LoadingSpinner from "./LoadingSpinner.vue";
-import { listTable } from "../js/listTable.js";
+import { listTable } from "../pages/api/listTable.js";
 import backgroundImage from "/images/pexels-skylar-kang-6044253.jpg";
 import dogtagImage from "/images/dogtag.png";
 import ResponsiveImage from "../components/ResponsiveImage.vue";
@@ -9,7 +9,7 @@ import ResponsiveImage from "../components/ResponsiveImage.vue";
 <template>
   <div class="relative grow px-4 py-12 md:px-8">
     <div
-      class="absolute bottom-0 left-0 right-0 top-0 flex items-center overflow-hidden"
+      class="absolute top-0 right-0 bottom-0 left-0 flex items-center overflow-hidden"
     >
       <ResponsiveImage
         :src="backgroundImage"
@@ -19,7 +19,7 @@ import ResponsiveImage from "../components/ResponsiveImage.vue";
     </div>
 
     <div
-      class="absolute bottom-0 left-0 right-0 top-0 bg-gradient-to-b from-neutral-900 to-black/75 sm:to-black/50"
+      class="absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-neutral-900 to-black/75 sm:to-black/50"
     ></div>
 
     <h4 class="relative pb-8 text-3xl uppercase">Styrelsen</h4>
@@ -37,7 +37,7 @@ import ResponsiveImage from "../components/ResponsiveImage.vue";
       >
         <ResponsiveImage :src="dogtagImage" alt="item.name" />
         <div
-          class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pb-5 pr-4 md:pb-8 md:pr-8"
+          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pr-4 pb-5 md:pr-8 md:pb-8"
         >
           <span class="text-base font-bold md:text-lg">{{ item.name }}</span
           ><br />

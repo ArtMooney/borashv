@@ -1,7 +1,7 @@
 <script setup>
 import LoadingSpinner from "./LoadingSpinner.vue";
-import Button from "../elements/Button.vue";
-import { listTable } from "../js/listTable.js";
+import Button from "./elements/Button.vue";
+import { listTable } from "../pages/api/listTable.js";
 import ResponsiveImage from "../components/ResponsiveImage.vue";
 </script>
 
@@ -36,7 +36,7 @@ import ResponsiveImage from "../components/ResponsiveImage.vue";
           </p>
 
           <p
-            class="mb-4 hyphens-auto break-words"
+            class="mb-4 break-words hyphens-auto"
             lang="sv"
             v-html="item.info ? formattedString(item.info) : ''"
           ></p>

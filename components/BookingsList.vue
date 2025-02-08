@@ -1,6 +1,6 @@
 <script setup>
 import LoadingSpinner from "./LoadingSpinner.vue";
-import { listTable } from "../js/listTable.js";
+import { listTable } from "../pages/api/listTable.js";
 </script>
 
 <template>
@@ -23,7 +23,7 @@ import { listTable } from "../js/listTable.js";
           </p>
 
           <div
-            class="bold hyphens-auto break-words font-gunplay text-xl lg:text-2xl"
+            class="bold font-gunplay text-xl break-words hyphens-auto lg:text-2xl"
             lang="sv"
           >
             {{ item.titel }}

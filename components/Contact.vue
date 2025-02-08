@@ -1,6 +1,6 @@
 <script setup>
-import Button from "../elements/Button.vue";
-import Input from "../elements/Input.vue";
+import Button from "./elements/Button.vue";
+import Input from "./elements/Input.vue";
 </script>
 
 <template>

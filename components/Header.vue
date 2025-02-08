@@ -1,11 +1,11 @@
 <script setup>
-import Button from "../elements/Button.vue";
+import Button from "./elements/Button.vue";
 import ResponsiveImage from "../components/ResponsiveImage.vue";
 </script>
 
 <template>
   <div
-    class="relative grid grid-cols-1 md:grid-cols-slim md:px-0"
+    class="md:grid-cols-slim relative grid grid-cols-1 md:px-0"
     :class="
       containImage ? 'min-h-min' : 'min-h-[20rem] p-4 md:p-12 lg:min-h-[40rem]'
     "
@@ -15,7 +15,7 @@ import ResponsiveImage from "../components/ResponsiveImage.vue";
       :class="
         containImage
           ? 'col-span-1 w-full md:col-span-3'
-          : 'absolute bottom-0 left-0 right-0 top-0 flex items-center overflow-hidden'
+          : 'absolute top-0 right-0 bottom-0 left-0 flex items-center overflow-hidden'
       "
     >
       <ResponsiveImage
@@ -29,14 +29,14 @@ import ResponsiveImage from "../components/ResponsiveImage.vue";
       />
     </div>
 
-    <div class="absolute bottom-0 left-0 right-0 top-0 bg-black/25"></div>
+    <div class="absolute top-0 right-0 bottom-0 left-0 bg-black/25"></div>
 
     <div
       class="relative flex flex-col items-center justify-center text-center md:col-start-2 md:col-end-2"
     >
       <h1
         v-if="title"
-        class="hyphens-auto break-words text-3xl uppercase md:text-4xl"
+        class="text-3xl break-words hyphens-auto uppercase md:text-4xl"
         lang="sv"
       >
         {{ title }}
