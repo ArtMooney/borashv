@@ -3,7 +3,7 @@ import NotFound from "../components/NotFound.vue";
 </script>
 
 <template>
-  <div class="flex h-full w-full grow items-center justify-center">
+  <div class="flex grow items-center justify-center">
     <NotFound />
   </div>
 </template>
