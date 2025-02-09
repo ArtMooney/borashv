@@ -102,12 +102,14 @@ import imageLogo from "/images/borashv-logo-1000px.png";
       class="relative block h-8 w-8 cursor-pointer items-center justify-self-end invert select-none hover:opacity-75 sm:h-10 sm:w-10 lg:hidden"
       @click="toggleNavbar"
     >
-      <Vue3Lottie
-        ref="lottieSandwich"
-        :animationData="sandwich"
-        :autoPlay="false"
-        :loop="false"
-      />
+      <ClientOnly>
+        <Vue3Lottie
+          ref="lottieSandwich"
+          :animationData="sandwich"
+          :autoPlay="false"
+          :loop="false"
+        />
+      </ClientOnly>
     </div>
   </div>
 </template>
