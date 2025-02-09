@@ -1,14 +1,7 @@
-<!--<script setup>-->
-<!--import Navbar from "./components/Navbar.vue";-->
-<!--import Footer from "./components/Footer.vue";-->
-<!--</script>-->
-
 <template>
-  <!--  <div class="flex grow flex-col">-->
-  <!--    <Navbar />-->
-  <NuxtPage />
-  <!--  </div>-->
-  <!--  <Footer />-->
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>
 
 <script>
