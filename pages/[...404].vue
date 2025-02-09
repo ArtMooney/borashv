@@ -1,5 +1,24 @@
 <script setup>
 import NotFound from "../components/NotFound.vue";
+
+useHead({
+  title: "404 - Sidan kunde inte hittas | Borås Hemvärnsförening",
+  meta: [
+    { name: "robots", content: "noindex, nofollow" },
+    {
+      name: "description",
+      content: "Sidan du söker kunde inte hittas.",
+    },
+    {
+      property: "og:title",
+      content: "404 - Sidan kunde inte hittas | Borås Hemvärnsförening",
+    },
+    {
+      property: "og:description",
+      content: "Sidan du söker kunde inte hittas.",
+    },
+  ],
+});
 </script>
 
 <template>
@@ -7,35 +26,3 @@ import NotFound from "../components/NotFound.vue";
     <NotFound />
   </div>
 </template>
-
-<script>
-export default {
-  name: "NotFound",
-  head: {
-    title: "",
-    meta: [
-      {
-        name: "keywords",
-        content: "",
-      },
-      { name: "robots", content: "noindex, nofollow" },
-      {
-        name: "description",
-        content: "",
-      },
-      {
-        property: "og:title",
-        content: "",
-      },
-      {
-        property: "og:description",
-        content: "",
-      },
-      {
-        property: "og:image",
-        content: "",
-      },
-    ],
-  },
-};
-</script>
