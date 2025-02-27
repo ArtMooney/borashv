@@ -37,9 +37,9 @@ export default {
       All verksamhet i hemvärnsgården skall förbokas, även regelbunden
       återkommande verksamhet.
 
-      Bokning sker via David Wernold.
-      Email: <a href="mailto:boka_hv_garden@mail.com">boka_hv_garden@mail.com</a>
-      Tel./sms: <a href="tel:0703356483">0703-356483</a>
+      Bokning sker via Joakim Gustafsson.
+      E-post: <a href="mailto:7.62@minmailadress.se">7.62@minmailadress.se</a>
+      Tel./sms: <a href="tel:0731-583675">0731-58 36 75</a>
 
       Nyckel hämtas/lämnas enl. överenskommelse.
 
@@ -56,9 +56,9 @@ export default {
       textBokningsregler: `
       All verksamhet i hemvärnsgården skall förbokas, även regelbunden återkommande verksamhet.
 
-      Bokning sker via David Wernold.
-      Email: <a href="mailto:boka_hv_garden@mail.com">boka_hv_garden@mail.com</a>
-      Tel./sms: <a href="tel:0703356483">0703-356483</a>
+      Bokning sker via Joakim Gustafsson.
+      Email: <a href="mailto:7.62@minmailadress.se">7.62@minmailadress.se</a>
+      Tel./sms: <a href="tel:0731-583675">0731-58 36 75</a>
 
       Bokningsbart:
       * Konferensrum
