@@ -19,8 +19,8 @@ import ResponsiveImage from "../components/ResponsiveImage.vue";
       <div class="flex flex-col gap-4 text-xs sm:flex-row sm:text-sm">
         <div class="w-full sm:min-h-36 sm:w-36 sm:min-w-36">
           <img
-            v-if="item.bild && item.bild[0]"
-            :src="item.bild[0].thumbnails.card_cover.url"
+            v-if="item.bild[0]?.thumbnails?.card_cover?.url"
+            :src="item.bild[0]?.thumbnails?.card_cover?.url ?? ''"
             alt=""
             class="h-full w-full object-cover"
           />
