@@ -28,9 +28,7 @@ export default {
         (ett Hemvärnsförband får inte ha en egen kassa).
 
         <strong>Vi behöver dig som medlem!
-        Bli medlem NU genom att sätta in 50kr på bg:
-
-        5701-4920</strong>
+        Medlem blir du genom att betala in medlemsavgiften på 50 kr till Swish 1230930305 eller på Bankgiro på bg: 5701-4920</strong>
 
         OBS! glöm inte att ange ditt namn och adress vid inbetalning.
         `,
