@@ -44,7 +44,7 @@ import ResponsiveImage from "../components/ResponsiveImage.vue";
           <Button
             v-show="item['kontakta oss']"
             text="Kontakta oss"
-            link="/contact"
+            link="/kontakta-oss"
             type="button"
             data-wait=""
             styling="dark"
