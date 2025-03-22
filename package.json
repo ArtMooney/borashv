@@ -12,11 +12,13 @@
     },
     "dependencies": {
         "@ionic/vue": "^8.5.1",
+        "@nuxtjs/robots": "^5.2.8",
         "@tailwindcss/vite": "^4.0.15",
         "@vuepic/vue-datepicker": "^10.0.0",
         "@vueuse/core": "^12.8.2",
         "ionicons": "^7.4.0",
         "nuxt": "^3.16.1",
+        "nuxt-simple-sitemap": "^4.4.1",
         "tailwindcss": "^4.0.3",
         "vue": "latest",
         "vue-easy-dnd": "^2.1.3",
