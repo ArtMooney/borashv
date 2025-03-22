@@ -1,7 +1,7 @@
 <script setup>
 import Login from "../components/cms/Login.vue";
 import Cms from "../components/cms/Cms.vue";
-import { getLocalStorage } from "./api/getLocalStorage.js";
+import { getLocalStorage } from "~/utils/getLocalStorage.js";
 </script>
 
 <template>
