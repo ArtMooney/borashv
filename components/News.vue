@@ -1,7 +1,7 @@
 <script setup>
 import LoadingSpinner from "./LoadingSpinner.vue";
 import Button from "./elements/Button.vue";
-import { listTable } from "../pages/api/listTable.js";
+import { listTable } from "~/utils/listTable.js";
 import ResponsiveImage from "../components/ResponsiveImage.vue";
 </script>
 

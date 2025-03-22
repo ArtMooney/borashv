@@ -1,9 +1,9 @@
 <script setup>
 import Button from "./elements/Button.vue";
 import Input from "./elements/Input.vue";
-import { requiredFields } from "../pages/api/requiredFields.js";
-import { emailValidator } from "../pages/api/emailValidator.js";
-import { formCollector } from "../pages/api/formCollector.js";
+import { requiredFields } from "~/utils/requiredFields.js";
+import { emailValidator } from "~/utils/emailValidator.js";
+import { formCollector } from "~/utils/formCollector.js";
 </script>
 
 <template>
