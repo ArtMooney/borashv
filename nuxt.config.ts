@@ -87,7 +87,7 @@ export default defineNuxtConfig({
   },
 
   site: {
-    url: process.env.CF_PAGES_URL || "https://adinq.se",
+    url: process.env.CF_PAGES_URL || "https://borashv.se",
   },
 
   sitemap: {
@@ -113,7 +113,7 @@ export default defineNuxtConfig({
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
         { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
         { rel: "manifest", href: "/site.webmanifest" },
-        { rel: "canonical", href: "https://adinq.se/" },
+        { rel: "canonical", href: "https://borashv.se/" },
       ],
       charset: "utf-8",
       viewport: "width=device-width, initial-scale=1",
@@ -135,7 +135,7 @@ export default defineNuxtConfig({
 
         // Open Graph / Facebook
         { property: "og:type", content: "website" },
-        { property: "og:url", content: "https://adinq.se/" },
+        { property: "og:url", content: "https://borashv.se/" },
         {
           property: "og:title",
           content: "",
@@ -146,12 +146,12 @@ export default defineNuxtConfig({
         },
         {
           property: "og:image",
-          content: "https://adinq.se/og-image.jpg",
+          content: "https://borashv.se/og-image.jpg",
         },
 
         // Twitter
         { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:url", content: "https://adinq.se/" },
+        { name: "twitter:url", content: "https://borashv.se/" },
         {
           name: "twitter:title",
           content: "",
@@ -162,7 +162,7 @@ export default defineNuxtConfig({
         },
         {
           name: "twitter:image",
-          content: "https://adinq.se/twitter-image.jpg",
+          content: "https://borashv.se/twitter-image.jpg",
         },
       ],
     },
