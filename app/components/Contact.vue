@@ -1,8 +1,3 @@
-<script setup>
-import Button from "../elements/Button.vue";
-import Input from "../elements/Input.vue";
-</script>
-
 <template>
   <div
     id="contact"
@@ -20,7 +15,7 @@ import Input from "../elements/Input.vue";
         class="grid items-center gap-4 text-white lg:grid-cols-3"
         name="contact"
       >
-        <Input
+        <input
           name="email"
           type="email"
           placeholder-text="Email"
@@ -29,7 +24,7 @@ import Input from "../elements/Input.vue";
         />
 
         <div class="hidden">
-          <Input
+          <input
             name="clientip"
             type="text"
             placeholder-text="clientip"
@@ -37,7 +32,7 @@ import Input from "../elements/Input.vue";
             v-model="extraFields.clientip"
           />
 
-          <Input
+          <input
             name="pageuri"
             type="text"
             placeholder-text="pageuri"
@@ -45,7 +40,7 @@ import Input from "../elements/Input.vue";
             v-model="extraFields.pageuri"
           />
 
-          <Input
+          <input
             name="pagename"
             type="text"
             placeholder-text="pagename"
@@ -53,7 +48,7 @@ import Input from "../elements/Input.vue";
             v-model="extraFields.pagename"
           />
 
-          <Input
+          <input
             name="amex"
             type="text"
             placeholder-text="amex"
@@ -62,7 +57,7 @@ import Input from "../elements/Input.vue";
           />
         </div>
 
-        <Button
+        <button
           @click="sendForm"
           :text="buttonText"
           link=""
@@ -70,7 +65,7 @@ import Input from "../elements/Input.vue";
           type="submit"
           data-wait="Vänta..."
           class="max-w-56"
-        />
+        ></button>
       </form>
 
       <div v-if="successMessage">

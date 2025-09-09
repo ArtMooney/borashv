@@ -1,16 +1,13 @@
 <script setup>
 import { Vue3Lottie } from "vue3-lottie";
-import NavbarDropdown from "../components/NavbarDropdown.vue";
 import sandwich from "../assets/burger-menu.json";
-import Button from "../elements/Button.vue";
-import ResponsiveImage from "../components/ResponsiveImage.vue";
 import imageLogo from "/images/borashv-logo-1000px.png";
 </script>
 
 <template>
   <div
     id="navbar"
-    class="relative z-10 flex items-center justify-between bg-transparent p-4 py-2 font-gunplay"
+    class="font-gunplay relative z-10 flex items-center justify-between bg-transparent p-4 py-2"
   >
     <router-link to="/">
       <ResponsiveImage
@@ -21,7 +18,7 @@ import imageLogo from "/images/borashv-logo-1000px.png";
     </router-link>
 
     <div
-      class="absolute right-3 top-4 flex flex-col gap-5 bg-[#32382d] p-6 pt-14 transition-all duration-200 ease-in-out lg:static lg:flex-row lg:items-center lg:bg-transparent lg:p-0"
+      class="absolute top-4 right-3 flex flex-col gap-5 bg-[#32382d] p-6 pt-14 transition-all duration-200 ease-in-out lg:static lg:flex-row lg:items-center lg:bg-transparent lg:p-0"
       :class="[
         showNavbar
           ? 'opacity-100'
@@ -89,17 +86,17 @@ import imageLogo from "/images/borashv-logo-1000px.png";
         >BLI MEDLEM
       </router-link>
 
-      <Button
+      <button
         text="Kontakta oss"
         link="/kontakta-oss"
         type="button"
         data-wait=""
         @click="toggleNavbar"
-      />
+      ></button>
     </div>
 
     <div
-      class="relative block h-8 w-8 cursor-pointer select-none items-center justify-self-end invert hover:opacity-75 sm:h-10 sm:w-10 lg:hidden"
+      class="relative block h-8 w-8 cursor-pointer items-center justify-self-end invert select-none hover:opacity-75 sm:h-10 sm:w-10 lg:hidden"
       @click="toggleNavbar"
     >
       <Vue3Lottie

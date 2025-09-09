@@ -1,6 +1,4 @@
 <script setup>
-import Button from "../elements/Button.vue";
-import Input from "../elements/Input.vue";
 import { requiredFields } from "../js/requiredFields.js";
 import { emailValidator } from "../js/emailValidator.js";
 import { formCollector } from "../js/formCollector.js";
@@ -17,7 +15,7 @@ import { formCollector } from "../js/formCollector.js";
       class="grid grid-cols-1 gap-4 text-white md:grid-cols-2"
       name="member"
     >
-      <Input
+      <input
         name="firstname"
         type="text"
         placeholder-text=""
@@ -25,7 +23,7 @@ import { formCollector } from "../js/formCollector.js";
         label-text="Förnamn:"
       />
 
-      <Input
+      <input
         name="lastname"
         type="text"
         placeholder-text=""
@@ -33,7 +31,7 @@ import { formCollector } from "../js/formCollector.js";
         label-text="Efternamn:"
       />
 
-      <Input
+      <input
         name="email"
         type="email"
         placeholder-text=""
@@ -41,7 +39,7 @@ import { formCollector } from "../js/formCollector.js";
         label-text="Email:"
       />
 
-      <Input
+      <input
         name="phone"
         type="tel"
         placeholder-text=""
@@ -49,7 +47,7 @@ import { formCollector } from "../js/formCollector.js";
         label-text="Telefon:"
       />
 
-      <Input
+      <input
         name="company"
         type="text"
         placeholder-text=""
@@ -57,7 +55,7 @@ import { formCollector } from "../js/formCollector.js";
         label-text="Företag:"
       />
 
-      <Input
+      <input
         class="col-span-1 md:col-span-2"
         name="message"
         type="message"
@@ -67,7 +65,7 @@ import { formCollector } from "../js/formCollector.js";
       />
 
       <div class="hidden">
-        <Input
+        <input
           name="clientip"
           type="text"
           placeholder-text="clientip"
@@ -76,7 +74,7 @@ import { formCollector } from "../js/formCollector.js";
           v-model="extraFields.clientip"
         />
 
-        <Input
+        <input
           name="pageuri"
           type="text"
           placeholder-text="pageuri"
@@ -85,7 +83,7 @@ import { formCollector } from "../js/formCollector.js";
           v-model="extraFields.pageuri"
         />
 
-        <Input
+        <input
           name="pagename"
           type="text"
           placeholder-text="pagename"
@@ -94,7 +92,7 @@ import { formCollector } from "../js/formCollector.js";
           v-model="extraFields.pagename"
         />
 
-        <Input
+        <input
           name="amex"
           type="text"
           placeholder-text="amex"
@@ -105,14 +103,14 @@ import { formCollector } from "../js/formCollector.js";
       </div>
 
       <div class="flex items-start pt-8">
-        <Button
+        <button
           @click="sendForm"
           :text="buttonText"
           link=""
           hash=""
           type="submit"
           data-wait="Vänta..."
-        />
+        ></button>
       </div>
     </form>
 

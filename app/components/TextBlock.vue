@@ -1,7 +1,3 @@
-<script setup>
-import Button from "../elements/Button.vue";
-</script>
-
 <template>
   <div
     :id="id"
@@ -13,10 +9,10 @@ import Button from "../elements/Button.vue";
       <h4 v-if="title" class="text-3xl uppercase">{{ title }}</h4>
       <div
         v-html="formattedText"
-        class="whitespace-pre-line [&>a:hover]:opacity-80 [&>a]:underline [&>a]:underline-offset-4"
+        class="whitespace-pre-line [&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:opacity-80"
       ></div>
 
-      <Button
+      <button
         v-if="buttonText"
         :text="buttonText"
         :link="buttonLink.split('#')[0]"
@@ -29,7 +25,7 @@ import Button from "../elements/Button.vue";
         data-wait=""
         styling="dark"
         class="mt-12"
-      />
+      ></button>
     </div>
   </div>
 </template>
