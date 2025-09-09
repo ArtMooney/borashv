@@ -1,28 +1,23 @@
-<script setup>
-import LoginPanel from "./LoginPanel.vue";
-import ResetPasswordPanel from "./ResetPasswordPanel.vue";
-import NewPasswordPanel from "./NewPasswordPanel.vue";
-import LoadingSpinner from "../LoadingSpinner.vue";
-import { getLocalStorage } from "../../js/getLocalStorage.js";
-</script>
-
 <template>
   <div class="py-32">
-    <LoginPanel
+    <CmsLoginPanel
       v-if="panel === 'login'"
       @reset-password-panel="resetPasswordSwitch"
       @status="$emit('status', $event)"
     />
-    <ResetPasswordPanel
+
+    <CmsResetPasswordPanel
       v-if="panel === 'resetPassword'"
       @login-switch="loginSwitch"
     />
-    <NewPasswordPanel
+
+    <CmsNewPasswordPanel
       v-if="panel === 'newPassword'"
       :validation="validationCode"
       @login-switch="loginSwitch"
     />
-    <LoadingSpinner v-if="panel === 'loading'" class="justify-self-center" />
+
+    <CmsLoadingSpinner v-if="panel === 'loading'" class="justify-self-center" />
 
     <div class="flex flex-col items-center px-4 md:px-8">
       <div
@@ -40,18 +35,20 @@ export default {
   name: "Login",
 
   data() {
+    const config = useRuntimeConfig();
+
     return {
       panel: "login",
-      userName: `${import.meta.env.VITE_USERNAME}`,
-      userPass: `${import.meta.env.VITE_USERPASS}`,
+      userName: config.public.userName,
+      userPass: config.public.userPass,
       validationCode: "",
       showStatusMessage: false,
       statusMessage: "Couldn't validate your code, rerouted to the login page.",
     };
   },
 
-  async created() {
-    this.loginHandler();
+  async mounted() {
+    await this.loginHandler();
   },
 
   methods: {
@@ -65,23 +62,21 @@ export default {
         if (varCheck[0] === "validation" && varCheck[1]) {
           this.panel = "loading";
 
-          const res = await fetch("/validate", {
-            method: "POST",
-            headers: {
-              Authorization:
-                "Basic " + btoa(`${this.userName}:${this.userPass}`),
-            },
-            body: JSON.stringify({
-              validation: varCheck[1],
-            }),
-          });
+          try {
+            const res = await $fetch("/api/cms/validate", {
+              method: "POST",
+              headers: {
+                Authorization:
+                  "Basic " + btoa(this.userName + ":" + this.userPass),
+              },
+              body: JSON.stringify({
+                validation: varCheck[1],
+              }),
+            });
 
-          const jsonResponse = await res.json();
-
-          if (jsonResponse === "ok") {
             isPasswordSwitch = true;
             this.validationCode = varCheck[1];
-          } else {
+          } catch (err) {
             this.showStatusMessage = true;
             this.clearErrorWhenClicked();
           }
@@ -90,7 +85,7 @@ export default {
 
       if (isPasswordSwitch) {
         this.newPasswordSwitch();
-      } else if (!getLocalStorage("borashv-cms")) {
+      } else if (!getLocalStorage("adinq-cms")) {
         this.loginSwitch();
       }
     },

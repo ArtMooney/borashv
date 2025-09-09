@@ -1,10 +1,3 @@
-<script setup>
-import Button from "../../elements/Button.vue";
-import Input from "../../elements/Input.vue";
-import { requiredFields } from "../../js/requiredFields.js";
-import { emailValidator } from "../../js/emailValidator.js";
-</script>
-
 <template>
   <div class="flex flex-col items-center px-4 py-12 md:px-8">
     <form
@@ -14,34 +7,31 @@ import { emailValidator } from "../../js/emailValidator.js";
     >
       <div>Login</div>
 
-      <Input
+      <input
         v-model="loginEmail"
-        @update-value="loginEmail = $event"
         name="email"
         type="email"
-        placeholder-text="Enter email address"
-        :required="true"
+        placeholder="Enter email address"
+        required
         autocomplete="email"
       />
 
-      <Input
+      <input
         v-model="loginPassword"
-        @update-value="loginPassword = $event"
         name="password"
         type="password"
-        placeholder-text="Enter password"
+        placeholder="Enter password"
         autocomplete="current-password"
       />
 
-      <Button
+      <button
         @click="loginForm"
-        :text="buttonText"
-        link=""
-        hash=""
         type="submit"
         data-wait="Please wait..."
         class="mt-4 !bg-[#548b63] text-white hover:!bg-[#6bad7d]"
-      />
+      >
+        {{ buttonText }}
+      </button>
 
       <div
         @click="$emit('resetPasswordPanel')"
@@ -65,9 +55,11 @@ export default {
   name: "LoginPanel",
 
   data() {
+    const config = useRuntimeConfig();
+
     return {
-      userName: `${import.meta.env.VITE_USERNAME}`,
-      userPass: `${import.meta.env.VITE_USERPASS}`,
+      userName: config.public.userName,
+      userPass: config.public.userPass,
       loginEmail: "",
       loginPassword: "",
       showStatusMessage: false,
@@ -77,15 +69,6 @@ export default {
   },
 
   methods: {
-    setLocalStorage(name, value, ttl) {
-      const now = new Date();
-      const item = {
-        value: value,
-        expiry: now.getTime() + ttl,
-      };
-      localStorage.setItem(name, JSON.stringify(item));
-    },
-
     async loginForm(event) {
       if (!emailValidator(event.target.parentElement)) {
         this.statusMessage =
@@ -102,40 +85,32 @@ export default {
         const savedText = this.buttonText;
         this.buttonText = event.target.dataset.wait;
 
-        const res = await fetch("/login", {
-          method: "POST",
-          headers: {
-            Authorization: "Basic " + btoa(`${this.userName}:${this.userPass}`),
-          },
-          body: JSON.stringify({
-            email: this.loginEmail,
-            password: this.loginPassword,
-          }),
-        });
+        try {
+          const res = await $fetch("/api/cms/login", {
+            method: "POST",
+            headers: {
+              Authorization:
+                "Basic " + btoa(this.userName + ":" + this.userPass),
+            },
+            body: JSON.stringify({
+              email: this.loginEmail,
+              password: this.loginPassword,
+            }),
+          });
 
-        const jsonResponse = await res.json();
-
-        if (jsonResponse === "ok") {
           this.showStatusMessage = false;
 
-          this.setLocalStorage(
-            "borashv-cms",
+          setLocalStorage(
+            "adinq-cms",
             { email: this.loginEmail, password: this.loginPassword },
             1000 * 60 * 43200,
           );
 
           this.buttonText = savedText;
           this.$emit("status", "ok");
-        } else if (jsonResponse === "error") {
+        } catch (err) {
           this.statusMessage =
-            "Your email or password was not correct, please try again.";
-          this.showStatusMessage = true;
-          this.buttonText = savedText;
-
-          this.clearErrorWhenClicked();
-        } else {
-          this.statusMessage =
-            "Something went wrong while logging in, please try again.";
+            err.statusMessage || "Something went wrong. Please try again.";
           this.showStatusMessage = true;
           this.buttonText = savedText;
 

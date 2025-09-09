@@ -1,8 +1,7 @@
 <script setup>
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-import { IonIcon } from "@ionic/vue";
-import { closeCircleOutline } from "ionicons/icons";
+import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
 </script>
 
 <template>
@@ -12,18 +11,13 @@ import { closeCircleOutline } from "ionicons/icons";
       getInputType(input.type) !== 'textarea' &&
       getInputType(input.type) !== 'file' &&
       getInputType(input.type) !== 'date' &&
+      getInputType(input.type) !== 'select' &&
       !isToFromType(input.name)
     "
     @click.stop
     v-model="item[input.name]"
     :type="getInputType(input.type)"
-    :class="[
-      getInputType(input.type) === 'checkbox'
-        ? 'h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500'
-        : 'border border-white/25 bg-[#4a4644] p-2',
-      isEmailValid ? 'bg-pink-800/50' : '',
-      isPhoneNumberValid ? 'bg-pink-800/50' : '',
-    ]"
+    :class="[isEmailValid && 'error', isPhoneNumberValid && 'error']"
     :name="input.name"
     autocomplete="off"
   />
@@ -39,6 +33,7 @@ import { closeCircleOutline } from "ionicons/icons";
     auto-apply=""
     :name="input.name"
     :range="isToFromType(input.name)"
+    class="[&_div]:!font-body [&_input]:!font-body [&_button]:!p-0 [&_div]:!text-xs [&_input]:!border-white/25 [&_input]:!bg-transparent [&_input]:!py-3 [&_input]:!text-sm [&_input]:!text-white"
   >
   </VueDatePicker>
 
@@ -46,17 +41,15 @@ import { closeCircleOutline } from "ionicons/icons";
     v-if="input.name !== 'index' && getInputType(input.type) === 'textarea'"
     @click.stop
     v-model="item[input.name]"
-    class="h-40 border border-white/25 bg-[#4a4644] p-2"
     :name="input.name"
     autocomplete="off"
   ></textarea>
 
   <div
     v-if="input.name !== 'index' && getInputType(input.type) === 'file'"
-    class="flex gap-1 justify-self-start"
+    class="my-1 flex items-center gap-1 justify-self-start"
   >
     <input
-      v-if="input.name !== 'index' && getInputType(input.type) === 'file'"
       @click.stop
       @change="handleFileInput($event, input.name, item)"
       :id="`${input.name}-${index}`"
@@ -71,19 +64,28 @@ import { closeCircleOutline } from "ionicons/icons";
     <label
       @click.stop
       :for="`${input.name}-${index}`"
-      class="cursor-pointer text-sm text-white underline"
+      class="m-0 cursor-pointer p-0 text-sm underline"
     >
       {{ displayFilename(item[input.name], input.name) }}
     </label>
 
-    <ion-icon
+    <IconCloseCircleOutline
       @click.stop="
         removeFile(item, index, `${input.name}-${index}`, input.name)
       "
-      :icon="closeCircleOutline"
-      class="h-4 w-4 cursor-pointer px-0.5 text-red-600"
-    ></ion-icon>
+      class="h-4 min-h-4 w-4 min-w-4 cursor-pointer px-0.5 text-red-500"
+    ></IconCloseCircleOutline>
   </div>
+
+  <select
+    v-if="input.name !== 'index' && getInputType(input.type) === 'select'"
+    :name="input.name"
+    v-model="selectValue"
+  >
+    <option v-for="option in input.select_options" :value="option.value">
+      {{ option.value }}
+    </option>
+  </select>
 </template>
 
 <script>
@@ -137,6 +139,19 @@ export default {
         this.item[this.input.name] !== ""
       );
     },
+
+    selectValue: {
+      get() {
+        return this.item[this.input.name]?.value || "";
+      },
+      set(newValue) {
+        if (!this.item[this.input.name]) {
+          this.item[this.input.name] = { value: newValue };
+        } else {
+          this.item[this.input.name].value = newValue;
+        }
+      },
+    },
   },
 
   methods: {
@@ -151,6 +166,8 @@ export default {
         inputType = "checkbox";
       } else if (type === "file") {
         inputType = "file";
+      } else if (type === "single_select") {
+        inputType = "select";
       }
 
       return inputType;
@@ -235,26 +252,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.dp__menu {
-  background: #e6e6e6 !important;
-  font-size: 14px !important;
-}
-
-.dp__input {
-  background: #4a4644 !important;
-  font-size: 14px !important;
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
-  border-radius: 0 !important;
-  color: white !important;
-}
-
-.dp__cell_inner {
-  font-size: 12px !important;
-}
-
-.dp__month_year_select {
-  font-size: 16px !important;
-}
-</style>

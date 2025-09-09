@@ -1,24 +1,18 @@
-<script setup>
-import { listFields } from "../../js/listFields.js";
-import { getLocalStorage } from "../../js/getLocalStorage.js";
-</script>
-
 <template>
   <div
     class="mx-auto mt-8 flex max-w-screen-md flex-wrap justify-center gap-4 text-base"
   >
-    <div v-for="(table, index) of tables">
-      <div
-        @click="changeTable(index)"
-        :class="[
-          tableIndex === index
-            ? 'cursor-pointer border-b-2 border-white hover:bg-gradient-to-r hover:from-[#ff6363] hover:via-[#b776e5] hover:to-white hover:bg-clip-text hover:text-transparent'
-            : 'cursor-pointer hover:bg-gradient-to-r hover:from-[#ff6363] hover:via-[#b776e5] hover:to-white hover:bg-clip-text hover:text-transparent',
-        ]"
-      >
-        {{ table.name }}
-      </div>
-    </div>
+    <label class="flex w-full flex-col gap-2">
+      <p class="font-semibold text-white/50 italic">
+        Choose content table to edit
+      </p>
+
+      <select v-model="tableIndex">
+        <option v-for="(table, index) of tables" :value="index">
+          {{ table.name }}
+        </option>
+      </select>
+    </label>
   </div>
 </template>
 
@@ -26,52 +20,81 @@ import { getLocalStorage } from "../../js/getLocalStorage.js";
 export default {
   name: "TableList",
 
+  props: {
+    login: {
+      type: Object,
+      required: true,
+    },
+  },
+
   data() {
+    const config = useRuntimeConfig();
+
     return {
-      userName: `${import.meta.env.VITE_USERNAME}`,
-      userPass: `${import.meta.env.VITE_USERPASS}`,
+      userName: config.public.userName,
+      userPass: config.public.userPass,
       tableIndex: 0,
-      login: {},
       tables: [],
     };
   },
 
-  async created() {
-    if (getLocalStorage("borashv-cms")) {
-      this.login = getLocalStorage("borashv-cms");
-    }
-
+  async mounted() {
     this.$emit("loadingFlag", true);
 
     this.tables = await this.listTables();
-    const schema = await listFields(this.tables[this.tableIndex].id);
+    const schema = await this.listFields(this.tables[this.tableIndex].id);
 
     this.$emit("schema", schema);
   },
 
   methods: {
-    async changeTable(index) {
-      this.$emit("loadingFlag", true);
-
-      this.tableIndex = index;
-      const schema = await listFields(this.tables[this.tableIndex].id);
-
-      this.$emit("schema", schema);
+    async listTables() {
+      try {
+        return await $fetch("/api/cms/tables", {
+          method: "POST",
+          headers: {
+            Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
+          },
+          body: JSON.stringify({
+            email: this.login.email,
+            password: this.login.password,
+          }),
+        });
+      } catch (err) {
+        if (err.status === 401) {
+          deleteLocalStorage("adinq-cms");
+          location.reload();
+        }
+      }
     },
 
-    async listTables() {
-      const res = await fetch("/list-tables", {
-        method: "POST",
-        headers: {
-          Authorization: "Basic " + btoa(`${this.userName}:${this.userPass}`),
-        },
-        body: JSON.stringify({
-          email: this.login.email,
-          password: this.login.password,
-        }),
-      });
+    async listFields(tableid) {
+      try {
+        return await $fetch("/api/cms/fields", {
+          method: "POST",
+          headers: {
+            Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
+          },
+          body: JSON.stringify({
+            email: this.login.email,
+            password: this.login.password,
+            table_id: tableid,
+          }),
+        });
+      } catch (err) {
+        if (err.status === 401) {
+          deleteLocalStorage("adinq-cms");
+          location.reload();
+        }
+      }
+    },
+  },
 
-      return await res.json();
+  watch: {
+    async tableIndex() {
+      this.$emit("loadingFlag", true);
+      const schema = await this.listFields(this.tables[this.tableIndex].id);
+      this.$emit("schema", schema);
     },
   },
 };

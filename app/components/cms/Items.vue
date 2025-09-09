@@ -1,11 +1,5 @@
 <script setup>
-import { Drag, DropList } from "vue-easy-dnd";
-import "vue-easy-dnd/dist/dnd.css";
-import ItemTitle from "./ItemTitle.vue";
-import LoadingSpinner from "../LoadingSpinner.vue";
-import Input from "./Input.vue";
-import { getLocalStorage } from "../../js/getLocalStorage.js";
-import { listTable } from "../../js/listTable.js";
+import { VueDraggableNext } from "vue-draggable-next";
 </script>
 
 <template>
@@ -13,81 +7,82 @@ import { listTable } from "../../js/listTable.js";
     class="mx-auto mt-8 max-w-screen-md justify-center gap-4"
     id="items-list-top"
   >
-    <LoadingSpinner
+    <CmsLoadingSpinner
       v-if="loadingFlag"
-      class="!h-12 !w-12 justify-self-center py-12"
-      color="#fac725"
+      size="large"
+      class="mx-auto justify-self-center"
     />
 
     <div v-if="!items.length && !loadingFlag" class="py-16 text-center">
       No items found
     </div>
 
-    <drop-list
-      :items="items"
-      @reorder="
-        $event.apply(items);
-        saveAllItems();
-      "
+    <VueDraggableNext
+      v-model="localItems"
+      :delay="dragDelay"
+      :animation="200"
+      handle=".dragdrop-handle"
+      @end="saveAllItems"
     >
-      <template v-slot:item="{ item, index }">
-        <drag
-          :delay="dragDelay"
-          :vibration="dragVibration"
-          @click="handleClick($event, item, index)"
-          class="mb-4 grid grid-cols-2 rounded bg-black/25 p-4 shadow-[3px_4px_12px_rgba(0,0,0,0.22)] hover:bg-[#242424]"
-          v-show="!loadingFlag"
-          :ref="`list-item-${index}`"
-          :key="item"
-          handle=".dragdrop-handle"
+      <div
+        v-for="(item, index) of localItems"
+        @click="handleClick($event, item, index)"
+        class="mb-4 grid grid-cols-2 rounded bg-black/25 p-4 shadow-[3px_4px_12px_rgba(0,0,0,0.22)] hover:bg-[#242424]"
+        v-show="!loadingFlag"
+        :ref="`list-item-${index}`"
+        :id="`list-item-${index}`"
+        :key="item"
+      >
+        <CmsItemTitle
+          :item="item"
+          :index="index"
+          :show-item="showItem"
+          :item-open="itemOpen"
+          :save-flag="saveFlag"
+          :save-all-flag="saveAllFlag"
+          :editing-new-item="editingNewItem"
+          :input-error="inputError"
+          @save-item="saveItem($event)"
+          @cancel-item="cancelItem($event)"
+          @delete-item="deleteItem($event)"
+        />
+
+        <div
+          class="col-span-2 flex flex-col gap-3 text-sm"
+          v-show="itemOpen && showItem === index"
+          @click.stop
         >
-          <ItemTitle
-            :item="item"
-            :index="index"
-            :show-item="showItem"
-            :item-open="itemOpen"
-            :save-flag="saveFlag"
-            :save-all-flag="saveAllFlag"
-            :editing-new-item="editingNewItem"
-            :input-error="inputError"
-            @save-item="saveItem($event)"
-            @cancel-item="cancelItem($event)"
-            @delete-item="deleteItem($event)"
-          />
+          <div class="my-4 h-px w-full bg-white/25"></div>
 
-          <div
-            class="col-span-2 grid grid-cols-[0.15fr,1fr] gap-3 text-sm"
-            v-show="itemOpen && showItem === index"
-            @click.stop
+          <label
+            v-for="(input, inputIndex) of schema"
+            class="flex flex-col gap-1"
           >
-            <div class="col-span-2 my-4 h-px w-full bg-white/25"></div>
-
-            <template v-for="(input, inputIndex) of schema">
-              <div v-if="input.name !== 'index'" class="whitespace-nowrap">
-                {{
-                  input.name.includes("|")
+            <p class="font-semibold text-white/50 italic">
+              {{
+                input.name !== "index"
+                  ? input.name.includes("|")
                     ? input.name.split("|")[0]
                     : input.name
-                }}
-              </div>
+                  : null
+              }}
+            </p>
 
-              <Input
-                :input="input"
-                :item="item"
-                :index="index"
-                :item-open="itemOpen"
-                @show-item="$emit('showItem', $event)"
-                @save-flag="$emit('saveFlag', $event)"
-                @input-error="handleInputError($event, inputIndex)"
-              />
-            </template>
-          </div>
-        </drag>
-      </template>
-      <template v-slot:feedback="{ data }"></template>
-    </drop-list>
+            <CmsInput
+              v-if="input.name !== 'index'"
+              :input="input"
+              :item="item"
+              :index="index"
+              :item-open="itemOpen"
+              @show-item="$emit('showItem', $event)"
+              @save-flag="$emit('saveFlag', $event)"
+              @input-error="handleInputError($event, inputIndex)"
+            />
+          </label>
+        </div>
+      </div>
+    </VueDraggableNext>
   </div>
-  <div id="items-list-bottom"></div>
 </template>
 
 <script>
@@ -105,6 +100,10 @@ export default {
   ],
 
   props: {
+    login: {
+      type: Object,
+      required: true,
+    },
     schema: {
       type: Array,
       required: false,
@@ -146,10 +145,12 @@ export default {
   },
 
   data() {
+    const config = useRuntimeConfig();
+
     return {
-      userName: `${import.meta.env.VITE_USERNAME}`,
-      userPass: `${import.meta.env.VITE_USERPASS}`,
-      login: {},
+      userName: config.public.userName,
+      userPass: config.public.userPass,
+      localItems: [],
       dragDelay: 0,
       dragVibration: 100,
       editingItem: false,
@@ -160,12 +161,8 @@ export default {
     };
   },
 
-  async created() {
-    if (getLocalStorage("borashv-cms")) {
-      this.login = getLocalStorage("borashv-cms");
-    }
-
-    this.loadData();
+  async mounted() {
+    await this.loadData();
   },
 
   methods: {
@@ -173,8 +170,7 @@ export default {
       this.$emit("loadingFlag", true);
 
       if (this.schema.length > 0) {
-        let items = await listTable(this.schema[0].table_id);
-        items = items.results;
+        let items = await this.listRows(this.schema[0].table_id);
 
         // parse to-from date-fields to json array
         for (const item of items) {
@@ -189,6 +185,27 @@ export default {
 
         this.$emit("items", JSON.parse(JSON.stringify(items)));
         this.$emit("loadingFlag", false);
+      }
+    },
+
+    async listRows(tableid, orderBy, asc, search) {
+      try {
+        return await $fetch("/api/cms/rows", {
+          method: "POST",
+          headers: {
+            Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
+          },
+          body: JSON.stringify({
+            email: this.login.email,
+            password: this.login.password,
+            table_id: tableid,
+            asc: true,
+            order_by: "index",
+            search: search,
+          }),
+        });
+      } catch (err) {
+        console.log(err);
       }
     },
 
@@ -209,90 +226,99 @@ export default {
     async saveAllItems() {
       this.$emit("saveFlag", true);
       this.saveAllFlag = true;
-      const items = JSON.parse(JSON.stringify(this.items));
+      const items = JSON.parse(JSON.stringify(this.localItems));
 
       for (let [index, item] of items.entries()) {
         item.index = index.toString();
         item = this.processDateFormats(item);
+
+        for (const field of this.schema) {
+          if (field.type === "single_select" && item[field.name]) {
+            if (typeof item[field.name] === "object") {
+              item[field.name] = item[field.name].value || null;
+            }
+          }
+        }
       }
 
-      const res = await fetch("/save-all-items", {
-        method: "POST",
-        headers: {
-          Authorization: "Basic " + btoa(`${this.userName}:${this.userPass}`),
-        },
-        body: JSON.stringify({
-          email: this.login.email,
-          password: this.login.password,
-          items: { items: items },
-          schema: this.schema,
-        }),
-      });
+      try {
+        const res = await $fetch("/api/cms/save-all-items", {
+          method: "POST",
+          headers: {
+            Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
+          },
+          body: JSON.stringify({
+            email: this.login.email,
+            password: this.login.password,
+            items: { items: items },
+            schema: this.schema,
+          }),
+        });
 
-      const response = await res.json();
-
-      if (response.error) {
-        console.log(response.error);
+        this.$emit("itemOpen", false);
         this.$emit("saveFlag", false);
         this.saveAllFlag = false;
+      } catch (err) {
+        console.log(err);
 
-        return;
+        this.$emit("saveFlag", false);
+        this.saveAllFlag = false;
       }
-
-      this.$emit("itemOpen", false);
-      this.$emit("saveFlag", false);
-      this.saveAllFlag = false;
     },
 
     async saveItem(index) {
       if (index === this.showItem) {
         this.$emit("saveFlag", true);
         const item = this.processDateFormats(
-          JSON.parse(JSON.stringify(this.items[index])),
+          JSON.parse(JSON.stringify(this.localItems[index])),
         );
 
-        const res = await fetch(
-          !this.editingNewItem ? "/save-item" : "/add-item",
-          {
-            method: "POST",
-            headers: {
-              Authorization:
-                "Basic " + btoa(`${this.userName}:${this.userPass}`),
+        for (const field of this.schema) {
+          if (field.type === "single_select" && item[field.name]) {
+            if (typeof item[field.name] === "object") {
+              item[field.name] = item[field.name].value || null;
+            }
+          }
+        }
+
+        try {
+          const res = await $fetch(
+            !this.editingNewItem ? "/api/cms/save-item" : "/api/cms/add-item",
+            {
+              method: "POST",
+              headers: {
+                Authorization:
+                  "Basic " + btoa(this.userName + ":" + this.userPass),
+              },
+              body: JSON.stringify({
+                email: this.login.email,
+                password: this.login.password,
+                item: item,
+                schema: this.schema,
+              }),
             },
-            body: JSON.stringify({
-              email: this.login.email,
-              password: this.login.password,
-              item: item,
-              schema: this.schema,
-            }),
-          },
-        );
+          );
 
-        const response = await res.json();
+          if (this.editingNewItem) {
+            const items = JSON.parse(JSON.stringify(this.localItems));
+            items[index] = res;
+            this.$emit("items", items);
+          }
 
-        if (response.error) {
-          console.log(response.error);
+          this.$emit("itemOpen", false);
           this.$emit("saveFlag", false);
-
-          return;
+          this.$emit("editingNewItem", false);
+          this.editingItem = false;
+        } catch (err) {
+          console.log(err);
+          this.$emit("saveFlag", false);
         }
-
-        if (this.editingNewItem) {
-          const items = JSON.parse(JSON.stringify(this.items));
-          items[index] = response;
-          this.$emit("items", items);
-        }
-
-        this.$emit("itemOpen", false);
-        this.$emit("saveFlag", false);
-        this.$emit("editingNewItem", false);
-        this.editingItem = false;
       }
     },
 
     cancelItem(index) {
       if (this.editingNewItem) {
-        const items = JSON.parse(JSON.stringify(this.items));
+        const items = JSON.parse(JSON.stringify(this.localItems));
         items.pop();
 
         this.$emit("items", JSON.parse(JSON.stringify(items)));
@@ -300,7 +326,7 @@ export default {
         this.$emit("editingNewItem", false);
         this.editingItem = false;
       } else if (index === this.showItem) {
-        const items = JSON.parse(JSON.stringify(this.items));
+        const items = JSON.parse(JSON.stringify(this.localItems));
         items[index] = this.itemCopy;
 
         this.$emit("itemOpen", false);
@@ -312,34 +338,31 @@ export default {
     async deleteItem(index) {
       this.$emit("saveFlag", true);
 
-      const res = await fetch("/delete-item", {
-        method: "POST",
-        headers: {
-          Authorization: "Basic " + btoa(`${this.userName}:${this.userPass}`),
-        },
-        body: JSON.stringify({
-          email: this.login.email,
-          password: this.login.password,
-          table_id: this.schema.find((item) => item.table_id)?.table_id,
-          row_id: this.items[index].id,
-        }),
-      });
+      try {
+        const res = await $fetch("/api/cms/delete-item", {
+          method: "POST",
+          headers: {
+            Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
+          },
+          body: JSON.stringify({
+            email: this.login.email,
+            password: this.login.password,
+            table_id: this.schema.find((item) => item.table_id)?.table_id,
+            row_id: this.localItems[index].id,
+          }),
+        });
 
-      const response = await res.json();
-
-      if (response.error) {
-        console.log(response.error);
+        const items = JSON.parse(JSON.stringify(this.localItems));
+        items.splice(index, 1);
+        this.editingItem = false;
+        this.$emit("itemOpen", false);
+        this.$emit("items", JSON.parse(JSON.stringify(items)));
         this.$emit("saveFlag", false);
+      } catch (err) {
+        console.log(err);
 
-        return;
+        this.$emit("saveFlag", false);
       }
-
-      const items = JSON.parse(JSON.stringify(this.items));
-      items.splice(index, 1);
-      this.editingItem = false;
-      this.$emit("itemOpen", false);
-      this.$emit("items", JSON.parse(JSON.stringify(items)));
-      this.$emit("saveFlag", false);
     },
 
     processDateFormats(item) {
@@ -395,6 +418,8 @@ export default {
 
     items: {
       handler(newVal, oldVal) {
+        this.localItems = JSON.parse(JSON.stringify(newVal));
+
         if (!this.itemOpen) return;
 
         if (
@@ -406,6 +431,7 @@ export default {
           this.editingItem = true;
         }
       },
+      immediate: true,
       deep: true,
     },
 

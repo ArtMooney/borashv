@@ -1,9 +1,3 @@
-<script setup>
-import Button from "../../elements/Button.vue";
-import Input from "../../elements/Input.vue";
-import { requiredFields } from "../../js/requiredFields.js";
-</script>
-
 <template>
   <div class="flex flex-col items-center px-4 py-12 md:px-8">
     <form
@@ -13,27 +7,25 @@ import { requiredFields } from "../../js/requiredFields.js";
     >
       <div>New password</div>
 
-      <Input
+      <input
         v-model="inputPasswordOne"
-        @update-value="inputPasswordOne = $event"
         name="password"
         type="password"
-        placeholder-text="Enter new password"
-        :required="true"
+        placeholder="Enter new password"
+        required
         autocomplete="new-password"
       />
 
-      <Input
+      <input
         v-model="inputPasswordTwo"
-        @update-value="inputPasswordTwo = $event"
-        name="password2"
+        name="confirmPassword"
         type="password"
-        placeholder-text="Enter new password again"
-        :required="true"
+        placeholder="Enter new password again"
+        required
         autocomplete="new-password"
       />
 
-      <Button
+      <CmsButton
         @click="newPasswordForm"
         :text="buttonText"
         link=""
@@ -55,9 +47,8 @@ import { requiredFields } from "../../js/requiredFields.js";
     <div
       v-if="showStatusMessage"
       class="mt-12 w-full bg-[#a38373] p-4 text-base text-black sm:w-2/3 md:w-1/2"
-    >
-      {{ statusMessage }}
-    </div>
+      v-html="statusMessage"
+    ></div>
   </div>
 </template>
 
@@ -74,9 +65,11 @@ export default {
   },
 
   data() {
+    const config = useRuntimeConfig();
+
     return {
-      userName: `${import.meta.env.VITE_USERNAME}`,
-      userPass: `${import.meta.env.VITE_USERPASS}`,
+      userName: config.public.userName,
+      userPass: config.public.userPass,
       inputPasswordOne: "",
       inputPasswordTwo: "",
       showStatusMessage: false,
@@ -102,37 +95,32 @@ export default {
         const savedText = this.buttonText;
         this.buttonText = event.target.dataset.wait;
 
-        const res = await fetch("/new-password", {
-          method: "POST",
-          headers: {
-            Authorization: "Basic " + btoa(`${this.userName}:${this.userPass}`),
-          },
-          body: JSON.stringify({
-            password: this.inputPasswordOne,
-            validation: this.validation,
-          }),
-        });
+        try {
+          const res = await $fetch("/api/cms/new-password", {
+            method: "POST",
+            headers: {
+              Authorization:
+                "Basic " + btoa(this.userName + ":" + this.userPass),
+            },
+            body: JSON.stringify({
+              password: this.inputPasswordOne,
+              validation: this.validation,
+            }),
+          });
 
-        const jsonResponse = await res.json();
-
-        if (jsonResponse === "ok") {
-          this.statusMessage = "Your password has been successfully changed.";
+          this.statusMessage =
+            "Your password has been successfully changed. <a href='/admin' class='underline'>Click here to login.</a>";
           this.showStatusMessage = true;
           this.buttonText = savedText;
           this.inputPasswordOne = "";
           this.inputPasswordTwo = "";
 
           this.$emit("status", "ok");
-          this.clearErrorWhenClicked();
-        } else if (jsonResponse) {
-          this.statusMessage = `Error: ${jsonResponse.error}`;
-          this.showStatusMessage = true;
-          this.buttonText = savedText;
 
           this.clearErrorWhenClicked();
-        } else {
+        } catch (err) {
           this.statusMessage =
-            "Something went wrong while communicating with the server, please try again.";
+            err.statusMessage || "Something went wrong. Please try again.";
           this.showStatusMessage = true;
           this.buttonText = savedText;
 

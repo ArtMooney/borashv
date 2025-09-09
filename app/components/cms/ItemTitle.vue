@@ -1,28 +1,25 @@
 <script setup>
-import LoadingSpinner from "../LoadingSpinner.vue";
-import { IonIcon } from "@ionic/vue";
-import { grid, chevronDownOutline } from "ionicons/icons";
-import ItemTitleButtons from "./ItemTitleButtons.vue";
+import IconFa7SolidGridVertical from "~icons/fa7-solid/grid-vertical";
+import IconIonChevronDown from "~icons/ion/chevron-down";
 </script>
 
 <template>
-  <div class="col-span-2 flex justify-between">
-    <div class="flex cursor-pointer items-center gap-4">
-      <ion-icon
-        :icon="grid"
-        class="dragdrop-handle h-6 w-6 shrink-0 cursor-grabbing text-white"
-      ></ion-icon>
+  <div class="col-span-2 flex cursor-pointer justify-between">
+    <div class="flex items-center gap-4">
+      <IconFa7SolidGridVertical
+        class="dragdrop-handle h-5 min-h-5 w-5 min-w-5 shrink-0 cursor-grabbing text-white"
+      ></IconFa7SolidGridVertical>
 
       <div
-        class="word-break-all pointer-events-none mr-4 hyphens-auto font-gunplay"
+        class="word-break-all font-gunplay pointer-events-none mr-4 hyphens-auto"
         lang="sv"
       >
-        {{ item.titel ? item.titel : item.name }}
+        {{ item?.name ? item?.name : item?.title }}
       </div>
     </div>
 
     <div class="flex cursor-pointer gap-2">
-      <ItemTitleButtons
+      <CmsItemTitleButtons
         class="hidden sm:flex"
         :show-item="showItem"
         :index="index"
@@ -36,14 +33,13 @@ import ItemTitleButtons from "./ItemTitleButtons.vue";
       />
 
       <div class="flex items-center gap-2">
-        <ion-icon
+        <IconIonChevronDown
           v-if="!saveAllFlag && (index !== showItem || !saveFlag)"
-          :icon="chevronDownOutline"
-          class="h-6 w-6 text-white transition-transform duration-300 ease-in-out"
+          class="h-6 min-h-6 w-6 min-w-6 text-white transition-transform duration-300 ease-in-out"
           :class="[index === showItem && itemOpen ? 'rotate-180' : '']"
-        ></ion-icon>
+        ></IconIonChevronDown>
 
-        <LoadingSpinner
+        <CmsLoadingSpinner
           v-if="(index === showItem && saveFlag) || saveAllFlag"
           class="!h-5 !w-5"
           color="#fac725"
@@ -52,7 +48,7 @@ import ItemTitleButtons from "./ItemTitleButtons.vue";
     </div>
   </div>
 
-  <ItemTitleButtons
+  <CmsItemTitleButtons
     v-if="index === showItem && itemOpen"
     class="mt-4 flex justify-self-start sm:hidden"
     :show-item="showItem"

@@ -1,10 +1,3 @@
-<script setup>
-import Button from "../../elements/Button.vue";
-import Input from "../../elements/Input.vue";
-import { requiredFields } from "../../js/requiredFields.js";
-import { emailValidator } from "../../js/emailValidator.js";
-</script>
-
 <template>
   <div class="flex flex-col items-center px-4 py-12 md:px-8">
     <form
@@ -14,16 +7,15 @@ import { emailValidator } from "../../js/emailValidator.js";
     >
       <div>Reset password</div>
 
-      <Input
+      <input
         v-model="loginEmail"
-        @update-value="loginEmail = $event"
         name="email"
         type="email"
-        placeholder-text="Enter email address"
+        placeholder="Enter email address"
         autocomplete="email"
       />
 
-      <Button
+      <CmsButton
         @click="resetPasswordForm"
         :text="buttonText"
         link=""
@@ -56,9 +48,11 @@ export default {
   name: "ResetPasswordPanel",
 
   data() {
+    const config = useRuntimeConfig();
+
     return {
-      userName: `${import.meta.env.VITE_USERNAME}`,
-      userPass: `${import.meta.env.VITE_USERPASS}`,
+      userName: config.public.userName,
+      userPass: config.public.userPass,
       resetPasswordPanel: false,
       loginEmail: "",
       showStatusMessage: false,
@@ -84,20 +78,19 @@ export default {
         const savedText = this.buttonText;
         this.buttonText = event.target.dataset.wait;
 
-        const res = await fetch("/reset", {
-          method: "POST",
-          headers: {
-            Authorization: "Basic " + btoa(`${this.userName}:${this.userPass}`),
-          },
-          body: JSON.stringify({
-            email: this.loginEmail,
-            pageuri: window.location.href,
-          }),
-        });
+        try {
+          const res = await $fetch("/api/cms/reset", {
+            method: "POST",
+            headers: {
+              Authorization:
+                "Basic " + btoa(this.userName + ":" + this.userPass),
+            },
+            body: JSON.stringify({
+              email: this.loginEmail,
+              pageuri: window.location.href,
+            }),
+          });
 
-        const jsonResponse = await res.json();
-
-        if (jsonResponse === "ok") {
           this.statusMessage =
             "An email has been sent to your registered email address with a link to reset your password.";
           this.showStatusMessage = true;
@@ -106,16 +99,9 @@ export default {
           this.$emit("status", "ok");
           this.loginEmail = "";
           this.clearErrorWhenClicked();
-        } else if (jsonResponse === "error") {
+        } catch (err) {
           this.statusMessage =
-            "Your email does not exist in the system, please try again.";
-          this.showStatusMessage = true;
-          this.buttonText = savedText;
-
-          this.clearErrorWhenClicked();
-        } else {
-          this.statusMessage =
-            "Something went wrong while communicating with the server, please try again.";
+            err.statusMessage || "Something went wrong. Please try again.";
           this.showStatusMessage = true;
           this.buttonText = savedText;
 

@@ -1,21 +1,16 @@
-<script setup>
-import Navbar from "./Navbar.vue";
-import TableList from "./TableList.vue";
-import AddRemoveItems from "./AddRemoveItems.vue";
-import Items from "./Items.vue";
-</script>
-
 <template>
   <Teleport to="body">
     <div
-      class="absolute left-0 top-0 z-20 min-h-screen w-full min-w-[300px] bg-[#363636] px-4 pb-24"
+      class="absolute top-0 left-0 z-20 min-h-screen w-full min-w-[300px] bg-[#363636] px-4 pb-24"
     >
-      <Navbar />
-      <TableList
+      <CmsNavbar />
+      <CmsTableList
+        :login="login"
         @loading-flag="loadingFlag = $event"
         @schema="schema = $event"
       />
-      <AddRemoveItems
+      <CmsAddRemoveItems
+        :login="login"
         :items="items"
         :schema="schema"
         :editing-new-item="editingNewItem"
@@ -25,7 +20,8 @@ import Items from "./Items.vue";
         @editing-new-item="editingNewItem = $event"
         @save-new-item-order="saveNewItemOrder = $event"
       />
-      <Items
+      <CmsItems
+        :login="login"
         :items="items"
         :schema="schema"
         :show-item="showItem"
@@ -45,7 +41,7 @@ import Items from "./Items.vue";
 
       <div
         v-if="saveFlag || loadingFlag"
-        class="fixed bottom-0 left-0 right-0 top-0 z-[1000000] block bg-transparent"
+        class="fixed top-0 right-0 bottom-0 left-0 z-[1000000] block bg-transparent"
       ></div>
     </div>
   </Teleport>
@@ -53,9 +49,16 @@ import Items from "./Items.vue";
 
 <script>
 export default {
-  name: "Cms",
+  name: "Main",
 
   emits: ["initLoadedFlag"],
+
+  props: {
+    login: {
+      type: Object,
+      required: true,
+    },
+  },
 
   data() {
     return {

@@ -1,10 +1,6 @@
-<script setup>
-import { listTable } from "../../js/listTable.js";
-</script>
-
 <template>
   <div
-    class="mx-auto mt-8 flex max-w-screen-md select-none flex-wrap justify-center gap-4 text-center text-base"
+    class="mx-auto my-12 flex max-w-screen-md flex-wrap justify-center gap-4 text-center text-base select-none"
   >
     <div>Add, edit or remove content below</div>
 
@@ -32,7 +28,7 @@ import { listTable } from "../../js/listTable.js";
 
         <div
           v-if="showDateList"
-          class="absolute right-0 top-0 z-10 mt-8 min-w-56 rounded bg-black p-4"
+          class="absolute top-0 right-0 z-10 mt-8 min-w-56 rounded bg-black p-4"
         >
           <div class="mb-2 justify-self-end">Choose date field</div>
 
@@ -63,6 +59,10 @@ export default {
   ],
 
   props: {
+    login: {
+      type: Object,
+      required: true,
+    },
     items: {
       type: Array,
       required: false,
@@ -81,7 +81,11 @@ export default {
   },
 
   data() {
+    const config = useRuntimeConfig();
+
     return {
+      userName: config.public.userName,
+      userPass: config.public.userPass,
       showDateList: false,
       order: false,
     };
@@ -119,6 +123,8 @@ export default {
           fields[field.name] = [];
         } else if (field.name.split("|")[1] === "to-from") {
           fields[field.name] = [];
+        } else if (field.type === "single_select") {
+          fields[field.name] = null;
         } else {
           fields[field.name] = "";
         }
@@ -137,7 +143,7 @@ export default {
       this.$emit("editingNewItem", true);
 
       this.$router.push({
-        hash: "#items-list-bottom",
+        hash: `#list-item-${items.length - 1}`,
       });
     },
 
@@ -145,13 +151,11 @@ export default {
       if (this.schema.length > 0) {
         this.order = !this.order;
 
-        let items = await listTable(
+        let items = await this.listRows(
           this.schema[0].table_id,
           fieldName,
           this.order,
         );
-
-        items = items.results;
 
         // parse to-from date-fields to json array
         for (const item of items) {
@@ -167,6 +171,27 @@ export default {
         this.$emit("items", JSON.parse(JSON.stringify(items)));
         this.$emit("saveNewItemOrder", true);
         this.showDateList = false;
+      }
+    },
+
+    async listRows(tableid, orderBy, asc, search) {
+      try {
+        return await $fetch("/api/cms/rows", {
+          method: "POST",
+          headers: {
+            Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
+          },
+          body: JSON.stringify({
+            email: this.login.email,
+            password: this.login.password,
+            table_id: tableid,
+            asc: asc,
+            order_by: orderBy,
+            search: search,
+          }),
+        });
+      } catch (err) {
+        console.log(err);
       }
     },
   },
