@@ -9,9 +9,11 @@ import headerImage from "/images/sean-foster-PMmb0MEE7Co-unsplash.jpg";
   <Header
     :image="headerImage"
     button-text-one="Bokningslista"
-    button-link-one="/bokningar#bokningslista"
+    button-link-one="/bokningar"
+    button-hash-one="bokningslista"
     button-text-two="Bokningsregler"
-    button-link-two="/bokningar#bokningsregler"
+    button-link-two="/bokningar"
+    button-hash-two="bokningsregler"
   />
   <TextBlock
     title="Bokningar"

@@ -1,6 +1,5 @@
 <script setup>
-import { IonIcon } from "@ionic/vue";
-import { chevronDown } from "ionicons/icons";
+import IconIonChevronDown from "~icons/ion/chevron-down";
 </script>
 
 <template>
@@ -12,15 +11,14 @@ import { chevronDown } from "ionicons/icons";
   >
     <div class="flex items-center gap-1">
       {{ text }}
-      <ion-icon
-        :icon="chevronDown"
+      <IconIonChevronDown
         class="-mr-1.5 h-5 w-5 lg:h-4 lg:w-4"
-      ></ion-icon>
+      ></IconIonChevronDown>
     </div>
 
     <div class="relative">
       <div
-        class="min-w-full flex-col gap-3 pb-4 pr-4 pt-4 text-sm uppercase lg:absolute lg:left-0 lg:top-0 lg:bg-[#25322b]/75 lg:p-4 lg:pl-2"
+        class="min-w-full flex-col gap-3 pt-4 pr-4 pb-4 text-sm uppercase lg:absolute lg:top-0 lg:left-0 lg:bg-[#25322b]/75 lg:p-4 lg:pl-2"
         :class="[isClicked ? 'flex' : isHover ? 'hidden lg:flex' : 'hidden']"
       >
         <component
@@ -29,7 +27,7 @@ import { chevronDown } from "ionicons/icons";
           :to="!item.isExternal ? item.link : undefined"
           :href="item.isExternal ? item.link : undefined"
           :target="item.openInNewTab ? '_blank' : '_self'"
-          class="whitespace-nowrap pl-2 hover:opacity-75 lg:pl-0"
+          class="pl-2 whitespace-nowrap hover:opacity-75 lg:pl-0"
           @click="$emit('button-clicked')"
         >
           {{ item.text }}

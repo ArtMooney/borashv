@@ -13,7 +13,7 @@
           : 'absolute top-0 right-0 bottom-0 left-0 flex items-center overflow-hidden'
       "
     >
-      <ResponsiveImage
+      <NuxtImg
         :src="image"
         alt="Header image"
         :class="
@@ -21,6 +21,11 @@
             ? 'h-full w-full'
             : 'parallax-background-hero h-full min-h-[23rem] w-full object-cover lg:min-h-[43rem]'
         "
+        sizes="1000px md:2000px"
+        width="3888"
+        height="2592"
+        densities="x1"
+        format="webp"
       />
     </div>
 
@@ -40,31 +45,17 @@
       <div class="flex flex-col gap-4 sm:flex-row">
         <button
           v-if="buttonTextOne"
-          :text="buttonTextOne"
-          :link="buttonLinkOne.split('#')[0]"
-          :hash="
-            buttonLinkOne.split('#')[1] !== undefined
-              ? '#' + buttonLinkOne.split('#')[1]
-              : ''
-          "
-          type="button"
-          data-wait=""
-          styling="dark"
-        ></button>
+          @click="navigateTo(`${buttonLinkOne}#${buttonHashOne}`)"
+        >
+          {{ buttonTextOne }}
+        </button>
 
         <button
           v-if="buttonTextTwo"
-          :text="buttonTextTwo"
-          :link="buttonLinkTwo.split('#')[0]"
-          :hash="
-            buttonLinkTwo.split('#')[1] !== undefined
-              ? '#' + buttonLinkTwo.split('#')[1]
-              : ''
-          "
-          type="button"
-          data-wait=""
-          styling="dark"
-        ></button>
+          @click="navigateTo(`${buttonLinkTwo}#${buttonHashTwo}`)"
+        >
+          {{ buttonTextTwo }}
+        </button>
       </div>
     </div>
   </div>
@@ -96,11 +87,19 @@ export default {
       type: String,
       required: false,
     },
+    buttonHashOne: {
+      type: String,
+      required: false,
+    },
     buttonTextTwo: {
       type: String,
       required: false,
     },
     buttonLinkTwo: {
+      type: String,
+      required: false,
+    },
+    buttonHashTwo: {
       type: String,
       required: false,
     },

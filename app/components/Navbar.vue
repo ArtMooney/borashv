@@ -1,7 +1,6 @@
 <script setup>
 import { Vue3Lottie } from "vue3-lottie";
 import sandwich from "../assets/burger-menu.json";
-import imageLogo from "/images/borashv-logo-1000px.png";
 </script>
 
 <template>
@@ -10,10 +9,15 @@ import imageLogo from "/images/borashv-logo-1000px.png";
     class="font-gunplay relative z-10 flex items-center justify-between bg-transparent p-4 py-2"
   >
     <router-link to="/">
-      <ResponsiveImage
-        :src="imageLogo"
+      <NuxtImg
+        src="borashv-logo.png"
         alt="navbar logo"
         class="h-14 min-h-14 w-14 min-w-14 md:h-20 md:min-h-20 md:w-20 md:min-w-20"
+        sizes="1000px md:2000px"
+        width="1000"
+        height="1000"
+        densities="x1"
+        format="webp"
       />
     </router-link>
 
@@ -99,32 +103,35 @@ import imageLogo from "/images/borashv-logo-1000px.png";
       class="relative block h-8 w-8 cursor-pointer items-center justify-self-end invert select-none hover:opacity-75 sm:h-10 sm:w-10 lg:hidden"
       @click="toggleNavbar"
     >
-      <Vue3Lottie
-        ref="lottieSandwich"
-        :animationData="sandwich"
-        :autoPlay="false"
-        :loop="false"
-      />
+      <ClientOnly>
+        <Vue3Lottie
+          ref="lottieSandwich"
+          :animationData="sandwich"
+          :autoPlay="false"
+          :loop="false"
+        />
+      </ClientOnly>
     </div>
   </div>
 </template>
 
 <script>
-import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
+import { getBreakpointMixin } from "../mixins/getBreakpoint.js";
 
 export default {
   name: "Navbar",
 
+  mixins: [getBreakpointMixin],
+
   data() {
     return {
       showNavbar: false,
-      breakpoints: useBreakpoints(breakpointsTailwind),
     };
   },
 
   computed: {
     isMobile() {
-      return this.breakpoints.smaller("lg").value;
+      return this.breakpoints.lg;
     },
   },
 
