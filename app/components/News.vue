@@ -31,9 +31,9 @@
             v-html="item.info ? formattedString(item.info) : ''"
           ></p>
 
-          <!--          <NuxtLink v-if="item['kontakta oss']" to="/kontakta-oss">-->
-          <!--            <button class="primary">Kontakta oss</button>-->
-          <!--          </NuxtLink>-->
+          <NuxtLink v-if="item['kontakta oss']" to="/kontakta-oss">
+            <button class="primary">Kontakta oss</button>
+          </NuxtLink>
         </div>
       </div>
     </div>

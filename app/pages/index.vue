@@ -67,7 +67,10 @@ const { data: items, error } = await useFetch("/api/news", {
     :items="items"
   />
 
-  <div v-if="error" class="mx-4 my-16 bg-[#a38373] p-4 text-black md:px-8">
+  <div
+    v-if="error"
+    class="mx-auto my-16 w-full max-w-screen-xl bg-[#a38373] p-4 px-8 text-black"
+  >
     {{ decodeURIComponent(error?.statusMessage || "Error") }}
   </div>
 </template>

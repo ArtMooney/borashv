@@ -27,6 +27,17 @@ useSeoMeta({
 definePageMeta({
   ssr: true,
 });
+
+const config = useRuntimeConfig();
+
+const { data: items, error } = await useFetch("/api/bokningar", {
+  method: "GET",
+  headers: {
+    Authorization:
+      "Basic " + btoa(config.public.userName + ":" + config.public.userPass),
+  },
+  default: () => [],
+});
 </script>
 
 <template>
@@ -42,6 +53,7 @@ definePageMeta({
       <NuxtImg
         src="sean-foster-PMmb0MEE7Co-unsplash.jpg"
         alt="Header image"
+        class="parallax-background-hero h-full min-h-[23rem] w-full object-cover lg:min-h-[43rem]"
         sizes="1000px md:2000px"
         width="3456"
         height="5184"
@@ -50,13 +62,27 @@ definePageMeta({
       />
     </template>
   </Header>
+
   <TextBlock
     title="Bokningar"
     :text="textBokningar"
     class="mx-auto w-full max-w-screen-xl"
   />
 
-  <!--  <BookingsList class="mx-auto w-full max-w-screen-xl" />-->
+  <LoadingSpinner v-if="!items?.length && !error" />
+
+  <BookingsList
+    v-if="items?.length"
+    class="mx-auto w-full max-w-screen-xl"
+    :items="items"
+  />
+
+  <div
+    v-if="error"
+    class="mx-auto my-16 w-full max-w-screen-xl bg-[#a38373] p-4 px-8 text-black"
+  >
+    {{ decodeURIComponent(error?.statusMessage || "Error") }}
+  </div>
 
   <TextBlock
     id="bokningsregler"
