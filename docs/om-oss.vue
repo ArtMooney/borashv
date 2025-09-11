@@ -6,6 +6,9 @@ import headerImage from "/images/Hemvarnsgarden-1024x768.jpg";
 
 <template>
   <Header :image="headerImage" :contain-image="true" />
+  <!--  sätt class på NuxtImg med nedan-->
+  <!--  h-full w-full-->
+
   <TextBlock
     title="Om Föreningen"
     :text="textForening"
