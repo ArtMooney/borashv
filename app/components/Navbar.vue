@@ -8,7 +8,7 @@ import sandwich from "../assets/burger-menu.json";
     id="navbar"
     class="font-heading relative z-10 flex items-center justify-between bg-transparent p-4 py-2"
   >
-    <router-link to="/">
+    <NuxtLink to="/">
       <NuxtImg
         src="borashv-logo.png"
         alt="navbar logo"
@@ -19,7 +19,7 @@ import sandwich from "../assets/burger-menu.json";
         densities="x1"
         format="webp"
       />
-    </router-link>
+    </NuxtLink>
 
     <div
       class="absolute top-4 right-3 flex flex-col gap-5 bg-[#32382d] p-6 pt-14 transition-all duration-200 ease-in-out lg:static lg:flex-row lg:items-center lg:bg-transparent lg:p-0"
@@ -29,12 +29,9 @@ import sandwich from "../assets/burger-menu.json";
           : 'pointer-events-none right-0 opacity-0 transition-none lg:pointer-events-auto lg:opacity-100',
       ]"
     >
-      <router-link
-        to="/bokningar"
-        @click="toggleNavbar"
-        class="hover:opacity-75"
+      <NuxtLink to="/bokningar" @click="toggleNavbar" class="hover:opacity-75"
         >BOKNINGAR
-      </router-link>
+      </NuxtLink>
       <NavbarDropdown
         text="FÖRENINGEN"
         :list="[
@@ -77,26 +74,19 @@ import sandwich from "../assets/burger-menu.json";
         :open-in-new-tab="true"
         @button-clicked="toggleNavbar"
       />
-      <router-link
+      <NuxtLink
         to="/hemvarnsgarden"
         @click="toggleNavbar"
         class="hover:opacity-75"
         >HEMVÄRNSGÅRDEN
-      </router-link>
-      <router-link
-        to="/bli-medlem"
-        @click="toggleNavbar"
-        class="hover:opacity-75"
+      </NuxtLink>
+      <NuxtLink to="/bli-medlem" @click="toggleNavbar" class="hover:opacity-75"
         >BLI MEDLEM
-      </router-link>
+      </NuxtLink>
 
-      <button
-        text="Kontakta oss"
-        link="/kontakta-oss"
-        type="button"
-        data-wait=""
-        @click="toggleNavbar"
-      ></button>
+      <NuxtLink to="/kontakta-oss">
+        <button @click="toggleNavbar">Kontakta oss</button>
+      </NuxtLink>
     </div>
 
     <div
