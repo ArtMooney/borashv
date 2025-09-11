@@ -1,26 +1,63 @@
 <script setup>
-import Header from "../components/Header.vue";
-import BookingsList from "../components/BookingsList.vue";
-import TextBlock from "../components/TextBlock.vue";
-import headerImage from "/images/sean-foster-PMmb0MEE7Co-unsplash.jpg";
+useSeoMeta({
+  title: "Boka Lokaler | Hemvärnsgården Borås | Konferens & Samlingssal",
+  description:
+    "Boka lokaler i Hemvärnsgården Borås - konferensrum, samlingssal, mäss och logement. Fullutrustat med projektor och kök. Enkel bokning via telefon eller e-post.",
+  ogTitle: "Lokalbokning Hemvärnsgården Borås - Konferens & Samlingslokaler",
+  ogDescription:
+    "Hyr våra lokaler i centrala Borås - konferensrum, samlingssal, mäss och logement. Perfekt för möten, evenemang och övernattning. Boka enkelt via vår bokningsansvarige.",
+  ogImage: "",
+  ogUrl: "https://borashv.se/bokningar",
+  ogType: "website",
+  ogSiteName: "Borås Hemvärnsförening",
+  ogLocale: "sv_SE",
+  twitterCard: "summary_large_image",
+  twitterTitle:
+    "Lokalbokning Hemvärnsgården Borås - Konferens & Samlingslokaler",
+  twitterDescription:
+    "Hyr våra lokaler i centrala Borås - konferensrum, samlingssal, mäss och logement. Perfekt för möten, evenemang och övernattning.",
+  twitterImage: "",
+  keywords:
+    "hemvärnsgården borås, lokalbokning borås, konferenslokal borås, samlingssal, mäss bokning, logement borås, militär konferenslokal, möteslokal borås",
+  robots: "index, follow",
+  author: "Borås Hemvärnsförening",
+  language: "sv-SE",
+});
+
+definePageMeta({
+  ssr: true,
+});
 </script>
 
 <template>
   <Header
-    :image="headerImage"
     button-text-one="Bokningslista"
     button-link-one="/bokningar"
     button-hash-one="bokningslista"
     button-text-two="Bokningsregler"
     button-link-two="/bokningar"
     button-hash-two="bokningsregler"
-  />
+  >
+    <template #heading-content>
+      <NuxtImg
+        src="sean-foster-PMmb0MEE7Co-unsplash.jpg"
+        alt="Header image"
+        sizes="1000px md:2000px"
+        width="3456"
+        height="5184"
+        densities="x1"
+        format="webp"
+      />
+    </template>
+  </Header>
   <TextBlock
     title="Bokningar"
     :text="textBokningar"
     class="mx-auto w-full max-w-screen-xl"
   />
-  <BookingsList class="mx-auto w-full max-w-screen-xl" />
+
+  <!--  <BookingsList class="mx-auto w-full max-w-screen-xl" />-->
+
   <TextBlock
     id="bokningsregler"
     title="Bokningsregler"
@@ -99,37 +136,6 @@ export default {
       /Styrelsen
     `,
     };
-  },
-
-  head: {
-    title: "Boka Lokaler | Hemvärnsgården Borås | Konferens & Samlingssal",
-    meta: [
-      {
-        name: "keywords",
-        content:
-          "hemvärnsgården borås, lokalbokning borås, konferenslokal borås, samlingssal, mäss bokning, logement borås, militär konferenslokal, möteslokal borås",
-      },
-      { name: "robots", content: "index, follow" },
-      {
-        name: "description",
-        content:
-          "Boka lokaler i Hemvärnsgården Borås - konferensrum, samlingssal, mäss och logement. Fullutrustat med projektor och kök. Enkel bokning via telefon eller e-post.",
-      },
-      {
-        property: "og:title",
-        content:
-          "Lokalbokning Hemvärnsgården Borås - Konferens & Samlingslokaler",
-      },
-      {
-        property: "og:description",
-        content:
-          "Hyr våra lokaler i centrala Borås - konferensrum, samlingssal, mäss och logement. Perfekt för möten, evenemang och övernattning. Boka enkelt via vår bokningsansvarige.",
-      },
-      {
-        property: "og:image",
-        content: headerImage,
-      },
-    ],
   },
 };
 </script>

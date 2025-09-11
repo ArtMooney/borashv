@@ -49,6 +49,7 @@ const { data: items, error } = await useFetch("/api/news", {
       <NuxtImg
         src="pexels-henkephotoart-29662829.jpg"
         alt="Header image"
+        class="parallax-background-hero h-full min-h-[23rem] w-full object-cover lg:min-h-[43rem]"
         sizes="1000px md:2000px"
         width="3888"
         height="2592"

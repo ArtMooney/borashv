@@ -12,14 +12,7 @@
           : 'absolute top-0 right-0 bottom-0 left-0 flex items-center overflow-hidden'
       "
     >
-      <slot
-        name="heading-content"
-        :class="
-          containImage
-            ? 'h-full w-full'
-            : 'parallax-background-hero h-full min-h-[23rem] w-full object-cover lg:min-h-[43rem]'
-        "
-      ></slot>
+      <slot name="heading-content"></slot>
     </div>
 
     <div class="absolute top-0 right-0 bottom-0 left-0 bg-black/25"></div>
