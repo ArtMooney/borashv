@@ -24,19 +24,51 @@ useSeoMeta({
 });
 
 definePageMeta({
-  ssr: false,
+  ssr: true,
+});
+
+const config = useRuntimeConfig();
+
+const { data: items, error } = await useFetch("/api/news", {
+  method: "GET",
+  headers: {
+    Authorization:
+      "Basic " + btoa(config.public.userName + ":" + config.public.userPass),
+  },
+  default: () => [],
 });
 </script>
 
 <template>
   <Header
-    image="pexels-henkephotoart-29662829.jpg"
     title="Borås Hemvärnsförening"
     button-text-one="Bokningar"
     button-link-one="/bokningar"
+  >
+    <template #heading-content>
+      <NuxtImg
+        src="pexels-henkephotoart-29662829.jpg"
+        alt="Header image"
+        sizes="1000px md:2000px"
+        width="3888"
+        height="2592"
+        densities="x1"
+        format="webp"
+      />
+    </template>
+  </Header>
+
+  <LoadingSpinner v-if="!items?.length && !error" />
+
+  <News
+    v-if="items?.length"
+    class="mx-auto w-full max-w-screen-xl"
+    :items="items"
   />
 
-  <News class="mx-auto w-full max-w-screen-xl" />
+  <div v-if="error" class="mx-4 my-16 bg-[#a38373] p-4 text-black md:px-8">
+    {{ decodeURIComponent(error?.statusMessage || "Error") }}
+  </div>
 </template>
 
 <script>

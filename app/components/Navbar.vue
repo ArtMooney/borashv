@@ -6,7 +6,7 @@ import sandwich from "../assets/burger-menu.json";
 <template>
   <div
     id="navbar"
-    class="font-gunplay relative z-10 flex items-center justify-between bg-transparent p-4 py-2"
+    class="font-heading relative z-10 flex items-center justify-between bg-transparent p-4 py-2"
   >
     <router-link to="/">
       <NuxtImg

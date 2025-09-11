@@ -6,12 +6,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        gunplay: ["Gunplay", "sans-serif"],
-        libre: ["Libre Franklin", "sans-serif"],
-      },
-      gridTemplateColumns: {
-        thin: "3rem 1fr 3rem",
-        slim: "0.25fr 1fr 0.25fr",
+        heading: ["Gunplay", "sans-serif"],
+        body: ["Libre Franklin", "sans-serif"],
       },
     },
   },
@@ -19,11 +15,11 @@ export default {
     plugin(function ({ addBase }) {
       addBase({
         body: {
-          "@apply mx-auto w-full max-w-screen-2xl bg-neutral-900 font-libre font-normal text-white":
+          "@apply mx-auto w-full max-w-screen-2xl bg-neutral-900 font-body font-normal text-white":
             {},
         },
         "h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6": {
-          "@apply mb-4 mt-0 font-gunplay font-bold leading-none": {},
+          "@apply mb-4 mt-0 font-heading font-bold leading-none": {},
         },
 
         "h1, .h1": {
@@ -59,12 +55,12 @@ export default {
         },
 
         "button.primary, .button.primary": {
-          "@apply bg-neutral-800 text-white": {},
+          "@apply bg-neutral-600 text-white font-heading uppercase": {},
           "&:hover": {
-            "@apply bg-neutral-800/80": {},
+            "@apply bg-neutral-500": {},
           },
           "&:focus, &.selected, &:active": {
-            "@apply bg-neutral-800 outline-4 -outline-offset-4": {},
+            "@apply bg-neutral-500 outline-1 -outline-offset-1": {},
           },
           "&:disabled, &.disabled": {
             "@apply bg-neutral-700 text-neutral-500 ": {},

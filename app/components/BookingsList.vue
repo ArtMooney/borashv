@@ -23,7 +23,7 @@
   <!--          </p>-->
 
   <!--          <div-->
-  <!--            class="bold hyphens-auto break-words font-gunplay text-xl lg:text-2xl"-->
+  <!--            class="bold hyphens-auto break-words font-heading text-xl lg:text-2xl"-->
   <!--            lang="sv"-->
   <!--          >-->
   <!--            {{ item.titel }}-->

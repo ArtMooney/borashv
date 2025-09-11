@@ -22,7 +22,7 @@
   <!--      class="flex cursor-pointer flex-row items-center justify-between border border-white/15 bg-gradient-to-r from-[#32382d] to-[#353238] p-4 transition-colors duration-300 ease-in-out hover:from-[#343a2e] hover:to-[#37343a] hover:shadow-[0_0_20px_rgba(185,177,99,0.35)]"-->
   <!--    >-->
   <!--      <div-->
-  <!--        class="bold hyphens-auto break-words pr-4 font-gunplay text-xl lg:text-2xl"-->
+  <!--        class="bold hyphens-auto break-words pr-4 font-heading text-xl lg:text-2xl"-->
   <!--        lang="sv"-->
   <!--      >-->
   <!--        {{ item.name }}-->

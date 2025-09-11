@@ -1,32 +1,25 @@
 <template>
   <div
-    class="md:grid-cols-slim relative grid grid-cols-1 md:px-0"
+    class="relative grid grid-cols-1 md:grid-cols-[0.25fr_1fr_0.25fr] md:px-0"
     :class="
       containImage ? 'min-h-min' : 'min-h-[20rem] p-4 md:p-12 lg:min-h-[40rem]'
     "
   >
     <div
-      v-if="image"
       :class="
         containImage
           ? 'col-span-1 w-full md:col-span-3'
           : 'absolute top-0 right-0 bottom-0 left-0 flex items-center overflow-hidden'
       "
     >
-      <NuxtImg
-        :src="image"
-        alt="Header image"
+      <slot
+        name="heading-content"
         :class="
           containImage
             ? 'h-full w-full'
             : 'parallax-background-hero h-full min-h-[23rem] w-full object-cover lg:min-h-[43rem]'
         "
-        sizes="1000px md:2000px"
-        width="3888"
-        height="2592"
-        densities="x1"
-        format="webp"
-      />
+      ></slot>
     </div>
 
     <div class="absolute top-0 right-0 bottom-0 left-0 bg-black/25"></div>
@@ -46,6 +39,7 @@
         <button
           v-if="buttonTextOne"
           @click="navigateTo(`${buttonLinkOne}#${buttonHashOne}`)"
+          class="primary"
         >
           {{ buttonTextOne }}
         </button>
@@ -53,6 +47,7 @@
         <button
           v-if="buttonTextTwo"
           @click="navigateTo(`${buttonLinkTwo}#${buttonHashTwo}`)"
+          class="primary"
         >
           {{ buttonTextTwo }}
         </button>
@@ -66,10 +61,6 @@ export default {
   name: "Header",
 
   props: {
-    image: {
-      type: String,
-      required: false,
-    },
     containImage: {
       type: Boolean,
       default: false,
