@@ -22,7 +22,7 @@ import IconIonChevronDown from "~icons/ion/chevron-down";
         :class="[isClicked ? 'flex' : isHover ? 'hidden lg:flex' : 'hidden']"
       >
         <component
-          :is="item.isExternal ? 'a' : 'router-link'"
+          :is="item.isExternal ? 'a' : 'NuxtLink'"
           v-for="item in list"
           :to="!item.isExternal ? item.link : undefined"
           :href="item.isExternal ? item.link : undefined"

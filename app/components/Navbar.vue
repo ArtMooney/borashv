@@ -121,7 +121,7 @@ export default {
 
   computed: {
     isMobile() {
-      return this.breakpoints.lg;
+      return !this.breakpoints.lg;
     },
   },
 
