@@ -47,7 +47,7 @@ export default {
         },
 
         "button, .button": {
-          "@apply rounded px-8 py-3 text-center text-sm no-underline cursor-pointer transition-colors duration-300 ease-in-out":
+          "@apply rounded px-8 py-3 text-center text-sm font-heading uppercase no-underline cursor-pointer transition-colors duration-300 ease-in-out":
             {},
           "&:disabled, &.disabled": {
             "@apply !cursor-not-allowed !pointer-events-none": {},
@@ -55,7 +55,7 @@ export default {
         },
 
         "button.primary, .button.primary": {
-          "@apply bg-neutral-600 text-white font-heading uppercase": {},
+          "@apply bg-neutral-600 text-white ": {},
           "&:hover": {
             "@apply bg-neutral-500": {},
           },

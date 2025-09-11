@@ -85,7 +85,7 @@ import sandwich from "../assets/burger-menu.json";
       </NuxtLink>
 
       <NuxtLink to="/kontakta-oss">
-        <button @click="toggleNavbar">Kontakta oss</button>
+        <button @click="toggleNavbar" class="white">Kontakta oss</button>
       </NuxtLink>
     </div>
 
