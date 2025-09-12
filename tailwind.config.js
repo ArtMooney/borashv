@@ -99,11 +99,11 @@ export default {
         },
 
         "label, .label": {
-          "@apply block text-white mb-2": {},
+          "@apply flex flex-col text-white mb-2": {},
         },
 
         "input, .input": {
-          "@apply rounded border border-white/25 px-4 py-3 placeholder:text-neutral-600 focus:border-white/50 focus:outline-none":
+          "@apply bg-neutral-700 rounded border border-white/25 px-4 py-3 placeholder:text-neutral-600 focus:border-white/50 focus:outline-none":
             {},
           "&.error, &:user-invalid": {
             "@apply !bg-rose-100 outline-rose-700 text-rose-700": {},
@@ -138,7 +138,7 @@ export default {
         },
 
         "textarea, .textarea": {
-          "@apply min-h-28 rounded border border-white/25 px-4 py-3 placeholder:text-neutral-600 focus:border-white/50 focus:outline-none":
+          "@apply bg-neutral-700 min-h-28 rounded border border-white/25 px-4 py-3 placeholder:text-neutral-600 focus:border-white/50 focus:outline-none":
             {},
         },
 
