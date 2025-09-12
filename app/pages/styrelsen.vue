@@ -107,15 +107,6 @@ const { data: items, error } = await useFetch("/api/styrelsen", {
 export default {
   name: "Styrelsen",
 
-  data() {
-    return {
-      items: {},
-      itemsLoaded: false,
-      errorMessage: "",
-      showErrorMessage: false,
-    };
-  },
-
   methods: {
     handleScroll() {
       const scrolled = window.scrollY;
