@@ -1,42 +1,106 @@
 <script setup>
-import SplitContentSection from "../components/SplitContentSection.vue";
-import Header from "../components/Header.vue";
-import headerImage from "/images/skog.jpg";
-import imageToday1 from "/images/Hemvarnsgarden-1024x768.jpg";
-import imageToday2 from "/images/matt-palmer-3IQMPV6NgyM-unsplash.jpg";
-import imageThen1 from "/images/jay-heike-Fc-0gi4YylM-unsplash.jpg";
-import imageThen2 from "/images/prometheus-Kac21UkYfbA-unsplash.jpg";
+useSeoMeta({
+  title: "Hemvärnsgården Borås | Historia & Nutid | Est. 1953",
+  description:
+    "Upptäck Hemvärnsgården i Borås, en historisk byggnad från 1899. Från Villa Armbåga till dagens aktiva mötesplats mellan ishallen och Borås Arena. Läs om invigningen 1953 och byggnadens rika historia.",
+  ogTitle: "Hemvärnsgården Borås - En historisk mötesplats sedan 1953",
+  ogDescription:
+    "Belägen mellan ishallen och Borås Arena ligger den historiska Hemvärnsgården med sitt karakteristiska röda torn. En aktiv mötesplats för Lottakåren, FRO och andra föreningar sedan 1953.",
+  ogImage: "",
+  ogUrl: "https://borashv.se/hemvarnsgarden",
+  ogType: "website",
+  ogSiteName: "Borås Hemvärnsförening",
+  ogLocale: "sv_SE",
+  twitterCard: "summary_large_image",
+  twitterTitle: "Hemvärnsgården Borås - En historisk mötesplats sedan 1953",
+  twitterDescription:
+    "Belägen mellan ishallen och Borås Arena ligger den historiska Hemvärnsgården med sitt karakteristiska röda torn. En aktiv mötesplats sedan 1953.",
+  twitterImage: "",
+  keywords:
+    "hemvärnsgården borås, villa armbåga, borås hemvärn historia, hemvärnets musikkår borås, historisk byggnad borås, militärhistoria borås, frivilligt försvar borås, hemvärnsgården älgårdsvägen",
+  robots: "index, follow",
+  author: "Borås Hemvärnsförening",
+  language: "sv-SE",
+});
+
+definePageMeta({
+  ssr: true,
+});
 </script>
 
 <template>
-  <Header
-    title="Borås Hemvärnsgård"
-    :image="headerImage"
-    button-text="Bokningar"
-  />
+  <Header title="Borås Hemvärnsgård" button-text="Bokningar">
+    <template #heading-content>
+      <NuxtImg
+        src="skog.jpg"
+        alt="Header image"
+        class="parallax-background-hero h-full min-h-[23rem] w-full object-cover lg:min-h-[43rem]"
+        sizes="1000px md:2000px"
+        width="2000"
+        height="786"
+        densities="x1"
+        format="webp"
+      />
+    </template>
+  </Header>
 
-  <SplitContentSection
-    :text="textToday1"
-    :image="imageToday1"
-    class="mx-auto w-full max-w-screen-xl"
-  />
-  <SplitContentSection
-    :text="textToday2"
-    :image="imageToday2"
-    :swap-sides="true"
-    class="mx-auto w-full max-w-screen-xl"
-  />
-  <SplitContentSection
-    :text="textThen1"
-    :image="imageThen1"
-    class="mx-auto w-full max-w-screen-xl"
-  />
-  <SplitContentSection
-    :text="textThen2"
-    :image="imageThen2"
-    :swap-sides="true"
-    class="mx-auto w-full max-w-screen-xl"
-  />
+  <SplitContentSection :text="textToday1">
+    <template #image-content>
+      <NuxtImg
+        src="Hemvarnsgarden-1024x768.jpg"
+        alt="hemvärnsgården"
+        class="h-full w-full object-cover"
+        sizes="500px md:1000px"
+        width="1024"
+        height="768"
+        densities="x1"
+        format="webp"
+      />
+    </template>
+  </SplitContentSection>
+
+  <SplitContentSection :text="textToday2">
+    <template #image-content>
+      <NuxtImg
+        src="matt-palmer-3IQMPV6NgyM-unsplash.jpg"
+        alt="överväxt bilvrak i skogen"
+        class="h-full w-full object-cover lg:order-last"
+        sizes="500px md:1000px"
+        width="5523"
+        height="3682"
+        densities="x1"
+        format="webp"
+      />
+    </template>
+  </SplitContentSection>
+
+  <SplitContentSection :text="textThen1">
+    <template #image-content>
+      <NuxtImg
+        src="jay-heike-Fc-0gi4YylM-unsplash.jpg"
+        alt="rostiga kugghjul med kedjor"
+        class="h-full w-full object-cover"
+        sizes="500px md:1000px"
+        width="5184"
+        height="3456"
+        densities="x1"
+        format="webp"
+      /> </template
+  ></SplitContentSection>
+
+  <SplitContentSection :text="textThen2">
+    <template #image-content>
+      <NuxtImg
+        src="prometheus-Kac21UkYfbA-unsplash.jpg"
+        alt="bensindunk med gammal flagad färg"
+        class="h-full w-full object-cover lg:order-last"
+        sizes="500px md:1000px"
+        width="4000"
+        height="5666"
+        densities="x1"
+        format="webp"
+      /> </template
+  ></SplitContentSection>
 </template>
 
 <script>
@@ -73,36 +137,6 @@ export default {
          Sedan också riksdagsman Carl Lindberg (s), ordförande i hemvärnsbefälhavarnas riksförbund, gratulerat till den nya gården, tackade general Colliander å gästernas vägnar för förplägnaden. På kvällen gav Borås stad middag för en rad inbjudna med anledning av hemvärnsgårdens invigning. I tal framhöll Tore G. Wärenstam (h), stadsfullmäktiges vice ordförande, och general Colliander det goda förhållande, som alltid rått i Borås mellan staden och hemvärnet.
         `,
     };
-  },
-
-  head: {
-    title: "Hemvärnsgården Borås | Historia & Nutid | Est. 1953",
-    meta: [
-      {
-        name: "keywords",
-        content:
-          "hemvärnsgården borås, villa armbåga, borås hemvärn historia, hemvärnets musikkår borås, historisk byggnad borås, militärhistoria borås, frivilligt försvar borås, hemvärnsgården älgårdsvägen",
-      },
-      { name: "robots", content: "index, follow" },
-      {
-        name: "description",
-        content:
-          "Upptäck Hemvärnsgården i Borås, en historisk byggnad från 1899. Från Villa Armbåga till dagens aktiva mötesplats mellan ishallen och Borås Arena. Läs om invigningen 1953 och byggnadens rika historia.",
-      },
-      {
-        property: "og:title",
-        content: "Hemvärnsgården Borås - En historisk mötesplats sedan 1953",
-      },
-      {
-        property: "og:description",
-        content:
-          "Belägen mellan ishallen och Borås Arena ligger den historiska Hemvärnsgården med sitt karakteristiska röda torn. En aktiv mötesplats för Lottakåren, FRO och andra föreningar sedan 1953.",
-      },
-      {
-        property: "og:image",
-        content: headerImage,
-      },
-    ],
   },
 };
 </script>
