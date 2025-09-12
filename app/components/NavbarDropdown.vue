@@ -21,17 +21,15 @@ import IconIonChevronDown from "~icons/ion/chevron-down";
         class="min-w-full flex-col gap-3 pt-4 pr-4 pb-4 text-sm uppercase lg:absolute lg:top-0 lg:left-0 lg:bg-[#25322b]/75 lg:p-4 lg:pl-2"
         :class="[isClicked ? 'flex' : isHover ? 'hidden lg:flex' : 'hidden']"
       >
-        <component
-          :is="item.isExternal ? 'a' : 'NuxtLink'"
+        <NuxtLink
           v-for="item in list"
-          :to="!item.isExternal ? item.link : undefined"
-          :href="item.isExternal ? item.link : undefined"
+          :to="item.link"
           :target="item.openInNewTab ? '_blank' : '_self'"
           class="pl-2 whitespace-nowrap hover:opacity-75 lg:pl-0"
           @click="$emit('button-clicked')"
         >
           {{ item.text }}
-        </component>
+        </NuxtLink>
       </div>
     </div>
   </div>
