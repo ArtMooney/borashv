@@ -1,13 +1,48 @@
 <script setup>
-import Header from "../components/Header.vue";
-import TextBlock from "../components/TextBlock.vue";
-import headerImage from "/images/Hemvarnsgarden-1024x768.jpg";
+useSeoMeta({
+  title: "Om Borås Hemvärnsförening | Verksamhet & Historia sedan 2007",
+  description:
+    "Borås Hemvärnsförening stödjer hemvärnsverksamheten i Borås stad sedan 2007. Vi förvaltar Hemvärnsgården, arrangerar evenemang och stödjer militär föreningsverksamhet. Medlemskap endast 50kr/år!",
+  ogTitle: "Om Borås Hemvärnsförening - Stödjande verksamhet sedan 2007",
+  ogDescription:
+    "Upptäck hur Borås Hemvärnsförening stödjer Hemvärnet genom förvaltning av Hemvärnsgården, ekonomiskt stöd till aktiviteter och traditionellt luciafirande. Bli medlem för endast 50kr/år!",
+  ogImage: "",
+  ogUrl: "https://borashv.se/om-oss",
+  ogType: "website",
+  ogSiteName: "Borås Hemvärnsförening",
+  ogLocale: "sv_SE",
+  twitterCard: "summary_large_image",
+  twitterTitle: "Om Borås Hemvärnsförening - Stödjande verksamhet sedan 2007",
+  twitterDescription:
+    "Upptäck hur Borås Hemvärnsförening stödjer Hemvärnet genom förvaltning av Hemvärnsgården, ekonomiskt stöd till aktiviteter och traditionellt luciafirande.",
+  twitterImage: "",
+  keywords:
+    "borås hemvärnsförening, borås hemvärnskompani, hemvärnet borås historia, föreningsverksamhet hemvärnet, militär föreningsverksamhet borås, hemvärnsgården verksamhet, luciafirande hemvärnet",
+  robots: "index, follow",
+  author: "Borås Hemvärnsförening",
+  language: "sv-SE",
+});
+
+definePageMeta({
+  ssr: true,
+});
 </script>
 
 <template>
-  <Header :image="headerImage" :contain-image="true" />
-  <!--  sätt class på NuxtImg med nedan-->
-  <!--  h-full w-full-->
+  <Header :contain-image="true">
+    <template #heading-content>
+      <NuxtImg
+        src="Hemvarnsgarden-1024x768.jpg"
+        alt="Header image"
+        class="h-full w-full"
+        sizes="1000px md:2000px"
+        width="1024"
+        height="768"
+        densities="x1"
+        format="webp"
+      />
+    </template>
+  </Header>
 
   <TextBlock
     title="Om Föreningen"
@@ -40,36 +75,6 @@ export default {
       OBS ! glöm inte att ange ditt namn och adress vid inbetalning
       `,
     };
-  },
-
-  head: {
-    title: "Om Borås Hemvärnsförening | Verksamhet & Historia sedan 2007",
-    meta: [
-      {
-        name: "keywords",
-        content:
-          "borås hemvärnsförening, borås hemvärnskompani, hemvärnet borås historia, föreningsverksamhet hemvärnet, militär föreningsverksamhet borås, hemvärnsgården verksamhet, luciafirande hemvärnet",
-      },
-      { name: "robots", content: "index, follow" },
-      {
-        name: "description",
-        content:
-          "Borås Hemvärnsförening stödjer hemvärnsverksamheten i Borås stad sedan 2007. Vi förvaltar Hemvärnsgården, arrangerar evenemang och stödjer militär föreningsverksamhet. Medlemskap endast 50kr/år!",
-      },
-      {
-        property: "og:title",
-        content: "Om Borås Hemvärnsförening - Stödjande verksamhet sedan 2007",
-      },
-      {
-        property: "og:description",
-        content:
-          "Upptäck hur Borås Hemvärnsförening stödjer Hemvärnet genom förvaltning av Hemvärnsgården, ekonomiskt stöd till aktiviteter och traditionellt luciafirande. Bli medlem för endast 50kr/år!",
-      },
-      {
-        property: "og:image",
-        content: headerImage,
-      },
-    ],
   },
 };
 </script>

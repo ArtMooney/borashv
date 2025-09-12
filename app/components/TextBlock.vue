@@ -22,7 +22,7 @@
               : '',
         }"
       >
-        <button class="mt-12">{{ buttonText }}</button>
+        <button class="primary mt-12">{{ buttonText }}</button>
       </NuxtLink>
     </div>
   </div>
