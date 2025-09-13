@@ -62,7 +62,7 @@ export default {
         });
       } catch (err) {
         if (err.status === 401) {
-          deleteLocalStorage("adinq-cms");
+          deleteLocalStorage("borashv-cms");
           location.reload();
         }
       }
@@ -83,7 +83,7 @@ export default {
         });
       } catch (err) {
         if (err.status === 401) {
-          deleteLocalStorage("adinq-cms");
+          deleteLocalStorage("borashv-cms");
           location.reload();
         }
       }

@@ -85,7 +85,7 @@ export default {
 
       if (isPasswordSwitch) {
         this.newPasswordSwitch();
-      } else if (!getLocalStorage("adinq-cms")) {
+      } else if (!getLocalStorage("borashv-cms")) {
         this.loginSwitch();
       }
     },

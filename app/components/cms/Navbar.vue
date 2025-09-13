@@ -62,7 +62,7 @@ export default {
     },
 
     logOut() {
-      deleteLocalStorage("adinq-cms");
+      deleteLocalStorage("borashv-cms");
       location.reload();
     },
   },

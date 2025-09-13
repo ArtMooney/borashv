@@ -101,7 +101,7 @@ export default {
           this.showStatusMessage = false;
 
           setLocalStorage(
-            "adinq-cms",
+            "borashv-cms",
             { email: this.loginEmail, password: this.loginPassword },
             1000 * 60 * 43200,
           );
