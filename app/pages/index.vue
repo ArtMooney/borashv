@@ -29,7 +29,7 @@ definePageMeta({
 
 const config = useRuntimeConfig();
 
-const { data: items, error } = await useFetch("/api/news", {
+const { data: items, error } = await useFetch("/api/nyheter", {
   method: "GET",
   headers: {
     Authorization:
