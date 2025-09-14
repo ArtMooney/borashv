@@ -6,7 +6,7 @@ useSeoMeta({
   ogTitle: "Borås Hemvärnsförening - Nyheter & Verksamhet",
   ogDescription:
     "Följ senaste nyheterna från Borås Hemvärnsförening. Lokalbokningar, evenemang och aktiviteter i vår anrika Hemvärnsgård mellan ishallen och Borås Arena.",
-  ogImage: "https://borashv.se/og-image.jpg",
+  ogImage: "https://borashv.se/images/og-image.webp",
   ogUrl: "https://borashv.se/",
   ogType: "website",
   ogSiteName: "Borås Hemvärnsförening",
