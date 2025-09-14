@@ -6,7 +6,7 @@ useSeoMeta({
   ogTitle: "Lokalbokning Hemvärnsgården Borås - Konferens & Samlingslokaler",
   ogDescription:
     "Hyr våra lokaler i centrala Borås - konferensrum, samlingssal, mäss och logement. Perfekt för möten, evenemang och övernattning. Boka enkelt via vår bokningsansvarige.",
-  ogImage: "https://borashv.se/og-image.jpg",
+  ogImage: "https://borashv.se/og-image.webp",
   ogUrl: "https://borashv.se/bokningar",
   ogType: "website",
   ogSiteName: "Borås Hemvärnsförening",
@@ -16,7 +16,7 @@ useSeoMeta({
     "Lokalbokning Hemvärnsgården Borås - Konferens & Samlingslokaler",
   twitterDescription:
     "Hyr våra lokaler i centrala Borås - konferensrum, samlingssal, mäss och logement. Perfekt för möten, evenemang och övernattning.",
-  twitterImage: "https://borashv.se/og-image.jpg",
+  twitterImage: "https://borashv.se/og-image.webp",
   keywords:
     "hemvärnsgården borås, lokalbokning borås, konferenslokal borås, samlingssal, mäss bokning, logement borås, militär konferenslokal, möteslokal borås",
   robots: "index, follow",
