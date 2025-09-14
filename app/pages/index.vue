@@ -73,6 +73,10 @@ const { data: items, error } = await useFetch("/api/nyheter", {
   >
     {{ decodeURIComponent(error?.statusMessage || "Error") }}
   </div>
+
+  <ClientOnly>
+    <img src="/og-image.webp" alt="og-image" class="hidden" />
+  </ClientOnly>
 </template>
 
 <script>
