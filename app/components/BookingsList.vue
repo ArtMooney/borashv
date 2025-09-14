@@ -18,7 +18,7 @@
             class="bold font-heading text-xl break-words hyphens-auto lg:text-2xl"
             lang="sv"
           >
-            {{ item.titel }}
+            {{ item.title }}
           </div>
         </div>
 

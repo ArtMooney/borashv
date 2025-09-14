@@ -18,7 +18,7 @@
 
         <div class="flex flex-col items-start gap-2">
           <div class="bold font-heading text-lg">
-            {{ item.titel }}
+            {{ item.title }}
           </div>
 
           <p class="mb-2 text-gray-400 underline">
