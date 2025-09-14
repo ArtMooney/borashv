@@ -32,7 +32,7 @@ definePageMeta({
   <Header>
     <template #heading-content>
       <NuxtImg
-        src="pexels-grizzlybear-421759.jpg"
+        src="closeup-bridge.jpg"
         alt="Header image"
         class="parallax-background-hero h-full min-h-[23rem] w-full object-cover lg:min-h-[43rem]"
         sizes="1000px md:2000px"

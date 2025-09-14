@@ -51,7 +51,7 @@ const { data: items, error } = await useFetch("/api/bokningar", {
   >
     <template #heading-content>
       <NuxtImg
-        src="sean-foster-PMmb0MEE7Co-unsplash.jpg"
+        src="old-overgrown-military-equipment.jpg"
         alt="Header image"
         class="parallax-background-hero h-full min-h-[23rem] w-full object-cover lg:min-h-[43rem]"
         sizes="1000px md:2000px"

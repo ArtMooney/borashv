@@ -45,7 +45,7 @@ const { data: items, error } = await useFetch("/api/styrelsen", {
       class="absolute top-0 right-0 bottom-0 left-0 flex items-center overflow-hidden"
     >
       <NuxtImg
-        src="pexels-skylar-kang-6044253.jpg"
+        src="old-plank.jpg"
         alt="background image"
         class="parallax-background h-full w-full object-cover"
         sizes="1000px md:2000px"

@@ -32,7 +32,7 @@ definePageMeta({
   <Header :contain-image="true">
     <template #heading-content>
       <NuxtImg
-        src="Hemvarnsgarden-1024x768.jpg"
+        src="hemvarnsgarden.jpg"
         alt="Header image"
         class="h-full w-full"
         sizes="1000px md:2000px"

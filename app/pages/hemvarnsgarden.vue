@@ -47,7 +47,7 @@ definePageMeta({
   <SplitContentSection :text="textToday1">
     <template #image-content>
       <NuxtImg
-        src="Hemvarnsgarden-1024x768.jpg"
+        src="hemvarnsgarden.jpg"
         alt="hemvärnsgården"
         class="h-full w-full object-cover"
         sizes="500px md:1000px"
@@ -62,7 +62,7 @@ definePageMeta({
   <SplitContentSection :text="textToday2">
     <template #image-content>
       <NuxtImg
-        src="matt-palmer-3IQMPV6NgyM-unsplash.jpg"
+        src="overgrown-car-wreck.jpg"
         alt="överväxt bilvrak i skogen"
         class="h-full w-full object-cover lg:order-last"
         sizes="500px md:1000px"
@@ -77,7 +77,7 @@ definePageMeta({
   <SplitContentSection :text="textThen1">
     <template #image-content>
       <NuxtImg
-        src="jay-heike-Fc-0gi4YylM-unsplash.jpg"
+        src="rusty-gears.jpg"
         alt="rostiga kugghjul med kedjor"
         class="h-full w-full object-cover"
         sizes="500px md:1000px"
@@ -91,7 +91,7 @@ definePageMeta({
   <SplitContentSection :text="textThen2">
     <template #image-content>
       <NuxtImg
-        src="prometheus-Kac21UkYfbA-unsplash.jpg"
+        src="jerry-can-with-old-peeling-paint.jpg"
         alt="bensindunk med gammal flagad färg"
         class="h-full w-full object-cover lg:order-last"
         sizes="500px md:1000px"

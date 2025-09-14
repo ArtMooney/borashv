@@ -10,7 +10,7 @@ import IconIonHeart from "~icons/ion/heart";
       class="absolute top-0 right-0 bottom-0 left-0 flex items-center overflow-hidden"
     >
       <NuxtImg
-        src="pexels-gabby-k-7794400.jpg"
+        src="rusty-metal.jpg"
         alt="Footer background"
         class="h-full w-full object-cover"
         sizes="1000px md:2000px"

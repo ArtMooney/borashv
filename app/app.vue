@@ -13,7 +13,7 @@ useHead({
         "@type": "Organization",
         name: "Borås Hemvärnsförening",
         image:
-          "https://borashv.se/_ipx/f_webp&q_80&s_2000x1333/pexels-henkephotoart-29662829.jpg",
+          "https://borashv.se/_ipx/f_webp&q_80&s_2000x1333/deep-forest-with-backlight.jpg",
         url: "https://borashv.se",
         telephone: "070-22777161",
         email: "fanrik@hotmail.com",
