@@ -6,7 +6,7 @@ useSeoMeta({
   ogTitle: "Dokument & Handlingar - Hemvärnet Borås",
   ogDescription:
     "Här finns alla officiella dokument för Hemvärnet i Borås samlade. Ladda ner protokoll, stadgar och andra viktiga föreningshandlingar.",
-  ogImage: "https://borashv.se/_ipx/f_webp&q_80&s_1000x667/rusty-metal.jpg",
+  ogImage: "https://borashv.se/og-image.jpg",
   ogUrl: "https://borashv.se/dokument",
   ogType: "website",
   ogSiteName: "Borås Hemvärnsförening",
@@ -15,8 +15,7 @@ useSeoMeta({
   twitterTitle: "Dokument & Handlingar - Hemvärnet Borås",
   twitterDescription:
     "Här finns alla officiella dokument för Hemvärnet i Borås samlade. Ladda ner protokoll, stadgar och andra viktiga föreningshandlingar.",
-  twitterImage:
-    "https://borashv.se/_ipx/f_webp&q_80&s_1000x667/rusty-metal.jpg",
+  twitterImage: "https://borashv.se/og-image.jpg",
   keywords:
     "hemvärnet borås dokument, hemvärnsprotokoll, hemvärnets stadgar, föreningshandlingar borås, hemvärnsförening protokoll, borås hemvärn handlingar",
   robots: "index, follow",

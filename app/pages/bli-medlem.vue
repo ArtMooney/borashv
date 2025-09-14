@@ -6,7 +6,7 @@ useSeoMeta({
   ogTitle: "Bli Medlem i Hemvärnets Förening Borås",
   ogDescription:
     "Stöd Hemvärnet i Borås genom medlemskap för endast 50kr/år. Din medlemsavgift bidrar till förvaltning av Hemvärnsgården och föreningens verksamhet.",
-  ogImage: "https://borashv.se/_ipx/f_webp&q_80&s_2000x1330/closeup-bridge.jpg",
+  ogImage: "https://borashv.se/og-image.jpg",
   ogUrl: "https://borashv.se/bli-medlem",
   ogType: "website",
   ogSiteName: "Borås Hemvärnsförening",
@@ -15,8 +15,7 @@ useSeoMeta({
   twitterTitle: "Bli Medlem i Hemvärnets Förening Borås",
   twitterDescription:
     "Stöd Hemvärnet i Borås genom medlemskap för endast 50kr/år. Din medlemsavgift bidrar till förvaltning av Hemvärnsgården och föreningens verksamhet.",
-  twitterImage:
-    "https://borashv.se/_ipx/f_webp&q_80&s_2000x1330/closeup-bridge.jpg",
+  twitterImage: "https://borashv.se/og-image.jpg",
   keywords:
     "Hemvärnet Borås, medlemskap hemvärnet, hemvärnsförening, hemvärnsgården borås, försvarsförening borås, hemvärnsmedlem",
   robots: "index, follow",

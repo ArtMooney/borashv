@@ -6,8 +6,7 @@ useSeoMeta({
   ogTitle: "Kontakta Borås Hemvärnsförening - Medlemskap & Information",
   ogDescription:
     "Vill du bli medlem, boka Hemvärnsgården eller veta mer om föreningen? Här hittar du all kontaktinformation till Borås Hemvärnsförening.",
-  ogImage:
-    "https://borashv.se/_ipx/f_webp&q_80&s_2000x1500/militar-telefon.jpg",
+  ogImage: "https://borashv.se/og-image.jpg",
   ogUrl: "https://borashv.se/kontakta-oss",
   ogType: "website",
   ogSiteName: "Borås Hemvärnsförening",
@@ -16,8 +15,7 @@ useSeoMeta({
   twitterTitle: "Kontakta Borås Hemvärnsförening - Medlemskap & Information",
   twitterDescription:
     "Vill du bli medlem, boka Hemvärnsgården eller veta mer om föreningen? Här hittar du all kontaktinformation till Borås Hemvärnsförening.",
-  twitterImage:
-    "https://borashv.se/_ipx/f_webp&q_80&s_2000x1500/militar-telefon.jpg",
+  twitterImage: "https://borashv.se/og-image.jpg",
   keywords:
     "kontakta hemvärnet borås, bli medlem hemvärnet, boka hemvärnsgården borås, hemvärnet kontaktuppgifter, borås hemvärnsförening kontakt, medlemskap hemvärnet",
   robots: "index, follow",
