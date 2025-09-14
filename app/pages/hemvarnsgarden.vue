@@ -6,7 +6,7 @@ useSeoMeta({
   ogTitle: "Hemvärnsgården Borås - En historisk mötesplats sedan 1953",
   ogDescription:
     "Belägen mellan ishallen och Borås Arena ligger den historiska Hemvärnsgården med sitt karakteristiska röda torn. En aktiv mötesplats för Lottakåren, FRO och andra föreningar sedan 1953.",
-  ogImage: "",
+  ogImage: "https://borashv.se/_ipx/f_webp&q_80&s_1000x750/hemvarnsgarden.jpg",
   ogUrl: "https://borashv.se/hemvarnsgarden",
   ogType: "website",
   ogSiteName: "Borås Hemvärnsförening",
@@ -15,7 +15,8 @@ useSeoMeta({
   twitterTitle: "Hemvärnsgården Borås - En historisk mötesplats sedan 1953",
   twitterDescription:
     "Belägen mellan ishallen och Borås Arena ligger den historiska Hemvärnsgården med sitt karakteristiska röda torn. En aktiv mötesplats sedan 1953.",
-  twitterImage: "",
+  twitterImage:
+    "https://borashv.se/_ipx/f_webp&q_80&s_1000x750/hemvarnsgarden.jpg",
   keywords:
     "hemvärnsgården borås, villa armbåga, borås hemvärn historia, hemvärnets musikkår borås, historisk byggnad borås, militärhistoria borås, frivilligt försvar borås, hemvärnsgården älgårdsvägen",
   robots: "index, follow",

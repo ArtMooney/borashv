@@ -6,7 +6,7 @@ useSeoMeta({
   ogTitle: "Om Borås Hemvärnsförening - Stödjande verksamhet sedan 2007",
   ogDescription:
     "Upptäck hur Borås Hemvärnsförening stödjer Hemvärnet genom förvaltning av Hemvärnsgården, ekonomiskt stöd till aktiviteter och traditionellt luciafirande. Bli medlem för endast 50kr/år!",
-  ogImage: "",
+  ogImage: "https://borashv.se/_ipx/f_webp&q_80&s_500x297/dogtag.png",
   ogUrl: "https://borashv.se/styrelsen",
   ogType: "website",
   ogSiteName: "Borås Hemvärnsförening",
@@ -15,7 +15,7 @@ useSeoMeta({
   twitterTitle: "Om Borås Hemvärnsförening - Stödjande verksamhet sedan 2007",
   twitterDescription:
     "Upptäck hur Borås Hemvärnsförening stödjer Hemvärnet genom förvaltning av Hemvärnsgården, ekonomiskt stöd till aktiviteter och traditionellt luciafirande.",
-  twitterImage: "",
+  twitterImage: "https://borashv.se/_ipx/f_webp&q_80&s_500x297/dogtag.png",
   keywords:
     "borås hemvärnsförening, borås hemvärnskompani, hemvärnet borås historia, föreningsverksamhet hemvärnet, militär föreningsverksamhet borås, hemvärnsgården verksamhet, luciafirande hemvärnet",
   robots: "index, follow",
