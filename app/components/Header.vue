@@ -31,7 +31,13 @@
       <div class="flex flex-col gap-4 sm:flex-row">
         <button
           v-if="buttonTextOne"
-          @click="navigateTo(`${buttonLinkOne}#${buttonHashOne}`)"
+          @click="
+            navigateTo(
+              buttonHashOne
+                ? `${buttonLinkOne}#${buttonHashOne}`
+                : buttonLinkOne,
+            )
+          "
           class="primary"
         >
           {{ buttonTextOne }}
@@ -39,7 +45,13 @@
 
         <button
           v-if="buttonTextTwo"
-          @click="navigateTo(`${buttonLinkTwo}#${buttonHashTwo}`)"
+          @click="
+            navigateTo(
+              buttonHashTwo
+                ? `${buttonLinkTwo}#${buttonHashTwo}`
+                : buttonLinkTwo,
+            )
+          "
           class="primary"
         >
           {{ buttonTextTwo }}
