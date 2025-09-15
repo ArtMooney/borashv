@@ -8,23 +8,14 @@ import "@vuepic/vue-datepicker/dist/main.css";
     <h4 class="text-3xl uppercase">Bokningskalender</h4>
 
     <VueDatePicker
+      v-model="selectedDate"
       :format="'yyyy-MM-dd'"
       locale="sv"
-      auto-apply=""
+      auto-apply
       inline
       dark
-      :class="[
-        '[&_div]:!font-body',
-        '[&_button]:!p-0',
-        '[&_div]:!text-xs',
-        '[&_input]:!border-white/25',
-        '[&_input]:!bg-transparent',
-        '[&_input]:!py-3 [&_input]:!text-sm',
-        '[&_input]:!text-sm',
-        '[&_input]:!text-white',
-      ]"
-    >
-    </VueDatePicker>
+      :markers="markers"
+    />
   </div>
 </template>
 
@@ -39,49 +30,28 @@ export default {
     },
   },
 
-  mounted() {
-    console.log(this.items);
+  data() {
+    return {
+      selectedDate: new Date(),
+      markers: [
+        {
+          date: "2025-09-10",
+          type: "line",
+          color: "blue",
+          tooltip: [{ text: "First tooltip", color: "blue" }],
+        },
+        {
+          date: "2025-09-11",
+          type: "line",
+          color: "green",
+          tooltip: [{ text: "First tooltip", color: "blue" }],
+        },
+      ],
+    };
   },
 
-  methods: {
-    displayToFromDate(date) {
-      if (!date) return;
-      date = JSON.parse(date);
-      if (date) {
-        if (date[0] === date[1]) {
-          // output only first
-          return this.formatDate(date[0]);
-        } else {
-          // output both
-          return `${this.formatDate(date[0])} - ${this.formatDate(date[1])}`;
-        }
-      }
-
-      return "";
-    },
-
-    formatDate(date) {
-      let dateObj = new Date(date);
-      let day = dateObj.getDate();
-      let months = [
-        "Januari",
-        "Februari",
-        "Mars",
-        "April",
-        "Maj",
-        "Juni",
-        "Juli",
-        "Augusti",
-        "September",
-        "Oktober",
-        "November",
-        "December",
-      ];
-      let month = months[dateObj.getMonth()];
-      let year = dateObj.getFullYear();
-
-      return `${day} ${month} ${year}`;
-    },
+  mounted() {
+    // console.log(this.items);
   },
 };
 </script>
