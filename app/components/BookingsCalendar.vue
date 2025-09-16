@@ -8,21 +8,27 @@
           :is="'VCalendar'"
           :attributes="calendarAttributes"
           expanded
+          show-weeknumbers
+          transparent
+          borderless
+          :class="[
+            '[&_.vc-pane-layout]:p-6',
+            '[&_.vc-pane-header-wrapper]:p-6',
+            '[&_.vc-pane-container]:rounded',
+            '[&_.vc-pane-container]:bg-[#616a5b]',
+          ]"
         />
       </div>
-      <template #fallback>
-        <div class="calendar-loading">Laddar kalender...</div>
-      </template>
     </ClientOnly>
 
-    <div class="booking-legend">
+    <div class="mt-2 flex flex-col gap-2 rounded bg-[#616a5b] p-8">
       <h3>Bokningsstatus:</h3>
-      <div class="legend-item">
-        <span class="legend-color confirmed"></span>
+      <div class="flex items-center gap-2">
+        <span class="h-6 min-h-6 w-6 min-w-6 rounded bg-[#10b981]"></span>
         <span>Bekräftad bokning</span>
       </div>
-      <div class="legend-item">
-        <span class="legend-color pending"></span>
+      <div class="flex items-center gap-2">
+        <span class="h-6 min-h-6 w-6 min-w-6 rounded bg-[#fb923c]"></span>
         <span>Väntande bokning</span>
       </div>
     </div>
@@ -96,65 +102,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.booking-calendar {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.calendar-title {
-  text-align: center;
-  color: #2c3e50;
-  margin-bottom: 30px;
-  font-size: 28px;
-  font-weight: 600;
-}
-
-.calendar-loading {
-  min-height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #666;
-  background: #f5f5f5;
-  border-radius: 8px;
-}
-
-.booking-legend {
-  margin-top: 30px;
-  padding: 20px;
-  background: #f9fafb;
-  border-radius: 8px;
-}
-
-.booking-legend h3 {
-  margin: 0 0 15px 0;
-  color: #374151;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.legend-color {
-  width: 24px;
-  height: 24px;
-  border-radius: 4px;
-  margin-right: 10px;
-}
-
-.legend-color.confirmed {
-  background-color: #10b981;
-}
-
-.legend-color.pending {
-  background-color: #fb923c;
-  border: 1px solid #f97316;
-}
-</style>
