@@ -16,6 +16,8 @@
             '[&_.vc-pane-header-wrapper]:p-6',
             '[&_.vc-pane-container]:rounded',
             '[&_.vc-pane-container]:bg-[#616a5b]',
+            '[&_.vc-weekday]:!text-[#a5b698]',
+            '[&_.vc-arrow]:!text-[#8799b4]',
           ]"
         />
       </div>
@@ -24,11 +26,11 @@
     <div class="mt-2 flex flex-col gap-2 rounded bg-[#616a5b] p-8">
       <h3>Bokningsstatus:</h3>
       <div class="flex items-center gap-2">
-        <span class="h-6 min-h-6 w-6 min-w-6 rounded bg-[#10b981]"></span>
+        <span class="h-6 min-h-6 w-6 min-w-6 rounded bg-[#16a34b]"></span>
         <span>Bekräftad bokning</span>
       </div>
       <div class="flex items-center gap-2">
-        <span class="h-6 min-h-6 w-6 min-w-6 rounded bg-[#fb923c]"></span>
+        <span class="h-6 min-h-6 w-6 min-w-6 rounded bg-[#fed8aa]"></span>
         <span>Väntande bokning</span>
       </div>
     </div>
