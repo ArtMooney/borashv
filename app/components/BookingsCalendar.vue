@@ -17,7 +17,18 @@
             '[&_.vc-pane-container]:rounded',
             '[&_.vc-pane-container]:bg-[#616a5b]',
             '[&_.vc-weekday]:!text-[#a5b698]',
-            '[&_.vc-arrow]:!text-[#8799b4]',
+            '[&_.vc-arrow]:!text-black',
+            '[&_.vc-title]:!text-lg',
+            '[&_.vc-title]:!text-[#a5b698]',
+            '[&_.vc-header]:!mb-8',
+            '[&_.vc-weekdays]:!mb-4',
+            '[&_.vc-weekdays]:!border-b',
+            '[&_.vc-weekdays]:!border-b-[#a5b698]/25',
+            '[&_.vc-weeknumber-content]:!text-[#a5b698]/50',
+            '[&_.vc-weeknumber]:!h-full',
+            '[&_.vc-day-content]:sm:!text-lg',
+            '[&_.vc-day]:sm:!p-4',
+            '[&_.vc-highlight]:sm:!p-6',
           ]"
         />
       </div>
