@@ -47,7 +47,7 @@
       </div>
     </ClientOnly>
 
-    <div class="mt-2 flex flex-col gap-2 rounded bg-[#616a5b] p-8">
+    <div class="mt-2 flex flex-col gap-2 rounded bg-[#616a5b]/20 p-8">
       <h3 class="uppercase">Kommande bokningar:</h3>
 
       <div
