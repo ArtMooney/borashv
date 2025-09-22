@@ -37,14 +37,18 @@
     </ClientOnly>
 
     <div class="mt-2 flex flex-col gap-2 rounded bg-[#616a5b] p-8">
-      <h3>Bokningsstatus:</h3>
-      <div class="flex items-center gap-2">
-        <span class="h-6 min-h-6 w-6 min-w-6 rounded bg-[#16a34b]"></span>
-        <span>Bekräftad bokning</span>
-      </div>
-      <div class="flex items-center gap-2">
-        <span class="h-6 min-h-6 w-6 min-w-6 rounded bg-[#fed8aa]"></span>
-        <span>Väntande bokning</span>
+      <h3 class="uppercase">Kommande bokningar:</h3>
+
+      <div
+        v-for="booking in bookings"
+        :key="booking.key"
+        class="flex items-center gap-2"
+      >
+        <span
+          class="h-6 min-h-6 w-6 min-w-6 rounded"
+          :style="{ backgroundColor: booking.highlight.color }"
+        ></span>
+        <span> {{ booking.popover.label }}</span>
       </div>
     </div>
   </div>
@@ -96,7 +100,7 @@ export default {
                   this.highlightColors[
                     colorIndex % this.highlightColors.length
                   ],
-                fillMode: "light",
+                fillMode: "solid",
               },
               dates: {
                 start: booking[0],
