@@ -4,6 +4,7 @@
 
     <ClientOnly>
       <VCalendar
+        ref="calendar"
         :attributes="bookings"
         :min-date="new Date()"
         expanded
@@ -44,18 +45,22 @@
       />
     </ClientOnly>
 
-    <div class="mt-2 flex flex-col gap-2 rounded bg-[#616a5b]/20 p-8">
+    <div
+      class="mt-2 flex flex-col items-start gap-2 rounded bg-[#616a5b]/20 p-8"
+    >
       <h4 class="uppercase">Kommande bokningar:</h4>
 
       <div
         v-for="booking in bookings"
+        @click="jumpToBooking(booking.dates.start)"
         :key="booking.key"
-        class="flex items-center gap-2"
+        class="flex cursor-pointer gap-2"
       >
         <span
-          class="h-6 min-h-6 w-6 min-w-6 rounded"
+          class="flex h-6 min-h-6 w-6 min-w-6 items-center justify-center rounded text-xs"
           :style="{ backgroundColor: booking.highlight.labelColor }"
-        ></span>
+          >{{ new Date(booking.dates.start).getDate() }}</span
+        >
         <span> {{ booking.popover.label }}</span>
       </div>
     </div>
@@ -149,6 +154,12 @@ export default {
       }
 
       return bookings;
+    },
+  },
+
+  methods: {
+    async jumpToBooking(date) {
+      await this.$refs.calendar.move(new Date(date));
     },
   },
 };
