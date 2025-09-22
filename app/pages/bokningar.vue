@@ -41,41 +41,35 @@ const { data: items, error } = await useFetch("/api/bokningar", {
 </script>
 
 <template>
-  <!--  <Header-->
-  <!--    button-text-one="Bokningslista"-->
-  <!--    button-link-one="/bokningar"-->
-  <!--    button-hash-one="bokningslista"-->
-  <!--    button-text-two="Bokningsregler"-->
-  <!--    button-link-two="/bokningar"-->
-  <!--    button-hash-two="bokningsregler"-->
-  <!--  >-->
-  <!--    <template #heading-content>-->
-  <!--      <NuxtImg-->
-  <!--        src="old-overgrown-military-equipment.jpg"-->
-  <!--        alt="Header image"-->
-  <!--        class="parallax-background-hero h-full min-h-[23rem] w-full object-cover lg:min-h-[43rem]"-->
-  <!--        sizes="1000px md:2000px"-->
-  <!--        width="3456"-->
-  <!--        height="5184"-->
-  <!--        densities="x1"-->
-  <!--        format="webp"-->
-  <!--      />-->
-  <!--    </template>-->
-  <!--  </Header>-->
+  <Header
+    button-text-one="Bokningskalender"
+    button-link-one="/bokningar"
+    button-hash-one="bokningskalender"
+    button-text-two="Bokningsregler"
+    button-link-two="/bokningar"
+    button-hash-two="bokningsregler"
+  >
+    <template #heading-content>
+      <NuxtImg
+        src="old-overgrown-military-equipment.jpg"
+        alt="Header image"
+        class="parallax-background-hero h-full min-h-[23rem] w-full object-cover lg:min-h-[43rem]"
+        sizes="1000px md:2000px"
+        width="3456"
+        height="5184"
+        densities="x1"
+        format="webp"
+      />
+    </template>
+  </Header>
 
-  <!--  <TextBlock-->
-  <!--    title="Bokningar"-->
-  <!--    :text="textBokningar"-->
-  <!--    class="mx-auto w-full max-w-screen-xl"-->
-  <!--  />-->
+  <TextBlock
+    title="Bokningar"
+    :text="textBokningar"
+    class="mx-auto w-full max-w-screen-xl"
+  />
 
   <LoadingSpinner v-if="!items?.length && !error" />
-
-  <!--  <BookingsList-->
-  <!--    v-if="items?.length"-->
-  <!--    class="mx-auto w-full max-w-screen-xl"-->
-  <!--    :items="items"-->
-  <!--  />-->
 
   <BookingsCalendar
     v-if="items?.length"
@@ -90,12 +84,12 @@ const { data: items, error } = await useFetch("/api/bokningar", {
     {{ decodeURIComponent(error?.statusMessage || "Error") }}
   </div>
 
-  <!--  <TextBlock-->
-  <!--    id="bokningsregler"-->
-  <!--    title="Bokningsregler"-->
-  <!--    :text="textBokningsregler"-->
-  <!--    class="mx-auto w-full max-w-screen-xl"-->
-  <!--  />-->
+  <TextBlock
+    id="bokningsregler"
+    title="Bokningsregler"
+    :text="textBokningsregler"
+    class="mx-auto w-full max-w-screen-xl"
+  />
 </template>
 
 <script>

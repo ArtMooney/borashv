@@ -1,5 +1,5 @@
 <template>
-  <div id="bokningslista" class="grid grid-cols-1 gap-2 px-4 py-12 md:px-8">
+  <div id="bokningskalender" class="grid grid-cols-1 gap-2 px-4 py-12 md:px-8">
     <h4 class="text-3xl uppercase">Bokningskalender</h4>
 
     <ClientOnly>
@@ -45,7 +45,7 @@
     </ClientOnly>
 
     <div class="mt-2 flex flex-col gap-2 rounded bg-[#616a5b]/20 p-8">
-      <h3 class="uppercase">Kommande bokningar:</h3>
+      <h4 class="uppercase">Kommande bokningar:</h4>
 
       <div
         v-for="booking in bookings"
