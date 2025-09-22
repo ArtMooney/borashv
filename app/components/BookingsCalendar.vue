@@ -102,8 +102,6 @@ export default {
   },
 
   async mounted() {
-    // console.log(this.items);
-
     if (process.client) {
       const vcalendar = await import("v-calendar");
       await import("v-calendar/style.css");
@@ -112,6 +110,31 @@ export default {
       this.$nuxt.vueApp.component("VCalendar", vcalendar.Calendar);
       this.isCalendarLoaded = true;
     }
+
+    this.drawBookings();
+  },
+
+  methods: {
+    drawBookings() {
+      // console.log(this.items);
+      const bookings = [];
+
+      for (const item of this.items) {
+        const booking = JSON.parse(item["datum|to-from"]);
+
+        if (booking && booking[0] && booking[1]) {
+          bookings.push({
+            key: item.id,
+            name: item.title,
+            startDate: booking[0],
+            endDate: booking[1],
+            status: "confirmed",
+          });
+        }
+      }
+
+      // console.log(bookings);
+    },
   },
 };
 </script>
