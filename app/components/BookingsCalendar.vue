@@ -5,6 +5,7 @@
     <ClientOnly>
       <VCalendar
         ref="calendar"
+        id="calendar"
         :attributes="bookings"
         :min-date="new Date()"
         expanded
@@ -50,19 +51,21 @@
     >
       <h4 class="uppercase">Kommande bokningar:</h4>
 
-      <div
-        v-for="booking in bookings"
-        @click="jumpToBooking(booking.dates.start)"
-        :key="booking.key"
-        class="flex cursor-pointer gap-2"
-      >
-        <span
-          class="flex h-6 min-h-6 w-6 min-w-6 items-center justify-center rounded text-xs"
-          :style="{ backgroundColor: booking.highlight.labelColor }"
-          >{{ new Date(booking.dates.start).getDate() }}</span
+      <router-link to="#calendar" class="flex flex-col items-start gap-2">
+        <div
+          v-for="booking in bookings"
+          @click="jumpToBooking(booking.dates.start)"
+          :key="booking.key"
+          class="flex cursor-pointer gap-2"
         >
-        <span> {{ booking.popover.label }}</span>
-      </div>
+          <span
+            class="flex h-6 min-h-6 w-6 min-w-6 items-center justify-center rounded text-xs"
+            :style="{ backgroundColor: booking.highlight.labelColor }"
+            >{{ new Date(booking.dates.start).getDate() }}</span
+          >
+          <span> {{ booking.popover.label }}</span>
+        </div>
+      </router-link>
     </div>
   </div>
 </template>
