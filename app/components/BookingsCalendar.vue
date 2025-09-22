@@ -6,7 +6,8 @@
       <div v-if="isCalendarLoaded">
         <component
           :is="'VCalendar'"
-          :attributes="calendarAttributes"
+          :attributes="bookings"
+          :min-date="new Date()"
           expanded
           show-weeknumbers
           transparent
@@ -29,6 +30,7 @@
             '[&_.vc-day-content]:sm:!text-lg',
             '[&_.vc-day]:sm:!p-4',
             '[&_.vc-highlight]:sm:!p-6',
+            '[&_.vc-disabled]:!text-black/15',
           ]"
         />
       </div>
@@ -62,42 +64,56 @@ export default {
   data() {
     return {
       isCalendarLoaded: false,
-      bookings: [
-        {
-          key: "booking-1",
-          name: "Eriksson - Företagsevent",
-          startDate: new Date(2025, 8, 20),
-          endDate: new Date(2025, 8, 23),
-          status: "confirmed",
-        },
-        {
-          key: "booking-2",
-          name: "Johansson - Bröllop",
-          startDate: new Date(2025, 8, 27),
-          endDate: new Date(2025, 8, 29),
-          status: "pending",
-        },
+      highlightColors: [
+        "green",
+        "blue",
+        "red",
+        "purple",
+        "orange",
+        "yellow",
+        "teal",
+        "indigo",
+        "pink",
+        "gray",
       ],
     };
   },
 
   computed: {
-    calendarAttributes() {
-      return this.bookings.map((booking) => ({
-        key: booking.key,
-        highlight: {
-          color: booking.status === "confirmed" ? "green" : "orange",
-          fillMode: booking.status === "confirmed" ? "solid" : "light",
-        },
-        dates: {
-          start: booking.startDate,
-          end: booking.endDate,
-        },
-        popover: {
-          label: booking.name,
-          visibility: "hover",
-        },
-      }));
+    bookings() {
+      const bookings = [];
+      let colorIndex = 0;
+
+      for (const item of this.items) {
+        const booking = JSON.parse(item["datum|to-from"]);
+
+        if (booking && booking[0] && booking[1]) {
+          if (new Date() <= new Date(booking[1])) {
+            bookings.push({
+              key: item.id,
+              highlight: {
+                color:
+                  this.highlightColors[
+                    colorIndex % this.highlightColors.length
+                  ],
+                fillMode: "light",
+              },
+              dates: {
+                start: booking[0],
+                end: booking[1],
+              },
+              popover: {
+                label: item.title,
+                visibility: "hover",
+              },
+            });
+          }
+        }
+
+        colorIndex++;
+      }
+
+      return bookings;
     },
   },
 
@@ -106,35 +122,9 @@ export default {
       const vcalendar = await import("v-calendar");
       await import("v-calendar/style.css");
 
-      // Registrera komponenten globalt
       this.$nuxt.vueApp.component("VCalendar", vcalendar.Calendar);
       this.isCalendarLoaded = true;
     }
-
-    this.drawBookings();
-  },
-
-  methods: {
-    drawBookings() {
-      // console.log(this.items);
-      const bookings = [];
-
-      for (const item of this.items) {
-        const booking = JSON.parse(item["datum|to-from"]);
-
-        if (booking && booking[0] && booking[1]) {
-          bookings.push({
-            key: item.id,
-            name: item.title,
-            startDate: booking[0],
-            endDate: booking[1],
-            status: "confirmed",
-          });
-        }
-      }
-
-      // console.log(bookings);
-    },
   },
 };
 </script>
