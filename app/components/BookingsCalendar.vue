@@ -31,6 +31,17 @@
             '[&_.vc-day]:sm:!p-4',
             '[&_.vc-highlight]:sm:!p-6',
             '[&_.vc-disabled]:!text-black/15',
+
+            '[&_.vc-green>.vc-highlight-bg-solid]:!bg-[#22c55e]',
+            '[&_.vc-blue>.vc-highlight-bg-solid]:!bg-[#16a34a]',
+            '[&_.vc-red>.vc-highlight-bg-solid]:!bg-[#15803d]',
+            '[&_.vc-purple>.vc-highlight-bg-solid]:!bg-[#84cc16]',
+            '[&_.vc-orange>.vc-highlight-bg-solid]:!bg-[#eab308]',
+            '[&_.vc-yellow>.vc-highlight-bg-solid]:!bg-[#f97316]',
+            '[&_.vc-teal>.vc-highlight-bg-solid]:!bg-[#ef4444]',
+            '[&_.vc-indigo>.vc-highlight-bg-solid]:!bg-[#8b5cf6]',
+            '[&_.vc-pink>.vc-highlight-bg-solid]:!bg-[#3b82f6]',
+            '[&_.vc-gray>.vc-highlight-bg-solid]:!bg-[#06b6d4]',
           ]"
         />
       </div>
@@ -46,7 +57,7 @@
       >
         <span
           class="h-6 min-h-6 w-6 min-w-6 rounded"
-          :style="{ backgroundColor: booking.highlight.color }"
+          :style="{ backgroundColor: booking.highlight.labelColor }"
         ></span>
         <span> {{ booking.popover.label }}</span>
       </div>
@@ -80,6 +91,18 @@ export default {
         "pink",
         "gray",
       ],
+      highlightLabelColors: [
+        "#22c55e",
+        "#16a34a",
+        "#15803d",
+        "#84cc16",
+        "#eab308",
+        "#f97316",
+        "#ef4444",
+        "#8b5cf6",
+        "#3b82f6",
+        "#06b6d4",
+      ],
     };
   },
 
@@ -99,6 +122,10 @@ export default {
                 color:
                   this.highlightColors[
                     colorIndex % this.highlightColors.length
+                  ],
+                labelColor:
+                  this.highlightLabelColors[
+                    colorIndex % this.highlightLabelColors.length
                   ],
                 fillMode: "solid",
               },
