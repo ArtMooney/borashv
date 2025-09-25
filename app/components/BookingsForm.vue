@@ -1,12 +1,17 @@
+<script setup>
+import VueDatePicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
+</script>
+
 <template>
   <div
     id="bookings-form"
-    class="mx-auto grid w-full max-w-screen-xl grow grid-cols-1 content-center px-4 py-12 md:px-8"
+    class="mx-auto w-full max-w-screen-xl grow content-center px-4 py-12 md:px-8"
   >
     <form
       v-if="contactForm"
       @submit.prevent
-      class="grid grid-cols-1 gap-4 text-white md:grid-cols-2"
+      class="grid gap-4 text-white md:grid-cols-2"
       name="member"
     >
       <label>
@@ -54,6 +59,34 @@
         </select>
       </label>
 
+      <label>
+        Välj datum och tid:
+
+        <VueDatePicker
+          v-model="formData.dateRange"
+          :format="'yyyy-MM-dd'"
+          locale="sv"
+          auto-apply=""
+          name="dateRange"
+          range
+          :class="[
+            '[&_div]:!font-body',
+            '[&_input]:!font-body',
+            '[&_button]:!p-0',
+            '[&_div]:!text-xs',
+            '[&_input]:!border-0',
+            '[&_input]:!outline',
+            '[&_input]:!outline-white/35',
+            '[&_input]:!bg-neutral-700',
+            '[&_input]:!my-1',
+            '[&_input]:!py-3.5',
+            '[&_input]:!text-sm',
+            '[&_input]:!text-white',
+          ]"
+        >
+        </VueDatePicker>
+      </label>
+
       <div class="hidden">
         <input name="clientip" type="text" v-model="formData.clientip" />
         <input name="pageuri" type="text" v-model="formData.pageuri" />
@@ -61,7 +94,7 @@
         <input name="amex" type="text" v-model="formData.amex" />
       </div>
 
-      <div class="flex items-start pt-8">
+      <div class="flex items-start pt-8 md:col-span-2">
         <button
           @click="sendForm"
           class="white"
@@ -102,6 +135,7 @@ export default {
         email: "",
         eventType: "",
         venue: "",
+        dateRange: "",
         clientip: "",
         pageuri: "",
         pagename: "",
@@ -190,6 +224,12 @@ export default {
       } else {
         event.target.disabled = false;
       }
+    },
+  },
+
+  watch: {
+    "formData.dateRange"() {
+      console.log(this.formData.dateRange);
     },
   },
 };
