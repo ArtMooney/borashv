@@ -110,7 +110,7 @@ export default {
               Authorization:
                 "Basic " + btoa(this.userName + ":" + this.userPass),
             },
-            body: this.objectToFormData(this.formData),
+            body: objectToFormData(this.formData),
           });
 
           const savedText = this.buttonText;
@@ -132,15 +132,6 @@ export default {
       } else {
         event.target.disabled = false;
       }
-    },
-
-    objectToFormData(obj) {
-      const formData = new FormData();
-      Object.keys(obj).forEach((key) => {
-        formData.append(key, obj[key]);
-      });
-
-      return formData;
     },
   },
 };
