@@ -23,6 +23,8 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  return "Hej";
+
   const toOwner = await sendEmail(
     config.emailFrom,
     config.emailTo,
