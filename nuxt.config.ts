@@ -30,7 +30,7 @@ export default defineNuxtConfig({
     baserowUsername: process.env.NUXT_BASEROW_USERNAME,
     baserowPassword: process.env.NUXT_BASEROW_PASSWORD,
     baserowDbId: process.env.NUXT_BASEROW_DB_ID,
-    baserowCmsUsersId: process.env.NUXT_BASEROW_CMS_USERS_ID,
+    baserowCmsBlacklist: process.env.NUXT_BASEROW_CMS_BLACKLIST,
 
     public: {
       userName: process.env.NUXT_PUBLIC_USERNAME,

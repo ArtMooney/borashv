@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
 
   const user = await listRows(
     config.baserowToken,
-    config.baserowCmsUsersId,
+    config.baserowCmsBlacklist?.split(",").map(Number)[0],
     null,
     null,
     body.validation,
@@ -42,7 +42,7 @@ export default defineEventHandler(async (event) => {
   user.results[0]["reset-id"] = "";
   const savePassword = await updateRow(
     config.baserowToken,
-    config.baserowCmsUsersId,
+    config.baserowCmsBlacklist?.split(",").map(Number)[0],
     user.results[0].id,
     user.results[0],
   );
