@@ -24,7 +24,10 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const users = await listRows(config.baserowToken, config.baserowCmsUsersId);
+  const users = await listRows(
+    config.baserowToken,
+    config.baserowCmsBlacklist?.split(",").map(Number)[0],
+  );
   const user = users.results.find((user) => user.email === body.email);
 
   if (!user) {
@@ -34,7 +37,7 @@ export default defineEventHandler(async (event) => {
   user["reset-id"] = generateUserId(users);
   const saveUser = await updateRow(
     config.baserowToken,
-    config.baserowCmsUsersId,
+    config.baserowCmsBlacklist?.split(",").map(Number)[0],
     user.id,
     user,
   );

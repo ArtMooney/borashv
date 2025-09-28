@@ -21,7 +21,12 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  if (parseInt(body?.table_id) === parseInt(config.baserowCmsUsersId)) {
+  if (
+    config.baserowCmsBlacklist
+      ?.split(",")
+      .map(Number)
+      .includes(parseInt(body?.table_id))
+  ) {
     throw createError({
       statusCode: 500,
       statusMessage: "Table ID is not allowed",

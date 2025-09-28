@@ -28,7 +28,11 @@ export default defineEventHandler(async (event) => {
   );
 
   const tables = schema.filter(
-    (table) => table.id !== parseInt(config.baserowCmsUsersId),
+    (table) =>
+      !config.baserowCmsBlacklist
+        ?.split(",")
+        .map(Number)
+        .includes(parseInt(table.id)),
   );
 
   if (tables.length === 0) {
