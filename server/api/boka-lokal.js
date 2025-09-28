@@ -1,6 +1,4 @@
-import { sendEmail } from "../utils/mailgun/send-email.js";
-import { messageMember } from "../content/message-member.js";
-import { checkLogin } from "../utils/check-login.js";
+import { createRow } from "~~/server/db/baserow/create-row.js";
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
@@ -23,12 +21,17 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  return "Hej";
+  formDataJson["booking-validation"] = crypto.randomUUID();
+  formDataJson.from = formDataJson["date-range"].split(",")[0];
+  formDataJson.to = formDataJson["date-range"].split(",")[1];
+  delete formDataJson["date-range"];
+
+  const booking = await createRow(config.baserowToken, "687942", formDataJson);
 
   const toOwner = await sendEmail(
     config.emailFrom,
     config.emailTo,
-    "Kontakt som vill bli medlem i Borås Hemvärnsförening!",
+    "Jag önskar boka en lokal...",
     JSON.stringify(formDataJson, null, 2),
     config.mailgunApiKey,
   );
@@ -40,25 +43,10 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const toContact = await sendEmail(
-    config.emailTo,
-    formDataJson.email,
-    "Tack för att ni kontaktat Borås Hemvärnsförening!",
-    await messageMember(formDataJson.firstname),
-    config.mailgunApiKey,
-  );
-
-  if (!toContact.id) {
-    throw createError({
-      statusCode: 500,
-      statusMessage: "Failed to send email to contact",
-    });
-  }
-
   return {
     success: true,
     data: {
-      message: "Email sent successfully",
+      message: "Booking request sent successfully",
     },
   };
 });
