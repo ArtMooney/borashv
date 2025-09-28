@@ -42,8 +42,8 @@ import "@vuepic/vue-datepicker/dist/main.css";
         Typ av verksamhet (t.ex. styrelsemöte): *
 
         <input
-          v-model="formData.eventType"
-          name="eventType"
+          v-model="formData['event-type']"
+          name="event-type"
           type="text"
           required
         />
@@ -63,11 +63,11 @@ import "@vuepic/vue-datepicker/dist/main.css";
         Välj datum och tid:
 
         <VueDatePicker
-          v-model="formData.dateRange"
+          v-model="formData['date-range']"
           :format="'yyyy-MM-dd'"
           locale="sv"
           auto-apply=""
-          name="dateRange"
+          name="date-range"
           range
           :class="[
             '[&_div]:!font-body',
@@ -133,9 +133,9 @@ export default {
         name: "",
         phone: "",
         email: "",
-        eventType: "",
+        "event-type": "",
         venue: "",
-        dateRange: "",
+        "date-range": "",
         clientip: "",
         pageuri: "",
         pagename: "",
@@ -224,12 +224,6 @@ export default {
       } else {
         event.target.disabled = false;
       }
-    },
-  },
-
-  watch: {
-    "formData.dateRange"() {
-      console.log(this.formData.dateRange);
     },
   },
 };
