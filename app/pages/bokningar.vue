@@ -81,14 +81,14 @@ const { data: items, error } = await useFetch("/api/bokningar", {
     :items="items"
   />
 
-  <BookingsForm />
-
   <div
     v-if="error"
     class="mx-auto my-16 w-full max-w-screen-xl bg-[#a38373] p-4 px-8 text-black"
   >
     {{ decodeURIComponent(error?.statusMessage || "Error") }}
   </div>
+
+  <BookingsForm />
 
   <div class="mx-auto my-12 w-full max-w-screen-xl bg-transparent px-4 md:px-8">
     <div class="h-px w-full bg-white/15"></div>
