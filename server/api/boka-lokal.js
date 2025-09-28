@@ -22,11 +22,12 @@ export default defineEventHandler(async (event) => {
   }
 
   formDataJson["booking-validation"] = crypto.randomUUID();
+
+  const booking = await createRow(config.baserowToken, "687942", formDataJson);
+
   formDataJson.from = formDataJson["date-range"].split(",")[0];
   formDataJson.to = formDataJson["date-range"].split(",")[1];
   delete formDataJson["date-range"];
-
-  const booking = await createRow(config.baserowToken, "687942", formDataJson);
 
   const toOwner = await sendEmail(
     config.emailFrom,
