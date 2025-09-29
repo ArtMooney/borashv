@@ -1,4 +1,5 @@
 import { createRow } from "~~/server/db/baserow/create-row.js";
+import { messageBookingRequest } from "~~/server/content/message-booking-request.js";
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
@@ -25,15 +26,11 @@ export default defineEventHandler(async (event) => {
 
   const booking = await createRow(config.baserowToken, "687942", formDataJson);
 
-  formDataJson.from = formDataJson["date-range"].split(",")[0];
-  formDataJson.to = formDataJson["date-range"].split(",")[1];
-  delete formDataJson["date-range"];
-
   const toOwner = await sendEmail(
     config.emailFrom,
     config.emailTo,
     "Jag önskar boka en lokal...",
-    JSON.stringify(formDataJson, null, 2),
+    await messageBookingRequest(formDataJson),
     config.mailgunApiKey,
   );
 
