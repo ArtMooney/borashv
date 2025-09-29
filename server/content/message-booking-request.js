@@ -12,7 +12,10 @@ Tid från: ${formData["date-range"].split(",")[0]}
 Tid till: ${formData["date-range"].split(",")[1]}
 					
 					
-Klicka här för att acceptera eller neka bokningen:
+Klicka här för att acceptera bokningen:
 ${formData.pageuri}?validation=${formData["booking-validation"]}
+
+Klicka här för att neka bokningen:
+${formData.pageuri}?validation=${formData["booking-validation"]}&action=reject
 `;
 }
