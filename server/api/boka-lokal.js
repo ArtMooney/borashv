@@ -20,6 +20,7 @@ export default defineEventHandler(async (event) => {
       statusMessage: "No form data provided",
     });
   }
+
   formDataJson["booking-validation"] = crypto.randomUUID();
 
   const booking = await createRow(config.baserowToken, "687942", formDataJson);
