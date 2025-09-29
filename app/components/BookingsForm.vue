@@ -153,13 +153,15 @@ export default {
       emailSuccessMessage: `Ert meddelande har skickats! Om er bokning godkänns kommer ni att få en bekräftelse på mail.`,
       emailErrorMessage:
         "En eller flera emailadresser som ni har angett tycks inte ha ett korrekt format.",
-      contactForm: true,
+      contactForm: false,
       successMessage: false,
       errorMessage: false,
     };
   },
 
   async mounted() {
+    await this.loginHandler();
+
     const res = await fetch("https://api.ipify.org?format=json");
     const ip = await res.json();
     this.formData.clientip = ip.ip;
@@ -223,6 +225,54 @@ export default {
         }
       } else {
         event.target.disabled = false;
+      }
+    },
+
+    async loginHandler() {
+      const route = useRoute();
+      const validation = route.query.validation;
+      const action = route.query.action;
+
+      if (validation) {
+        this.contactForm = false;
+
+        try {
+          const res = await $fetch("/api/boka-validering", {
+            method: "POST",
+            headers: {
+              Authorization:
+                "Basic " + btoa(this.userName + ":" + this.userPass),
+            },
+            body: JSON.stringify({
+              "booking-validation": validation,
+              action,
+            }),
+          });
+
+          setTimeout(() => {
+            this.contactForm = false;
+            this.emailSuccessMessage = action
+              ? "Valideringen godkänd"
+              : "Valideringen nekad";
+            this.successMessage = true;
+
+            this.$router.push({
+              hash: "#bookings-form",
+            });
+          }, 1500);
+        } catch (err) {
+          setTimeout(() => {
+            this.contactForm = false;
+            this.emailSuccessMessage = "Något gick fel vid validering";
+            this.successMessage = true;
+
+            this.$router.push({
+              hash: "#bookings-form",
+            });
+          }, 1500);
+        }
+      } else {
+        this.contactForm = true;
       }
     },
   },
