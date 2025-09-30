@@ -251,7 +251,7 @@ export default {
 
           setTimeout(() => {
             this.contactForm = false;
-            this.emailSuccessMessage = action
+            this.emailSuccessMessage = !action
               ? "Valideringen godkänd"
               : "Valideringen nekad";
             this.successMessage = true;
