@@ -54,7 +54,7 @@ export default defineNuxtConfig({
       baseURL: "https://borashv.se",
       modifiers: {
         format: "webp",
-        quality: 80,
+        quality: 65,
       },
     },
 
