@@ -13,7 +13,7 @@
             :src="item.bild[0]?.thumbnails?.card_cover?.url ?? ''"
             alt=""
             class="h-full w-full object-cover"
-            sizes="xs:320px sm:640px md:768px lg:1024px xl:1280px xxl:1536px"
+            sizes="320px sm:640px md:768px lg:1024px xl:1280px xxl:1536px"
             densities="x1"
             format="webp"
           />

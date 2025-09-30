@@ -13,7 +13,7 @@ import IconIonHeart from "~icons/ion/heart";
         src="rusty-metal.jpg"
         alt="Footer background"
         class="h-full w-full object-cover"
-        sizes="1000px md:2000px"
+        sizes="320px sm:640px md:768px lg:1024px xl:1280px xxl:1536px"
         width="4000"
         height="2667"
         densities="x1"
