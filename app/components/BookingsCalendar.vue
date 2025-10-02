@@ -63,7 +63,29 @@
             :style="{ backgroundColor: booking.highlight.labelColor }"
             >{{ new Date(booking.dates.start).getDate() }}</span
           >
-          <span> {{ booking.popover.label }}</span>
+          <span>
+            <span v-if="booking.popover.label">{{
+              booking.popover.label
+            }}</span>
+            <span v-if="booking.venue">
+              <IconBuilding
+                class="mr-0.5 mb-0.5 ml-2 inline text-white/50"
+              ></IconBuilding
+              >{{ booking.venue }}</span
+            >
+            <span v-if="booking.company">
+              <IconCompany
+                class="mr-0.5 mb-0.5 ml-2 inline text-white/50"
+              ></IconCompany
+              >{{ booking.company }}</span
+            >
+            <span v-if="booking.name">
+              <IconPerson
+                class="mr-0.5 mb-0.5 ml-2 inline text-white/50"
+              ></IconPerson
+              >{{ booking.name }}</span
+            >
+          </span>
         </div>
       </router-link>
     </div>
@@ -73,12 +95,18 @@
 <script>
 import { Calendar as VCalendar } from "v-calendar";
 import "v-calendar/style.css";
+import IconBuilding from "~icons/ph/building";
+import IconCompany from "~icons/fluent/people-queue-24-regular";
+import IconPerson from "~icons/octicon/person-24";
 
 export default {
   name: "Bokningskalender",
 
   components: {
     VCalendar,
+    IconBuilding,
+    IconCompany,
+    IconPerson,
   },
 
   props: {
@@ -124,7 +152,7 @@ export default {
       let colorIndex = 0;
 
       for (const item of this.items) {
-        const booking = JSON.parse(item["datum|to-from"]);
+        const booking = JSON.parse(item["date|to-from"]);
 
         if (booking && booking[0] && booking[1]) {
           if (new Date() <= new Date(booking[1])) {
@@ -149,6 +177,9 @@ export default {
                 label: item.title,
                 visibility: "hover",
               },
+              company: item.company,
+              venue: item.venue,
+              name: item.name,
             });
           }
         }
