@@ -39,7 +39,7 @@ export default defineEventHandler(async (event) => {
   }
 
   if (!body.action) {
-    const saveBooking = await createRow(config.baserowToken, "689158", {
+    const saveBooking = await createRow(config.baserowToken, "691918", {
       title: validation.results[0]["event-type"],
       venue: validation.results[0].venue,
       company: validation.results[0].company,
