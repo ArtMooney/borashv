@@ -51,7 +51,7 @@ export default defineNuxtConfig({
     domains: ["borashv.se"],
 
     weserv: {
-      baseURL: "https://borashv.se",
+      baseURL: "https://pub-43b4b6f892bc463fa8fed9eb44aeedcc.r2.dev",
       modifiers: {
         format: "webp",
         quality: 65,
