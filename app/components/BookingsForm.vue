@@ -259,7 +259,7 @@ export default {
             this.$router.push({
               hash: "#bookings-form",
             });
-          }, 1500);
+          }, 100);
         } catch (err) {
           setTimeout(() => {
             this.contactForm = false;
@@ -269,7 +269,7 @@ export default {
             this.$router.push({
               hash: "#bookings-form",
             });
-          }, 1500);
+          }, 100);
         }
       } else {
         this.contactForm = true;
