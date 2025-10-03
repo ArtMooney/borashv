@@ -67,21 +67,21 @@
             <span v-if="booking.popover.label">{{
               booking.popover.label
             }}</span>
-            <span v-if="booking.venue">
+            <span v-if="booking.venue" class="italic">
               <IconBuilding
-                class="mr-0.5 mb-0.5 ml-2 inline text-white/50"
+                class="mr-1 mb-0.5 ml-3 inline text-base text-white/50"
               ></IconBuilding
               >{{ booking.venue }}</span
             >
-            <span v-if="booking.company">
+            <span v-if="booking.company" class="italic">
               <IconCompany
-                class="mr-0.5 mb-0.5 ml-2 inline text-white/50"
+                class="mr-1 mb-0.5 ml-3 inline text-white/50"
               ></IconCompany
               >{{ booking.company }}</span
             >
-            <span v-if="booking.name">
+            <span v-if="booking.name" class="italic">
               <IconPerson
-                class="mr-0.5 mb-0.5 ml-2 inline text-white/50"
+                class="mr-1 mb-0.5 ml-3 inline text-white/50"
               ></IconPerson
               >{{ booking.name }}</span
             >
