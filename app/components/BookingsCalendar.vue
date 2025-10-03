@@ -63,10 +63,18 @@
             :style="{ backgroundColor: booking.highlight.labelColor }"
             >{{ new Date(booking.dates.start).getDate() }}</span
           >
+          <span v-if="booking.time">{{ booking.time }}</span>
+          <span v-else
+            >{{ formatTime(booking.dates.start) }} -
+            {{ formatTime(booking.dates.end) }}</span
+          >
           <span>
-            <span v-if="booking.popover.label">{{
-              booking.popover.label
-            }}</span>
+            <span v-if="booking.title"
+              ><IconQuestion
+                class="mr-1 mb-0.5 ml-0.5 inline text-white/50"
+              ></IconQuestion
+              >{{ booking.title }}</span
+            >
             <span v-if="booking.venue" class="italic">
               <IconBuilding
                 class="mr-1 mb-0.5 ml-3 inline text-base text-white/50"
@@ -98,6 +106,7 @@ import "v-calendar/style.css";
 import IconBuilding from "~icons/ph/building";
 import IconCompany from "~icons/fluent/people-queue-24-regular";
 import IconPerson from "~icons/octicon/person-24";
+import IconQuestion from "~icons/ri/question-line";
 
 export default {
   name: "Bokningskalender",
@@ -107,6 +116,7 @@ export default {
     IconBuilding,
     IconCompany,
     IconPerson,
+    IconQuestion,
   },
 
   props: {
@@ -174,12 +184,14 @@ export default {
                 end: booking[1],
               },
               popover: {
-                label: item.title,
+                label: `${item.title} ${item.company ? "🏢 " + item.company : ""} ${item.venue ? "📍 " + item.venue : ""} ${item.name ? "👤 " + item.name : ""}`,
                 visibility: "hover",
               },
+              title: item.title,
               company: item.company,
               venue: item.venue,
               name: item.name,
+              time: item.time,
             });
           }
         }
@@ -194,6 +206,13 @@ export default {
   methods: {
     async jumpToBooking(date) {
       await this.$refs.calendar.move(new Date(date));
+    },
+
+    formatTime(date) {
+      return new Date(date).toLocaleTimeString("sv-SE", {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
     },
   },
 };
