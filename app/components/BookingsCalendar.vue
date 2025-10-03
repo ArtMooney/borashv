@@ -56,44 +56,52 @@
           v-for="booking in bookings"
           @click="jumpToBooking(booking.dates.start)"
           :key="booking.key"
-          class="flex cursor-pointer gap-2"
+          class="mb-2 flex cursor-pointer gap-2 text-xs md:mb-0 md:items-center md:text-base"
         >
-          <span
+          <div
             class="flex h-6 min-h-6 w-6 min-w-6 items-center justify-center rounded text-xs"
             :style="{ backgroundColor: booking.highlight.labelColor }"
-            >{{ new Date(booking.dates.start).getDate() }}</span
           >
-          <span v-if="booking.time">{{ booking.time }}</span>
-          <span v-else
-            >{{ formatTime(booking.dates.start) }} -
-            {{ formatTime(booking.dates.end) }}</span
-          >
-          <span>
-            <span v-if="booking.title"
-              ><IconQuestion
-                class="mr-1 mb-0.5 ml-0.5 inline text-white/50"
+            {{ new Date(booking.dates.start).getDate() }}
+          </div>
+
+          <div class="mt-1 flex flex-wrap gap-1 md:mt-0 md:gap-2">
+            <div v-if="booking.time" class="whitespace-nowrap">
+              {{ booking.time }}
+            </div>
+            <div v-else class="whitespace-nowrap">
+              {{ formatTime(booking.dates.start) }} -
+              {{ formatTime(booking.dates.end) }}
+            </div>
+
+            <div v-if="booking.title" class="whitespace-nowrap">
+              <IconQuestion
+                class="mr-1 mb-0.5 inline text-white/50 md:ml-0.5"
               ></IconQuestion
-              >{{ booking.title }}</span
-            >
-            <span v-if="booking.venue" class="italic">
+              >{{ booking.title }}
+            </div>
+
+            <div v-if="booking.venue" class="whitespace-nowrap italic">
               <IconBuilding
-                class="mr-1 mb-0.5 ml-3 inline text-base text-white/50"
+                class="mr-1 mb-0.5 inline text-white/50 md:ml-1"
               ></IconBuilding
-              >{{ booking.venue }}</span
-            >
-            <span v-if="booking.company" class="italic">
+              >{{ booking.venue }}
+            </div>
+
+            <div v-if="booking.company" class="whitespace-nowrap italic">
               <IconCompany
-                class="mr-1 mb-0.5 ml-3 inline text-white/50"
+                class="mr-1 mb-0.5 inline text-white/50 md:ml-1"
               ></IconCompany
-              >{{ booking.company }}</span
-            >
-            <span v-if="booking.name" class="italic">
+              >{{ booking.company }}
+            </div>
+
+            <div v-if="booking.name" class="whitespace-nowrap italic">
               <IconPerson
-                class="mr-1 mb-0.5 ml-3 inline text-white/50"
+                class="mr-1 mb-0.5 inline text-white/50 md:ml-1"
               ></IconPerson
-              >{{ booking.name }}</span
-            >
-          </span>
+              >{{ booking.name }}
+            </div>
+          </div>
         </div>
       </router-link>
     </div>
