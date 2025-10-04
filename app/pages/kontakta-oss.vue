@@ -39,7 +39,7 @@ definePageMeta({
         src="militar-telefon.jpg"
         alt="gammal militär telefon"
         class="h-full w-full object-cover lg:order-last"
-        sizes="1000px md:2000px"
+        sizes="320px md:640px lg:768px"
         width="2000"
         height="1500"
         densities="x1"

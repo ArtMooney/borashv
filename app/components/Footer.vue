@@ -28,6 +28,7 @@ import IconIonHeart from "~icons/ion/heart";
         src="borashv-logo.png"
         alt="footer logo"
         class="relative mb-6 h-36 min-h-36 w-36 min-w-36 md:mb-4 md:h-40 md:min-h-40 md:w-40 md:min-w-40"
+        sizes="100px sm:200px md:300px lg:400px"
         width="1000"
         height="1000"
         densities="x1"

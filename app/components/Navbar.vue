@@ -13,7 +13,7 @@ import sandwich from "../assets/burger-menu.json";
         src="borashv-logo.png"
         alt="navbar logo"
         class="h-14 min-h-14 w-14 min-w-14 md:h-20 md:min-h-20 md:w-20 md:min-w-20"
-        sizes="1000px md:2000px"
+        sizes="100px md:300px"
         width="1000"
         height="1000"
         densities="x1"
