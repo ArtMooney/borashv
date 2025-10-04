@@ -49,8 +49,8 @@ const { data: items, error } = await useFetch("/api/styrelsen", {
         alt="background image"
         class="parallax-background h-full w-full object-cover"
         sizes="2000px"
-        width="3696"
-        height="2448"
+        width="2000"
+        height="1325"
         densities="x1"
         format="webp"
       />

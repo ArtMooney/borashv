@@ -66,8 +66,8 @@ definePageMeta({
         alt="överväxt bilvrak i skogen"
         class="h-full w-full object-cover lg:order-last"
         sizes="320px md:640px"
-        width="5523"
-        height="3682"
+        width="2000"
+        height="1333"
         densities="x1"
         format="webp"
       />
@@ -81,8 +81,8 @@ definePageMeta({
         alt="rostiga kugghjul med kedjor"
         class="h-full w-full object-cover"
         sizes="320px md:640px"
-        width="5184"
-        height="3456"
+        width="2000"
+        height="1333"
         densities="x1"
         format="webp"
       /> </template
@@ -95,8 +95,8 @@ definePageMeta({
         alt="bensindunk med gammal flagad färg"
         class="h-full w-full object-cover lg:order-last"
         sizes="320px md:640px"
-        width="4000"
-        height="5666"
+        width="1412"
+        height="2000"
         densities="x1"
         format="webp"
       /> </template

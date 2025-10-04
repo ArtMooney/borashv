@@ -51,8 +51,8 @@ const { data: items, error } = await useFetch("/api/nyheter", {
         alt="Header image"
         class="parallax-background-hero h-full min-h-[23rem] w-full object-cover lg:min-h-[43rem]"
         sizes="320px sm:640px md:768px lg:1024px xl:1280px xxl:1536px"
-        width="3888"
-        height="2592"
+        width="2000"
+        height="1333"
         densities="x1"
         format="webp"
       />

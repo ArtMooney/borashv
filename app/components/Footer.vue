@@ -14,8 +14,8 @@ import IconIonHeart from "~icons/ion/heart";
         alt="Footer background"
         class="h-full w-full object-cover"
         sizes="320px sm:640px md:768px lg:1024px xl:1280px xxl:1536px"
-        width="4000"
-        height="2667"
+        width="2000"
+        height="1334"
         densities="x1"
         format="webp"
       />
