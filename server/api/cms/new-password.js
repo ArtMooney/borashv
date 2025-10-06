@@ -2,7 +2,7 @@ import { checkLogin } from "~~/server/utils/check-login.js";
 import { listRows } from "~~/server/db/baserow/list-rows.js";
 import { updateRow } from "~~/server/db/baserow/update-row.js";
 import { sendEmail } from "~~/server/utils/mailgun/send-email.js";
-import { messageNewPassword } from "~~/server/content/message-new-password.js";
+import { messageNewPassword } from "~~/server/api/cms/content/message-new-password.js";
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();

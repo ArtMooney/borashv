@@ -3,7 +3,7 @@ import { listRows } from "~~/server/db/baserow/list-rows.js";
 import { updateRow } from "~~/server/db/baserow/update-row.js";
 import { generateUserId } from "~~/server/utils/generate-user-id.js";
 import { sendEmail } from "~~/server/utils/mailgun/send-email.js";
-import { messageEmailReset } from "~~/server/content/message-email-reset.js";
+import { messageEmailReset } from "~~/server/api/cms/content/message-email-reset.js";
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
