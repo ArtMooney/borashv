@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
 
   const toOwner = await sendEmail(
     config.emailFrom,
-    config.emailTo,
+    config.bookingTo,
     "Jag önskar boka en lokal...",
     await messageBookingRequest(formDataJson),
     config.mailgunApiKey,
