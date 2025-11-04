@@ -112,9 +112,7 @@ export default {
       All verksamhet i hemvärnsgården skall förbokas, även regelbunden
       återkommande verksamhet.
 
-      Bokning sker via Joakim Gustafsson.
-      E-post: <a href="mailto:7.62@minmailadress.se">7.62@minmailadress.se</a>
-      Tel./sms: <a href="tel:0731-583675">0731-58 36 75</a>
+      Denna bokning kan ni göra genom att fylla i formuläret längre ner på denna sida.
 
       Nyckel hämtas/lämnas enl. överenskommelse.
 
@@ -130,10 +128,7 @@ export default {
     `,
       textBokningsregler: `
       All verksamhet i hemvärnsgården skall förbokas, även regelbunden återkommande verksamhet.
-
-      Bokning sker via Joakim Gustafsson.
-      Email: <a href="mailto:7.62@minmailadress.se">7.62@minmailadress.se</a>
-      Tel./sms: <a href="tel:0731-583675">0731-58 36 75</a>
+      Boka genom att fylla i formuläret här ovanför.
 
       Bokningsbart:
       * Konferensrum
