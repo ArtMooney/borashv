@@ -1,6 +1,7 @@
 <script setup>
-import VueDatePicker from "@vuepic/vue-datepicker";
+import { VueDatePicker } from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
+import sv from "date-fns/locale/sv";
 </script>
 
 <template>
@@ -52,7 +53,7 @@ import "@vuepic/vue-datepicker/dist/main.css";
       <label>
         Bokning avser följande lokal(er): *
 
-        <select v-model="formData.venue">
+        <select v-model="formData.venue" required>
           <option v-for="venue of venues" :value="venue">
             {{ venue }}
           </option>
@@ -64,11 +65,11 @@ import "@vuepic/vue-datepicker/dist/main.css";
 
         <VueDatePicker
           v-model="formData['date-range']"
-          :format="'yyyy-MM-dd'"
-          locale="sv"
-          auto-apply=""
-          name="date-range"
+          :formats="{ input: 'yyyy-MM-dd' }"
+          :locale="sv"
+          auto-apply
           range
+          :input-attrs="{ name: 'date-range', required: true }"
           :class="[
             '[&_div]:!font-body',
             '[&_input]:!font-body',
