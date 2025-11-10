@@ -10,7 +10,7 @@ Vänliga hälsningar,
 
 
 
-/ Claes Håkansson
+/ Bokningsansvarig
 www.borashv.se
 `;
 }
