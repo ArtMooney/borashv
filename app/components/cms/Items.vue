@@ -54,31 +54,17 @@ import { VueDraggableNext } from "vue-draggable-next";
         >
           <div class="my-4 h-px w-full bg-white/25"></div>
 
-          <label
-            v-for="(input, inputIndex) of schema"
-            class="flex flex-col gap-1"
-          >
-            <p class="font-semibold text-white/50 italic">
-              {{
-                input.name !== "index"
-                  ? input.name.includes("|")
-                    ? input.name.split("|")[0]
-                    : input.name
-                  : null
-              }}
-            </p>
-
+          <template v-for="(input, inputIndex) of schema">
             <CmsInput
               v-if="input.name !== 'index'"
               :input="input"
               :item="item"
               :index="index"
-              :item-open="itemOpen"
               @show-item="$emit('showItem', $event)"
               @save-flag="$emit('saveFlag', $event)"
               @input-error="handleInputError($event, inputIndex)"
             />
-          </label>
+          </template>
         </div>
       </div>
     </VueDraggableNext>
@@ -108,6 +94,10 @@ export default {
       type: Array,
       required: false,
       default: [],
+    },
+    tableId: {
+      type: String,
+      required: true,
     },
     loadingFlag: {
       type: Boolean,
@@ -170,7 +160,7 @@ export default {
       this.$emit("loadingFlag", true);
 
       if (this.schema.length > 0) {
-        let items = await this.listRows(this.schema[0].table_id);
+        let items = await this.listRows(this.tableId);
 
         // parse to-from date-fields to json array
         for (const item of items) {
@@ -188,7 +178,7 @@ export default {
       }
     },
 
-    async listRows(tableid, orderBy, asc, search) {
+    async listRows(tableid) {
       try {
         return await $fetch("/api/cms/rows", {
           method: "POST",
@@ -200,8 +190,7 @@ export default {
             password: this.login.password,
             table_id: tableid,
             asc: true,
-            order_by: "index",
-            search: search,
+            order_by: "sortOrder",
           }),
         });
       } catch (err) {
@@ -229,16 +218,8 @@ export default {
       const items = JSON.parse(JSON.stringify(this.localItems));
 
       for (let [index, item] of items.entries()) {
-        item.index = index.toString();
+        item.sortOrder = index.toString();
         item = this.processDateFormats(item);
-
-        for (const field of this.schema) {
-          if (field.type === "single_select" && item[field.name]) {
-            if (typeof item[field.name] === "object") {
-              item[field.name] = item[field.name].value || null;
-            }
-          }
-        }
       }
 
       try {
@@ -250,8 +231,9 @@ export default {
           body: JSON.stringify({
             email: this.login.email,
             password: this.login.password,
-            items: { items: items },
+            items: items,
             schema: this.schema,
+            table_id: this.tableId,
           }),
         });
 
@@ -273,14 +255,6 @@ export default {
           JSON.parse(JSON.stringify(this.localItems[index])),
         );
 
-        for (const field of this.schema) {
-          if (field.type === "single_select" && item[field.name]) {
-            if (typeof item[field.name] === "object") {
-              item[field.name] = item[field.name].value || null;
-            }
-          }
-        }
-
         try {
           const res = await $fetch(
             !this.editingNewItem ? "/api/cms/save-item" : "/api/cms/add-item",
@@ -295,16 +269,15 @@ export default {
                 password: this.login.password,
                 item: item,
                 schema: this.schema,
+                table_id: this.tableId,
               }),
             },
           );
 
-          if (this.editingNewItem) {
-            const items = JSON.parse(JSON.stringify(this.localItems));
-            items[index] = res;
-            this.$emit("items", items);
-          }
+          const items = JSON.parse(JSON.stringify(this.localItems));
+          items[index] = res;
 
+          this.$emit("items", items);
           this.$emit("itemOpen", false);
           this.$emit("saveFlag", false);
           this.$emit("editingNewItem", false);
@@ -347,8 +320,9 @@ export default {
           body: JSON.stringify({
             email: this.login.email,
             password: this.login.password,
-            table_id: this.schema.find((item) => item.table_id)?.table_id,
-            row_id: this.localItems[index].id,
+            item: this.localItems[index],
+            schema: this.schema,
+            table_id: this.tableId,
           }),
         });
 

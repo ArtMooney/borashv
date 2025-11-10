@@ -6,87 +6,121 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
 </script>
 
 <template>
-  <input
-    v-if="
-      input.name !== 'index' &&
-      getInputType(input.type) !== 'textarea' &&
-      getInputType(input.type) !== 'file' &&
-      getInputType(input.type) !== 'date' &&
-      getInputType(input.type) !== 'select' &&
-      !isToFromType(input.name)
-    "
-    @click.stop
-    v-model="item[input.name]"
-    :type="getInputType(input.type)"
-    :class="[isEmailValid && 'error', isPhoneNumberValid && 'error']"
-    :name="input.name"
-    autocomplete="off"
-  />
+  <div v-if="neverVisibleFields" class="flex flex-col gap-1">
+    <p class="font-semibold text-white/50 italic">
+      {{ input.name.includes("|") ? input.name.split("|")[0] : input.name }}
+    </p>
 
-  <VueDatePicker
-    v-if="
-      input.name !== 'index' &&
-      (getInputType(input.type) === 'date' || isToFromType(input.name))
-    "
-    v-model="item[input.name]"
-    :formats="{ input: 'yyyy-MM-dd' }"
-    :locale="sv"
-    auto-apply
-    :range="isToFromType(input.name)"
-    :input-attrs="{ name: input.name }"
-    class="[&_div]:!font-body [&_input]:!font-body [&_button]:!p-0 [&_div]:!text-xs [&_input]:!border-white/25 [&_input]:!bg-transparent [&_input]:!py-3 [&_input]:!text-sm [&_input]:!text-white"
-  >
-  </VueDatePicker>
-
-  <textarea
-    v-if="input.name !== 'index' && getInputType(input.type) === 'textarea'"
-    @click.stop
-    v-model="item[input.name]"
-    :name="input.name"
-    autocomplete="off"
-  ></textarea>
-
-  <div
-    v-if="input.name !== 'index' && getInputType(input.type) === 'file'"
-    class="my-1 flex items-center gap-1 justify-self-start"
-  >
     <input
+      v-if="
+        neverVisibleFields &&
+        input.type.value !== 'textarea' &&
+        input.type.value !== 'file' &&
+        input.type.value !== 'fileImg' &&
+        input.type.value !== 'date' &&
+        input.type.value !== 'dateToFrom' &&
+        input.type.value !== 'select'
+      "
       @click.stop
-      @change="handleFileInput($event, input.name, item)"
-      :id="`${input.name}-${index}`"
-      :ref="`${input.name}-${index}`"
-      class="hidden"
-      :type="getInputType(input.type)"
-      :name="`${input.name}`"
-      :accept="isToFromType(input.name) ? '.jpg, .jpeg, .png' : ''"
+      v-model="item[input.name]"
+      :type="input.type.value"
+      :name="input.name"
       autocomplete="off"
     />
 
-    <label
-      @click.stop
-      :for="`${input.name}-${index}`"
-      class="m-0 cursor-pointer p-0 text-sm underline"
-    >
-      {{ displayFilename(item[input.name], input.name) }}
-    </label>
-
-    <IconCloseCircleOutline
-      @click.stop="
-        removeFile(item, index, `${input.name}-${index}`, input.name)
+    <VueDatePicker
+      v-if="
+        neverVisibleFields &&
+        (input.type.value === 'date' || input.type.value === 'dateToFrom')
       "
-      class="h-4 min-h-4 w-4 min-w-4 cursor-pointer px-0.5 text-red-500"
-    ></IconCloseCircleOutline>
-  </div>
+      v-model="item[input.name]"
+      :formats="{ input: 'yyyy-MM-dd' }"
+      :locale="sv"
+      auto-apply
+      :input-attrs="{ name: input.name }"
+      :range="input.type.value === 'dateToFrom'"
+      class="[&_div]:!font-body [&_input]:!font-body [&_button]:!p-0 [&_div]:!text-xs [&_input]:!border-white/25 [&_input]:!bg-transparent [&_input]:!py-3 [&_input]:!text-sm [&_input]:!text-white"
+    >
+    </VueDatePicker>
 
-  <select
-    v-if="input.name !== 'index' && getInputType(input.type) === 'select'"
-    :name="input.name"
-    v-model="selectValue"
-  >
-    <option v-for="option in input.select_options" :value="option.value">
-      {{ option.value }}
-    </option>
-  </select>
+    <textarea
+      v-if="neverVisibleFields && input.type.value === 'textarea'"
+      @click.stop
+      v-model="item[input.name]"
+      :name="input.name"
+      autocomplete="off"
+    ></textarea>
+
+    <div
+      v-if="
+        neverVisibleFields &&
+        (input.type.value === 'file' || input.type.value === 'fileImg')
+      "
+      class="my-1 flex items-center justify-between gap-1 justify-self-start"
+    >
+      <input
+        @click.stop
+        @change="handleFileInput($event, input.name, item)"
+        :id="`${input.name}-${index}`"
+        :ref="`${input.name}-${index}`"
+        class="hidden"
+        type="file"
+        :name="`${input.name}`"
+        :accept="input.type.value === 'fileImg' ? '.jpg, .jpeg, .png' : ''"
+        autocomplete="off"
+      />
+
+      <label
+        @click.stop
+        :for="`${input.name}-${index}`"
+        class="relative m-0 cursor-pointer p-0 text-sm underline"
+      >
+        <span
+          v-if="
+            (!item[input.name]?.length || !item[input.name][0]?.name) &&
+            typeof item[input?.name] !== 'string'
+          "
+        >
+          {{ chooseFilenameText(input.type.value) }}
+        </span>
+
+        <span v-if="typeof item[input?.name] === 'object'">
+          {{ item[input?.name]?.[0]?.name }}
+        </span>
+
+        <NuxtImg
+          v-if="
+            typeof item[input?.name] === 'string' &&
+            item[input?.name]?.length > 0
+          "
+          :src="`cms-images/${item[input?.name]}`"
+          alt="an image slot with an image selected by the user"
+          class="h-20 min-h-20 w-20 min-w-20 object-cover"
+          sizes="80px"
+          densities="x1"
+          format="webp"
+        />
+
+        <IconCloseCircleOutline
+          v-if="
+            item[input?.name]?.length > 0 && !item[input?.name][0]?.backupName
+          "
+          @click.stop.prevent="removeFile(`${input.name}-${index}`, input.name)"
+          class="absolute -top-3 -right-6 h-6 min-h-6 w-6 min-w-6 cursor-pointer px-0.5 text-white"
+        ></IconCloseCircleOutline>
+      </label>
+    </div>
+
+    <select
+      v-if="neverVisibleFields && input.type.value === 'select'"
+      :name="input.name"
+      v-model="selectValue"
+    >
+      <option v-for="option in input.type.select_options" :value="option.value">
+        {{ option.value }}
+      </option>
+    </select>
+  </div>
 </template>
 
 <script>
@@ -104,93 +138,56 @@ export default {
       type: Object,
       required: true,
     },
-    itemOpen: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
     index: {
       type: Number,
       required: true,
     },
   },
 
-  data() {
-    return {
-      emailReg:
-        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
-      internationalPhoneReg:
-        /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
-    };
-  },
-
   computed: {
-    isEmailValid() {
+    neverVisibleFields() {
       return (
-        this.input.type === "email" &&
-        !this.emailReg.test(this.item[this.input.name]) &&
-        this.item[this.input.name] !== ""
-      );
-    },
-
-    isPhoneNumberValid() {
-      return (
-        this.input.type === "phone_number" &&
-        !this.internationalPhoneReg.test(this.item[this.input.name]) &&
-        this.item[this.input.name] !== ""
+        this.input.name !== "id" &&
+        this.input.name !== "sortOrder" &&
+        this.input.name !== "createdAt" &&
+        this.input.name !== "updatedAt"
       );
     },
 
     selectValue: {
       get() {
-        return this.item[this.input.name]?.value || "";
+        return this.item[this.input.name] || "";
       },
       set(newValue) {
-        if (!this.item[this.input.name]) {
-          this.item[this.input.name] = { value: newValue };
-        } else {
-          this.item[this.input.name].value = newValue;
-        }
+        this.item[this.input.name] = newValue;
       },
     },
   },
 
+  data() {
+    return {
+      itemBackup: null,
+    };
+  },
+
+  mounted() {
+    this.itemBackup = JSON.parse(JSON.stringify(this.item));
+  },
+
   methods: {
-    getInputType(type) {
-      let inputType = "text";
-
-      if (type === "long_text") {
-        inputType = "textarea";
-      } else if (type === "date") {
-        inputType = "date";
-      } else if (type === "boolean") {
-        inputType = "checkbox";
-      } else if (type === "file") {
-        inputType = "file";
-      } else if (type === "single_select") {
-        inputType = "select";
-      }
-
-      return inputType;
-    },
-
-    isToFromType(inputName) {
-      return !!(
-        inputName.includes("|") && inputName.split("|")[1] === "to-from"
-      );
-    },
-
-    isDocType(inputName) {
-      return !!(inputName.includes("|") && inputName.split("|")[1] === "doc");
-    },
-
     async handleFileInput(event, name, item) {
       if (!event.target.files[0].name) return;
+
+      const { base64, contentType } = await this.readEncodeFiles(
+        event.target.files,
+      );
 
       item[name] = [
         {
           name: event.target.files[0].name,
-          file: await this.readEncodeFiles(event.target.files),
+          backupName: this.itemBackup[name] || "",
+          file: base64,
+          contentType,
         },
       ];
     },
@@ -202,15 +199,16 @@ export default {
           let reader = new FileReader();
 
           reader.onload = function (e) {
-            let base64Data = e.target.result.split(",")[1];
-            resolve(base64Data);
+            let dataUrl = e.target.result;
+            let contentType = dataUrl.split(";")[0].split(":")[1];
+            let base64Data = dataUrl.split(",")[1];
+            resolve({ base64: base64Data, contentType });
           };
 
           reader.onerror = function (error) {
             reject(error);
           };
 
-          // Read the file as a data URL, which will be Base64-encoded
           reader.readAsDataURL(selectedFile);
         } else {
           reject(new Error("No files to process."));
@@ -218,37 +216,19 @@ export default {
       });
     },
 
-    displayFilename(filename, inputName) {
-      if (filename && filename.length > 0) {
-        if (filename[0].visible_name) {
-          return filename[0].visible_name;
-        } else if (filename[0].name) {
-          return filename[0].name;
-        }
-      }
-
-      return this.isDocType(inputName)
+    chooseFilenameText(inputType) {
+      return inputType === "file"
         ? "Click here to choose a file."
         : "Click here to choose an image.";
     },
 
-    removeFile(item, index, inputName, fieldName) {
+    removeFile(inputName, fieldName) {
       this.$refs[inputName].value = "";
-      this.item[fieldName] = [];
-    },
-  },
-
-  watch: {
-    isEmailValid(newVal) {
-      if (this.itemOpen) {
-        this.$emit("inputError", this.isEmailValid);
-      }
-    },
-
-    isPhoneNumberValid(newVal) {
-      if (this.itemOpen) {
-        this.$emit("inputError", this.isPhoneNumberValid);
-      }
+      this.item[fieldName] = [
+        {
+          backupName: this.itemBackup[this.input?.name] || "",
+        },
+      ];
     },
   },
 };
