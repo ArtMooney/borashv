@@ -125,20 +125,6 @@ export const fieldTypes = {
     updatedAt: { value: "date" },
   },
 
-  booking_requests: {
-    id: { value: "integer" },
-    bookingValidation: { value: "text" },
-    venue: { value: "text" },
-    company: { value: "text" },
-    name: { value: "text" },
-    phone: { value: "text" },
-    email: { value: "text" },
-    eventType: { value: "text" },
-    dateRange: { value: "dateRange" },
-    createdAt: { value: "date" },
-    updatedAt: { value: "date" },
-  },
-
   nyheter: {
     id: { value: "integer" },
     title: { value: "text" },
