@@ -13,7 +13,7 @@ import IconIonLocation from "~icons/ion/location";
         src="old-wood.jpg"
         alt="bakgrund med en gammal träplanka"
         class="h-full w-full object-cover opacity-25"
-        sizes="1000px md:2000px"
+        sizes="320px sm:640px md:768px lg:1024px xl:1280px xxl:1536px"
         width="2000"
         height="1333"
         densities="x1"

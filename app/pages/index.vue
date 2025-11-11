@@ -50,9 +50,9 @@ const { data: items, error } = await useFetch("/api/nyheter", {
         src="deep-forest-with-backlight.jpg"
         alt="Header image"
         class="parallax-background-hero h-full min-h-[23rem] w-full object-cover lg:min-h-[43rem]"
-        sizes="1000px md:2000px"
-        width="3888"
-        height="2592"
+        sizes="320px sm:640px md:768px lg:1024px xl:1280px xxl:1536px"
+        width="2000"
+        height="1333"
         densities="x1"
         format="webp"
       />
@@ -73,10 +73,6 @@ const { data: items, error } = await useFetch("/api/nyheter", {
   >
     {{ decodeURIComponent(error?.statusMessage || "Error") }}
   </div>
-
-  <ClientOnly>
-    <img src="/og-image.webp" alt="og-image" class="hidden" />
-  </ClientOnly>
 </template>
 
 <script>

@@ -24,6 +24,7 @@ export default defineNuxtConfig({
     mailgunApiKey: process.env.NUXT_MAILGUN_API_KEY,
     emailFrom: process.env.NUXT_EMAIL_FROM,
     emailTo: process.env.NUXT_EMAIL_TO,
+    bookingTo: process.env.NUXT_BOOKING_TO,
     userName: process.env.NUXT_USERNAME,
     userPass: process.env.NUXT_USERPASS,
     baserowToken: process.env.NUXT_BASEROW_TOKEN,
@@ -47,8 +48,17 @@ export default defineNuxtConfig({
   ],
 
   image: {
-    dir: "assets/images",
-    quality: 80,
+    provider: "weserv",
+    domains: ["borashv.se"],
+
+    weserv: {
+      baseURL: "https://pub-43b4b6f892bc463fa8fed9eb44aeedcc.r2.dev",
+      modifiers: {
+        format: "webp",
+        quality: 65,
+      },
+    },
+
     screens: {
       xs: 320,
       sm: 640,
@@ -56,11 +66,7 @@ export default defineNuxtConfig({
       lg: 1024,
       xl: 1280,
       xxl: 1536,
-      "2xl": 1536,
     },
-    densities: [1, 2],
-    staticFilename: "[name]-[width]-[height]-[format].[ext]",
-    provider: "ipxStatic",
   },
 
   robots: {
@@ -97,6 +103,8 @@ export default defineNuxtConfig({
   app: {
     keepalive: true,
     head: {
+      charset: "utf-8",
+      viewport: "width=device-width, initial-scale=1",
       link: [
         {
           rel: "icon",
@@ -113,56 +121,12 @@ export default defineNuxtConfig({
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
         { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
         { rel: "manifest", href: "/site.webmanifest" },
-        { rel: "canonical", href: "https://borashv.se/" },
       ],
-      charset: "utf-8",
-      viewport: "width=device-width, initial-scale=1",
-      title: "",
       meta: [
         {
           name: "viewport",
           content:
             "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
-        },
-        {
-          name: "description",
-          content: "",
-        },
-        {
-          name: "keywords",
-          content: "",
-        },
-
-        // Open Graph / Facebook
-        { property: "og:type", content: "website" },
-        { property: "og:url", content: "https://borashv.se/" },
-        {
-          property: "og:title",
-          content: "",
-        },
-        {
-          property: "og:description",
-          content: "",
-        },
-        {
-          property: "og:image",
-          content: "https://borashv.se/og-image.jpg",
-        },
-
-        // Twitter
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:url", content: "https://borashv.se/" },
-        {
-          name: "twitter:title",
-          content: "",
-        },
-        {
-          name: "twitter:description",
-          content: "",
-        },
-        {
-          name: "twitter:image",
-          content: "https://borashv.se/twitter-image.jpg",
         },
       ],
     },

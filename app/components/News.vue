@@ -8,11 +8,14 @@
     >
       <div class="flex flex-col gap-4 text-xs sm:flex-row sm:text-sm">
         <div class="w-full sm:min-h-36 sm:w-36 sm:min-w-36">
-          <img
+          <NuxtImg
             v-if="item.bild[0]?.thumbnails?.card_cover?.url"
             :src="item.bild[0]?.thumbnails?.card_cover?.url ?? ''"
             alt=""
             class="h-full w-full object-cover"
+            sizes="300px sm:400px"
+            densities="x1"
+            format="webp"
           />
         </div>
 

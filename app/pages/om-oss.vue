@@ -35,7 +35,7 @@ definePageMeta({
         src="hemvarnsgarden.jpg"
         alt="Header image"
         class="h-full w-full"
-        sizes="1000px md:2000px"
+        sizes="320px md:1024px"
         width="1024"
         height="768"
         densities="x1"

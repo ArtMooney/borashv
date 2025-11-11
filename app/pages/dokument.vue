@@ -67,11 +67,12 @@ const { data: items, error } = await useFetch("/api/dokument", {
       </div>
 
       <div class="flex-shrink-0 border-l-2 border-white/15 pl-4">
-        <img
+        <NuxtImg
           v-if="item?.thumbnail?.[0]?.url"
           :src="item.thumbnail[0].url"
           :alt="item?.['file|doc']?.[0]?.url ?? ''"
           class="h-32 w-auto"
+          sizes="300px sm:400px"
         />
       </div>
     </a>

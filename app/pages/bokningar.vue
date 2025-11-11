@@ -42,9 +42,9 @@ const { data: items, error } = await useFetch("/api/bokningar", {
 
 <template>
   <Header
-    button-text-one="Bokningslista"
+    button-text-one="Bokningskalender"
     button-link-one="/bokningar"
-    button-hash-one="bokningslista"
+    button-hash-one="bokningskalender"
     button-text-two="Bokningsregler"
     button-link-two="/bokningar"
     button-hash-two="bokningsregler"
@@ -54,9 +54,9 @@ const { data: items, error } = await useFetch("/api/bokningar", {
         src="old-overgrown-military-equipment.jpg"
         alt="Header image"
         class="parallax-background-hero h-full min-h-[23rem] w-full object-cover lg:min-h-[43rem]"
-        sizes="1000px md:2000px"
-        width="3456"
-        height="5184"
+        sizes="320px sm:640px md:768px lg:1024px xl:1280px xxl:1536px"
+        width="2000"
+        height="3000"
         densities="x1"
         format="webp"
       />
@@ -69,9 +69,13 @@ const { data: items, error } = await useFetch("/api/bokningar", {
     class="mx-auto w-full max-w-screen-xl"
   />
 
+  <div class="mx-auto my-12 w-full max-w-screen-xl bg-transparent px-4 md:px-8">
+    <div class="h-px w-full bg-white/15"></div>
+  </div>
+
   <LoadingSpinner v-if="!items?.length && !error" />
 
-  <BookingsList
+  <BookingsCalendar
     v-if="items?.length"
     class="mx-auto w-full max-w-screen-xl"
     :items="items"
@@ -82,6 +86,12 @@ const { data: items, error } = await useFetch("/api/bokningar", {
     class="mx-auto my-16 w-full max-w-screen-xl bg-[#a38373] p-4 px-8 text-black"
   >
     {{ decodeURIComponent(error?.statusMessage || "Error") }}
+  </div>
+
+  <BookingsForm />
+
+  <div class="mx-auto my-12 w-full max-w-screen-xl bg-transparent px-4 md:px-8">
+    <div class="h-px w-full bg-white/15"></div>
   </div>
 
   <TextBlock
@@ -102,9 +112,12 @@ export default {
       All verksamhet i hemvärnsgården skall förbokas, även regelbunden
       återkommande verksamhet.
 
-      Bokning sker via Joakim Gustafsson.
-      E-post: <a href="mailto:7.62@minmailadress.se">7.62@minmailadress.se</a>
-      Tel./sms: <a href="tel:0731-583675">0731-58 36 75</a>
+      Denna bokning kan ni göra genom att fylla i formuläret längre ner på denna sida.
+
+      För övriga frågor:
+      Joakim Gustafsson
+      E-post: 7.62@minmailadress.se
+      Tel/sms: 0731-58 36 75
 
       Nyckel hämtas/lämnas enl. överenskommelse.
 
@@ -120,10 +133,12 @@ export default {
     `,
       textBokningsregler: `
       All verksamhet i hemvärnsgården skall förbokas, även regelbunden återkommande verksamhet.
+      Boka genom att fylla i formuläret här ovanför.
 
-      Bokning sker via Joakim Gustafsson.
-      Email: <a href="mailto:7.62@minmailadress.se">7.62@minmailadress.se</a>
-      Tel./sms: <a href="tel:0731-583675">0731-58 36 75</a>
+      För övriga frågor:
+      Joakim Gustafsson
+      E-post: 7.62@minmailadress.se
+      Tel/sms: 0731-58 36 75
 
       Bokningsbart:
       * Konferensrum

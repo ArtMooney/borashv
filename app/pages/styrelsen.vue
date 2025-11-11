@@ -48,9 +48,9 @@ const { data: items, error } = await useFetch("/api/styrelsen", {
         src="old-plank.jpg"
         alt="background image"
         class="parallax-background h-full w-full object-cover"
-        sizes="1000px md:2000px"
-        width="3696"
-        height="2448"
+        sizes="2000px"
+        width="2000"
+        height="1325"
         densities="x1"
         format="webp"
       />
@@ -83,7 +83,7 @@ const { data: items, error } = await useFetch("/api/styrelsen", {
         <NuxtImg
           src="dogtag.png"
           :alt="`dog tag image with the name ${item.name}`"
-          sizes="500px md:1000px"
+          sizes="200px sm:300px md:400px"
           width="1086"
           height="644"
           densities="x1"

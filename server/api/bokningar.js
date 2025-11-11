@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
   try {
     const newsData = await listRows(
       config.baserowToken,
-      "218350",
+      "691918",
       true,
       "index",
     );
