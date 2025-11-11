@@ -15,12 +15,16 @@ export const users = sqliteTable("users", {
   resetId: text("reset_id"),
 });
 
-export const mediaproduktioner = sqliteTable("mediaproduktioner", {
+export const bokningar = sqliteTable("bokningar", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   title: text("title").notNull(),
-  qCardLink: text("q-card-link"),
-  screenshot: text("screenshot"),
-  filmtyp: text("filmtyp"),
+  venue: text("venue"),
+  company: text("company"),
+  name: text("name"),
+  phone: text("phone"),
+  email: text("email"),
+  time: text("time"),
+  date: text("date"),
   sortOrder: integer("sort_order"),
   createdAt: text("created_at")
     .default(sql`CURRENT_TIMESTAMP`)
@@ -31,34 +35,48 @@ export const mediaproduktioner = sqliteTable("mediaproduktioner", {
     .notNull(),
 });
 
-export const medarbetare = sqliteTable("medarbetare", {
+export const booking_requests = sqliteTable("booking_requests", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  bookingValidation: text("booking_validation").notNull(),
+  venue: text("venue"),
+  company: text("company"),
+  name: text("name"),
+  phone: text("phone"),
+  email: text("email"),
+  eventType: text("event_type"),
+  dateRange: text("date_range"),
+  createdAt: text("created_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: text("updated_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .$onUpdate(() => sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+});
+
+export const nyheter = sqliteTable("nyheter", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  title: text("title").notNull(),
+  info: text("info"),
+  datum: text("datum"),
+  kontaktaOss: integer("kontakta_oss", { mode: "boolean" }).default(false),
+  bild: text("bild"),
+  sortOrder: integer("sort_order"),
+  createdAt: text("created_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: text("updated_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .$onUpdate(() => sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+});
+
+export const styrelsen = sqliteTable("styrelsen", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   name: text("name").notNull(),
   title: text("title"),
-  phone: text("phone"),
   email: text("email"),
-  photo: text("photo"),
-  department: text("department"),
-  sortOrder: integer("sort_order"),
-  adjustx: real("adjustx"),
-  adjusty: real("adjusty"),
-  zoom: real("zoom"),
-  createdAt: text("created_at")
-    .default(sql`CURRENT_TIMESTAMP`)
-    .notNull(),
-  updatedAt: text("updated_at")
-    .default(sql`CURRENT_TIMESTAMP`)
-    .$onUpdate(() => sql`CURRENT_TIMESTAMP`)
-    .notNull(),
-});
-
-export const kundutlatanden = sqliteTable("kundutlatanden", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  title: text("title").notNull(),
-  text: text("text"),
-  att: text("att"),
-  logo: text("logo"),
-  link: text("link"),
+  phone: text("phone"),
   sortOrder: integer("sort_order"),
   createdAt: text("created_at")
     .default(sql`CURRENT_TIMESTAMP`)
@@ -69,12 +87,11 @@ export const kundutlatanden = sqliteTable("kundutlatanden", {
     .notNull(),
 });
 
-export const prisexempel = sqliteTable("prisexempel", {
+export const dokument = sqliteTable("dokument", {
   id: integer("id").primaryKey({ autoIncrement: true }),
-  title: text("title").notNull(),
-  monthly: text("monthly"),
-  total: text("total"),
-  details: text("details"),
+  name: text("name").notNull(),
+  file: text("file"),
+  thumbnail: text("thumbnail"),
   sortOrder: integer("sort_order"),
   createdAt: text("created_at")
     .default(sql`CURRENT_TIMESTAMP`)
@@ -86,77 +103,70 @@ export const prisexempel = sqliteTable("prisexempel", {
 });
 
 export const cmsTables = [
-  { id: "mediaproduktioner", name: "Mediaproduktioner" },
-  { id: "medarbetare", name: "Medarbetare" },
-  { id: "prisexempel", name: "Prisexempel" },
-  { id: "kundutlatanden", name: "Kundutlåtanden" },
+  { id: "bokningar", name: "Bokningar" },
+  { id: "nyheter", name: "Nyheter" },
+  { id: "styrelsen", name: "Styrelsen" },
+  { id: "dokument", name: "Dokument" },
 ];
 
 export const fieldTypes = {
-  users: {
-    id: { value: "integer" },
-    createdAt: { value: "date" },
-    updatedAt: { value: "date" },
-    email: { value: "text" },
-    password: { value: "text" },
-    resetId: { value: "text" },
-  },
-
-  mediaproduktioner: {
+  bokningar: {
     id: { value: "integer" },
     title: { value: "text" },
-    qCardLink: { value: "text" },
-    screenshot: { value: "fileImg" },
-    filmtyp: {
-      value: "select",
-      select_options: [{ value: "butiksfilm" }, { value: "storbildsfilm" }],
-    },
+    venue: { value: "text" },
+    company: { value: "text" },
+    name: { value: "text" },
+    phone: { value: "text" },
+    email: { value: "text" },
+    time: { value: "text" },
+    date: { value: "date" },
     sortOrder: { value: "integer" },
     createdAt: { value: "date" },
     updatedAt: { value: "date" },
   },
 
-  medarbetare: {
+  booking_requests: {
+    id: { value: "integer" },
+    bookingValidation: { value: "text" },
+    venue: { value: "text" },
+    company: { value: "text" },
+    name: { value: "text" },
+    phone: { value: "text" },
+    email: { value: "text" },
+    eventType: { value: "text" },
+    dateRange: { value: "dateRange" },
+    createdAt: { value: "date" },
+    updatedAt: { value: "date" },
+  },
+
+  nyheter: {
+    id: { value: "integer" },
+    title: { value: "text" },
+    info: { value: "text" },
+    datum: { value: "date" },
+    kontaktaOss: { value: "checkbox" },
+    bild: { value: "fileImg" },
+    sortOrder: { value: "integer" },
+    createdAt: { value: "date" },
+    updatedAt: { value: "date" },
+  },
+
+  styrelsen: {
     id: { value: "integer" },
     name: { value: "text" },
     title: { value: "text" },
-    phone: { value: "text" },
     email: { value: "text" },
-    photo: { value: "fileImg" },
-    department: {
-      value: "select",
-      select_options: [
-        { value: "management" },
-        { value: "sales" },
-        { value: "production" },
-      ],
-    },
-    sortOrder: { value: "integer" },
-    adjustx: { value: "real" },
-    adjusty: { value: "real" },
-    zoom: { value: "real" },
-    createdAt: { value: "date" },
-    updatedAt: { value: "date" },
-  },
-
-  kundutlatanden: {
-    id: { value: "integer" },
-    title: { value: "text" },
-    text: { value: "textarea" },
-    att: { value: "text" },
-    logo: { value: "fileImg" },
-    link: { value: "text" },
+    phone: { value: "text" },
     sortOrder: { value: "integer" },
     createdAt: { value: "date" },
     updatedAt: { value: "date" },
   },
 
-  prisexempel: {
+  dokument: {
     id: { value: "integer" },
-    title: { value: "text" },
-    monthly: { value: "text" },
-    total: { value: "text" },
-    details: { value: "textarea" },
+    name: { value: "text" },
+    file: { value: "file" },
+    thumbnail: { value: "fileImg" },
     sortOrder: { value: "integer" },
     createdAt: { value: "date" },
     updatedAt: { value: "date" },
