@@ -18,7 +18,7 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
         input.type.value !== 'file' &&
         input.type.value !== 'fileImg' &&
         input.type.value !== 'date' &&
-        input.type.value !== 'dateToFrom' &&
+        input.type.value !== 'dateRange' &&
         input.type.value !== 'select'
       "
       @click.stop
@@ -31,14 +31,14 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
     <VueDatePicker
       v-if="
         neverVisibleFields &&
-        (input.type.value === 'date' || input.type.value === 'dateToFrom')
+        (input.type.value === 'date' || input.type.value === 'dateRange')
       "
       v-model="item[input.name]"
       :formats="{ input: 'yyyy-MM-dd' }"
       :locale="sv"
       auto-apply
       :input-attrs="{ name: input.name }"
-      :range="input.type.value === 'dateToFrom'"
+      :range="input.type.value === 'dateRange'"
       class="[&_div]:!font-body [&_input]:!font-body [&_button]:!p-0 [&_div]:!text-xs [&_input]:!border-white/25 [&_input]:!bg-transparent [&_input]:!py-3 [&_input]:!text-sm [&_input]:!text-white"
     >
     </VueDatePicker>
