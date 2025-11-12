@@ -1,6 +1,6 @@
 import { checkLogin } from "~~/server/utils/check-login.js";
 import { sendEmail } from "~~/server/utils/mailgun/send-email.js";
-import { messageNewPassword } from "~~/server/content/message-new-password.js";
+import { messageNewPassword } from "~~/server/api/cms/content/message-new-password.js";
 import { useDrizzle } from "~~/server/db/client.ts";
 import { users } from "~~/server/db/schema.ts";
 import { eq, like } from "drizzle-orm";
