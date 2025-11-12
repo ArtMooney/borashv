@@ -1,5 +1,6 @@
 import { checkLogin } from "../utils/check-login.js";
-import { listRows } from "../db/baserow/list-rows.js";
+import { useDrizzle } from "~~/server/db/client.ts";
+import { styrelsen } from "~~/server/db/schema.ts";
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
@@ -12,21 +13,6 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  try {
-    const newsData = await listRows(
-      config.baserowToken,
-      "435143",
-      true,
-      "index",
-    );
-
-    return newsData.results;
-  } catch (error) {
-    throw createError({
-      statusCode: 500,
-      statusMessage: encodeURIComponent(
-        "Något gick fel när styrelsen skulle hämtas",
-      ),
-    });
-  }
+  const db = useDrizzle(event.context.cloudflare.env.DB);
+  return db.select().from(styrelsen).all();
 });
