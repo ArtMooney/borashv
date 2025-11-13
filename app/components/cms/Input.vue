@@ -8,7 +8,7 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
 <template>
   <div v-if="neverVisibleFields" class="flex flex-col gap-1">
     <p class="font-semibold text-white/50 italic">
-      {{ input.name.includes("|") ? input.name.split("|")[0] : input.name }}
+      {{ input.type.name }}
     </p>
 
     <input
