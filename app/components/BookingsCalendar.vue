@@ -170,9 +170,13 @@ export default {
       let colorIndex = 0;
 
       for (const item of this.items) {
-        const booking = JSON.parse(item?.date);
+        const booking = item?.date;
 
-        if (booking && booking[0] && booking[1]) {
+        if (booking && booking.length) {
+          if (booking[1] === null) {
+            booking[1] = booking[0];
+          }
+
           if (new Date() <= new Date(booking[1])) {
             bookings.push({
               key: item.id,
