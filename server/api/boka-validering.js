@@ -1,8 +1,8 @@
-import { listRows } from "~~/server/db/baserow/list-rows.js";
-import { createRow } from "~~/server/db/baserow/create-row.js";
-import { deleteRow } from "~~/server/db/baserow/delete-row.js";
 import { messageBookingGranted } from "~~/server/content/message-booking-granted.js";
 import { messageBookingRejected } from "~~/server/content/message-booking-rejected.js";
+import { useDrizzle } from "~~/server/db/client.ts";
+import { eq } from "drizzle-orm";
+import { bokningar, booking_requests } from "~~/server/db/schema.ts";
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
@@ -23,15 +23,16 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const validation = await listRows(
-    config.baserowToken,
-    "687942",
-    null,
-    null,
-    body["booking-validation"],
-  );
+  const db = useDrizzle(event.context.cloudflare.env.DB);
 
-  if (!validation || validation.results.length === 0) {
+  const validation = await db
+    .select()
+    .from(booking_requests)
+    .where(eq(booking_requests.bookingValidation, body["booking-validation"]))
+    .limit(1)
+    .then((rows) => rows[0] ?? null);
+
+  if (!validation || validation.length === 0) {
     throw createError({
       statusCode: 404,
       statusMessage: "Invalid validation code",
@@ -39,29 +40,37 @@ export default defineEventHandler(async (event) => {
   }
 
   if (!body.action) {
-    const saveBooking = await createRow(config.baserowToken, "691918", {
-      title: validation.results[0]["event-type"],
-      venue: validation.results[0].venue,
-      company: validation.results[0].company,
-      name: validation.results[0].name,
-      phone: validation.results[0].phone,
-      email: validation.results[0].email,
-      "date|to-from": JSON.stringify(
-        validation.results[0]["date-range"]
-          .split(",")
-          .map((d) => new Date(d.trim()).toISOString()),
-      ),
-    });
+    const saveBooking = await db
+      .insert(bokningar)
+      .values({
+        title: validation.eventType,
+        venue: validation.venue,
+        company: validation.company,
+        name: validation.name,
+        phone: validation.phone,
+        email: validation.email,
+        date: JSON.stringify(
+          validation.dateRange
+            .split(",")
+            .map((d) => new Date(d.trim()).toISOString()),
+        ),
+      })
+      .returning();
 
-    const deleteValidation = await deleteRow(
-      config.baserowToken,
-      "687942",
-      validation.results[0].id,
-    );
+    try {
+      const deleteValidation = await db
+        .delete(booking_requests)
+        .where(eq(booking_requests.id, validation.id));
+    } catch (error) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: "Failed to delete item",
+      });
+    }
 
     const sendToEmail = await sendEmail(
       config.emailFrom,
-      validation.results[0].email,
+      validation.email,
       "Er bokning har blivit godkänd",
       await messageBookingGranted(),
       config.mailgunApiKey,
@@ -74,15 +83,20 @@ export default defineEventHandler(async (event) => {
       });
     }
   } else {
-    const deleteValidation = await deleteRow(
-      config.baserowToken,
-      "687942",
-      validation.results[0].id,
-    );
+    try {
+      const deleteValidation = await db
+        .delete(booking_requests)
+        .where(eq(booking_requests.id, validation.id));
+    } catch (error) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: "Failed to delete item",
+      });
+    }
 
     const sendToEmail = await sendEmail(
       config.emailFrom,
-      validation.results[0].email,
+      validation.email,
       "Er bokning har blivit nekad",
       await messageBookingRejected(),
       config.mailgunApiKey,

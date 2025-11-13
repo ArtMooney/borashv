@@ -1,5 +1,6 @@
-import { createRow } from "~~/server/db/baserow/create-row.js";
 import { messageBookingRequest } from "~~/server/content/message-booking-request.js";
+import { useDrizzle } from "~~/server/db/client.ts";
+import { booking_requests } from "~~/server/db/schema.ts";
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
@@ -22,9 +23,21 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  formDataJson["booking-validation"] = crypto.randomUUID();
+  formDataJson.bookingValidation = crypto.randomUUID();
 
-  const booking = await createRow(config.baserowToken, "687942", formDataJson);
+  const db = useDrizzle(event.context.cloudflare.env.DB);
+
+  try {
+    const booking = await db
+      .insert(booking_requests)
+      .values(formDataJson)
+      .returning();
+  } catch (error) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: "Failed to insert item",
+    });
+  }
 
   const toOwner = await sendEmail(
     config.emailFrom,

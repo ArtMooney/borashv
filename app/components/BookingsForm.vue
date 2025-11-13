@@ -43,8 +43,8 @@ import sv from "date-fns/locale/sv";
         Typ av verksamhet (t.ex. styrelsemöte): *
 
         <input
-          v-model="formData['event-type']"
-          name="event-type"
+          v-model="formData.eventType"
+          name="eventType"
           type="text"
           required
         />
@@ -64,7 +64,7 @@ import sv from "date-fns/locale/sv";
         Välj datum och tid:
 
         <VueDatePicker
-          v-model="formData['date-range']"
+          v-model="formData.dateRange"
           :formats="{ input: 'yyyy-MM-dd' }"
           :locale="sv"
           auto-apply
@@ -134,9 +134,9 @@ export default {
         name: "",
         phone: "",
         email: "",
-        "event-type": "",
+        eventType: "",
         venue: "",
-        "date-range": "",
+        dateRange: "",
         clientip: "",
         pageuri: "",
         pagename: "",
