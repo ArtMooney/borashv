@@ -10,7 +10,7 @@
         <div class="w-full sm:min-h-36 sm:w-36 sm:min-w-36">
           <NuxtImg
             v-if="item?.bild"
-            :src="item?.bild"
+            :src="`cms-images/${item?.bild}` ?? ''"
             alt=""
             class="h-full w-full object-cover"
             sizes="300px sm:400px"

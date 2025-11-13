@@ -55,7 +55,7 @@ const { data: items, error } = await useFetch("/api/dokument", {
     <a
       v-if="items?.length"
       v-for="item of items"
-      :href="item?.file ?? ''"
+      :href="`${config.public.imageBaseUrl}/cms-images/${item?.file}` ?? ''"
       target="_blank"
       class="flex cursor-pointer flex-row items-center justify-between border border-white/15 bg-gradient-to-r from-[#32382d] to-[#353238] p-4 transition-colors duration-300 ease-in-out hover:from-[#343a2e] hover:to-[#37343a] hover:shadow-[0_0_20px_rgba(185,177,99,0.35)]"
     >
@@ -69,7 +69,7 @@ const { data: items, error } = await useFetch("/api/dokument", {
       <div class="flex-shrink-0 border-l-2 border-white/15 pl-4">
         <NuxtImg
           v-if="item?.thumbnail"
-          :src="item?.thumbnail ?? ''"
+          :src="`cms-images/${item?.thumbnail}` ?? ''"
           alt="Document thumbnail"
           class="h-32 w-auto"
           sizes="300px sm:400px"
