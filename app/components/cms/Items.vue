@@ -162,17 +162,6 @@ export default {
       if (this.schema.length > 0) {
         let items = await this.listRows(this.tableId);
 
-        // parse to-from date-fields to json array
-        for (const item of items) {
-          for (const field of Object.entries(item)) {
-            if (field[0].includes("|") && field[0].includes("to-from")) {
-              if (item[field[0]]) {
-                item[field[0]] = JSON.parse(item[field[0]]);
-              }
-            }
-          }
-        }
-
         this.$emit("items", JSON.parse(JSON.stringify(items)));
         this.$emit("loadingFlag", false);
       }
@@ -219,7 +208,6 @@ export default {
 
       for (let [index, item] of items.entries()) {
         item.sortOrder = index.toString();
-        item = this.processDateFormats(item);
       }
 
       try {
@@ -251,9 +239,6 @@ export default {
     async saveItem(index) {
       if (index === this.showItem) {
         this.$emit("saveFlag", true);
-        const item = this.processDateFormats(
-          JSON.parse(JSON.stringify(this.localItems[index])),
-        );
 
         try {
           const res = await $fetch(
@@ -267,7 +252,7 @@ export default {
               body: JSON.stringify({
                 email: this.login.email,
                 password: this.login.password,
-                item: item,
+                item: this.localItems[index],
                 schema: this.schema,
                 table_id: this.tableId,
               }),
@@ -336,33 +321,6 @@ export default {
         console.log(err);
 
         this.$emit("saveFlag", false);
-      }
-    },
-
-    processDateFormats(item) {
-      for (const field of this.schema) {
-        if (field.type === "date") {
-          item[field.name] = this.convertDateToIso(item[field.name]);
-        }
-
-        if (field.name.includes("|") && field.name.includes("to-from")) {
-          item[field.name] = JSON.stringify(item[field.name]);
-        }
-      }
-
-      return item;
-    },
-
-    convertDateToIso(date) {
-      if (!date) return null;
-
-      const originalDate = date;
-      const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
-
-      if (isoDatePattern.test(originalDate)) {
-        return originalDate;
-      } else {
-        return new Date(originalDate).toISOString().split("T")[0]; // extract only the date part
       }
     },
 
