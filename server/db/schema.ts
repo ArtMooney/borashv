@@ -24,7 +24,7 @@ export const bokningar = sqliteTable("bokningar", {
   phone: text("phone"),
   email: text("email"),
   time: text("time"),
-  date: text("date"),
+  date: text("date", { mode: "json" }).$type<string[]>(),
   sortOrder: integer("sort_order"),
   createdAt: text("created_at")
     .default(sql`CURRENT_TIMESTAMP`)
@@ -119,7 +119,7 @@ export const fieldTypes = {
     phone: { value: "text" },
     email: { value: "text" },
     time: { value: "text" },
-    date: { value: "date" },
+    date: { value: "dateRange" },
     sortOrder: { value: "integer" },
     createdAt: { value: "date" },
     updatedAt: { value: "date" },
