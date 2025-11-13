@@ -170,7 +170,7 @@ export default {
       let colorIndex = 0;
 
       for (const item of this.items) {
-        const booking = JSON.parse(item["date|to-from"]);
+        const booking = JSON.parse(item?.date);
 
         if (booking && booking[0] && booking[1]) {
           if (new Date() <= new Date(booking[1])) {
