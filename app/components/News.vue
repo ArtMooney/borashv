@@ -31,7 +31,7 @@
           <p
             class="mb-4 break-words hyphens-auto"
             lang="sv"
-            v-html="item.info ? formattedString(item.info) : ''"
+            v-html="formattedText(item?.info)"
           ></p>
 
           <NuxtLink v-if="item['kontakta oss']" to="/kontakta-oss">
@@ -55,14 +55,8 @@ export default {
   },
 
   methods: {
-    formattedString(string) {
-      const regexReplace1 = string.replace(/\n/g, "");
-      const withLineBreaks = regexReplace1.replace(/\r/g, "\n");
-
-      return withLineBreaks.replace(
-        /(https?:\/\/[^\s]+)/g,
-        '<span class="[word-break:break-all]">$1</span>',
-      );
+    formattedText(text) {
+      return text.replace(/\n/g, "<br>");
     },
 
     formatDate(date) {
