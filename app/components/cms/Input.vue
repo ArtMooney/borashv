@@ -75,25 +75,17 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
         :for="`${input.name}-${index}`"
         class="relative m-0 cursor-pointer p-0 text-sm underline"
       >
-        <span
-          v-if="
-            (!item[input.name]?.length || !item[input.name][0]?.name) &&
-            typeof item[input?.name] !== 'string'
-          "
-        >
-          {{ chooseFilenameText(input.type.value) }}
-        </span>
-
-        <span v-if="typeof item[input?.name] === 'object'">
-          {{ item[input?.name]?.[0]?.name }}
+        <span>
+          {{ fileInputText(item, input) }}
         </span>
 
         <NuxtImg
           v-if="
-            typeof item[input?.name] === 'string' &&
-            item[input?.name]?.length > 0
+            item[input?.name] &&
+            input.type.value === 'fileImg' &&
+            typeof item[input?.name] === 'string'
           "
-          :src="`cms-images/${item[input?.name]}`"
+          :src="`cms-images/${item[input.name]}`"
           alt="an image slot with an image selected by the user"
           class="h-20 min-h-20 w-20 min-w-20 object-cover"
           sizes="80px"
@@ -102,9 +94,7 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
         />
 
         <IconCloseCircleOutline
-          v-if="
-            item[input?.name]?.length > 0 && !item[input?.name][0]?.backupName
-          "
+          v-if="isCloseIcon"
           @click.stop.prevent="removeFile(`${input.name}-${index}`, input.name)"
           class="absolute -top-3 -right-6 h-6 min-h-6 w-6 min-w-6 cursor-pointer px-0.5 text-white"
         ></IconCloseCircleOutline>
@@ -167,6 +157,7 @@ export default {
   data() {
     return {
       itemBackup: null,
+      isCloseIcon: false,
     };
   },
 
@@ -216,7 +207,27 @@ export default {
       });
     },
 
-    chooseFilenameText(inputType) {
+    fileInputText(item, input) {
+      const filename = item[input?.name];
+      const inputType = input.type.value;
+      const isObject = typeof filename === "object";
+
+      if (filename && !isObject) {
+        this.isCloseIcon = true;
+
+        if (inputType === "fileImg") {
+          return "";
+        }
+
+        return filename;
+      }
+
+      if (filename && isObject && filename[0]?.name) {
+        this.isCloseIcon = true;
+        return filename[0]?.name;
+      }
+
+      this.isCloseIcon = false;
       return inputType === "file"
         ? "Click here to choose a file."
         : "Click here to choose an image.";
@@ -226,6 +237,7 @@ export default {
       this.$refs[inputName].value = "";
       this.item[fieldName] = [
         {
+          name: null,
           backupName: this.itemBackup[this.input?.name] || "",
         },
       ];
