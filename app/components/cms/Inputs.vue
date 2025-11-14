@@ -115,7 +115,7 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
 
 <script>
 export default {
-  name: "Input",
+  name: "Inputs",
 
   emits: ["showItem", "saveFlag", "inputError"],
 
