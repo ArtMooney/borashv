@@ -237,7 +237,6 @@ export default {
       this.$refs[inputName].value = "";
       this.item[fieldName] = [
         {
-          name: null,
           backupName: this.itemBackup[this.input?.name] || "",
         },
       ];
