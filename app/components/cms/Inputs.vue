@@ -6,14 +6,13 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
 </script>
 
 <template>
-  <div v-if="neverVisibleFields" class="flex flex-col gap-1">
+  <div v-if="!input.hidden" class="flex flex-col gap-1">
     <p class="font-semibold text-white/50 italic">
       {{ input.label }}
     </p>
 
     <input
       v-if="
-        neverVisibleFields &&
         input.type !== 'textarea' &&
         input.type !== 'file' &&
         input.type !== 'fileImg' &&
@@ -30,10 +29,7 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
     />
 
     <VueDatePicker
-      v-if="
-        neverVisibleFields &&
-        (input.type === 'date' || input.type === 'dateRange')
-      "
+      v-if="input.type === 'date' || input.type === 'dateRange'"
       v-model="item[input.name]"
       :formats="{ input: 'yyyy-MM-dd' }"
       :locale="sv"
@@ -45,7 +41,7 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
     </VueDatePicker>
 
     <textarea
-      v-if="neverVisibleFields && input.type === 'textarea'"
+      v-if="input.type === 'textarea'"
       @click.stop
       v-model="item[input.name]"
       :name="input.name"
@@ -54,10 +50,7 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
     ></textarea>
 
     <div
-      v-if="
-        neverVisibleFields &&
-        (input.type === 'file' || input.type === 'fileImg')
-      "
+      v-if="input.type === 'file' || input.type === 'fileImg'"
       class="my-1 flex items-center justify-between gap-1 justify-self-start"
     >
       <input
@@ -105,7 +98,7 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
     </div>
 
     <select
-      v-if="neverVisibleFields && input.type === 'select'"
+      v-if="input.type === 'select'"
       :name="input.name"
       v-model="selectValue"
       :required="input.required"
@@ -139,15 +132,6 @@ export default {
   },
 
   computed: {
-    neverVisibleFields() {
-      return (
-        this.input.name !== "id" &&
-        this.input.name !== "sortOrder" &&
-        this.input.name !== "createdAt" &&
-        this.input.name !== "updatedAt"
-      );
-    },
-
     selectValue: {
       get() {
         return this.item[this.input.name] || "";
