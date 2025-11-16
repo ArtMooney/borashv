@@ -47,10 +47,12 @@ import { VueDraggableNext } from "vue-draggable-next";
           @delete-item="deleteItem($event)"
         />
 
-        <div
-          class="col-span-2 flex flex-col gap-3 text-sm"
-          v-show="itemOpen && showItem === index"
+        <form
+          @submit.prevent="saveItem(index)"
+          :ref="`formEl${index}`"
           @click.stop
+          v-show="itemOpen && showItem === index"
+          class="col-span-2 flex flex-col gap-3 text-sm"
         >
           <div class="my-4 h-px w-full bg-white/25"></div>
 
@@ -65,7 +67,9 @@ import { VueDraggableNext } from "vue-draggable-next";
               @input-error="handleInputError($event, inputIndex)"
             />
           </template>
-        </div>
+
+          <button type="submit" class="hidden"></button>
+        </form>
       </div>
     </VueDraggableNext>
   </div>
@@ -237,40 +241,48 @@ export default {
     },
 
     async saveItem(index) {
-      if (index === this.showItem) {
-        this.$emit("saveFlag", true);
+      if (index !== this.showItem) return;
 
-        try {
-          const res = await $fetch(
-            !this.editingNewItem ? "/api/cms/save-item" : "/api/cms/add-item",
-            {
-              method: "POST",
-              headers: {
-                Authorization:
-                  "Basic " + btoa(this.userName + ":" + this.userPass),
-              },
-              body: JSON.stringify({
-                email: this.login.email,
-                password: this.login.password,
-                item: this.localItems[index],
-                schema: this.schema,
-                table_id: this.tableId,
-              }),
+      const item = this.localItems[index];
+      const form = this.$refs[`formEl${index}`][0];
+
+      if (!this.validateFields(item)) {
+        form?.reportValidity();
+        return;
+      }
+
+      this.$emit("saveFlag", true);
+
+      try {
+        const res = await $fetch(
+          this.editingNewItem ? "/api/cms/add-item" : "/api/cms/save-item",
+          {
+            method: "POST",
+            headers: {
+              Authorization:
+                "Basic " + btoa(this.userName + ":" + this.userPass),
             },
-          );
+            body: JSON.stringify({
+              email: this.login.email,
+              password: this.login.password,
+              item: this.localItems[index],
+              schema: this.schema,
+              table_id: this.tableId,
+            }),
+          },
+        );
 
-          const items = JSON.parse(JSON.stringify(this.localItems));
-          items[index] = res;
+        const items = JSON.parse(JSON.stringify(this.localItems));
+        items[index] = res;
 
-          this.$emit("items", items);
-          this.$emit("itemOpen", false);
-          this.$emit("saveFlag", false);
-          this.$emit("editingNewItem", false);
-          this.editingItem = false;
-        } catch (err) {
-          console.log(err);
-          this.$emit("saveFlag", false);
-        }
+        this.$emit("items", items);
+        this.$emit("itemOpen", false);
+        this.$emit("saveFlag", false);
+        this.$emit("editingNewItem", false);
+        this.editingItem = false;
+      } catch (err) {
+        console.log(err);
+        this.$emit("saveFlag", false);
       }
     },
 
@@ -327,6 +339,44 @@ export default {
     handleInputError(event, index) {
       this.inputErrorIndex[index] = event;
       this.inputError = !!this.inputErrorIndex.find((input) => input);
+    },
+
+    validateFields(item) {
+      for (const config of this.schema) {
+        if (config.hidden) continue;
+        if (!config.required) continue;
+
+        const key = config.name;
+        const value = item[key];
+
+        if (value === undefined || value === null) {
+          return false;
+        }
+
+        if (typeof value === "string" && value.trim() === "") {
+          return false;
+        }
+
+        if (Array.isArray(value) && value.length === 0) {
+          return false;
+        }
+
+        if (
+          typeof value === "object" &&
+          value !== null &&
+          !Array.isArray(value)
+        ) {
+          if (!value.name && !value.file) {
+            return false;
+          }
+        }
+
+        if (config.type === "checkbox" && value === false) {
+          return false;
+        }
+      }
+
+      return true;
     },
   },
 
