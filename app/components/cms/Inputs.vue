@@ -26,6 +26,7 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
       :type="input.type"
       :name="input.name"
       autocomplete="off"
+      :required="input.required"
     />
 
     <VueDatePicker
@@ -37,7 +38,7 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
       :formats="{ input: 'yyyy-MM-dd' }"
       :locale="sv"
       auto-apply
-      :input-attrs="{ name: input.name }"
+      :input-attrs="{ name: input.name, required: input.required }"
       :range="input.type === 'dateRange'"
       class="[&_div]:!font-body [&_input]:!font-body [&_button]:!p-0 [&_div]:!text-xs [&_input]:!border-white/25 [&_input]:!bg-transparent [&_input]:!py-3 [&_input]:!text-sm [&_input]:!text-white"
     >
@@ -49,6 +50,7 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
       v-model="item[input.name]"
       :name="input.name"
       autocomplete="off"
+      :required="input.required"
     ></textarea>
 
     <div
@@ -68,6 +70,7 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
         :name="`${input.name}`"
         :accept="input.type === 'fileImg' ? '.jpg, .jpeg, .png' : ''"
         autocomplete="off"
+        :required="input.required"
       />
 
       <label
@@ -105,6 +108,7 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
       v-if="neverVisibleFields && input.type === 'select'"
       :name="input.name"
       v-model="selectValue"
+      :required="input.required"
     >
       <option v-for="option in input.type.select_options" :value="option.value">
         {{ option.value }}
