@@ -16,6 +16,6 @@ export async function uploadFile(bucket, fileName, base64Data, contentType) {
 
     return key;
   } catch (error) {
-    throw new Error(`Uppladdningsfel: ${error.message}`);
+    throw new Error(`Error uploading file: ${error.message}`);
   }
 }

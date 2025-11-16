@@ -26,6 +26,9 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  const db = useDrizzle(event.context.cloudflare.env.DB);
+  const tableName = body?.table_id;
+
   const bucket = event.context.cloudflare?.env.FILES;
   if (!bucket) {
     throw createError({
@@ -34,32 +37,6 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  for (const field of body.schema) {
-    if (body.item[field.name]) {
-      if (field?.type?.value === "file" || field?.type?.value === "fileImg") {
-        if (body?.item[field?.name][0]?.backupName) {
-          await deleteIfExists(
-            bucket,
-            `cms-images/${body.item[field.name][0].backupName}`,
-          );
-        }
-
-        if (body?.item[field?.name][0]?.file?.length > 0) {
-          body.item[field.name] = await uploadFile(
-            bucket,
-            body.item[field.name][0].name,
-            body.item[field.name][0].file,
-            body.item[field.name][0].contentType,
-          );
-        } else {
-          body.item[field.name] = "";
-        }
-      }
-    }
-  }
-
-  const tableName = body?.table_id;
-
   if (!cmsTables.some((t) => t.id === tableName)) {
     throw createError({
       statusCode: 400,
@@ -67,7 +44,37 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const db = useDrizzle(event.context.cloudflare.env.DB);
+  const currentStoredItem = await db
+    .select()
+    .from(schema[tableName])
+    .where(eq(schema[tableName].id, body.item.id))
+    .get();
+
+  for (const field of body.schema) {
+    if (currentStoredItem[field.name]) {
+      if (field?.type?.value === "file" || field?.type?.value === "fileImg") {
+        if (currentStoredItem[field?.name] !== body.item[field.name]) {
+          await deleteIfExists(
+            bucket,
+            `cms-images/${currentStoredItem[field.name]}`,
+          );
+        }
+      }
+    }
+
+    if (body.item[field.name]) {
+      if (field?.type?.value === "file" || field?.type?.value === "fileImg") {
+        if (body?.item[field?.name][0]?.file?.length > 0) {
+          body.item[field.name] = await uploadFile(
+            bucket,
+            body.item[field.name][0].name,
+            body.item[field.name][0].file,
+            body.item[field.name][0].contentType,
+          );
+        }
+      }
+    }
+  }
 
   try {
     const updatedItem = await db

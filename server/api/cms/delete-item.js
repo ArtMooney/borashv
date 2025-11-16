@@ -25,6 +25,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  const db = useDrizzle(event.context.cloudflare.env.DB);
   const tableName = body?.table_id;
 
   if (!cmsTables.some((t) => t.id === tableName)) {
@@ -42,17 +43,24 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  const currentStoredItem = await db
+    .select()
+    .from(schema[tableName])
+    .where(eq(schema[tableName].id, body.item.id))
+    .get();
+
   for (const field of body.schema) {
-    if (body.item[field.name]) {
+    if (currentStoredItem[field.name]) {
       if (field?.type?.value === "file" || field?.type?.value === "fileImg") {
-        if (body?.item[field?.name]) {
-          await deleteIfExists(bucket, `test/${body.item[field.name]}`);
+        if (currentStoredItem[field?.name]) {
+          await deleteIfExists(
+            bucket,
+            `cms-images/${currentStoredItem[field.name]}`,
+          );
         }
       }
     }
   }
-
-  const db = useDrizzle(event.context.cloudflare.env.DB);
 
   try {
     await db

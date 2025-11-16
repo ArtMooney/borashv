@@ -156,13 +156,8 @@ export default {
 
   data() {
     return {
-      itemBackup: null,
       isCloseIcon: false,
     };
-  },
-
-  mounted() {
-    this.itemBackup = JSON.parse(JSON.stringify(this.item));
   },
 
   methods: {
@@ -176,7 +171,6 @@ export default {
       item[name] = [
         {
           name: event.target.files[0].name,
-          backupName: this.itemBackup[name] || "",
           file: base64,
           contentType,
         },
@@ -235,11 +229,7 @@ export default {
 
     removeFile(inputName, fieldName) {
       this.$refs[inputName].value = "";
-      this.item[fieldName] = [
-        {
-          backupName: this.itemBackup[this.input?.name] || "",
-        },
-      ];
+      this.item[fieldName] = "";
     },
   },
 };

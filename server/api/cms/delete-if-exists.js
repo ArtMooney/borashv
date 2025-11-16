@@ -9,6 +9,6 @@ export async function deleteIfExists(bucket, key) {
 
     return false;
   } catch (error) {
-    throw new Error(`Fel vid borttagning: ${error.message}`);
+    throw new Error(`Error removing file: ${error.message}`);
   }
 }
