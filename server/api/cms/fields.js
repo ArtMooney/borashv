@@ -41,5 +41,6 @@ export default defineEventHandler(async (event) => {
     type: fields[key].type,
     label: fields[key].label,
     required: fields[key].required,
+    hidden: fields[key].hidden,
   }));
 });
