@@ -8,22 +8,22 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
 <template>
   <div v-if="neverVisibleFields" class="flex flex-col gap-1">
     <p class="font-semibold text-white/50 italic">
-      {{ input.type.name }}
+      {{ input.label }}
     </p>
 
     <input
       v-if="
         neverVisibleFields &&
-        input.type.value !== 'textarea' &&
-        input.type.value !== 'file' &&
-        input.type.value !== 'fileImg' &&
-        input.type.value !== 'date' &&
-        input.type.value !== 'dateRange' &&
-        input.type.value !== 'select'
+        input.type !== 'textarea' &&
+        input.type !== 'file' &&
+        input.type !== 'fileImg' &&
+        input.type !== 'date' &&
+        input.type !== 'dateRange' &&
+        input.type !== 'select'
       "
       @click.stop
       v-model="item[input.name]"
-      :type="input.type.value"
+      :type="input.type"
       :name="input.name"
       autocomplete="off"
     />
@@ -31,20 +31,20 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
     <VueDatePicker
       v-if="
         neverVisibleFields &&
-        (input.type.value === 'date' || input.type.value === 'dateRange')
+        (input.type === 'date' || input.type === 'dateRange')
       "
       v-model="item[input.name]"
       :formats="{ input: 'yyyy-MM-dd' }"
       :locale="sv"
       auto-apply
       :input-attrs="{ name: input.name }"
-      :range="input.type.value === 'dateRange'"
+      :range="input.type === 'dateRange'"
       class="[&_div]:!font-body [&_input]:!font-body [&_button]:!p-0 [&_div]:!text-xs [&_input]:!border-white/25 [&_input]:!bg-transparent [&_input]:!py-3 [&_input]:!text-sm [&_input]:!text-white"
     >
     </VueDatePicker>
 
     <textarea
-      v-if="neverVisibleFields && input.type.value === 'textarea'"
+      v-if="neverVisibleFields && input.type === 'textarea'"
       @click.stop
       v-model="item[input.name]"
       :name="input.name"
@@ -54,7 +54,7 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
     <div
       v-if="
         neverVisibleFields &&
-        (input.type.value === 'file' || input.type.value === 'fileImg')
+        (input.type === 'file' || input.type === 'fileImg')
       "
       class="my-1 flex items-center justify-between gap-1 justify-self-start"
     >
@@ -66,7 +66,7 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
         class="hidden"
         type="file"
         :name="`${input.name}`"
-        :accept="input.type.value === 'fileImg' ? '.jpg, .jpeg, .png' : ''"
+        :accept="input.type === 'fileImg' ? '.jpg, .jpeg, .png' : ''"
         autocomplete="off"
       />
 
@@ -82,7 +82,7 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
         <NuxtImg
           v-if="
             item[input?.name] &&
-            input.type.value === 'fileImg' &&
+            input.type === 'fileImg' &&
             typeof item[input?.name] === 'string'
           "
           :src="`cms-images/${item[input.name]}`"
@@ -102,7 +102,7 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
     </div>
 
     <select
-      v-if="neverVisibleFields && input.type.value === 'select'"
+      v-if="neverVisibleFields && input.type === 'select'"
       :name="input.name"
       v-model="selectValue"
     >
@@ -203,7 +203,7 @@ export default {
 
     fileInputText(item, input) {
       const filename = item[input?.name];
-      const inputType = input.type.value;
+      const inputType = input.type;
       const isObject = typeof filename === "object";
 
       if (filename && !isObject) {

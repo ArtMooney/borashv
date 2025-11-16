@@ -38,6 +38,8 @@ export default defineEventHandler(async (event) => {
 
   return Object.keys(columns).map((key) => ({
     name: key,
-    type: fields[key],
+    type: fields[key].type,
+    label: fields[key].label,
+    required: fields[key].required,
   }));
 });

@@ -52,7 +52,7 @@ export default defineEventHandler(async (event) => {
 
   for (const field of body.schema) {
     if (currentStoredItem[field.name]) {
-      if (field?.type?.value === "file" || field?.type?.value === "fileImg") {
+      if (field?.type === "file" || field?.type === "fileImg") {
         if (currentStoredItem[field?.name] !== body.item[field.name]) {
           await deleteIfExists(
             bucket,
@@ -63,7 +63,7 @@ export default defineEventHandler(async (event) => {
     }
 
     if (body.item[field.name]) {
-      if (field?.type?.value === "file" || field?.type?.value === "fileImg") {
+      if (field?.type === "file" || field?.type === "fileImg") {
         if (body?.item[field?.name][0]?.file?.length > 0) {
           body.item[field.name] = await uploadFile(
             bucket,
