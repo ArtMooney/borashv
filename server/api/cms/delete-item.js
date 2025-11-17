@@ -4,7 +4,7 @@ import { useDrizzle } from "~~/server/db/client.ts";
 import * as schema from "~~/server/db/schema.ts";
 import { cmsTables } from "~~/server/db/schema.ts";
 import { eq } from "drizzle-orm";
-import { deleteIfExists } from "~~/server/api/cms/delete-if-exists.js";
+import { deleteIfExists } from "~~/server/api/cms/r2/delete-if-exists.js";
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();

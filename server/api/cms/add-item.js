@@ -1,6 +1,6 @@
 import { checkLogin } from "~~/server/utils/check-login.js";
 import { checkAuthentication } from "~~/server/api/cms/utils/check-authentication.js";
-import { uploadFile } from "~~/server/api/cms/upload-file.js";
+import { uploadFile } from "~~/server/api/cms/r2/upload-file.js";
 import { useDrizzle } from "~~/server/db/client.ts";
 import * as schema from "~~/server/db/schema.ts";
 import { cmsTables } from "~~/server/db/schema.ts";

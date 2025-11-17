@@ -1,7 +1,7 @@
 import { checkLogin } from "~~/server/utils/check-login.js";
 import { checkAuthentication } from "~~/server/api/cms/utils/check-authentication.js";
-import { uploadFile } from "~~/server/api/cms/upload-file.js";
-import { deleteIfExists } from "~~/server/api/cms/delete-if-exists.js";
+import { uploadFile } from "~~/server/api/cms/r2/upload-file.js";
+import { deleteIfExists } from "~~/server/api/cms/r2/delete-if-exists.js";
 import { cmsTables } from "~~/server/db/schema.ts";
 import { useDrizzle } from "~~/server/db/client.ts";
 import * as schema from "~~/server/db/schema.ts";
