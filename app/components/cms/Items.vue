@@ -399,7 +399,7 @@ export default {
     },
 
     items: {
-      handler(newVal, oldVal) {
+      handler(newVal) {
         this.localItems = JSON.parse(JSON.stringify(newVal));
 
         if (!this.itemOpen) return;
@@ -413,7 +413,25 @@ export default {
           this.editingItem = true;
         }
       },
+
       immediate: true,
+      deep: true,
+    },
+
+    localItems: {
+      handler(newVal) {
+        if (!this.itemOpen) return;
+
+        if (
+          JSON.stringify(newVal[this.showItem]) ===
+          JSON.stringify(this.itemCopy)
+        ) {
+          this.editingItem = false;
+        } else {
+          this.editingItem = true;
+        }
+      },
+
       deep: true,
     },
 
