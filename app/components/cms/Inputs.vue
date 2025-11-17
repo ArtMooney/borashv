@@ -81,7 +81,7 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
             input.type === 'fileImg' &&
             typeof item[input?.name] === 'string'
           "
-          :src="`cms-images/${item[input.name]}`"
+          :src="`cms-files/${item[input.name]}`"
           alt="an image slot with an image selected by the user"
           class="h-20 min-h-20 w-20 min-w-20 object-cover"
           sizes="80px"

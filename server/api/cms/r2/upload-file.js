@@ -10,7 +10,7 @@ export async function uploadFile(bucket, fileName, base64Data, contentType) {
     const byteArray = new Uint8Array(byteNumbers);
     const key = `${fileName}-${Date.now()}`;
 
-    await bucket.put(`cms-images/${key}`, byteArray, {
+    await bucket.put(`cms-files/${key}`, byteArray, {
       httpMetadata: { contentType: contentType || "application/octet-stream" },
     });
 

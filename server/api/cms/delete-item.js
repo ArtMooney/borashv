@@ -55,7 +55,7 @@ export default defineEventHandler(async (event) => {
         if (currentStoredItem[field?.name]) {
           await deleteIfExists(
             bucket,
-            `cms-images/${currentStoredItem[field.name]}`,
+            `cms-files/${currentStoredItem[field.name]}`,
           );
         }
       }
