@@ -38,7 +38,7 @@
             @click="sortDateFields(date.name)"
             class="w-full cursor-pointer py-1 text-right hover:bg-white/25"
           >
-            {{ date.name }}
+            {{ date.label }}
           </div>
         </div>
       </div>
@@ -105,7 +105,8 @@ export default {
           !field.hidden
         ) {
           dateList.push({
-            name: field.label,
+            name: field.name,
+            label: field.label,
           });
         }
       }
