@@ -23,7 +23,6 @@ export const bokningar = sqliteTable("bokningar", {
   name: text("name"),
   phone: text("phone"),
   email: text("email"),
-  time: text("time"),
   date: text("date", { mode: "json" }).$type<string[]>(),
   sortOrder: integer("sort_order"),
   createdAt: text("created_at")
