@@ -8,6 +8,10 @@
         id="calendar"
         :attributes="bookings"
         :min-date="new Date()"
+        :initial-page="{
+          month: new Date().getMonth() + 1,
+          year: new Date().getFullYear(),
+        }"
         expanded
         show-weeknumbers
         transparent
