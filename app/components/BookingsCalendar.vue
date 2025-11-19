@@ -66,10 +66,7 @@
           </div>
 
           <div class="mt-1 flex flex-wrap gap-1 md:mt-0 md:gap-2">
-            <div v-if="booking.time" class="whitespace-nowrap">
-              {{ booking.time }}
-            </div>
-            <div v-else class="whitespace-nowrap">
+            <div class="whitespace-nowrap">
               {{ formatTime(booking.dates.start) }} -
               {{ formatTime(booking.dates.end) }}
             </div>
@@ -196,14 +193,13 @@ export default {
                 end: booking[1],
               },
               popover: {
-                label: `${item.title} ${item.company ? "🏢 " + item.company : ""} ${item.venue ? "📍 " + item.venue : ""} ${item.time ? "🕐 " + item.time : "🕐 " + this.formatTime(booking[0]) + " - " + this.formatTime(booking[1])}`,
+                label: `${item.title} ${item.company ? "🏢 " + item.company : ""} ${item.venue ? "📍 " + item.venue : ""} ${"🕐 " + this.formatTime(booking[0]) + " - " + this.formatTime(booking[1])}`,
                 visibility: "hover",
               },
               title: item.title,
               company: item.company,
               venue: item.venue,
               name: item.name,
-              time: item.time,
             });
           }
         }
