@@ -8,17 +8,31 @@
         class="mb-4 border border-white/15 bg-[#32382d] p-4"
       >
         <div
-          class="flex flex-col items-center gap-6 text-xs sm:flex-row sm:text-sm"
+          class="flex flex-col gap-6 overflow-hidden text-xs sm:flex-row sm:text-sm"
         >
-          <NuxtImg
-            v-if="item?.bild"
-            :src="`cms-files/${item?.bild}` ?? ''"
-            alt="Bild på nyhet i flöde"
-            class="h-auto w-52 max-w-52 min-w-52"
-            sizes="300px sm:400px"
-            densities="x1"
-            format="webp"
-          />
+          <div
+            class="relative h-52 w-full overflow-hidden sm:h-auto sm:w-52 sm:max-w-52 sm:min-w-52"
+          >
+            <NuxtImg
+              v-if="item?.bild"
+              :src="`cms-files/${item?.bild}` ?? ''"
+              alt="Bakgrund till bild på nyhet i flöde"
+              class="absolute inset-0 h-full w-full object-cover opacity-25 blur-lg"
+              sizes="300px sm:400px"
+              densities="x1"
+              format="webp"
+            />
+
+            <NuxtImg
+              v-if="item?.bild"
+              :src="`cms-files/${item?.bild}` ?? ''"
+              alt="Bild på nyhet i flöde"
+              class="relative h-full w-full object-contain"
+              sizes="300px sm:400px"
+              densities="x1"
+              format="webp"
+            />
+          </div>
 
           <div class="flex flex-col items-start gap-2">
             <div class="bold font-heading text-lg">
@@ -30,17 +44,15 @@
             </p>
 
             <p
-              class="mb-4 break-words hyphens-auto"
+              class="mb-4 overflow-hidden break-words hyphens-auto"
               lang="sv"
               v-html="formattedText(item?.info)"
             ></p>
-
-            <!--          <p class="mb-4 break-words hyphens-auto" lang="sv">Läs mer</p>-->
-
-            <NuxtLink v-if="item['kontakta oss']" to="/kontakta-oss">
-              <button class="primary">Kontakta oss</button>
-            </NuxtLink>
           </div>
+
+          <NuxtLink v-if="item['kontakta oss']" to="/kontakta-oss">
+            <button class="primary">Kontakta oss</button>
+          </NuxtLink>
         </div>
       </div>
     </div>
