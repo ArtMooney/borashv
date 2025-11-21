@@ -1,42 +1,46 @@
 <template>
-  <div class="grid grid-cols-1 gap-2 px-4 py-16 md:px-8">
-    <h4 class="text-3xl uppercase">Nyheter</h4>
+  <div class="px-4 py-16 md:px-8">
+    <h4 class="mb-8 text-3xl uppercase">Nyheter</h4>
 
-    <div
-      v-for="item of items"
-      class="mb-4 border border-white/15 bg-[#32382d] p-4"
-    >
-      <div class="flex flex-col gap-4 text-xs sm:flex-row sm:text-sm">
-        <div class="w-full sm:min-h-36 sm:w-36 sm:min-w-36">
+    <div class="grid grid-cols-1 gap-2">
+      <div
+        v-for="item of items"
+        class="mb-4 border border-white/15 bg-[#32382d] p-4"
+      >
+        <div
+          class="flex flex-col items-center gap-6 text-xs sm:flex-row sm:text-sm"
+        >
           <NuxtImg
             v-if="item?.bild"
             :src="`cms-files/${item?.bild}` ?? ''"
-            alt=""
-            class="h-full w-full object-cover"
+            alt="Bild på nyhet i flöde"
+            class="h-auto w-52 max-w-52 min-w-52"
             sizes="300px sm:400px"
             densities="x1"
             format="webp"
           />
-        </div>
 
-        <div class="flex flex-col items-start gap-2">
-          <div class="bold font-heading text-lg">
-            {{ item.title }}
+          <div class="flex flex-col items-start gap-2">
+            <div class="bold font-heading text-lg">
+              {{ item.title }}
+            </div>
+
+            <p class="mb-2 text-xs underline opacity-35">
+              {{ formatDate(item.datum) }}
+            </p>
+
+            <p
+              class="mb-4 break-words hyphens-auto"
+              lang="sv"
+              v-html="formattedText(item?.info)"
+            ></p>
+
+            <!--          <p class="mb-4 break-words hyphens-auto" lang="sv">Läs mer</p>-->
+
+            <NuxtLink v-if="item['kontakta oss']" to="/kontakta-oss">
+              <button class="primary">Kontakta oss</button>
+            </NuxtLink>
           </div>
-
-          <p class="mb-2 text-gray-400 underline">
-            {{ formatDate(item.datum) }}
-          </p>
-
-          <p
-            class="mb-4 break-words hyphens-auto"
-            lang="sv"
-            v-html="formattedText(item?.info)"
-          ></p>
-
-          <NuxtLink v-if="item['kontakta oss']" to="/kontakta-oss">
-            <button class="primary">Kontakta oss</button>
-          </NuxtLink>
         </div>
       </div>
     </div>
