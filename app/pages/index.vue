@@ -62,7 +62,7 @@ const { data: items, error } = await useFetch("/api/nyheter", {
   <LoadingSpinner v-if="!items?.length && !error" />
 
   <News
-    v-if="items?.length"
+    v-if="items.length > 0"
     class="mx-auto w-full max-w-screen-xl"
     :items="items"
   />

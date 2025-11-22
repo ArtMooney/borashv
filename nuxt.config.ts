@@ -36,6 +36,7 @@ export default defineNuxtConfig({
     public: {
       userName: process.env.NUXT_PUBLIC_USERNAME,
       userPass: process.env.NUXT_PUBLIC_USERPASS,
+      imageBaseUrl: process.env.NUXT_IMAGE_BASE_URL,
     },
   },
 
@@ -52,7 +53,7 @@ export default defineNuxtConfig({
     domains: ["borashv.se"],
 
     weserv: {
-      baseURL: "https://pub-43b4b6f892bc463fa8fed9eb44aeedcc.r2.dev",
+      baseURL: process.env.NUXT_IMAGE_BASE_URL,
       modifiers: {
         format: "webp",
         quality: 65,

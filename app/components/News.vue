@@ -1,38 +1,54 @@
 <template>
-  <div class="grid grid-cols-1 gap-2 px-4 py-16 md:px-8">
-    <h4 class="text-3xl uppercase">Nyheter</h4>
+  <div class="px-4 py-16 md:px-8">
+    <h4 class="mb-8 text-3xl uppercase">Nyheter</h4>
 
-    <div
-      v-for="item of items"
-      class="mb-4 border border-white/15 bg-[#32382d] p-4"
-    >
-      <div class="flex flex-col gap-4 text-xs sm:flex-row sm:text-sm">
-        <div class="w-full sm:min-h-36 sm:w-36 sm:min-w-36">
-          <NuxtImg
-            v-if="item.bild[0]?.thumbnails?.card_cover?.url"
-            :src="item.bild[0]?.thumbnails?.card_cover?.url ?? ''"
-            alt=""
-            class="h-full w-full object-cover"
-            sizes="300px sm:400px"
-            densities="x1"
-            format="webp"
-          />
-        </div>
+    <div class="grid grid-cols-1 gap-2">
+      <div
+        v-for="item of items"
+        class="mb-4 border border-white/15 bg-[#32382d] p-4"
+      >
+        <div
+          class="flex flex-col gap-6 overflow-hidden text-xs sm:flex-row sm:text-sm"
+        >
+          <div
+            class="relative h-52 w-full overflow-hidden sm:h-auto sm:w-52 sm:max-w-52 sm:min-w-52"
+          >
+            <NuxtImg
+              v-if="item?.bild"
+              :src="`cms-files/${item?.bild}` ?? ''"
+              alt="Bakgrund till bild på nyhet i flöde"
+              class="absolute inset-0 h-full w-full object-cover opacity-25 blur-lg"
+              sizes="300px sm:400px"
+              densities="x1"
+              format="webp"
+            />
 
-        <div class="flex flex-col items-start gap-2">
-          <div class="bold font-heading text-lg">
-            {{ item.title }}
+            <NuxtImg
+              v-if="item?.bild"
+              :src="`cms-files/${item?.bild}` ?? ''"
+              alt="Bild på nyhet i flöde"
+              class="relative h-full w-full object-contain"
+              sizes="300px sm:400px"
+              densities="x1"
+              format="webp"
+            />
           </div>
 
-          <p class="mb-2 text-gray-400 underline">
-            {{ formatDate(item.datum) }}
-          </p>
+          <div class="flex flex-col items-start gap-2">
+            <div class="bold font-heading text-lg">
+              {{ item.title }}
+            </div>
 
-          <p
-            class="mb-4 break-words hyphens-auto"
-            lang="sv"
-            v-html="item.info ? formattedString(item.info) : ''"
-          ></p>
+            <p class="mb-2 text-xs underline opacity-35">
+              {{ formatDate(item.datum) }}
+            </p>
+
+            <p
+              class="mb-4 overflow-hidden break-words hyphens-auto"
+              lang="sv"
+              v-html="formattedText(item?.info)"
+            ></p>
+          </div>
 
           <NuxtLink v-if="item['kontakta oss']" to="/kontakta-oss">
             <button class="primary">Kontakta oss</button>
@@ -55,14 +71,8 @@ export default {
   },
 
   methods: {
-    formattedString(string) {
-      const regexReplace1 = string.replace(/\n/g, "");
-      const withLineBreaks = regexReplace1.replace(/\r/g, "\n");
-
-      return withLineBreaks.replace(
-        /(https?:\/\/[^\s]+)/g,
-        '<span class="[word-break:break-all]">$1</span>',
-      );
+    formattedText(text) {
+      return text.replace(/\n/g, "<br>");
     },
 
     formatDate(date) {

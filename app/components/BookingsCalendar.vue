@@ -8,6 +8,10 @@
         id="calendar"
         :attributes="bookings"
         :min-date="new Date()"
+        :initial-page="{
+          month: new Date().getMonth() + 1,
+          year: new Date().getFullYear(),
+        }"
         expanded
         show-weeknumbers
         transparent
@@ -66,10 +70,7 @@
           </div>
 
           <div class="mt-1 flex flex-wrap gap-1 md:mt-0 md:gap-2">
-            <div v-if="booking.time" class="whitespace-nowrap">
-              {{ booking.time }}
-            </div>
-            <div v-else class="whitespace-nowrap">
+            <div class="whitespace-nowrap">
               {{ formatTime(booking.dates.start) }} -
               {{ formatTime(booking.dates.end) }}
             </div>
@@ -170,9 +171,13 @@ export default {
       let colorIndex = 0;
 
       for (const item of this.items) {
-        const booking = JSON.parse(item["date|to-from"]);
+        const booking = item?.date;
 
-        if (booking && booking[0] && booking[1]) {
+        if (booking && booking.length) {
+          if (booking[1] === null) {
+            booking[1] = booking[0];
+          }
+
           if (new Date() <= new Date(booking[1])) {
             bookings.push({
               key: item.id,
@@ -192,14 +197,13 @@ export default {
                 end: booking[1],
               },
               popover: {
-                label: `${item.title} ${item.company ? "🏢 " + item.company : ""} ${item.venue ? "📍 " + item.venue : ""} ${item.time ? "🕐 " + item.time : "🕐 " + this.formatTime(booking[0]) + " - " + this.formatTime(booking[1])}`,
+                label: `${item.title} ${item.company ? "🏢 " + item.company : ""} ${item.venue ? "📍 " + item.venue : ""} ${"🕐 " + this.formatTime(booking[0]) + " - " + this.formatTime(booking[1])}`,
                 visibility: "hover",
               },
               title: item.title,
               company: item.company,
               venue: item.venue,
               name: item.name,
-              time: item.time,
             });
           }
         }
