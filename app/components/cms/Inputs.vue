@@ -71,7 +71,7 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
         :for="`${input.name}-${index}`"
         class="relative m-0 cursor-pointer p-0 text-sm underline"
       >
-        <span>
+        <span class="max-w-xs truncate sm:max-w-md">
           {{ fileInputText(item, input) }}
         </span>
 
