@@ -102,10 +102,10 @@ export const dokument = sqliteTable("dokument", {
 });
 
 export const cmsTables = [
-  { id: "bokningar", name: "Bokningar" },
   { id: "nyheter", name: "Nyheter" },
-  { id: "styrelsen", name: "Styrelsen" },
   { id: "dokument", name: "Dokument" },
+  { id: "styrelsen", name: "Styrelsen" },
+  { id: "bokningar", name: "Bokningar" },
 ];
 
 export const fieldTypes = {
