@@ -1,4 +1,5 @@
 import { checkLogin } from "~~/server/utils/check-login.js";
+import { hashPassword } from "~~/server/api/cms/utils/password.js";
 import { sendEmail } from "~~/server/utils/mailgun/send-email.js";
 import { messageNewPassword } from "~~/server/api/cms/content/message-new-password.js";
 import { useDrizzle } from "~~/server/db/client.ts";
@@ -37,10 +38,12 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  const hashedPassword = await hashPassword(body.password);
+
   try {
     await db
       .update(users)
-      .set({ password: body.password, resetId: "" })
+      .set({ password: hashedPassword, resetId: "" })
       .where(eq(users.id, user[0].id));
   } catch (error) {
     throw createError({

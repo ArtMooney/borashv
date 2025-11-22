@@ -1,3 +1,4 @@
+import { verifyPassword } from "~~/server/api/cms/utils/password.js";
 import { useDrizzle } from "~~/server/db/client.ts";
 import { users } from "~~/server/db/schema.ts";
 import { like } from "drizzle-orm";
@@ -8,5 +9,7 @@ export async function checkAuthentication(event, email, password) {
   const db = useDrizzle(event.context.cloudflare.env.DB);
   const user = await db.select().from(users).where(like(users.email, email));
 
-  return user && user[0].password === password;
+  if (!user || user.length === 0) return false;
+
+  return await verifyPassword(password, user[0].password);
 }
