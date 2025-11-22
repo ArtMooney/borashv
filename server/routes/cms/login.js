@@ -1,5 +1,5 @@
 import { checkLogin } from "~~/server/utils/check-login.js";
-import { verifyPassword } from "~~/server/api/cms/utils/password.js";
+import { verifyPassword } from "~~/server/routes/cms/utils/password.js";
 import { useDrizzle } from "~~/server/db/client.ts";
 import { users } from "~~/server/db/schema.ts";
 import { like } from "drizzle-orm";

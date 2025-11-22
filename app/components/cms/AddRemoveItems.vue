@@ -152,7 +152,7 @@ export default {
 
     async listRows(tableid, fieldName, asc) {
       try {
-        return await $fetch("/api/cms/rows", {
+        return await $fetch("/cms/rows", {
           method: "POST",
           headers: {
             Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),

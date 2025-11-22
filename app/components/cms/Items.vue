@@ -173,7 +173,7 @@ export default {
 
     async listRows(tableid) {
       try {
-        return await $fetch("/api/cms/rows", {
+        return await $fetch("/cms/rows", {
           method: "POST",
           headers: {
             Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
@@ -215,7 +215,7 @@ export default {
       }
 
       try {
-        const res = await $fetch("/api/cms/save-all-items", {
+        const res = await $fetch("/cms/save-all-items", {
           method: "POST",
           headers: {
             Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
@@ -255,7 +255,7 @@ export default {
 
       try {
         const res = await $fetch(
-          this.editingNewItem ? "/api/cms/add-item" : "/api/cms/save-item",
+          this.editingNewItem ? "/cms/add-item" : "/cms/save-item",
           {
             method: "POST",
             headers: {
@@ -309,7 +309,7 @@ export default {
       this.$emit("saveFlag", true);
 
       try {
-        const res = await $fetch("/api/cms/delete-item", {
+        const res = await $fetch("/cms/delete-item", {
           method: "POST",
           headers: {
             Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),

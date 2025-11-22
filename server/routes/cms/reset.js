@@ -1,7 +1,7 @@
 import { checkLogin } from "~~/server/utils/check-login.js";
-import { hashPassword } from "~~/server/api/cms/utils/password.js";
+import { randomUUID } from "crypto";
 import { sendEmail } from "~~/server/utils/mailgun/send-email.js";
-import { messageNewPassword } from "~~/server/api/cms/content/message-new-password.js";
+import { messageEmailReset } from "~~/server/routes/cms/content/message-email-reset.js";
 import { useDrizzle } from "~~/server/db/client.ts";
 import { users } from "~~/server/db/schema.ts";
 import { eq, like } from "drizzle-orm";
@@ -18,10 +18,10 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  if (!body.password || !body.validation) {
+  if (!body?.email || !body?.pageuri) {
     throw createError({
       statusCode: 400,
-      statusMessage: "Missing password or validation",
+      statusMessage: "Missing email or pageuri",
     });
   }
 
@@ -29,34 +29,31 @@ export default defineEventHandler(async (event) => {
   const user = await db
     .select()
     .from(users)
-    .where(like(users.resetId, body.validation));
+    .where(like(users.email, body.email));
 
-  if (!user || user.length === 0) {
-    throw createError({
-      statusCode: 404,
-      statusMessage: "Error validating account",
-    });
+  if (!user) {
+    return "ok"; // User not found, return same as if ok is a security measure
   }
 
-  const hashedPassword = await hashPassword(body.password);
+  const resetId = randomUUID();
 
   try {
     await db
       .update(users)
-      .set({ password: hashedPassword, resetId: "" })
+      .set({ resetId: resetId })
       .where(eq(users.id, user[0].id));
   } catch (error) {
     throw createError({
       statusCode: 500,
-      statusMessage: "Error saving password",
+      statusMessage: "Error saving user",
     });
   }
 
   const sendToEmail = await sendEmail(
     config.emailFrom,
-    user[0].email,
-    "Your password to log into Simple CMS was changed",
-    await messageNewPassword(),
+    body.email,
+    "Change password for your account on Simple CMS",
+    await messageEmailReset(body.pageuri, resetId),
     config.mailgunApiKey,
   );
 

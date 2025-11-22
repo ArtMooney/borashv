@@ -1,4 +1,4 @@
-import { fileExists } from "~~/server/api/cms/r2/file-exists.js";
+import { fileExists } from "~~/server/routes/cms/r2/file-exists.js";
 
 export async function deleteIfExists(bucket, key) {
   try {
