@@ -103,7 +103,7 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
       v-model="selectValue"
       :required="input.required"
     >
-      <option v-for="option in input.type.select_options" :value="option.value">
+      <option v-for="option in input.select_options" :value="option.value">
         {{ option.value }}
       </option>
     </select>

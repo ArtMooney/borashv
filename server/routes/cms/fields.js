@@ -39,6 +39,7 @@ export default defineEventHandler(async (event) => {
   return Object.keys(columns).map((key) => ({
     name: key,
     type: fields[key].type,
+    select_options: fields[key].select_options,
     label: fields[key].label,
     required: fields[key].required,
     hidden: fields[key].hidden,
