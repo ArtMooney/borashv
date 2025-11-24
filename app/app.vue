@@ -1,4 +1,7 @@
 <script setup>
+const config = useRuntimeConfig();
+const siteUrl = config.public.publicSiteUrl;
+
 useHead({
   htmlAttrs: {
     lang: "sv",
@@ -12,9 +15,19 @@ useHead({
         "@context": "https://schema.org",
         "@type": "Organization",
         name: "Borås Hemvärnsförening",
-        image:
-          "https://borashv.se/_ipx/f_webp&q_80&s_2000x1333/deep-forest-with-backlight.jpg",
         url: "https://borashv.se",
+        logo: {
+          "@type": "ImageObject",
+          url: `${siteUrl}/images/borashv-logo.png`,
+          width: 1000,
+          height: 1000,
+        },
+        image: {
+          "@type": "ImageObject",
+          url: `${siteUrl}/images/deep-forest-with-backlight.jpg`,
+          width: 2000,
+          height: 1333,
+        },
         telephone: "070-22777161",
         email: "fanrik@hotmail.com",
         address: {

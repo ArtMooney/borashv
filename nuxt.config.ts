@@ -2,7 +2,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: "2025-09-04",
+  compatibilityDate: "2025-11-24",
 
   devtools: { enabled: true },
 
@@ -37,6 +37,7 @@ export default defineNuxtConfig({
       userName: process.env.NUXT_PUBLIC_USERNAME,
       userPass: process.env.NUXT_PUBLIC_USERPASS,
       imageBaseUrl: process.env.NUXT_IMAGE_BASE_URL,
+      publicSiteUrl: process.env.NUXT_PUBLIC_SITE_URL,
     },
   },
 
@@ -50,7 +51,6 @@ export default defineNuxtConfig({
 
   image: {
     provider: "weserv",
-    domains: ["borashv.se"],
 
     weserv: {
       baseURL: process.env.NUXT_IMAGE_BASE_URL,
