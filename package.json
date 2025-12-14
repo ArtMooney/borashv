@@ -34,6 +34,7 @@
     "drizzle-orm": "^0.44.7",
     "nuxt": "^4.2.2",
     "pinia": "^3.0.4",
+    "pinia-plugin-persistedstate": "^4.7.1",
     "tailwindcss": "^4.1.18",
     "v-calendar": "^3.1.2",
     "vue": "latest",
