@@ -46,6 +46,7 @@ export default defineNuxtConfig({
     "@nuxtjs/sitemap",
     "@nuxt/image",
     "unplugin-icons/nuxt",
+    "@pinia/nuxt",
   ],
 
   image: {
