@@ -79,7 +79,7 @@ export default {
         this.buttonText = event.target.dataset.wait;
 
         try {
-          const res = await $fetch("/cms/reset", {
+          await $fetch("/cms/reset", {
             method: "POST",
             headers: {
               Authorization:
@@ -95,8 +95,6 @@ export default {
             "An email has been sent to your registered email address with a link to reset your password.";
           this.showStatusMessage = true;
           this.buttonText = savedText;
-
-          this.$emit("status", "ok");
           this.loginEmail = "";
           this.clearErrorWhenClicked();
         } catch (err) {
