@@ -6,7 +6,7 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
-  css: ["/assets/css/main.css", "leaflet/dist/leaflet.css"],
+  css: ["/assets/css/main.css"],
 
   vite: {
     plugins: [tailwindcss()],
@@ -45,7 +45,6 @@ export default defineNuxtConfig({
     "@nuxtjs/robots",
     "@nuxtjs/sitemap",
     "@nuxt/image",
-    "@nuxtjs/leaflet",
     "unplugin-icons/nuxt",
   ],
 
