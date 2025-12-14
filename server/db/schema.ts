@@ -34,6 +34,25 @@ export const bokningar = sqliteTable("bokningar", {
     .notNull(),
 });
 
+export const statistics = sqliteTable("statistics", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  title: text("title").notNull(),
+  venue: text("venue"),
+  company: text("company"),
+  name: text("name"),
+  phone: text("phone"),
+  email: text("email"),
+  date: text("date", { mode: "json" }).$type<string[]>(),
+  sortOrder: integer("sort_order"),
+  createdAt: text("created_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: text("updated_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .$onUpdate(() => sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+});
+
 export const booking_requests = sqliteTable("booking_requests", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   bookingValidation: text("booking_validation").notNull(),
@@ -102,10 +121,16 @@ export const dokument = sqliteTable("dokument", {
 });
 
 export const cmsTables = [
-  { id: "nyheter", name: "Nyheter" },
-  { id: "dokument", name: "Dokument" },
-  { id: "styrelsen", name: "Styrelsen" },
-  { id: "bokningar", name: "Bokningar" },
+  { id: "nyheter", name: "Nyheter", tableType: null, backupRef: null },
+  { id: "dokument", name: "Dokument", tableType: null, backupRef: null },
+  { id: "styrelsen", name: "Styrelsen", tableType: null, backupRef: null },
+  { id: "bokningar", name: "Bokningar", tableType: null, backupRef: null },
+  {
+    id: "statistics",
+    name: "Statistics",
+    tableType: "statistics",
+    backupRef: "bokningar",
+  },
 ];
 
 export const fieldTypes = {
@@ -122,6 +147,10 @@ export const fieldTypes = {
     sortOrder: { type: "integer", label: "", required: true, hidden: true },
     createdAt: { type: "date", label: "", required: true, hidden: true },
     updatedAt: { type: "date", label: "", required: true, hidden: true },
+  },
+
+  get statistics() {
+    return this.bokningar;
   },
 
   nyheter: {
