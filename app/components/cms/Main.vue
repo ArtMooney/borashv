@@ -1,7 +1,7 @@
 <template>
   <Teleport to="body">
     <div
-      class="absolute top-0 left-0 z-20 min-h-screen w-full min-w-[300px] bg-[#363636] px-4 pb-24"
+      class="absolute top-0 left-0 z-20 min-h-screen w-full min-w-75 bg-[#363636] px-4 pb-24"
     >
       <CmsNavbar />
       <CmsTableList
@@ -9,6 +9,7 @@
         @loading-flag="loadingFlag = $event"
         @schema="schema = $event"
         @table-id="tableId = $event"
+        @table-type="tableType = $event"
       />
       <CmsAddRemoveItems
         :login="login"
@@ -27,6 +28,7 @@
         :items="items"
         :schema="schema"
         :tableId="tableId"
+        :tableType="tableType"
         :show-item="showItem"
         :item-open="itemOpen"
         :save-flag="saveFlag"
@@ -44,7 +46,7 @@
 
       <div
         v-if="saveFlag || loadingFlag"
-        class="fixed top-0 right-0 bottom-0 left-0 z-[1000000] block bg-transparent"
+        class="fixed top-0 right-0 bottom-0 left-0 z-1000000 block bg-transparent"
       ></div>
     </div>
   </Teleport>
@@ -68,6 +70,7 @@ export default {
       items: [],
       schema: [],
       tableId: "",
+      tableType: "",
       showItem: 0,
       itemOpen: false,
       saveFlag: false,

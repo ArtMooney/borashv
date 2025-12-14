@@ -103,6 +103,10 @@ export default {
       type: String,
       required: true,
     },
+    tableType: {
+      type: String,
+      required: false,
+    },
     loadingFlag: {
       type: Boolean,
       required: false,
@@ -165,6 +169,15 @@ export default {
 
       if (this.schema.length > 0) {
         let items = await this.listRows(this.tableId);
+
+        if (this.tableType === "statistics") {
+          // console.log(items);
+          // console.log(this.schema);
+          // console.log(this.tableType);
+          //
+          // detta är i statistics, nästa steg bör vara att hitta en koppling med bokningar
+          // och föra över de rader där tiden har passerat dagens datum
+        }
 
         this.$emit("items", JSON.parse(JSON.stringify(items)));
         this.$emit("loadingFlag", false);
