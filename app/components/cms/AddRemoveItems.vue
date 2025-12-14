@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import { useLoginStore } from "~/components/cms/stores/loginStore";
+
 export default {
   name: "AddRemoveItems",
 
@@ -59,10 +61,6 @@ export default {
   ],
 
   props: {
-    login: {
-      type: Object,
-      required: true,
-    },
     items: {
       type: Array,
       required: false,
@@ -113,6 +111,10 @@ export default {
 
       return dateList;
     },
+
+    loginStore() {
+      return useLoginStore();
+    },
   },
 
   methods: {
@@ -158,8 +160,8 @@ export default {
             Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
           },
           body: JSON.stringify({
-            email: this.login.email,
-            password: this.login.password,
+            email: this.loginStore.email,
+            password: this.loginStore.password,
             table_id: tableid,
             field_name: fieldName,
             asc: asc,

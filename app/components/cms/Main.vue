@@ -5,14 +5,12 @@
     >
       <CmsNavbar />
       <CmsTableList
-        :login="login"
         @loading-flag="loadingFlag = $event"
         @schema="schema = $event"
         @table-id="tableId = $event"
         @table-type="tableType = $event"
       />
       <CmsAddRemoveItems
-        :login="login"
         :items="items"
         :schema="schema"
         :tableId="tableId"
@@ -24,7 +22,6 @@
         @save-new-item-order="saveNewItemOrder = $event"
       />
       <CmsItems
-        :login="login"
         :items="items"
         :schema="schema"
         :tableId="tableId"
@@ -57,13 +54,6 @@ export default {
   name: "Main",
 
   emits: ["initLoadedFlag"],
-
-  props: {
-    login: {
-      type: Object,
-      required: true,
-    },
-  },
 
   data() {
     return {

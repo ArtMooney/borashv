@@ -17,15 +17,10 @@
 </template>
 
 <script>
+import { useLoginStore } from "~/components/cms/stores/loginStore";
+
 export default {
   name: "TableList",
-
-  props: {
-    login: {
-      type: Object,
-      required: true,
-    },
-  },
 
   data() {
     const config = useRuntimeConfig();
@@ -36,6 +31,12 @@ export default {
       tableIndex: 0,
       tables: [],
     };
+  },
+
+  computed: {
+    loginStore() {
+      return useLoginStore();
+    },
   },
 
   async mounted() {
@@ -58,13 +59,13 @@ export default {
             Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
           },
           body: JSON.stringify({
-            email: this.login.email,
-            password: this.login.password,
+            email: this.loginStore.email,
+            password: this.loginStore.password,
           }),
         });
       } catch (err) {
         if (err.status === 401) {
-          deleteLocalStorage("borashv-cms");
+          this.loginStore.logout();
           location.reload();
         }
       }
@@ -78,14 +79,14 @@ export default {
             Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
           },
           body: JSON.stringify({
-            email: this.login.email,
-            password: this.login.password,
+            email: this.loginStore.email,
+            password: this.loginStore.password,
             table_id: tableid,
           }),
         });
       } catch (err) {
         if (err.status === 401) {
-          deleteLocalStorage("borashv-cms");
+          this.loginStore.logout();
           location.reload();
         }
       }

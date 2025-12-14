@@ -76,6 +76,8 @@ import { VueDraggableNext } from "vue-draggable-next";
 </template>
 
 <script>
+import { useLoginStore } from "~/components/cms/stores/loginStore";
+
 export default {
   name: "CmsItems",
 
@@ -90,10 +92,6 @@ export default {
   ],
 
   props: {
-    login: {
-      type: Object,
-      required: true,
-    },
     schema: {
       type: Array,
       required: false,
@@ -159,6 +157,12 @@ export default {
     };
   },
 
+  computed: {
+    loginStore() {
+      return useLoginStore();
+    },
+  },
+
   async mounted() {
     await this.loadData();
   },
@@ -192,8 +196,8 @@ export default {
             Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
           },
           body: JSON.stringify({
-            email: this.login.email,
-            password: this.login.password,
+            email: this.loginStore.email,
+            password: this.loginStore.password,
             table_id: tableid,
             asc: true,
             order_by: "sortOrder",
@@ -234,8 +238,8 @@ export default {
             Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
           },
           body: JSON.stringify({
-            email: this.login.email,
-            password: this.login.password,
+            email: this.loginStore.email,
+            password: this.loginStore.password,
             items: items,
             schema: this.schema,
             table_id: this.tableId,
@@ -276,8 +280,8 @@ export default {
                 "Basic " + btoa(this.userName + ":" + this.userPass),
             },
             body: JSON.stringify({
-              email: this.login.email,
-              password: this.login.password,
+              email: this.loginStore.email,
+              password: this.loginStore.password,
               item: this.localItems[index],
               schema: this.schema,
               table_id: this.tableId,
@@ -328,8 +332,8 @@ export default {
             Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
           },
           body: JSON.stringify({
-            email: this.login.email,
-            password: this.login.password,
+            email: this.loginStore.email,
+            password: this.loginStore.password,
             item: this.localItems[index],
             schema: this.schema,
             table_id: this.tableId,
