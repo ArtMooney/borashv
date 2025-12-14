@@ -15,6 +15,13 @@
       "when": 1763413171384,
       "tag": "0001_living_albert_cleary",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1765670787860,
+      "tag": "0002_greedy_nomad",
+      "breakpoints": true
     }
   ]
 }
