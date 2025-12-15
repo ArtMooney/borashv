@@ -3,17 +3,17 @@ import { VueDraggableNext } from "vue-draggable-next";
 </script>
 
 <template>
-  <div
-    class="mx-auto mt-8 max-w-screen-md justify-center gap-4"
-    id="items-list-top"
-  >
+  <div class="mx-auto mt-8 max-w-3xl justify-center gap-4" id="items-list-top">
     <CmsLoadingSpinner
-      v-if="loadingFlag"
+      v-if="cmsStore.loadingFlag"
       size="large"
       class="mx-auto justify-self-center"
     />
 
-    <div v-if="!items.length && !loadingFlag" class="py-16 text-center">
+    <div
+      v-if="!cmsStore.hasItems && !cmsStore.loadingFlag"
+      class="py-16 text-center"
+    >
       No items found
     </div>
 
@@ -28,43 +28,28 @@ import { VueDraggableNext } from "vue-draggable-next";
         v-for="(item, index) of localItems"
         @click="handleClick($event, item, index)"
         class="mb-4 grid grid-cols-2 rounded bg-black/25 p-4 shadow-[3px_4px_12px_rgba(0,0,0,0.22)] hover:bg-[#242424]"
-        v-show="!loadingFlag"
+        v-show="!cmsStore.loadingFlag"
         :ref="`list-item-${index}`"
         :id="`list-item-${index}`"
         :key="item"
       >
-        <CmsItemTitle
-          :item="item"
-          :index="index"
-          :show-item="showItem"
-          :item-open="itemOpen"
-          :save-flag="saveFlag"
-          :save-all-flag="saveAllFlag"
-          :editing-new-item="editingNewItem"
-          :input-error="inputError"
-          @save-item="saveItem($event)"
-          @cancel-item="cancelItem($event)"
-          @delete-item="deleteItem($event)"
-        />
+        <CmsItemTitle :item="item" :index="index" />
 
         <form
           @submit.prevent="saveItem(index)"
           :ref="`formEl${index}`"
           @click.stop
-          v-show="itemOpen && showItem === index"
+          v-show="cmsStore.itemOpen && cmsStore.showItem === index"
           class="col-span-2 flex flex-col gap-3 text-sm"
         >
           <div class="my-4 h-px w-full bg-white/25"></div>
 
-          <template v-for="(input, inputIndex) of schema">
+          <template v-for="(input, inputIndex) of cmsStore.schema">
             <CmsInputs
               v-if="input.name !== 'index'"
               :input="input"
               :item="item"
               :index="index"
-              @show-item="$emit('showItem', $event)"
-              @save-flag="$emit('saveFlag', $event)"
-              @input-error="handleInputError($event, inputIndex)"
             />
           </template>
 
@@ -77,68 +62,10 @@ import { VueDraggableNext } from "vue-draggable-next";
 
 <script>
 import { useLoginStore } from "~/components/cms/stores/loginStore";
+import { useCmsStore } from "~/components/cms/stores/cmsStore";
 
 export default {
   name: "CmsItems",
-
-  emits: [
-    "loadingFlag",
-    "saveFlag",
-    "items",
-    "showItem",
-    "itemOpen",
-    "editingNewItem",
-    "saveNewItemOrder",
-  ],
-
-  props: {
-    schema: {
-      type: Array,
-      required: false,
-      default: [],
-    },
-    tableId: {
-      type: String,
-      required: true,
-    },
-    tableType: {
-      type: String,
-      required: false,
-    },
-    loadingFlag: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    saveFlag: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    editingNewItem: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    items: {
-      type: Array,
-      required: false,
-      default: [],
-    },
-    showItem: {
-      type: Number,
-      required: false,
-    },
-    itemOpen: {
-      type: Boolean,
-      required: false,
-    },
-    saveNewItemOrder: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-  },
 
   data() {
     const config = useRuntimeConfig();
@@ -151,15 +78,17 @@ export default {
       dragVibration: 100,
       editingItem: false,
       itemCopy: null,
-      inputError: false,
       inputErrorIndex: [],
-      saveAllFlag: false,
     };
   },
 
   computed: {
     loginStore() {
       return useLoginStore();
+    },
+
+    cmsStore() {
+      return useCmsStore();
     },
   },
 
@@ -169,22 +98,22 @@ export default {
 
   methods: {
     async loadData() {
-      this.$emit("loadingFlag", true);
+      this.cmsStore.setLoadingFlag(true);
 
-      if (this.schema.length > 0) {
-        let items = await this.listRows(this.tableId);
+      if (this.cmsStore.schema.length > 0) {
+        let items = await this.listRows(this.cmsStore.tableId);
 
-        if (this.tableType === "statistics") {
-          // console.log(items);
-          // console.log(this.schema);
-          // console.log(this.tableType);
+        if (this.cmsStore.tableType === "statistics") {
+          // console.log(cmsStore.items);
+          // console.log(this.cmsStore.schema);
+          // console.log(this.cmsStore.tableType);
           //
           // detta är i statistics, nästa steg bör vara att hitta en koppling med bokningar
           // och föra över de rader där tiden har passerat dagens datum
         }
 
-        this.$emit("items", JSON.parse(JSON.stringify(items)));
-        this.$emit("loadingFlag", false);
+        this.cmsStore.setItems(JSON.parse(JSON.stringify(items)));
+        this.cmsStore.setLoadingFlag(false);
       }
     },
 
@@ -213,18 +142,18 @@ export default {
 
       this.itemCopy = JSON.parse(JSON.stringify(item));
 
-      if (this.showItem === index) {
-        this.$emit("showItem", index);
-        this.$emit("itemOpen", !this.itemOpen);
+      if (this.cmsStore.showItem === index) {
+        this.cmsStore.setShowItem(index);
+        this.cmsStore.setItemOpen(!this.cmsStore.itemOpen);
       } else {
-        this.$emit("showItem", index);
-        this.$emit("itemOpen", true);
+        this.cmsStore.setShowItem(index);
+        this.cmsStore.setItemOpen(true);
       }
     },
 
     async saveAllItems() {
-      this.$emit("saveFlag", true);
-      this.saveAllFlag = true;
+      this.cmsStore.setSaveFlag(true);
+      this.cmsStore.setSaveAllFlag(true);
       const items = JSON.parse(JSON.stringify(this.localItems));
 
       for (let [index, item] of items.entries()) {
@@ -241,24 +170,24 @@ export default {
             email: this.loginStore.email,
             password: this.loginStore.password,
             items: items,
-            schema: this.schema,
-            table_id: this.tableId,
+            schema: this.cmsStore.schema,
+            table_id: this.cmsStore.tableId,
           }),
         });
 
-        this.$emit("itemOpen", false);
-        this.$emit("saveFlag", false);
-        this.saveAllFlag = false;
+        this.cmsStore.setItemOpen(false);
+        this.cmsStore.setSaveFlag(false);
+        this.cmsStore.setSaveAllFlag(false);
       } catch (err) {
         console.log(err);
 
-        this.$emit("saveFlag", false);
-        this.saveAllFlag = false;
+        this.cmsStore.setSaveFlag(false);
+        this.cmsStore.setSaveAllFlag(false);
       }
     },
 
     async saveItem(index) {
-      if (index !== this.showItem) return;
+      if (index !== this.cmsStore.showItem) return;
 
       const item = this.localItems[index];
       const form = this.$refs[`formEl${index}`][0];
@@ -268,11 +197,11 @@ export default {
         return;
       }
 
-      this.$emit("saveFlag", true);
+      this.cmsStore.setSaveFlag(true);
 
       try {
         const res = await $fetch(
-          this.editingNewItem ? "/cms/add-item" : "/cms/save-item",
+          this.cmsStore.editingNewItem ? "/cms/add-item" : "/cms/save-item",
           {
             method: "POST",
             headers: {
@@ -283,8 +212,8 @@ export default {
               email: this.loginStore.email,
               password: this.loginStore.password,
               item: this.localItems[index],
-              schema: this.schema,
-              table_id: this.tableId,
+              schema: this.cmsStore.schema,
+              table_id: this.cmsStore.tableId,
             }),
           },
         );
@@ -292,41 +221,42 @@ export default {
         const items = JSON.parse(JSON.stringify(this.localItems));
         items[index] = res;
 
-        this.$emit("items", items);
-        this.$emit("itemOpen", false);
-        this.$emit("saveFlag", false);
-        this.$emit("editingNewItem", false);
+        this.cmsStore.setItems(items);
+        this.cmsStore.setItemOpen(false);
+        this.cmsStore.setSaveFlag(false);
+        this.cmsStore.setEditingNewItem(false);
         this.editingItem = false;
       } catch (err) {
         console.log(err);
-        this.$emit("saveFlag", false);
+
+        this.cmsStore.setSaveFlag(false);
       }
     },
 
     cancelItem(index) {
-      if (this.editingNewItem) {
+      if (this.cmsStore.editingNewItem) {
         const items = JSON.parse(JSON.stringify(this.localItems));
         items.pop();
 
-        this.$emit("items", JSON.parse(JSON.stringify(items)));
-        this.$emit("itemOpen", false);
-        this.$emit("editingNewItem", false);
+        this.cmsStore.setItems(JSON.parse(JSON.stringify(items)));
+        this.cmsStore.setItemOpen(false);
+        this.cmsStore.setEditingNewItem(false);
         this.editingItem = false;
-      } else if (index === this.showItem) {
+      } else if (index === this.cmsStore.showItem) {
         const items = JSON.parse(JSON.stringify(this.localItems));
         items[index] = this.itemCopy;
 
-        this.$emit("itemOpen", false);
-        this.$emit("items", JSON.parse(JSON.stringify(items)));
+        this.cmsStore.setItemOpen(false);
+        this.cmsStore.setItems(JSON.parse(JSON.stringify(items)));
         this.editingItem = false;
       }
     },
 
     async deleteItem(index) {
-      this.$emit("saveFlag", true);
+      this.cmsStore.setSaveFlag(true);
 
       try {
-        const res = await $fetch("/cms/delete-item", {
+        await $fetch("/cms/delete-item", {
           method: "POST",
           headers: {
             Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
@@ -335,31 +265,26 @@ export default {
             email: this.loginStore.email,
             password: this.loginStore.password,
             item: this.localItems[index],
-            schema: this.schema,
-            table_id: this.tableId,
+            schema: this.cmsStore.schema,
+            table_id: this.cmsStore.tableId,
           }),
         });
 
         const items = JSON.parse(JSON.stringify(this.localItems));
         items.splice(index, 1);
         this.editingItem = false;
-        this.$emit("itemOpen", false);
-        this.$emit("items", JSON.parse(JSON.stringify(items)));
-        this.$emit("saveFlag", false);
+        this.cmsStore.setItemOpen(false);
+        this.cmsStore.setItems(JSON.parse(JSON.stringify(items)));
+        this.cmsStore.setSaveFlag(false);
       } catch (err) {
         console.log(err);
 
-        this.$emit("saveFlag", false);
+        this.cmsStore.setSaveFlag(false);
       }
     },
 
-    handleInputError(event, index) {
-      this.inputErrorIndex[index] = event;
-      this.inputError = !!this.inputErrorIndex.find((input) => input);
-    },
-
     validateFields(item) {
-      for (const config of this.schema) {
+      for (const config of this.cmsStore.schema) {
         if (config.hidden) continue;
         if (!config.required) continue;
 
@@ -398,31 +323,33 @@ export default {
   },
 
   watch: {
-    schema() {
+    "cmsStore.schema"() {
       this.editingItem = false;
-      this.inputError = false;
-      this.$emit("showItem", 0);
-      this.$emit("itemOpen", false);
-      this.$emit("editingNewItem", false);
+      this.cmsStore.setInputError(false);
+      this.cmsStore.setShowItem(0);
+      this.cmsStore.setItemOpen(false);
+      this.cmsStore.setEditingNewItem(false);
       this.loadData();
     },
 
-    itemOpen() {
-      this.dragDelay = this.itemOpen ? 86400000 : 0;
+    "cmsStore.itemOpen"() {
+      this.dragDelay = this.cmsStore.itemOpen ? 86400000 : 0;
 
-      if (this.itemOpen) {
-        this.inputErrorIndex = Array(this.schema.length - 1).fill(null); // do not include index
+      if (this.cmsStore.itemOpen) {
+        this.inputErrorIndex = Array(this.cmsStore.schema.length - 1).fill(
+          null,
+        ); // do not include index
       }
     },
 
-    items: {
+    "cmsStore.items": {
       handler(newVal) {
         this.localItems = JSON.parse(JSON.stringify(newVal));
 
-        if (!this.itemOpen) return;
+        if (!this.cmsStore.itemOpen) return;
 
         if (
-          JSON.stringify(newVal[this.showItem]) ===
+          JSON.stringify(newVal[this.cmsStore.showItem]) ===
           JSON.stringify(this.itemCopy)
         ) {
           this.editingItem = false;
@@ -437,10 +364,10 @@ export default {
 
     localItems: {
       handler(newVal) {
-        if (!this.itemOpen) return;
+        if (!this.cmsStore.itemOpen) return;
 
         if (
-          JSON.stringify(newVal[this.showItem]) ===
+          JSON.stringify(newVal[this.cmsStore.showItem]) ===
           JSON.stringify(this.itemCopy)
         ) {
           this.editingItem = false;
@@ -452,11 +379,23 @@ export default {
       deep: true,
     },
 
-    saveNewItemOrder() {
-      if (this.saveNewItemOrder) {
+    "cmsStore.saveNewItemOrder"() {
+      if (this.cmsStore.saveNewItemOrder) {
         this.saveAllItems();
-        this.$emit("saveNewItemOrder", false);
+        this.cmsStore.setSaveNewItemOrder(false);
       }
+    },
+
+    "cmsStore.saveTrigger"() {
+      this.saveItem(this.cmsStore.saveItem);
+    },
+
+    "cmsStore.cancelTrigger"() {
+      this.cancelItem(this.cmsStore.cancelItem);
+    },
+
+    "cmsStore.deleteTrigger"() {
+      this.deleteItem(this.cmsStore.deleteItem);
     },
   },
 };

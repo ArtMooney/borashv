@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mx-auto my-12 flex max-w-screen-md flex-wrap justify-center gap-4 text-center text-base select-none"
+    class="mx-auto my-12 flex max-w-3xl flex-wrap justify-center gap-4 text-center text-base select-none"
   >
     <div>Add, edit or remove content below</div>
 
@@ -48,39 +48,10 @@
 
 <script>
 import { useLoginStore } from "~/components/cms/stores/loginStore";
+import { useCmsStore } from "~/components/cms/stores/cmsStore";
 
 export default {
   name: "AddRemoveItems",
-
-  emits: [
-    "items",
-    "showItem",
-    "itemOpen",
-    "editingNewItem",
-    "saveNewItemOrder",
-  ],
-
-  props: {
-    items: {
-      type: Array,
-      required: false,
-      default: [],
-    },
-    schema: {
-      type: Array,
-      required: false,
-      default: [],
-    },
-    tableId: {
-      type: String,
-      required: true,
-    },
-    editingNewItem: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-  },
 
   data() {
     const config = useRuntimeConfig();
@@ -97,7 +68,7 @@ export default {
     getDateList() {
       const dateList = [];
 
-      for (const field of this.schema) {
+      for (const field of this.cmsStore.schema) {
         if (
           (field.type === "date" || field.type === "dateRange") &&
           !field.hidden
@@ -115,14 +86,18 @@ export default {
     loginStore() {
       return useLoginStore();
     },
+
+    cmsStore() {
+      return useCmsStore();
+    },
   },
 
   methods: {
     addItem() {
-      if (this.editingNewItem) return;
+      if (this.cmsStore.editingNewItem) return;
 
-      const items = JSON.parse(JSON.stringify(this.items));
-      const sortOrder = this.items.length;
+      const items = JSON.parse(JSON.stringify(this.cmsStore.items));
+      const sortOrder = this.cmsStore.items.length;
       let fields = {};
       fields.sortOrder = sortOrder.toString();
 
@@ -130,10 +105,10 @@ export default {
         ...fields,
       });
 
-      this.$emit("items", items);
-      this.$emit("showItem", sortOrder);
-      this.$emit("itemOpen", true);
-      this.$emit("editingNewItem", true);
+      this.cmsStore.setItems(items);
+      this.cmsStore.setShowItem(sortOrder);
+      this.cmsStore.setItemOpen(true);
+      this.cmsStore.setEditingNewItem(true);
 
       this.$router.push({
         hash: `#list-item-${items.length - 1}`,
@@ -141,14 +116,16 @@ export default {
     },
 
     async sortDateFields(fieldName) {
-      if (!this.schema.length) return;
+      if (!this.cmsStore.schema.length) return;
 
       this.order = !this.order;
-
-      let items = await this.listRows(this.tableId, fieldName, this.order);
-
-      this.$emit("items", JSON.parse(JSON.stringify(items)));
-      this.$emit("saveNewItemOrder", true);
+      let items = await this.listRows(
+        this.cmsStore.tableId,
+        fieldName,
+        this.order,
+      );
+      this.cmsStore.setItems(JSON.parse(JSON.stringify(items)));
+      this.cmsStore.setSaveNewItemOrder(true);
       this.showDateList = false;
     },
 
@@ -174,7 +151,7 @@ export default {
   },
 
   watch: {
-    schema() {
+    "cmsStore.schema"() {
       this.order = false;
     },
   },

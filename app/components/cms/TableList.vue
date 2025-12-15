@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mx-auto mt-8 flex max-w-screen-md flex-wrap justify-center gap-4 text-base"
+    class="mx-auto mt-8 flex max-w-3xl flex-wrap justify-center gap-4 text-base"
   >
     <label class="flex w-full flex-col gap-2">
       <p class="font-semibold text-white/50 italic">
@@ -18,6 +18,7 @@
 
 <script>
 import { useLoginStore } from "~/components/cms/stores/loginStore";
+import { useCmsStore } from "~/components/cms/stores/cmsStore";
 
 export default {
   name: "TableList",
@@ -37,17 +38,21 @@ export default {
     loginStore() {
       return useLoginStore();
     },
+
+    cmsStore() {
+      return useCmsStore();
+    },
   },
 
   async mounted() {
-    this.$emit("loadingFlag", true);
+    this.cmsStore.setLoadingFlag(true);
 
     this.tables = await this.listTables();
     const schema = await this.listFields(this.tables[this.tableIndex].id);
 
-    this.$emit("schema", schema);
-    this.$emit("tableId", this.tables[this.tableIndex].id);
-    this.$emit("tableType", this.tables[this.tableIndex].tableType);
+    this.cmsStore.setSchema(schema);
+    this.cmsStore.setTableId(this.tables[this.tableIndex].id);
+    this.cmsStore.setTableType(this.tables[this.tableIndex].tableType);
   },
 
   methods: {
@@ -95,11 +100,11 @@ export default {
 
   watch: {
     async tableIndex() {
-      this.$emit("loadingFlag", true);
+      this.cmsStore.setLoadingFlag(true);
       const schema = await this.listFields(this.tables[this.tableIndex].id);
-      this.$emit("schema", schema);
-      this.$emit("tableId", this.tables[this.tableIndex].id);
-      this.$emit("tableType", this.tables[this.tableIndex].tableType);
+      this.cmsStore.setSchema(schema);
+      this.cmsStore.setTableId(this.tables[this.tableIndex].id);
+      this.cmsStore.setTableType(this.tables[this.tableIndex].tableType);
     },
   },
 };

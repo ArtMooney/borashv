@@ -114,8 +114,6 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
 export default {
   name: "Inputs",
 
-  emits: ["showItem", "saveFlag", "inputError"],
-
   props: {
     input: {
       type: Object,
