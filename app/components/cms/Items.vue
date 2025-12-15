@@ -161,7 +161,7 @@ export default {
       }
 
       try {
-        const res = await $fetch("/cms/save-all-items", {
+        await $fetch("/cms/save-all-items", {
           method: "POST",
           headers: {
             Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
