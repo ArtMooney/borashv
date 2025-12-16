@@ -3,6 +3,7 @@ import { useLoginStore } from "~/components/cms/stores/loginStore";
 
 export const useCmsStore = defineStore("cmsStore", {
   state: () => ({
+    tables: [],
     items: [],
     schema: [],
     tableId: "",
@@ -106,8 +107,65 @@ export const useCmsStore = defineStore("cmsStore", {
       this.deleteItem = index;
     },
 
+    async listTables() {
+      this.loadingFlag = true;
+      const loginStore = useLoginStore();
+      const config = useRuntimeConfig();
+
+      try {
+        this.tables = await $fetch("/cms/tables", {
+          method: "POST",
+          headers: {
+            Authorization:
+              "Basic " +
+              btoa(config.public.userName + ":" + config.public.userPass),
+          },
+          body: {
+            email: loginStore.email,
+            password: loginStore.password,
+          },
+        });
+      } catch (err) {
+        if (err.status === 401) {
+          loginStore.logout();
+          location.reload();
+        }
+      } finally {
+        this.loadingFlag = false;
+      }
+    },
+
+    async listFields() {
+      this.loadingFlag = true;
+      const loginStore = useLoginStore();
+      const config = useRuntimeConfig();
+
+      try {
+        this.schema = await $fetch("/cms/fields", {
+          method: "POST",
+          headers: {
+            Authorization:
+              "Basic " +
+              btoa(config.public.userName + ":" + config.public.userPass),
+          },
+          body: {
+            email: loginStore.email,
+            password: loginStore.password,
+            table_id: this.tableId,
+          },
+        });
+      } catch (err) {
+        if (err.status === 401) {
+          loginStore.logout();
+          location.reload();
+        }
+      } finally {
+        this.loadingFlag = false;
+      }
+    },
+
     async listRows() {
-      if (this.schema.length === 0) return;
+      if (!this.hasSchema) return;
 
       this.loadingFlag = true;
       const loginStore = useLoginStore();
