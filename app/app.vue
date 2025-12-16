@@ -28,7 +28,7 @@ useHead({
           width: 2000,
           height: 1333,
         },
-        telephone: "070-22777161",
+        telephone: "0702-777161",
         email: "fanrik@hotmail.com",
         address: {
           "@type": "PostalAddress",
