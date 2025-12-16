@@ -104,22 +104,5 @@ export const useCmsStore = defineStore("cmsStore", {
       this.deleteTrigger++;
       this.deleteItem = index;
     },
-
-    resetState() {
-      this.items = [];
-      this.schema = [];
-      this.tableId = "";
-      this.tableType = "";
-      this.showItem = 0;
-      this.itemOpen = false;
-      this.saveFlag = false;
-      this.loadingFlag = true;
-      this.editingNewItem = false;
-      this.saveNewItemOrder = false;
-      this.inputError = false;
-      this.saveTrigger = 0;
-      this.cancelTrigger = 0;
-      this.deleteTrigger = 0;
-    },
   },
 });
