@@ -21,10 +21,10 @@ import IconIonLocation from "~icons/ion/location";
       />
     </div>
 
-    <a class="relative flex flex-col items-center" href="tel:070-22777161">
+    <a class="relative flex flex-col items-center" href="tel:0702-777161">
       <IconIonCall class="mb-4 h-20 w-20 text-white"></IconIonCall>
       <div>Mobil:</div>
-      <div class="underline">070-22777161</div>
+      <div class="underline">0702-777161</div>
     </a>
     <a
       class="relative flex flex-col items-center"
