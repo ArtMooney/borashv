@@ -60,7 +60,7 @@ export default {
       userName: config.public.userName,
       userPass: config.public.userPass,
       showDateList: false,
-      order: false,
+      order: "desc",
     };
   },
 
@@ -118,7 +118,7 @@ export default {
     async sortDateFields(fieldName) {
       if (!this.cmsStore.schema.length) return;
 
-      this.order = !this.order;
+      this.order = this.order === "asc" ? "desc" : "asc";
       let items = await this.listRows(
         this.cmsStore.tableId,
         fieldName,
@@ -129,7 +129,7 @@ export default {
       this.showDateList = false;
     },
 
-    async listRows(tableid, fieldName, asc) {
+    async listRows(tableid, fieldName, sortOrder) {
       try {
         return await $fetch("/cms/rows", {
           method: "POST",
@@ -141,7 +141,7 @@ export default {
             password: this.loginStore.password,
             table_id: tableid,
             field_name: fieldName,
-            asc: asc,
+            sort_order: sortOrder,
           }),
         });
       } catch (err) {
@@ -152,7 +152,7 @@ export default {
 
   watch: {
     "cmsStore.schema"() {
-      this.order = false;
+      this.order = "desc";
     },
   },
 };

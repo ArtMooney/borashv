@@ -164,7 +164,7 @@ export const useCmsStore = defineStore("cmsStore", {
       }
     },
 
-    async loadRows() {
+    async loadRows(sortOrder) {
       if (!this.hasSchema) return;
 
       this.loadingFlag = true;
@@ -183,8 +183,7 @@ export const useCmsStore = defineStore("cmsStore", {
             email: loginStore.email,
             password: loginStore.password,
             table_id: this.tableId,
-            asc: true,
-            order_by: "sortOrder",
+            sort_order: sortOrder,
           },
         });
       } catch (err) {
