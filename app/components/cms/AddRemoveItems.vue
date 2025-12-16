@@ -119,34 +119,9 @@ export default {
       if (!this.cmsStore.schema.length) return;
 
       this.order = this.order === "asc" ? "desc" : "asc";
-      let items = await this.listRows(
-        this.cmsStore.tableId,
-        fieldName,
-        this.order,
-      );
-      this.cmsStore.setItems(JSON.parse(JSON.stringify(items)));
+      await this.cmsStore.loadRows(this.order, fieldName);
       this.cmsStore.setSaveNewItemOrder(true);
       this.showDateList = false;
-    },
-
-    async listRows(tableid, fieldName, sortOrder) {
-      try {
-        return await $fetch("/cms/rows", {
-          method: "POST",
-          headers: {
-            Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
-          },
-          body: JSON.stringify({
-            email: this.loginStore.email,
-            password: this.loginStore.password,
-            table_id: tableid,
-            field_name: fieldName,
-            sort_order: sortOrder,
-          }),
-        });
-      } catch (err) {
-        console.log(err);
-      }
     },
   },
 

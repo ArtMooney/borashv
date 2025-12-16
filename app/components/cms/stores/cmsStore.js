@@ -164,7 +164,7 @@ export const useCmsStore = defineStore("cmsStore", {
       }
     },
 
-    async loadRows(sortOrder) {
+    async loadRows(sortOrder, fieldName) {
       if (!this.hasSchema) return;
 
       this.loadingFlag = true;
@@ -183,6 +183,7 @@ export const useCmsStore = defineStore("cmsStore", {
             email: loginStore.email,
             password: loginStore.password,
             table_id: this.tableId,
+            field_name: fieldName,
             sort_order: sortOrder,
           },
         });
