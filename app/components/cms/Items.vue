@@ -112,7 +112,7 @@ export default {
           // och föra över de rader där tiden har passerat dagens datum
         }
 
-        this.cmsStore.setItems(JSON.parse(JSON.stringify(items)));
+        this.cmsStore.setItems(this.deepClone(items));
         this.cmsStore.setLoadingFlag(false);
       }
     },
@@ -140,7 +140,7 @@ export default {
     handleClick(event, item, index) {
       if (this.editingItem) return;
 
-      this.itemCopy = JSON.parse(JSON.stringify(item));
+      this.itemCopy = this.deepClone(item);
 
       if (this.cmsStore.showItem === index) {
         this.cmsStore.setShowItem(index);
@@ -154,7 +154,7 @@ export default {
     async saveAllItems() {
       this.cmsStore.setSaveFlag(true);
       this.cmsStore.setSaveAllFlag(true);
-      const items = JSON.parse(JSON.stringify(this.localItems));
+      const items = this.deepClone(this.localItems);
 
       for (let [index, item] of items.entries()) {
         item.sortOrder = index.toString();
@@ -218,7 +218,7 @@ export default {
           },
         );
 
-        const items = JSON.parse(JSON.stringify(this.localItems));
+        const items = this.deepClone(this.localItems);
         items[index] = res;
 
         this.cmsStore.setItems(items);
@@ -234,20 +234,20 @@ export default {
     },
 
     cancelItem(index) {
+      const items = this.deepClone(this.localItems);
+
       if (this.cmsStore.editingNewItem) {
-        const items = JSON.parse(JSON.stringify(this.localItems));
         items.pop();
 
-        this.cmsStore.setItems(JSON.parse(JSON.stringify(items)));
+        this.cmsStore.setItems(items);
         this.cmsStore.setItemOpen(false);
         this.cmsStore.setEditingNewItem(false);
         this.editingItem = false;
       } else if (index === this.cmsStore.showItem) {
-        const items = JSON.parse(JSON.stringify(this.localItems));
         items[index] = this.itemCopy;
 
+        this.cmsStore.setItems(items);
         this.cmsStore.setItemOpen(false);
-        this.cmsStore.setItems(JSON.parse(JSON.stringify(items)));
         this.editingItem = false;
       }
     },
@@ -270,11 +270,11 @@ export default {
           }),
         });
 
-        const items = JSON.parse(JSON.stringify(this.localItems));
+        const items = this.deepClone(this.localItems);
         items.splice(index, 1);
-        this.editingItem = false;
+        this.cmsStore.setItems(items);
         this.cmsStore.setItemOpen(false);
-        this.cmsStore.setItems(JSON.parse(JSON.stringify(items)));
+        this.editingItem = false;
         this.cmsStore.setSaveFlag(false);
       } catch (err) {
         console.log(err);
@@ -320,6 +320,10 @@ export default {
 
       return true;
     },
+
+    deepClone(obj) {
+      return JSON.parse(JSON.stringify(obj));
+    },
   },
 
   watch: {
@@ -344,7 +348,7 @@ export default {
 
     "cmsStore.items": {
       handler(newVal) {
-        this.localItems = JSON.parse(JSON.stringify(newVal));
+        this.localItems = this.deepClone(newVal);
 
         if (!this.cmsStore.itemOpen) return;
 
