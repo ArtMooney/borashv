@@ -98,7 +98,7 @@ export default {
 
   methods: {
     async loadData() {
-      await this.cmsStore.listRows();
+      await this.cmsStore.loadRows();
 
       if (this.cmsStore.tableType === "statistics") {
         // console.log(cmsStore.items);

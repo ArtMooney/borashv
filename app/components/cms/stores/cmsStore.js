@@ -107,7 +107,7 @@ export const useCmsStore = defineStore("cmsStore", {
       this.deleteItem = index;
     },
 
-    async listTables() {
+    async loadTables() {
       this.loadingFlag = true;
       const loginStore = useLoginStore();
       const config = useRuntimeConfig();
@@ -135,7 +135,7 @@ export const useCmsStore = defineStore("cmsStore", {
       }
     },
 
-    async listFields() {
+    async loadFields() {
       this.loadingFlag = true;
       const loginStore = useLoginStore();
       const config = useRuntimeConfig();
@@ -164,7 +164,7 @@ export const useCmsStore = defineStore("cmsStore", {
       }
     },
 
-    async listRows() {
+    async loadRows() {
       if (!this.hasSchema) return;
 
       this.loadingFlag = true;

@@ -35,7 +35,7 @@ export default {
   },
 
   async mounted() {
-    await this.cmsStore.listTables();
+    await this.cmsStore.loadTables();
     await this.loadSchema();
   },
 
@@ -44,7 +44,7 @@ export default {
       const table = this.cmsStore.tables[this.tableIndex];
       this.cmsStore.setTableId(table.id);
       this.cmsStore.setTableType(table.tableType);
-      await this.cmsStore.listFields();
+      await this.cmsStore.loadFields();
     },
   },
 
