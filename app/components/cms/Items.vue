@@ -98,42 +98,15 @@ export default {
 
   methods: {
     async loadData() {
-      this.cmsStore.setLoadingFlag(true);
+      await this.cmsStore.listRows();
 
-      if (this.cmsStore.schema.length > 0) {
-        let items = await this.listRows(this.cmsStore.tableId);
-
-        if (this.cmsStore.tableType === "statistics") {
-          // console.log(cmsStore.items);
-          // console.log(this.cmsStore.schema);
-          // console.log(this.cmsStore.tableType);
-          //
-          // detta är i statistics, nästa steg bör vara att hitta en koppling med bokningar
-          // och föra över de rader där tiden har passerat dagens datum
-        }
-
-        this.cmsStore.setItems(this.deepClone(items));
-        this.cmsStore.setLoadingFlag(false);
-      }
-    },
-
-    async listRows(tableid) {
-      try {
-        return await $fetch("/cms/rows", {
-          method: "POST",
-          headers: {
-            Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
-          },
-          body: JSON.stringify({
-            email: this.loginStore.email,
-            password: this.loginStore.password,
-            table_id: tableid,
-            asc: true,
-            order_by: "sortOrder",
-          }),
-        });
-      } catch (err) {
-        console.log(err);
+      if (this.cmsStore.tableType === "statistics") {
+        // console.log(cmsStore.items);
+        // console.log(this.cmsStore.schema);
+        // console.log(this.cmsStore.tableType);
+        //
+        // detta är i statistics, nästa steg bör vara att hitta en koppling med bokningar
+        // och föra över de rader där tiden har passerat dagens datum
       }
     },
 

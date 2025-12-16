@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { useLoginStore } from "~/components/cms/stores/loginStore";
 
 export const useCmsStore = defineStore("cmsStore", {
   state: () => ({
@@ -103,6 +104,36 @@ export const useCmsStore = defineStore("cmsStore", {
     setDeleteItem(index) {
       this.deleteTrigger++;
       this.deleteItem = index;
+    },
+
+    async listRows() {
+      if (this.schema.length === 0) return;
+
+      this.loadingFlag = true;
+      const loginStore = useLoginStore();
+      const config = useRuntimeConfig();
+
+      try {
+        this.items = await $fetch("/cms/rows", {
+          method: "POST",
+          headers: {
+            Authorization:
+              "Basic " +
+              btoa(config.public.userName + ":" + config.public.userPass),
+          },
+          body: {
+            email: loginStore.email,
+            password: loginStore.password,
+            table_id: this.tableId,
+            asc: true,
+            order_by: "sortOrder",
+          },
+        });
+      } catch (err) {
+        console.log(err);
+      } finally {
+        this.loadingFlag = false;
+      }
     },
   },
 });
