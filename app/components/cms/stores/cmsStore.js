@@ -263,6 +263,51 @@ export const useCmsStore = defineStore("cmsStore", {
       }
     },
 
+    async saveAllItems() {
+      const loginStore = useLoginStore();
+      const config = useRuntimeConfig();
+
+      this.saveFlag = true;
+      this.saveAllFlag = true;
+      const items = JSON.parse(JSON.stringify(this.items));
+
+      for (let [index, item] of items.entries()) {
+        item.sortOrder = index.toString();
+      }
+
+      try {
+        await $fetch("/cms/save-all-items", {
+          method: "POST",
+          headers: {
+            Authorization:
+              "Basic " +
+              btoa(config.public.userName + ":" + config.public.userPass),
+          },
+          body: {
+            email: loginStore.email,
+            password: loginStore.password,
+            items: items,
+            schema: this.schema,
+            table_id: this.tableId,
+          },
+        });
+
+        this.itemOpen = false;
+        this.saveFlag = false;
+        this.saveAllFlag = false;
+      } catch (err) {
+        if (err.status === 401) {
+          loginStore.logout();
+          location.reload();
+        }
+
+        console.log(err);
+      } finally {
+        this.saveFlag = false;
+        this.saveAllFlag = false;
+      }
+    },
+
     async deleteItem(index) {
       const loginStore = useLoginStore();
       const config = useRuntimeConfig();

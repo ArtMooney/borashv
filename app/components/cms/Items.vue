@@ -22,7 +22,7 @@ import { VueDraggableNext } from "vue-draggable-next";
       :delay="dragDelay"
       :animation="200"
       handle=".dragdrop-handle"
-      @end="saveAllItems"
+      @end="cmsStore.saveAllItems"
     >
       <div
         v-for="(item, index) of cmsStore.items"
@@ -121,41 +121,6 @@ export default {
       }
     },
 
-    async saveAllItems() {
-      this.cmsStore.setSaveFlag(true);
-      this.cmsStore.setSaveAllFlag(true);
-      const items = this.deepClone(this.cmsStore.items);
-
-      for (let [index, item] of items.entries()) {
-        item.sortOrder = index.toString();
-      }
-
-      try {
-        await $fetch("/cms/save-all-items", {
-          method: "POST",
-          headers: {
-            Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
-          },
-          body: JSON.stringify({
-            email: this.loginStore.email,
-            password: this.loginStore.password,
-            items: items,
-            schema: this.cmsStore.schema,
-            table_id: this.cmsStore.tableId,
-          }),
-        });
-
-        this.cmsStore.setItemOpen(false);
-        this.cmsStore.setSaveFlag(false);
-        this.cmsStore.setSaveAllFlag(false);
-      } catch (err) {
-        console.log(err);
-
-        this.cmsStore.setSaveFlag(false);
-        this.cmsStore.setSaveAllFlag(false);
-      }
-    },
-
     deepClone(obj) {
       return JSON.parse(JSON.stringify(obj));
     },
@@ -201,7 +166,7 @@ export default {
 
     "cmsStore.saveNewItemOrder"() {
       if (this.cmsStore.saveNewItemOrder) {
-        this.saveAllItems();
+        this.cmsStore.saveAllItems();
         this.cmsStore.setSaveNewItemOrder(false);
       }
     },
