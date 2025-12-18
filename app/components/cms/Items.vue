@@ -44,7 +44,7 @@ import { VueDraggableNext } from "vue-draggable-next";
         >
           <div class="my-4 h-px w-full bg-white/25"></div>
 
-          <template v-for="(input, inputIndex) of cmsStore.schema">
+          <template v-for="input of cmsStore.schema">
             <CmsInputs
               v-if="input.name !== 'index'"
               :input="input"
