@@ -5,6 +5,7 @@ export const useCmsStore = defineStore("cmsStore", {
   state: () => ({
     tables: [],
     items: [],
+    itemCopy: null,
     schema: [],
     tableId: "",
     tableType: "",
@@ -13,13 +14,12 @@ export const useCmsStore = defineStore("cmsStore", {
     saveFlag: false,
     saveAllFlag: false,
     loadingFlag: true,
+    editingItem: false,
     editingNewItem: false,
     saveNewItemOrder: false,
     inputError: false,
     saveItem: null,
     saveTrigger: 0,
-    cancelItem: null,
-    cancelTrigger: 0,
     deleteItem: null,
     deleteTrigger: 0,
   }),
@@ -45,6 +45,10 @@ export const useCmsStore = defineStore("cmsStore", {
   actions: {
     setItems(items) {
       this.items = items;
+    },
+
+    setItemCopy(item) {
+      this.itemCopy = item;
     },
 
     setSchema(schema) {
@@ -79,6 +83,10 @@ export const useCmsStore = defineStore("cmsStore", {
       this.loadingFlag = flag;
     },
 
+    setEditingItem(flag) {
+      this.editingItem = flag;
+    },
+
     setEditingNewItem(flag) {
       this.editingNewItem = flag;
     },
@@ -95,11 +103,6 @@ export const useCmsStore = defineStore("cmsStore", {
       if (this.inputError) return;
       this.saveTrigger++;
       this.saveItem = index;
-    },
-
-    setCancelItem(index) {
-      this.cancelTrigger++;
-      this.cancelItem = index;
     },
 
     setDeleteItem(index) {
@@ -191,6 +194,23 @@ export const useCmsStore = defineStore("cmsStore", {
         console.log(err);
       } finally {
         this.loadingFlag = false;
+      }
+    },
+
+    cancelItem(index) {
+      const items = JSON.parse(JSON.stringify(this.items));
+
+      if (this.editingNewItem) {
+        items.pop();
+        this.items = items;
+        this.itemOpen = false;
+        this.editingNewItem = false;
+        this.editingItem = false;
+      } else if (index === this.showItem) {
+        items[index] = this.itemCopy;
+        this.items = items;
+        this.itemOpen = false;
+        this.editingItem = false;
       }
     },
   },

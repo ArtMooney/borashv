@@ -75,8 +75,6 @@ export default {
       userPass: config.public.userPass,
       dragDelay: 0,
       dragVibration: 100,
-      editingItem: false,
-      itemCopy: null,
       inputErrorIndex: [],
     };
   },
@@ -110,9 +108,9 @@ export default {
     },
 
     handleClick(event, item, index) {
-      if (this.editingItem) return;
+      if (this.cmsStore.editingItem) return;
 
-      this.itemCopy = this.deepClone(item);
+      this.cmsStore.setItemCopy(this.deepClone(item));
 
       if (this.cmsStore.showItem === index) {
         this.cmsStore.setShowItem(index);
@@ -196,31 +194,12 @@ export default {
         this.cmsStore.setItems(items);
         this.cmsStore.setItemOpen(false);
         this.cmsStore.setSaveFlag(false);
+        this.cmsStore.setEditingItem(false);
         this.cmsStore.setEditingNewItem(false);
-        this.editingItem = false;
       } catch (err) {
         console.log(err);
 
         this.cmsStore.setSaveFlag(false);
-      }
-    },
-
-    cancelItem(index) {
-      const items = this.deepClone(this.cmsStore.items);
-
-      if (this.cmsStore.editingNewItem) {
-        items.pop();
-
-        this.cmsStore.setItems(items);
-        this.cmsStore.setItemOpen(false);
-        this.cmsStore.setEditingNewItem(false);
-        this.editingItem = false;
-      } else if (index === this.cmsStore.showItem) {
-        items[index] = this.itemCopy;
-
-        this.cmsStore.setItems(items);
-        this.cmsStore.setItemOpen(false);
-        this.editingItem = false;
       }
     },
 
@@ -246,7 +225,7 @@ export default {
         items.splice(index, 1);
         this.cmsStore.setItems(items);
         this.cmsStore.setItemOpen(false);
-        this.editingItem = false;
+        this.cmsStore.setEditingItem(false);
         this.cmsStore.setSaveFlag(false);
       } catch (err) {
         console.log(err);
@@ -300,7 +279,7 @@ export default {
 
   watch: {
     "cmsStore.schema"() {
-      this.editingItem = false;
+      this.cmsStore.setEditingItem(false);
       this.cmsStore.setInputError(false);
       this.cmsStore.setShowItem(0);
       this.cmsStore.setItemOpen(false);
@@ -324,11 +303,11 @@ export default {
 
         if (
           JSON.stringify(newVal[this.cmsStore.showItem]) ===
-          JSON.stringify(this.itemCopy)
+          JSON.stringify(this.cmsStore.itemCopy)
         ) {
-          this.editingItem = false;
+          this.cmsStore.setEditingItem(false);
         } else {
-          this.editingItem = true;
+          this.cmsStore.setEditingItem(true);
         }
       },
 
@@ -345,10 +324,6 @@ export default {
 
     "cmsStore.saveTrigger"() {
       this.saveItem(this.cmsStore.saveItem);
-    },
-
-    "cmsStore.cancelTrigger"() {
-      this.cancelItem(this.cmsStore.cancelItem);
     },
 
     "cmsStore.deleteTrigger"() {

@@ -21,7 +21,7 @@
 
     <div
       v-if="index === cmsStore.showItem && cmsStore.itemOpen"
-      @click.stop="cmsStore.setCancelItem(index)"
+      @click.stop="cmsStore.cancelItem(index)"
       class="rounded border border-white/25 bg-[#8a548b] px-2 py-0.5 text-sm hover:bg-[#b280b4]"
     >
       Cancel
