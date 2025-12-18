@@ -36,8 +36,8 @@ import { VueDraggableNext } from "vue-draggable-next";
         <CmsItemTitle :item="item" :index="index" />
 
         <form
-          @submit.prevent="saveItem(index)"
-          :ref="`formEl${index}`"
+          @submit.prevent
+          :ref="(el) => (cmsStore.formRefs[index] = el)"
           @click.stop
           v-show="cmsStore.itemOpen && cmsStore.showItem === index"
           class="col-span-2 flex flex-col gap-3 text-sm"
@@ -156,122 +156,6 @@ export default {
       }
     },
 
-    async saveItem(index) {
-      if (index !== this.cmsStore.showItem) return;
-
-      const item = this.cmsStore.items[index];
-      const form = this.$refs[`formEl${index}`][0];
-
-      if (!this.validateFields(item)) {
-        form?.reportValidity();
-        return;
-      }
-
-      this.cmsStore.setSaveFlag(true);
-
-      try {
-        const res = await $fetch(
-          this.cmsStore.editingNewItem ? "/cms/add-item" : "/cms/save-item",
-          {
-            method: "POST",
-            headers: {
-              Authorization:
-                "Basic " + btoa(this.userName + ":" + this.userPass),
-            },
-            body: JSON.stringify({
-              email: this.loginStore.email,
-              password: this.loginStore.password,
-              item: this.cmsStore.items[index],
-              schema: this.cmsStore.schema,
-              table_id: this.cmsStore.tableId,
-            }),
-          },
-        );
-
-        const items = this.deepClone(this.cmsStore.items);
-        items[index] = res;
-
-        this.cmsStore.setItems(items);
-        this.cmsStore.setItemOpen(false);
-        this.cmsStore.setSaveFlag(false);
-        this.cmsStore.setEditingItem(false);
-        this.cmsStore.setEditingNewItem(false);
-      } catch (err) {
-        console.log(err);
-
-        this.cmsStore.setSaveFlag(false);
-      }
-    },
-
-    async deleteItem(index) {
-      this.cmsStore.setSaveFlag(true);
-
-      try {
-        await $fetch("/cms/delete-item", {
-          method: "POST",
-          headers: {
-            Authorization: "Basic " + btoa(this.userName + ":" + this.userPass),
-          },
-          body: JSON.stringify({
-            email: this.loginStore.email,
-            password: this.loginStore.password,
-            item: this.cmsStore.items[index],
-            schema: this.cmsStore.schema,
-            table_id: this.cmsStore.tableId,
-          }),
-        });
-
-        const items = this.deepClone(this.cmsStore.items);
-        items.splice(index, 1);
-        this.cmsStore.setItems(items);
-        this.cmsStore.setItemOpen(false);
-        this.cmsStore.setEditingItem(false);
-        this.cmsStore.setSaveFlag(false);
-      } catch (err) {
-        console.log(err);
-
-        this.cmsStore.setSaveFlag(false);
-      }
-    },
-
-    validateFields(item) {
-      for (const config of this.cmsStore.schema) {
-        if (config.hidden) continue;
-        if (!config.required) continue;
-
-        const key = config.name;
-        const value = item[key];
-
-        if (value === undefined || value === null) {
-          return false;
-        }
-
-        if (typeof value === "string" && value.trim() === "") {
-          return false;
-        }
-
-        if (Array.isArray(value) && value.length === 0) {
-          return false;
-        }
-
-        if (
-          typeof value === "object" &&
-          value !== null &&
-          !Array.isArray(value)
-        ) {
-          if (!value.name && !value.file) {
-            return false;
-          }
-        }
-
-        if (config.type === "checkbox" && value === false) {
-          return false;
-        }
-      }
-
-      return true;
-    },
-
     deepClone(obj) {
       return JSON.parse(JSON.stringify(obj));
     },
@@ -320,14 +204,6 @@ export default {
         this.saveAllItems();
         this.cmsStore.setSaveNewItemOrder(false);
       }
-    },
-
-    "cmsStore.saveTrigger"() {
-      this.saveItem(this.cmsStore.saveItem);
-    },
-
-    "cmsStore.deleteTrigger"() {
-      this.deleteItem(this.cmsStore.deleteItem);
     },
   },
 };

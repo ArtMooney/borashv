@@ -18,10 +18,7 @@ export const useCmsStore = defineStore("cmsStore", {
     editingNewItem: false,
     saveNewItemOrder: false,
     inputError: false,
-    saveItem: null,
-    saveTrigger: 0,
-    deleteItem: null,
-    deleteTrigger: 0,
+    formRefs: {},
   }),
 
   getters: {
@@ -99,17 +96,6 @@ export const useCmsStore = defineStore("cmsStore", {
       this.inputError = flag;
     },
 
-    setSaveItem(index) {
-      if (this.inputError) return;
-      this.saveTrigger++;
-      this.saveItem = index;
-    },
-
-    setDeleteItem(index) {
-      this.deleteTrigger++;
-      this.deleteItem = index;
-    },
-
     async loadTables() {
       this.loadingFlag = true;
       const loginStore = useLoginStore();
@@ -133,6 +119,8 @@ export const useCmsStore = defineStore("cmsStore", {
           loginStore.logout();
           location.reload();
         }
+
+        console.log(err);
       } finally {
         this.loadingFlag = false;
       }
@@ -162,6 +150,8 @@ export const useCmsStore = defineStore("cmsStore", {
           loginStore.logout();
           location.reload();
         }
+
+        console.log(err);
       } finally {
         this.loadingFlag = false;
       }
@@ -191,6 +181,11 @@ export const useCmsStore = defineStore("cmsStore", {
           },
         });
       } catch (err) {
+        if (err.status === 401) {
+          loginStore.logout();
+          location.reload();
+        }
+
         console.log(err);
       } finally {
         this.loadingFlag = false;
@@ -212,6 +207,137 @@ export const useCmsStore = defineStore("cmsStore", {
         this.itemOpen = false;
         this.editingItem = false;
       }
+    },
+
+    async saveItem(index) {
+      if (index !== this.showItem) return;
+
+      const loginStore = useLoginStore();
+      const config = useRuntimeConfig();
+      const item = this.items[index];
+      const form = this.formRefs[index];
+
+      if (!this.validateFields(item)) {
+        form?.reportValidity();
+        return;
+      }
+
+      this.saveFlag = true;
+
+      try {
+        const res = await $fetch(
+          this.editingNewItem ? "/cms/add-item" : "/cms/save-item",
+          {
+            method: "POST",
+            headers: {
+              Authorization:
+                "Basic " +
+                btoa(config.public.userName + ":" + config.public.userPass),
+            },
+            body: {
+              email: loginStore.email,
+              password: loginStore.password,
+              item: this.items[index],
+              schema: this.schema,
+              table_id: this.tableId,
+            },
+          },
+        );
+
+        const items = JSON.parse(JSON.stringify(this.items));
+        items[index] = res;
+
+        this.items = items;
+        this.itemOpen = false;
+        this.editingItem = false;
+        this.editingNewItem = false;
+      } catch (err) {
+        if (err.status === 401) {
+          loginStore.logout();
+          location.reload();
+        }
+
+        console.log(err);
+      } finally {
+        this.saveFlag = false;
+      }
+    },
+
+    async deleteItem(index) {
+      const loginStore = useLoginStore();
+      const config = useRuntimeConfig();
+      this.saveFlag = true;
+
+      try {
+        await $fetch("/cms/delete-item", {
+          method: "POST",
+          headers: {
+            Authorization:
+              "Basic " +
+              btoa(config.public.userName + ":" + config.public.userPass),
+          },
+          body: {
+            email: loginStore.email,
+            password: loginStore.password,
+            item: this.items[index],
+            schema: this.schema,
+            table_id: this.tableId,
+          },
+        });
+
+        const items = JSON.parse(JSON.stringify(this.items));
+        items.splice(index, 1);
+        this.items = items;
+        this.itemOpen = false;
+        this.editingItem = false;
+      } catch (err) {
+        if (err.status === 401) {
+          loginStore.logout();
+          location.reload();
+        }
+
+        console.log(err);
+      } finally {
+        this.saveFlag = false;
+      }
+    },
+
+    validateFields(item) {
+      for (const config of this.schema) {
+        if (config.hidden) continue;
+        if (!config.required) continue;
+
+        const key = config.name;
+        const value = item[key];
+
+        if (value === undefined || value === null) {
+          return false;
+        }
+
+        if (typeof value === "string" && value.trim() === "") {
+          return false;
+        }
+
+        if (Array.isArray(value) && value.length === 0) {
+          return false;
+        }
+
+        if (
+          typeof value === "object" &&
+          value !== null &&
+          !Array.isArray(value)
+        ) {
+          if (!value.name && !value.file) {
+            return false;
+          }
+        }
+
+        if (config.type === "checkbox" && value === false) {
+          return false;
+        }
+      }
+
+      return true;
     },
   },
 });

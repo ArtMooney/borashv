@@ -3,7 +3,7 @@
     <div class="flex items-center gap-2">
       <div
         v-if="cmsStore.showItem !== index || !cmsStore.editingNewItem"
-        @click.stop="cmsStore.setDeleteItem(index)"
+        @click.stop="cmsStore.deleteItem(index)"
         class="rounded border border-white/25 bg-[#8a548b] px-2 py-0.5 text-sm hover:bg-[#b280b4]"
       >
         Delete
@@ -12,7 +12,7 @@
 
     <div
       v-if="index === cmsStore.showItem && cmsStore.itemOpen"
-      @click.stop="cmsStore.setSaveItem(index)"
+      @click.stop="cmsStore.saveItem(index)"
       class="rounded border border-white/25 bg-[#8a548b] px-2 py-0.5 text-sm hover:bg-[#b280b4]"
       :class="[cmsStore.inputError ? 'opacity-50' : '']"
     >
