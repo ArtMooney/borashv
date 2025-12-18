@@ -89,14 +89,8 @@ export default {
     },
   },
 
-  async mounted() {
-    await this.loadData();
-  },
-
   methods: {
     async loadData() {
-      await this.cmsStore.loadRows("asc", "sortOrder");
-
       if (this.cmsStore.tableType === "statistics") {
         // console.log(cmsStore.items);
         // console.log(this.cmsStore.schema);
@@ -127,15 +121,6 @@ export default {
   },
 
   watch: {
-    "cmsStore.schema"() {
-      this.cmsStore.editingItem = false;
-      this.cmsStore.inputError = false;
-      this.cmsStore.showItem = 0;
-      this.cmsStore.itemOpen = false;
-      this.cmsStore.editingNewItem = false;
-      this.loadData();
-    },
-
     "cmsStore.itemOpen"() {
       this.dragDelay = this.cmsStore.itemOpen ? 86400000 : 0;
 

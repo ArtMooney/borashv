@@ -45,6 +45,7 @@ export default {
       this.cmsStore.tableId = table.id;
       this.cmsStore.tableType = table.tableType;
       await this.cmsStore.loadFields();
+      await this.cmsStore.loadRows("asc", "sortOrder");
     },
   },
 

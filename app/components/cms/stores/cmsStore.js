@@ -80,6 +80,12 @@ export const useCmsStore = defineStore("cmsStore", {
             table_id: this.tableId,
           },
         });
+
+        this.editingItem = false;
+        this.editingNewItem = false;
+        this.showItem = 0;
+        this.itemOpen = false;
+        this.inputError = false;
       } catch (err) {
         if (err.status === 401) {
           loginStore.logout();
