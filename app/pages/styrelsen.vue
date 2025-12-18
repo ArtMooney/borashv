@@ -57,7 +57,7 @@ const { data: items, error } = await useFetch("/api/styrelsen", {
     </div>
 
     <div
-      class="absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-neutral-900 to-black/75 sm:to-black/50"
+      class="absolute top-0 right-0 bottom-0 left-0 bg-linear-to-b from-neutral-900 to-black/75 sm:to-black/50"
     ></div>
 
     <h4 class="relative pb-8 text-3xl uppercase">Styrelsen</h4>
@@ -66,19 +66,19 @@ const { data: items, error } = await useFetch("/api/styrelsen", {
 
     <div
       v-if="error"
-      class="relative mx-auto my-16 w-full max-w-screen-xl bg-[#a38373] p-4 px-8 text-black"
+      class="relative mx-auto my-16 w-full max-w-7xl bg-[#a38373] p-4 px-8 text-black"
     >
       {{ decodeURIComponent(error?.statusMessage || "Error") }}
     </div>
 
     <div
       v-if="items?.length"
-      class="mx-auto flex w-full max-w-screen-xl flex-row flex-wrap justify-start"
+      class="mx-auto flex w-full max-w-7xl flex-row flex-wrap justify-start"
     >
       <div
         v-for="item of items"
         :key="item.id"
-        class="relative w-[25rem] text-xs sm:w-[16rem] md:w-[21rem] md:text-sm xl:w-[19rem]"
+        class="relative w-100 text-xs sm:w-[16rem] md:w-84 md:text-sm xl:w-76"
       >
         <NuxtImg
           src="dogtag.png"

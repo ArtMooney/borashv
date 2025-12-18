@@ -34,7 +34,7 @@ definePageMeta({
       <NuxtImg
         src="skog.jpg"
         alt="Header image"
-        class="parallax-background-hero h-full min-h-[23rem] w-full object-cover lg:min-h-[43rem]"
+        class="parallax-background-hero h-full min-h-92 w-full object-cover lg:min-h-172"
         sizes="320px sm:640px md:768px lg:1024px xl:1280px xxl:1536px"
         width="2000"
         height="786"

@@ -49,7 +49,7 @@ definePageMeta({
     :text="textForening"
     button-text="Bli medlem"
     button-link="/bli-medlem"
-    class="mx-auto w-full max-w-screen-xl"
+    class="mx-auto w-full max-w-7xl"
   />
 </template>
 
