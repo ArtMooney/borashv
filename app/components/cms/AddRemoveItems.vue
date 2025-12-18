@@ -120,7 +120,7 @@ export default {
 
       this.order = this.order === "asc" ? "desc" : "asc";
       await this.cmsStore.loadRows(this.order, fieldName);
-      this.cmsStore.setSaveNewItemOrder(true);
+      await this.cmsStore.saveAllItems();
       this.showDateList = false;
     },
   },

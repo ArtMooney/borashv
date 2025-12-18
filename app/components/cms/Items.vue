@@ -163,13 +163,6 @@ export default {
       immediate: true,
       deep: true,
     },
-
-    "cmsStore.saveNewItemOrder"() {
-      if (this.cmsStore.saveNewItemOrder) {
-        this.cmsStore.saveAllItems();
-        this.cmsStore.setSaveNewItemOrder(false);
-      }
-    },
   },
 };
 </script>

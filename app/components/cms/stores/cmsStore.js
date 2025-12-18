@@ -16,7 +16,6 @@ export const useCmsStore = defineStore("cmsStore", {
     loadingFlag: true,
     editingItem: false,
     editingNewItem: false,
-    saveNewItemOrder: false,
     inputError: false,
     formRefs: {},
   }),
@@ -86,10 +85,6 @@ export const useCmsStore = defineStore("cmsStore", {
 
     setEditingNewItem(flag) {
       this.editingNewItem = flag;
-    },
-
-    setSaveNewItemOrder(flag) {
-      this.saveNewItemOrder = flag;
     },
 
     setInputError(flag) {
