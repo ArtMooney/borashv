@@ -18,14 +18,14 @@ import { VueDraggableNext } from "vue-draggable-next";
     </div>
 
     <VueDraggableNext
-      v-model="localItems"
+      v-model="cmsStore.items"
       :delay="dragDelay"
       :animation="200"
       handle=".dragdrop-handle"
       @end="saveAllItems"
     >
       <div
-        v-for="(item, index) of localItems"
+        v-for="(item, index) of cmsStore.items"
         @click="handleClick($event, item, index)"
         class="mb-4 grid grid-cols-2 rounded bg-black/25 p-4 shadow-[3px_4px_12px_rgba(0,0,0,0.22)] hover:bg-[#242424]"
         v-show="!cmsStore.loadingFlag"
@@ -73,7 +73,6 @@ export default {
     return {
       userName: config.public.userName,
       userPass: config.public.userPass,
-      localItems: [],
       dragDelay: 0,
       dragVibration: 100,
       editingItem: false,
@@ -127,7 +126,7 @@ export default {
     async saveAllItems() {
       this.cmsStore.setSaveFlag(true);
       this.cmsStore.setSaveAllFlag(true);
-      const items = this.deepClone(this.localItems);
+      const items = this.deepClone(this.cmsStore.items);
 
       for (let [index, item] of items.entries()) {
         item.sortOrder = index.toString();
@@ -162,7 +161,7 @@ export default {
     async saveItem(index) {
       if (index !== this.cmsStore.showItem) return;
 
-      const item = this.localItems[index];
+      const item = this.cmsStore.items[index];
       const form = this.$refs[`formEl${index}`][0];
 
       if (!this.validateFields(item)) {
@@ -184,14 +183,14 @@ export default {
             body: JSON.stringify({
               email: this.loginStore.email,
               password: this.loginStore.password,
-              item: this.localItems[index],
+              item: this.cmsStore.items[index],
               schema: this.cmsStore.schema,
               table_id: this.cmsStore.tableId,
             }),
           },
         );
 
-        const items = this.deepClone(this.localItems);
+        const items = this.deepClone(this.cmsStore.items);
         items[index] = res;
 
         this.cmsStore.setItems(items);
@@ -207,7 +206,7 @@ export default {
     },
 
     cancelItem(index) {
-      const items = this.deepClone(this.localItems);
+      const items = this.deepClone(this.cmsStore.items);
 
       if (this.cmsStore.editingNewItem) {
         items.pop();
@@ -237,13 +236,13 @@ export default {
           body: JSON.stringify({
             email: this.loginStore.email,
             password: this.loginStore.password,
-            item: this.localItems[index],
+            item: this.cmsStore.items[index],
             schema: this.cmsStore.schema,
             table_id: this.cmsStore.tableId,
           }),
         });
 
-        const items = this.deepClone(this.localItems);
+        const items = this.deepClone(this.cmsStore.items);
         items.splice(index, 1);
         this.cmsStore.setItems(items);
         this.cmsStore.setItemOpen(false);
@@ -321,8 +320,6 @@ export default {
 
     "cmsStore.items": {
       handler(newVal) {
-        this.localItems = this.deepClone(newVal);
-
         if (!this.cmsStore.itemOpen) return;
 
         if (
@@ -336,23 +333,6 @@ export default {
       },
 
       immediate: true,
-      deep: true,
-    },
-
-    localItems: {
-      handler(newVal) {
-        if (!this.cmsStore.itemOpen) return;
-
-        if (
-          JSON.stringify(newVal[this.cmsStore.showItem]) ===
-          JSON.stringify(this.itemCopy)
-        ) {
-          this.editingItem = false;
-        } else {
-          this.editingItem = true;
-        }
-      },
-
       deep: true,
     },
 
