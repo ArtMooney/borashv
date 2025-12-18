@@ -28,69 +28,9 @@ export const useCmsStore = defineStore("cmsStore", {
     hasSchema() {
       return this.schema.length > 0;
     },
-
-    isLoading() {
-      return this.saveFlag || this.loadingFlag;
-    },
-
-    currentItem() {
-      return this.items[this.showItem] || null;
-    },
   },
 
   actions: {
-    setItems(items) {
-      this.items = items;
-    },
-
-    setItemCopy(item) {
-      this.itemCopy = item;
-    },
-
-    setSchema(schema) {
-      this.schema = schema;
-    },
-
-    setTableId(tableId) {
-      this.tableId = tableId;
-    },
-
-    setTableType(tableType) {
-      this.tableType = tableType;
-    },
-
-    setShowItem(index) {
-      this.showItem = index;
-    },
-
-    setItemOpen(isOpen) {
-      this.itemOpen = isOpen;
-    },
-
-    setSaveFlag(flag) {
-      this.saveFlag = flag;
-    },
-
-    setSaveAllFlag(flag) {
-      this.saveAllFlag = flag;
-    },
-
-    setLoadingFlag(flag) {
-      this.loadingFlag = flag;
-    },
-
-    setEditingItem(flag) {
-      this.editingItem = flag;
-    },
-
-    setEditingNewItem(flag) {
-      this.editingNewItem = flag;
-    },
-
-    setInputError(flag) {
-      this.inputError = flag;
-    },
-
     async loadTables() {
       this.loadingFlag = true;
       const loginStore = useLoginStore();

@@ -105,10 +105,10 @@ export default {
         ...fields,
       });
 
-      this.cmsStore.setItems(items);
-      this.cmsStore.setShowItem(sortOrder);
-      this.cmsStore.setItemOpen(true);
-      this.cmsStore.setEditingNewItem(true);
+      this.cmsStore.items = items;
+      this.cmsStore.showItem = sortOrder;
+      this.cmsStore.itemOpen = true;
+      this.cmsStore.editingNewItem = true;
 
       this.$router.push({
         hash: `#list-item-${items.length - 1}`,

@@ -42,8 +42,8 @@ export default {
   methods: {
     async loadSchema() {
       const table = this.cmsStore.tables[this.tableIndex];
-      this.cmsStore.setTableId(table.id);
-      this.cmsStore.setTableType(table.tableType);
+      this.cmsStore.tableId = table.id;
+      this.cmsStore.tableType = table.tableType;
       await this.cmsStore.loadFields();
     },
   },

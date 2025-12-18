@@ -110,14 +110,14 @@ export default {
     handleClick(event, item, index) {
       if (this.cmsStore.editingItem) return;
 
-      this.cmsStore.setItemCopy(this.deepClone(item));
+      this.cmsStore.itemCopy = this.deepClone(item);
 
       if (this.cmsStore.showItem === index) {
-        this.cmsStore.setShowItem(index);
-        this.cmsStore.setItemOpen(!this.cmsStore.itemOpen);
+        this.cmsStore.showItem = index;
+        this.cmsStore.itemOpen = !this.cmsStore.itemOpen;
       } else {
-        this.cmsStore.setShowItem(index);
-        this.cmsStore.setItemOpen(true);
+        this.cmsStore.showItem = index;
+        this.cmsStore.itemOpen = true;
       }
     },
 
@@ -128,11 +128,11 @@ export default {
 
   watch: {
     "cmsStore.schema"() {
-      this.cmsStore.setEditingItem(false);
-      this.cmsStore.setInputError(false);
-      this.cmsStore.setShowItem(0);
-      this.cmsStore.setItemOpen(false);
-      this.cmsStore.setEditingNewItem(false);
+      this.cmsStore.editingItem = false;
+      this.cmsStore.inputError = false;
+      this.cmsStore.showItem = 0;
+      this.cmsStore.itemOpen = false;
+      this.cmsStore.editingNewItem = false;
       this.loadData();
     },
 
@@ -154,9 +154,9 @@ export default {
           JSON.stringify(newVal[this.cmsStore.showItem]) ===
           JSON.stringify(this.cmsStore.itemCopy)
         ) {
-          this.cmsStore.setEditingItem(false);
+          this.cmsStore.editingItem = false;
         } else {
-          this.cmsStore.setEditingItem(true);
+          this.cmsStore.editingItem = true;
         }
       },
 
