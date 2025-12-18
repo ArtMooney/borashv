@@ -40,7 +40,7 @@ import IconIonChevronDown from "~icons/ion/chevron-down";
             (index === cmsStore.showItem && cmsStore.saveFlag) ||
             cmsStore.saveAllFlag
           "
-          class="!h-5 !w-5"
+          class="size-5"
           color="#fac725"
         />
       </div>
