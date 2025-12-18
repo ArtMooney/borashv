@@ -135,14 +135,9 @@ export default {
       handler(newVal) {
         if (!this.cmsStore.itemOpen) return;
 
-        if (
-          JSON.stringify(newVal[this.cmsStore.showItem]) ===
-          JSON.stringify(this.cmsStore.itemCopy)
-        ) {
-          this.cmsStore.editingItem = false;
-        } else {
-          this.cmsStore.editingItem = true;
-        }
+        this.cmsStore.editingItem =
+          JSON.stringify(newVal[this.cmsStore.showItem]) !==
+          JSON.stringify(this.cmsStore.itemCopy);
       },
 
       immediate: true,
