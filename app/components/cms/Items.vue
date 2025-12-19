@@ -90,17 +90,6 @@ export default {
   },
 
   methods: {
-    async loadData() {
-      if (this.cmsStore.tableType === "statistics") {
-        // console.log(cmsStore.items);
-        // console.log(this.cmsStore.schema);
-        // console.log(this.cmsStore.tableType);
-        //
-        // detta är i statistics, nästa steg bör vara att hitta en koppling med bokningar
-        // och föra över de rader där tiden har passerat dagens datum
-      }
-    },
-
     handleClick(event, item, index) {
       if (this.cmsStore.editingItem) return;
 
@@ -142,6 +131,17 @@ export default {
 
       immediate: true,
       deep: true,
+    },
+
+    "cmsStore.schema"() {
+      if (this.cmsStore.tableType === "statistics") {
+        console.log(this.cmsStore.items);
+        console.log(this.cmsStore.schema);
+        console.log(this.cmsStore.tableType);
+
+        // detta är i statistics, nästa steg bör vara att hitta en koppling med bokningar
+        // och föra över de rader där tiden har passerat dagens datum
+      }
     },
   },
 };
