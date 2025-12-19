@@ -28,7 +28,7 @@
         @click="loginForm"
         type="submit"
         data-wait="Please wait..."
-        class="mt-4 !bg-[#548b63] text-white hover:!bg-[#6bad7d]"
+        class="mt-4 bg-[#548b63]! text-white hover:bg-[#6bad7d]!"
       >
         {{ buttonText }}
       </button>
