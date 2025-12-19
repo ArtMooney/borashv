@@ -127,7 +127,7 @@ export default {
       if (this.cmsStore.itemOpen) {
         this.inputErrorIndex = Array(this.cmsStore.schema.length - 1).fill(
           null,
-        ); // do not include index
+        );
       }
     },
 
