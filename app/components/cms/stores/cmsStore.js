@@ -8,7 +8,8 @@ export const useCmsStore = defineStore("cmsStore", {
     itemCopy: null,
     schema: [],
     tableId: "",
-    tableType: "",
+    viewMode: "",
+    backupRef: null,
     showItem: 0,
     itemOpen: false,
     saveFlag: false,
@@ -204,7 +205,7 @@ export const useCmsStore = defineStore("cmsStore", {
       }
     },
 
-    async saveAllItems() {
+    async saveSortOrder() {
       const loginStore = useLoginStore();
       const config = useRuntimeConfig();
 
@@ -217,7 +218,7 @@ export const useCmsStore = defineStore("cmsStore", {
       }
 
       try {
-        await $fetch("/cms/save-all-items", {
+        await $fetch("/cms/save-sort-order", {
           method: "POST",
           headers: {
             Authorization:
@@ -234,8 +235,6 @@ export const useCmsStore = defineStore("cmsStore", {
         });
 
         this.itemOpen = false;
-        this.saveFlag = false;
-        this.saveAllFlag = false;
       } catch (err) {
         if (err.status === 401) {
           loginStore.logout();
@@ -244,6 +243,80 @@ export const useCmsStore = defineStore("cmsStore", {
 
         console.log(err);
       } finally {
+        this.saveFlag = false;
+        this.saveAllFlag = false;
+      }
+    },
+
+    async saveAllItems() {
+      const loginStore = useLoginStore();
+      const config = useRuntimeConfig();
+
+      this.saveFlag = true;
+      this.saveAllFlag = true;
+
+      try {
+        await $fetch("/cms/save-all-items", {
+          method: "POST",
+          headers: {
+            Authorization:
+              "Basic " +
+              btoa(config.public.userName + ":" + config.public.userPass),
+          },
+          body: {
+            email: loginStore.email,
+            password: loginStore.password,
+            items: this.items,
+            schema: this.schema,
+            table_id: this.tableId,
+          },
+        });
+      } catch (err) {
+        if (err.status === 401) {
+          loginStore.logout();
+          location.reload();
+        }
+
+        console.log(err);
+      } finally {
+        this.itemOpen = false;
+        this.saveFlag = false;
+        this.saveAllFlag = false;
+      }
+    },
+
+    async deleteAllItems() {
+      const loginStore = useLoginStore();
+      const config = useRuntimeConfig();
+
+      this.saveFlag = true;
+      this.saveAllFlag = true;
+
+      try {
+        await $fetch("/cms/delete-all-items", {
+          method: "POST",
+          headers: {
+            Authorization:
+              "Basic " +
+              btoa(config.public.userName + ":" + config.public.userPass),
+          },
+          body: {
+            email: loginStore.email,
+            password: loginStore.password,
+            items: this.items,
+            schema: this.schema,
+            table_id: this.tableId,
+          },
+        });
+      } catch (err) {
+        if (err.status === 401) {
+          loginStore.logout();
+          location.reload();
+        }
+
+        console.log(err);
+      } finally {
+        this.itemOpen = false;
         this.saveFlag = false;
         this.saveAllFlag = false;
       }
