@@ -22,7 +22,7 @@ import { VueDraggableNext } from "vue-draggable-next";
       :delay="dragDelay"
       :animation="200"
       handle=".dragdrop-handle"
-      @end="cmsStore.saveAllItems"
+      @end="cmsStore.saveSortOrder"
     >
       <div
         v-for="(item, index) of cmsStore.items"
@@ -131,17 +131,6 @@ export default {
 
       immediate: true,
       deep: true,
-    },
-
-    "cmsStore.schema"() {
-      if (this.cmsStore.tableType === "statistics") {
-        console.log(this.cmsStore.items);
-        console.log(this.cmsStore.schema);
-        console.log(this.cmsStore.tableType);
-
-        // detta är i statistics, nästa steg bör vara att hitta en koppling med bokningar
-        // och föra över de rader där tiden har passerat dagens datum
-      }
     },
   },
 };
