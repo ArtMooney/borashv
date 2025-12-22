@@ -121,16 +121,16 @@ export const dokument = sqliteTable("dokument", {
 });
 
 export const cmsTables = [
-  { id: "nyheter", name: "Nyheter", tableType: null, backupRef: null },
-  { id: "dokument", name: "Dokument", tableType: null, backupRef: null },
-  { id: "styrelsen", name: "Styrelsen", tableType: null, backupRef: null },
-  { id: "bokningar", name: "Bokningar", tableType: null, backupRef: null },
   {
     id: "statistics",
     name: "Statistics",
-    tableType: "statistics",
+    viewMode: "graph",
     backupRef: "bokningar",
   },
+  { id: "nyheter", name: "Nyheter", viewMode: null, backupRef: null },
+  { id: "dokument", name: "Dokument", viewMode: null, backupRef: null },
+  { id: "styrelsen", name: "Styrelsen", viewMode: null, backupRef: null },
+  { id: "bokningar", name: "Bokningar", viewMode: null, backupRef: null },
 ];
 
 export const fieldTypes = {
