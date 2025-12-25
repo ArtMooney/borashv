@@ -248,7 +248,7 @@ export const useCmsStore = defineStore("cmsStore", {
       }
     },
 
-    async saveAllItems() {
+    async addItems() {
       const loginStore = useLoginStore();
       const config = useRuntimeConfig();
 
@@ -256,7 +256,7 @@ export const useCmsStore = defineStore("cmsStore", {
       this.saveAllFlag = true;
 
       try {
-        await $fetch("/cms/save-all-items", {
+        await $fetch("/cms/add-items", {
           method: "POST",
           headers: {
             Authorization:

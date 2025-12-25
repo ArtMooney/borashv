@@ -61,7 +61,7 @@ export default {
 
         this.cmsStore.tableId = table.id;
         this.cmsStore.items = backupItems;
-        await this.cmsStore.saveAllItems();
+        await this.cmsStore.addItems();
 
         this.cmsStore.tableId = this.cmsStore.backupRef;
         await this.cmsStore.deleteAllItems();
