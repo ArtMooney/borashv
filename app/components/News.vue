@@ -36,15 +36,15 @@
 
           <div class="flex flex-col items-start gap-2">
             <div class="bold font-heading text-lg">
-              {{ item.title }}
+              {{ item?.title }}
             </div>
 
             <p class="mb-2 text-xs underline opacity-35">
-              {{ formatDate(item.datum) }}
+              {{ formatDate(item?.datum) }}
             </p>
 
             <p
-              class="mb-4 overflow-hidden break-words hyphens-auto"
+              class="mb-4 overflow-hidden break-all hyphens-auto"
               lang="sv"
               v-html="formattedText(item?.info)"
             ></p>
@@ -72,6 +72,8 @@ export default {
 
   methods: {
     formattedText(text) {
+      if (!text) return "";
+
       return text.replace(/\n/g, "<br>");
     },
 
