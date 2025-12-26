@@ -127,10 +127,10 @@ export const cmsTables = [
     viewMode: "graph",
     backupRef: "bokningar",
   },
-  { id: "nyheter", name: "Nyheter", viewMode: null, backupRef: null },
-  { id: "dokument", name: "Dokument", viewMode: null, backupRef: null },
-  { id: "styrelsen", name: "Styrelsen", viewMode: null, backupRef: null },
-  { id: "bokningar", name: "Bokningar", viewMode: null, backupRef: null },
+  { id: "nyheter", name: "Nyheter", viewMode: "list", backupRef: null },
+  { id: "dokument", name: "Dokument", viewMode: "list", backupRef: null },
+  { id: "styrelsen", name: "Styrelsen", viewMode: "list", backupRef: null },
+  { id: "bokningar", name: "Bokningar", viewMode: "list", backupRef: null },
 ];
 
 export const fieldTypes = {

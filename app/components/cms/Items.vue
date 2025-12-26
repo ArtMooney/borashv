@@ -18,6 +18,7 @@ import { VueDraggableNext } from "vue-draggable-next";
     </div>
 
     <VueDraggableNext
+      v-if="cmsStore.viewMode === 'list'"
       v-model="cmsStore.items"
       :delay="dragDelay"
       :animation="200"
@@ -57,6 +58,8 @@ import { VueDraggableNext } from "vue-draggable-next";
         </form>
       </div>
     </VueDraggableNext>
+
+    <div v-if="cmsStore.viewMode === 'graph'">GRAPH</div>
   </div>
 </template>
 

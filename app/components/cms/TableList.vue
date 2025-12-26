@@ -49,10 +49,6 @@ export default {
       await this.cmsStore.loadFields();
       await this.backupReferencedTable(table);
       await this.cmsStore.loadRows("asc", "sortOrder");
-
-      // if (this.cmsStore.viewMode === "graph") {
-      // console.log("VIEWMODE", this.cmsStore.viewMode);
-      // }
     },
 
     async backupReferencedTable(table) {
