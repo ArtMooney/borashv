@@ -47,31 +47,33 @@ export default {
       this.cmsStore.backupRef = table.backupRef;
 
       await this.cmsStore.loadFields();
-
-      if (this.cmsStore.backupRef !== null) {
-        this.cmsStore.tableId = this.cmsStore.backupRef;
-        await this.cmsStore.loadRows("asc", "sortOrder");
-
-        const backupItems = [];
-        for (const item of this.cmsStore.items) {
-          if (item?.date?.[1] && new Date(item.date[1]) < new Date()) {
-            backupItems.push(item);
-          }
-        }
-
-        this.cmsStore.tableId = table.id;
-        this.cmsStore.items = backupItems;
-        await this.cmsStore.addItems();
-
-        this.cmsStore.tableId = this.cmsStore.backupRef;
-        await this.cmsStore.deleteAllItems();
-      }
-
+      await this.backupReferencedTable(table);
       await this.cmsStore.loadRows("asc", "sortOrder");
 
       // if (this.cmsStore.viewMode === "graph") {
       // console.log("VIEWMODE", this.cmsStore.viewMode);
       // }
+    },
+
+    async backupReferencedTable(table) {
+      if (!this.cmsStore.backupRef) return;
+
+      this.cmsStore.tableId = this.cmsStore.backupRef;
+      await this.cmsStore.loadRows("asc", "sortOrder");
+
+      const backupItems = this.cmsStore.items.filter(this.isExpiredItem);
+      this.cmsStore.tableId = table.id;
+      this.cmsStore.items = backupItems;
+      await this.cmsStore.addItems();
+
+      this.cmsStore.tableId = this.cmsStore.backupRef;
+      await this.cmsStore.deleteAllItems();
+
+      this.cmsStore.tableId = table.id;
+    },
+
+    isExpiredItem(item) {
+      return item?.date?.[1] && new Date(item.date[1]) < new Date();
     },
   },
 
