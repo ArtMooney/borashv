@@ -196,3 +196,21 @@ export const fieldTypes = {
     updatedAt: { type: "date", label: "", required: true, hidden: true },
   },
 };
+
+// type: 'bar' | 'line' | 'pie' | 'doughnut'
+// aggregation: 'count' | 'sum' | 'avg'
+export const graphConfig = {
+  statistics: {
+    type: "bar",
+    labelField: "venue",
+    datasets: [
+      {
+        dataField: "venue",
+        aggregation: "count",
+        label: "Antal bokningar per venue",
+        backgroundColor: "#f87979",
+        borderColor: "#f87979",
+      },
+    ],
+  },
+};
