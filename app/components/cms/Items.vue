@@ -59,7 +59,7 @@ import { VueDraggableNext } from "vue-draggable-next";
       </div>
     </VueDraggableNext>
 
-    <div v-if="cmsStore.viewMode === 'graph'">GRAPH</div>
+    <CmsGraph v-if="cmsStore.viewMode === 'graph'" />
   </div>
 </template>
 
