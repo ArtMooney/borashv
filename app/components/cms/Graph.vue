@@ -10,11 +10,8 @@
       :data="chartData"
       :options="chartOptions"
     />
-    <Pie
-      v-else-if="graphSettings && graphSettings.type === 'pie'"
-      :data="chartData"
-      :options="chartOptions"
-    />
+
+    <Pie :data="pieData" :options="chartOptions" class="mt-12" />
   </div>
 </template>
 
@@ -76,20 +73,30 @@ export default {
       );
     },
 
+    pieLabels() {
+      return [
+        "Januari",
+        "Februari",
+        "Mars",
+        "April",
+        "Maj",
+        "Juni",
+        "Juli",
+        "Augusti",
+        "September",
+        "Oktober",
+        "November",
+        "December",
+      ];
+    },
+
     chartData() {
       const config = this.graphSettings;
       if (!config) return { labels: [], datasets: [] };
 
-      const isPieOrDoughnut = ["pie", "doughnut"].includes(config.type);
-
       const datasets = config.datasets.map((ds) => {
         let bgColor = ds.backgroundColor;
         let borderColor = ds.borderColor;
-
-        if (isPieOrDoughnut && !Array.isArray(bgColor)) {
-          bgColor = this.generateColors(this.labels.length);
-          borderColor = "transparent";
-        }
 
         return {
           label: ds.label,
@@ -101,6 +108,28 @@ export default {
 
       return {
         labels: this.labels,
+        datasets,
+      };
+    },
+
+    pieData() {
+      const config = this.graphSettings;
+      if (!config) return { labels: [], datasets: [] };
+
+      const datasets = config.datasets.map((ds) => {
+        let bgColor = this.generateColors(this.labels.length);
+        let borderColor = "transparent";
+
+        return {
+          label: ds.label,
+          backgroundColor: bgColor,
+          borderColor: borderColor,
+          data: this.getPieValues(),
+        };
+      });
+
+      return {
+        labels: this.pieLabels,
         datasets,
       };
     },
@@ -147,10 +176,34 @@ export default {
         }
       });
     },
+
+    getPieValues() {
+      const items = this.cmsStore?.items ?? [];
+
+      return this.pieLabels.map((label, monthIndex) => {
+        const startDate = new Date(this.selectedYear, monthIndex, 1);
+        const endDate = new Date(
+          this.selectedYear,
+          monthIndex + 1,
+          0,
+          23,
+          59,
+          59,
+        );
+
+        const monthItems = items.filter((item) => {
+          const itemDate = new Date(item?.date?.[1]);
+          return itemDate >= startDate && itemDate <= endDate;
+        });
+
+        return monthItems.length;
+      });
+    },
   },
 
   data() {
     return {
+      selectedYear: new Date().getFullYear(),
       chartOptions: {
         responsive: true,
         maintainAspectRatio: true,
