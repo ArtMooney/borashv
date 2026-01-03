@@ -75,16 +75,16 @@ export default {
 
     pieLabels() {
       return [
-        "Januari",
-        "Februari",
-        "Mars",
+        "January",
+        "February",
+        "March",
         "April",
-        "Maj",
-        "Juni",
-        "Juli",
-        "Augusti",
+        "May",
+        "June",
+        "July",
+        "August",
         "September",
-        "Oktober",
+        "October",
         "November",
         "December",
       ];

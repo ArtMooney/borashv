@@ -207,7 +207,7 @@ export const graphConfig = {
       {
         dataField: "venue",
         aggregation: "count",
-        label: "Antal bokningar per venue",
+        label: "Bookings per venue",
         backgroundColor: "#f87979",
         borderColor: "#f87979",
       },
