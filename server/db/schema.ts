@@ -197,7 +197,7 @@ export const fieldTypes = {
   },
 };
 
-// type: 'bar' | 'line' | 'pie' | 'doughnut'
+// type: 'bar' | 'line'
 // aggregation: 'count' | 'sum' | 'avg'
 export const graphConfig = {
   statistics: {
