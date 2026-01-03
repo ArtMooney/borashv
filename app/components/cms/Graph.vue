@@ -1,5 +1,18 @@
 <template>
   <div>
+    <div class="mb-12 flex gap-4">
+      <select v-model="selectedYear">
+        <option v-for="year in [2023, 2024, 2025]" :key="year" :value="year">
+          {{ year }}
+        </option>
+      </select>
+
+      <select v-model="selectedMonth">
+        <option v-for="month in pieLabels" :key="month" :value="month">
+          {{ month }}
+        </option>
+      </select>
+    </div>
     <Bar
       v-if="graphSettings && graphSettings.type === 'bar'"
       :data="chartData"
@@ -11,7 +24,7 @@
       :options="chartOptions"
     />
 
-    <Pie :data="pieData" :options="chartOptions" class="mt-12" />
+    <Pie :data="pieData" :options="chartOptions" class="mt-20" />
   </div>
 </template>
 
@@ -71,23 +84,6 @@ export default {
       return [...new Set(items.map((item) => item[config.labelField]))].filter(
         Boolean,
       );
-    },
-
-    pieLabels() {
-      return [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ];
     },
 
     chartData() {
@@ -194,10 +190,25 @@ export default {
   data() {
     return {
       selectedYear: new Date("2025-01-01").getFullYear(),
+      selectedMonth: "January",
       chartOptions: {
         responsive: true,
         maintainAspectRatio: true,
       },
+      pieLabels: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
       pieColors: [
         "#7BA3E1",
         "#6BB89D",
