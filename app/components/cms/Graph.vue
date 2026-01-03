@@ -117,7 +117,7 @@ export default {
       if (!config) return { labels: [], datasets: [] };
 
       const datasets = config.datasets.map((ds) => {
-        let bgColor = this.generateColors(this.labels.length);
+        let bgColor = this.pieColors;
         let borderColor = "transparent";
 
         return {
@@ -136,16 +136,6 @@ export default {
   },
 
   methods: {
-    generateColors(count) {
-      const colors = [];
-      for (let i = 0; i < count; i++) {
-        const hue = (i * 360) / count;
-        colors.push(`hsl(${hue}, 70%, 60%)`);
-      }
-
-      return colors;
-    },
-
     getChartValues(datasetConfig) {
       const items = this.cmsStore?.items ?? [];
       const config = this.graphSettings;
@@ -208,6 +198,20 @@ export default {
         responsive: true,
         maintainAspectRatio: true,
       },
+      pieColors: [
+        "#7BA3E1",
+        "#6BB89D",
+        "#E6A968",
+        "#D98080",
+        "#A58BD0",
+        "#D98BB8",
+        "#69B8AD",
+        "#E89A6B",
+        "#8B8FD6",
+        "#A9C76D",
+        "#6BB8CA",
+        "#B984D6",
+      ],
     };
   },
 };
