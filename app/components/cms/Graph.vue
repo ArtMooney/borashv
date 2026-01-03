@@ -1,18 +1,27 @@
 <template>
   <div>
     <div class="mb-12 flex gap-4">
-      <select v-model="selectedYear">
-        <option v-for="year in [2023, 2024, 2025]" :key="year" :value="year">
-          {{ year }}
-        </option>
-      </select>
+      <label class="w-full font-semibold text-white/50 italic">
+        Year:
 
-      <select v-model="selectedMonth">
-        <option v-for="month in pieLabels" :key="month" :value="month">
-          {{ month }}
-        </option>
-      </select>
+        <select v-model="selectedYear">
+          <option v-for="year in [2023, 2024, 2025]" :key="year" :value="year">
+            {{ year }}
+          </option>
+        </select>
+      </label>
+
+      <label class="w-full font-semibold text-white/50 italic">
+        Month:
+
+        <select v-model="selectedMonth">
+          <option v-for="month in pieLabels" :key="month" :value="month">
+            {{ month }}
+          </option>
+        </select>
+      </label>
     </div>
+
     <Bar
       v-if="graphSettings && graphSettings.type === 'bar'"
       :data="chartData"

@@ -143,7 +143,7 @@ export default {
         },
 
         "select, .select": {
-          "@apply w-full bg-neutral-700 my-1 px-3.5 py-3 outline outline-white/35 rounded transition-all duration-200 ease-in-out":
+          "@apply w-full text-white bg-neutral-700 my-1 px-3.5 py-3 outline outline-white/35 rounded transition-all duration-200 ease-in-out":
             {},
           "-webkit-appearance": "none",
           "-moz-appearance": "none",
