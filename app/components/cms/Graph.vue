@@ -15,7 +15,11 @@
         Month:
 
         <select v-model="selectedMonth">
-          <option v-for="month in pieLabels" :key="month" :value="month">
+          <option
+            v-for="month in ['-', ...pieLabels]"
+            :key="month"
+            :value="month"
+          >
             {{ month }}
           </option>
         </select>
@@ -138,6 +142,28 @@ export default {
         datasets,
       };
     },
+
+    getFilteredItems() {
+      const items = this.cmsStore?.items ?? [];
+      const startDate = new Date(
+        this.selectedYear || new Date().getFullYear(),
+        this.pieLabels.indexOf(this.selectedMonth) || 0,
+        1,
+      );
+      const endDate = new Date(
+        this.selectedYear || new Date().getFullYear(),
+        this.pieLabels.indexOf(this.selectedMonth) + 1 || 12,
+        0,
+        23,
+        59,
+        59,
+      );
+
+      return items.filter((item) => {
+        const itemDate = new Date(item?.date?.[1]);
+        return itemDate >= startDate && itemDate <= endDate;
+      });
+    },
   },
 
   methods: {
@@ -199,7 +225,7 @@ export default {
   data() {
     return {
       selectedYear: new Date("2025-01-01").getFullYear(),
-      selectedMonth: "January",
+      selectedMonth: "-",
       chartOptions: {
         responsive: true,
         maintainAspectRatio: true,
