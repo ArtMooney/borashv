@@ -5,7 +5,11 @@
         Year:
 
         <select v-model="selectedYear">
-          <option v-for="year in [2023, 2024, 2025]" :key="year" :value="year">
+          <option
+            v-for="year in ['-', ...itemsYears]"
+            :key="year"
+            :value="year"
+          >
             {{ year }}
           </option>
         </select>
@@ -146,13 +150,19 @@ export default {
     getFilteredItems() {
       const items = this.cmsStore?.items ?? [];
       const startDate = new Date(
-        this.selectedYear || new Date().getFullYear(),
-        this.pieLabels.indexOf(this.selectedMonth) || 0,
+        this.selectedYear === "-" ? this.itemsYears[0] : this.selectedYear,
+        this.pieLabels.indexOf(
+          this.selectedMonth === "-" ? "January" : this.selectedMonth,
+        ),
         1,
       );
       const endDate = new Date(
-        this.selectedYear || new Date().getFullYear(),
-        this.pieLabels.indexOf(this.selectedMonth) + 1 || 12,
+        this.selectedYear === "-"
+          ? this.itemsYears[this.itemsYears.length - 1]
+          : this.selectedYear,
+        this.pieLabels.indexOf(
+          this.selectedMonth === "-" ? "December" : this.selectedMonth,
+        ) + 1,
         0,
         23,
         59,
@@ -163,6 +173,15 @@ export default {
         const itemDate = new Date(item?.date?.[1]);
         return itemDate >= startDate && itemDate <= endDate;
       });
+    },
+
+    itemsYears() {
+      const items = this.cmsStore?.items ?? [];
+      return [
+        ...new Set(
+          items.map((item) => new Date(item?.date?.[0]).getFullYear()),
+        ),
+      ].sort();
     },
   },
 
@@ -202,9 +221,15 @@ export default {
       const items = this.getFilteredItems;
 
       return this.pieLabels.map((label, monthIndex) => {
-        const startDate = new Date(this.selectedYear, monthIndex, 1);
+        const startDate = new Date(
+          this.selectedYear === "-" ? this.itemsYears[0] : this.selectedYear,
+          monthIndex,
+          1,
+        );
         const endDate = new Date(
-          this.selectedYear,
+          this.selectedYear === "-"
+            ? this.itemsYears[this.itemsYears.length - 1]
+            : this.selectedYear,
           monthIndex + 1,
           0,
           23,
@@ -224,7 +249,7 @@ export default {
 
   data() {
     return {
-      selectedYear: new Date("2025-01-01").getFullYear(),
+      selectedYear: "-",
       selectedMonth: "-",
       chartOptions: {
         responsive: true,
