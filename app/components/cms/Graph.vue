@@ -203,7 +203,7 @@ export default {
 
   data() {
     return {
-      selectedYear: new Date().getFullYear(),
+      selectedYear: new Date("2025-01-01").getFullYear(),
       chartOptions: {
         responsive: true,
         maintainAspectRatio: true,
