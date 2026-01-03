@@ -212,5 +212,16 @@ export const graphConfig = {
         borderColor: "#f87979",
       },
     ],
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      scales: {
+        y: {
+          ticks: {
+            stepSize: 1,
+          },
+        },
+      },
+    },
   },
 };

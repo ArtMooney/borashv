@@ -183,6 +183,10 @@ export default {
         ),
       ].sort();
     },
+
+    chartOptions() {
+      return this.graphSettings?.options ?? {};
+    },
   },
 
   methods: {
@@ -251,10 +255,6 @@ export default {
     return {
       selectedYear: "-",
       selectedMonth: "-",
-      chartOptions: {
-        responsive: true,
-        maintainAspectRatio: true,
-      },
       pieLabels: [
         "January",
         "February",
