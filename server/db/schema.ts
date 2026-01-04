@@ -226,6 +226,22 @@ export const graphConfig = {
         },
       },
     },
+    {
+      type: "pie",
+      labelField: "company",
+      dateField: "date",
+      datasets: [
+        {
+          dataField: "venue",
+          aggregation: "count",
+          label: "Bookings per venue",
+        },
+      ],
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+      },
+    },
   ],
 };
 
