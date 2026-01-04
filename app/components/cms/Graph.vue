@@ -145,12 +145,19 @@ export default {
       const endHue = 60;
       const saturation = 100;
       const lightness = darker ? 67 : 70;
+      const forwardCount = Math.ceil(count / 2);
+      const backwardCount = count - forwardCount;
 
       for (let i = 0; i < count; i++) {
-        const progress = i / Math.max(count - 1, 1);
-        const pingPong = progress <= 0.5 ? progress * 2 : (1 - progress) * 2;
-
-        const hue = startHue + pingPong * (endHue - startHue);
+        let hue;
+        if (i < forwardCount) {
+          const t = forwardCount > 1 ? i / (forwardCount - 1) : 0;
+          hue = startHue + t * (endHue - startHue);
+        } else {
+          const backIndex = i - forwardCount;
+          const t = (backIndex + 1) / (backwardCount + 1);
+          hue = endHue - t * (endHue - startHue);
+        }
         colors.push(`hsl(${hue}, ${saturation}%, ${lightness}%)`);
       }
 
