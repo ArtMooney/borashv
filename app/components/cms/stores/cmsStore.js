@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { useLoginStore } from "~/components/cms/stores/loginStore";
+import { selectorMonths } from "~~/server/db/schema.ts";
 
 export const useCmsStore = defineStore("cmsStore", {
   state: () => ({
@@ -40,6 +41,42 @@ export const useCmsStore = defineStore("cmsStore", {
           items.map((item) => new Date(item?.date?.[0]).getFullYear()),
         ),
       ].sort();
+    },
+
+    filteredSelectItems() {
+      const items = this.items ?? [];
+
+      if (items.length === 0 || this.selectorYears.length === 0) {
+        return items;
+      }
+
+      const selectedYear =
+        this.selectedYear === "-"
+          ? this.selectorYears[0]
+          : parseInt(this.selectedYear);
+
+      const selectedMonth =
+        this.selectedMonth === "-"
+          ? 0
+          : selectorMonths.indexOf(this.selectedMonth);
+
+      const startDate = new Date(selectedYear, selectedMonth, 1);
+
+      const endYear =
+        this.selectedYear === "-"
+          ? this.selectorYears[this.selectorYears.length - 1]
+          : parseInt(this.selectedYear);
+
+      const endMonth = this.selectedMonth === "-" ? 11 : selectedMonth;
+
+      const endDate = new Date(endYear, endMonth + 1, 0, 23, 59, 59);
+
+      return items.filter((item) => {
+        const itemStartDate = new Date(item?.date?.[0]);
+        const itemEndDate = new Date(item?.date?.[1]);
+
+        return itemEndDate >= startDate && itemStartDate <= endDate;
+      });
     },
   },
 

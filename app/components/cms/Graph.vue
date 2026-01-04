@@ -72,7 +72,7 @@ export default {
       const config = this.graphSettings;
       if (!config) return [];
 
-      const items = this.getFilteredItems;
+      const items = this.cmsStore.filteredSelectItems;
       return [...new Set(items.map((item) => item[config.labelField]))].filter(
         Boolean,
       );
@@ -121,45 +121,11 @@ export default {
         datasets,
       };
     },
-
-    getFilteredItems() {
-      const items = this.cmsStore?.items ?? [];
-      const startDate = new Date(
-        this.cmsStore.selectedYear === "-"
-          ? this.cmsStore.selectorYears[0]
-          : this.cmsStore.selectedYear,
-        selectorMonths.indexOf(
-          this.cmsStore.selectedMonth === "-"
-            ? "January"
-            : this.cmsStore.selectedMonth,
-        ),
-        1,
-      );
-      const endDate = new Date(
-        this.cmsStore.selectedYear === "-"
-          ? this.cmsStore.selectorYears[this.cmsStore.selectorYears.length - 1]
-          : this.cmsStore.selectedYear,
-        selectorMonths.indexOf(
-          this.cmsStore.selectedMonth === "-"
-            ? "December"
-            : this.cmsStore.selectedMonth,
-        ) + 1,
-        0,
-        23,
-        59,
-        59,
-      );
-
-      return items.filter((item) => {
-        const itemDate = new Date(item?.date?.[1]);
-        return itemDate >= startDate && itemDate <= endDate;
-      });
-    },
   },
 
   methods: {
     getChartValues(datasetConfig) {
-      const items = this.getFilteredItems;
+      const items = this.cmsStore.filteredSelectItems;
       const config = this.graphSettings;
 
       return this.labels.map((label) => {
@@ -190,7 +156,7 @@ export default {
     },
 
     getPieValues() {
-      const items = this.getFilteredItems;
+      const items = this.cmsStore.filteredSelectItems;
 
       return selectorMonths.map((label, monthIndex) => {
         const startDate = new Date(
