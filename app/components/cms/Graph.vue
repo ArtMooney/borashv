@@ -1,5 +1,9 @@
 <template>
-  <div>
+  <label class="w-full font-semibold text-white/50 italic">
+    <span class="my-12">
+      {{ graphSettings?.datasets?.[0]?.label ?? "Graph" }}
+    </span>
+
     <Bar
       v-if="graphSettings?.type === 'bar'"
       :data="chartData"
@@ -15,7 +19,7 @@
       :data="chartData"
       :options="graphSettings?.options ?? {}"
     />
-  </div>
+  </label>
 </template>
 
 <script>

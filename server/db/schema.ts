@@ -236,7 +236,7 @@ export const graphConfig = {
       datasets: [
         {
           dataField: "venue",
-          label: "Bookings per venue",
+          label: "Bookings per company",
         },
       ],
       options: {
