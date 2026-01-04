@@ -72,7 +72,7 @@ export default {
       const config = this.graphSettings;
       if (!config) return [];
 
-      const items = this.cmsStore.filteredSelectItems;
+      const items = this.cmsStore.filteredSelectItems("date");
       return [...new Set(items.map((item) => item[config.labelField]))].filter(
         Boolean,
       );
@@ -125,7 +125,7 @@ export default {
 
   methods: {
     getChartValues(datasetConfig) {
-      const items = this.cmsStore.filteredSelectItems;
+      const items = this.cmsStore.filteredSelectItems("date");
       const config = this.graphSettings;
 
       return this.labels.map((label) => {
@@ -156,7 +156,7 @@ export default {
     },
 
     getPieValues() {
-      const items = this.cmsStore.filteredSelectItems;
+      const items = this.cmsStore.filteredSelectItems("date");
 
       return selectorMonths.map((label, monthIndex) => {
         const startDate = new Date(
