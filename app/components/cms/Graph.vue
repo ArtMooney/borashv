@@ -12,7 +12,7 @@
     />
     <Pie
       v-else-if="graphSettings?.type === 'pie'"
-      :data="pieData"
+      :data="chartData"
       :options="graphSettings?.options ?? {}"
     />
   </div>
@@ -20,7 +20,6 @@
 
 <script>
 import { useCmsStore } from "~/components/cms/stores/cmsStore";
-import { selectorMonths } from "~/../server/db/schema";
 import { Bar, Line, Pie } from "vue-chartjs";
 import {
   Chart as ChartJS,
@@ -73,6 +72,7 @@ export default {
       if (!config) return [];
 
       const items = this.cmsStore.filteredSelectItems(config.dateField);
+
       return [...new Set(items.map((item) => item[config.labelField]))].filter(
         Boolean,
       );
@@ -86,6 +86,12 @@ export default {
         let bgColor = ds.backgroundColor;
         let borderColor = ds.borderColor;
 
+        if (config.type === "pie") {
+          const numColors = this.labels.length;
+          bgColor = this.getDistinctColors(numColors);
+          borderColor = this.getDistinctColors(numColors, true);
+        }
+
         return {
           label: ds.label,
           backgroundColor: bgColor,
@@ -96,28 +102,6 @@ export default {
 
       return {
         labels: this.labels,
-        datasets,
-      };
-    },
-
-    pieData() {
-      const config = this.graphSettings;
-      if (!config) return { labels: [], datasets: [] };
-
-      const datasets = config.datasets.map((ds) => {
-        let bgColor = this.pieColors;
-        let borderColor = "transparent";
-
-        return {
-          label: ds.label,
-          backgroundColor: bgColor,
-          borderColor: borderColor,
-          data: this.getPieValues(),
-        };
-      });
-
-      return {
-        labels: selectorMonths,
         datasets,
       };
     },
@@ -155,58 +139,23 @@ export default {
       });
     },
 
-    getPieValues() {
-      const config = this.graphSettings;
-      const items = this.cmsStore.filteredSelectItems(config.dateField);
+    getDistinctColors(count, darker = false) {
+      const colors = [];
+      const startHue = 0;
+      const endHue = 60;
+      const saturation = 100;
+      const lightness = darker ? 67 : 70;
 
-      return selectorMonths.map((label, monthIndex) => {
-        const startDate = new Date(
-          this.cmsStore.selectedYear === "-"
-            ? this.cmsStore.selectorYears[0]
-            : this.cmsStore.selectedYear,
-          monthIndex,
-          1,
-        );
-        const endDate = new Date(
-          this.cmsStore.selectedYear === "-"
-            ? this.cmsStore.selectorYears[
-                this.cmsStore.selectorYears.length - 1
-              ]
-            : this.cmsStore.selectedYear,
-          monthIndex + 1,
-          0,
-          23,
-          59,
-          59,
-        );
+      for (let i = 0; i < count; i++) {
+        const progress = i / Math.max(count - 1, 1);
+        const pingPong = progress <= 0.5 ? progress * 2 : (1 - progress) * 2;
 
-        const monthItems = items.filter((item) => {
-          const itemDate = new Date(item?.date?.[1]);
-          return itemDate >= startDate && itemDate <= endDate;
-        });
+        const hue = startHue + pingPong * (endHue - startHue);
+        colors.push(`hsl(${hue}, ${saturation}%, ${lightness}%)`);
+      }
 
-        return monthItems.length;
-      });
+      return colors;
     },
-  },
-
-  data() {
-    return {
-      pieColors: [
-        "#7BA3E1",
-        "#6BB89D",
-        "#E6A968",
-        "#D98080",
-        "#A58BD0",
-        "#D98BB8",
-        "#69B8AD",
-        "#E89A6B",
-        "#8B8FD6",
-        "#A9C76D",
-        "#6BB8CA",
-        "#B984D6",
-      ],
-    };
   },
 };
 </script>
