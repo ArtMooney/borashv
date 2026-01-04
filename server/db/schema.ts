@@ -215,6 +215,11 @@ export const graphConfig = {
       options: {
         responsive: true,
         maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
         scales: {
           y: {
             ticks: {
@@ -237,6 +242,11 @@ export const graphConfig = {
       options: {
         responsive: true,
         maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
       },
     },
   ],
