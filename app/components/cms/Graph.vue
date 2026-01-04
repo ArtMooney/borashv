@@ -7,17 +7,17 @@
     <Bar
       v-if="graphSettings?.type === 'bar'"
       :data="chartData"
-      :options="graphSettings?.options ?? {}"
+      :options="chartOptions"
     />
     <Line
       v-else-if="graphSettings?.type === 'line'"
       :data="chartData"
-      :options="graphSettings?.options ?? {}"
+      :options="chartOptions"
     />
     <Pie
       v-else-if="graphSettings?.type === 'pie'"
       :data="chartData"
-      :options="graphSettings?.options ?? {}"
+      :options="chartOptions"
     />
   </label>
 </template>
@@ -108,6 +108,34 @@ export default {
         labels: this.labels,
         datasets,
       };
+    },
+
+    chartOptions() {
+      const config = this.graphSettings;
+      const baseOptions = config?.options ?? {};
+
+      if (config?.showPercentage && config?.type === "pie") {
+        return {
+          ...baseOptions,
+          plugins: {
+            ...baseOptions.plugins,
+            tooltip: {
+              ...baseOptions.plugins?.tooltip,
+              callbacks: {
+                label: (context) => {
+                  const label = context.label || "";
+                  const value = context.parsed;
+                  const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                  const percentage = ((value / total) * 100).toFixed(1);
+                  return `${label}: ${value} (${percentage}%)`;
+                },
+              },
+            },
+          },
+        };
+      }
+
+      return baseOptions;
     },
   },
 

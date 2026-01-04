@@ -197,7 +197,6 @@ export const fieldTypes = {
   },
 };
 
-// type: 'bar' | 'line' | 'pie'
 export const graphConfig = {
   statistics: [
     {
@@ -233,6 +232,7 @@ export const graphConfig = {
       type: "pie",
       labelField: "company",
       dateField: "date",
+      showPercentage: true,
       datasets: [
         {
           dataField: "venue",
