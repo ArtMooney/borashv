@@ -17,7 +17,10 @@
     <label class="w-full font-semibold text-white/50 italic">
       Month:
 
-      <select v-model="cmsStore.selectedMonth">
+      <select
+        v-model="cmsStore.selectedMonth"
+        :disabled="cmsStore.selectedYear === '-'"
+      >
         <option
           v-for="month in ['-', ...selectorMonths]"
           :key="month"
@@ -44,6 +47,14 @@ export default {
 
     selectorMonths() {
       return selectorMonths;
+    },
+  },
+
+  watch: {
+    "cmsStore.selectedYear"() {
+      if (this.cmsStore.selectedYear === "-") {
+        this.cmsStore.selectedMonth = "-";
+      }
     },
   },
 };
