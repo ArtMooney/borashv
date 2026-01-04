@@ -59,13 +59,18 @@ import { VueDraggableNext } from "vue-draggable-next";
       </div>
     </VueDraggableNext>
 
-    <CmsGraph v-if="cmsStore.viewMode === 'graph'" />
+    <CmsGraph
+      v-if="cmsStore.viewMode === 'graph'"
+      v-for="graph in graphConfig[cmsStore.tableId]"
+      :graph-settings="graph"
+    />
   </div>
 </template>
 
 <script>
 import { useLoginStore } from "~/components/cms/stores/loginStore";
 import { useCmsStore } from "~/components/cms/stores/cmsStore";
+import { graphConfig } from "~/../server/db/schema";
 
 export default {
   name: "CmsItems",

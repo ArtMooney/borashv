@@ -31,23 +31,25 @@
     </div>
 
     <Bar
-      v-if="graphSettings && graphSettings.type === 'bar'"
+      v-if="graphSettings?.type === 'bar'"
       :data="chartData"
-      :options="chartOptions"
+      :options="graphSettings?.options ?? {}"
     />
     <Line
-      v-else-if="graphSettings && graphSettings.type === 'line'"
+      v-else-if="graphSettings?.type === 'line'"
       :data="chartData"
-      :options="chartOptions"
+      :options="graphSettings?.options ?? {}"
     />
-
-    <Pie :data="pieData" :options="chartOptions" class="mt-20" />
+    <Pie
+      v-else-if="graphSettings?.type === 'pie'"
+      :data="pieData"
+      :options="graphSettings?.options ?? {}"
+    />
   </div>
 </template>
 
 <script>
 import { useCmsStore } from "~/components/cms/stores/cmsStore";
-import { graphConfig } from "~/../server/db/schema";
 import { Bar, Line, Pie } from "vue-chartjs";
 import {
   Chart as ChartJS,
@@ -83,14 +85,16 @@ export default {
     Pie,
   },
 
+  props: {
+    graphSettings: {
+      type: Object,
+      required: true,
+    },
+  },
+
   computed: {
     cmsStore() {
       return useCmsStore();
-    },
-
-    graphSettings() {
-      const tableId = this.cmsStore.tableId;
-      return graphConfig[tableId] ?? null;
     },
 
     labels() {
@@ -182,10 +186,6 @@ export default {
           items.map((item) => new Date(item?.date?.[0]).getFullYear()),
         ),
       ].sort();
-    },
-
-    chartOptions() {
-      return this.graphSettings?.options ?? {};
     },
   },
 

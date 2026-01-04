@@ -197,31 +197,33 @@ export const fieldTypes = {
   },
 };
 
-// type: 'bar' | 'line'
+// type: 'bar' | 'line' | 'pie'
 // aggregation: 'count' | 'sum' | 'avg'
 export const graphConfig = {
-  statistics: {
-    type: "bar",
-    labelField: "venue",
-    datasets: [
-      {
-        dataField: "venue",
-        aggregation: "count",
-        label: "Bookings per venue",
-        backgroundColor: "#f87979",
-        borderColor: "#f87979",
-      },
-    ],
-    options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      scales: {
-        y: {
-          ticks: {
-            stepSize: 1,
+  statistics: [
+    {
+      type: "bar",
+      labelField: "venue",
+      datasets: [
+        {
+          dataField: "venue",
+          aggregation: "count",
+          label: "Bookings per venue",
+          backgroundColor: "#f87979",
+          borderColor: "#f87979",
+        },
+      ],
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        scales: {
+          y: {
+            ticks: {
+              stepSize: 1,
+            },
           },
         },
       },
     },
-  },
+  ],
 };
