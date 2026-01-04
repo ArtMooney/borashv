@@ -76,10 +76,20 @@ export default {
       if (!config) return [];
 
       const items = this.cmsStore.filteredSelectItems(config.dateField);
+      const uniqueLabels = [
+        ...new Set(items.map((item) => item[config.labelField])),
+      ].filter(Boolean);
 
-      return [...new Set(items.map((item) => item[config.labelField]))].filter(
-        Boolean,
-      );
+      return uniqueLabels.sort((a, b) => {
+        const countA = items.filter(
+          (item) => item[config.labelField] === a,
+        ).length;
+        const countB = items.filter(
+          (item) => item[config.labelField] === b,
+        ).length;
+
+        return countB - countA;
+      });
     },
 
     chartData() {
