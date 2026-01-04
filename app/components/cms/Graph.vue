@@ -1,35 +1,5 @@
 <template>
   <div>
-    <div class="mb-12 flex gap-4">
-      <label class="w-full font-semibold text-white/50 italic">
-        Year:
-
-        <select v-model="selectedYear">
-          <option
-            v-for="year in ['-', ...itemsYears]"
-            :key="year"
-            :value="year"
-          >
-            {{ year }}
-          </option>
-        </select>
-      </label>
-
-      <label class="w-full font-semibold text-white/50 italic">
-        Month:
-
-        <select v-model="selectedMonth">
-          <option
-            v-for="month in ['-', ...pieLabels]"
-            :key="month"
-            :value="month"
-          >
-            {{ month }}
-          </option>
-        </select>
-      </label>
-    </div>
-
     <Bar
       v-if="graphSettings?.type === 'bar'"
       :data="chartData"
@@ -154,18 +124,24 @@ export default {
     getFilteredItems() {
       const items = this.cmsStore?.items ?? [];
       const startDate = new Date(
-        this.selectedYear === "-" ? this.itemsYears[0] : this.selectedYear,
+        this.cmsStore.selectedYear === "-"
+          ? this.itemsYears[0]
+          : this.cmsStore.selectedYear,
         this.pieLabels.indexOf(
-          this.selectedMonth === "-" ? "January" : this.selectedMonth,
+          this.cmsStore.selectedMonth === "-"
+            ? "January"
+            : this.cmsStore.selectedMonth,
         ),
         1,
       );
       const endDate = new Date(
-        this.selectedYear === "-"
+        this.cmsStore.selectedYear === "-"
           ? this.itemsYears[this.itemsYears.length - 1]
-          : this.selectedYear,
+          : this.cmsStore.selectedYear,
         this.pieLabels.indexOf(
-          this.selectedMonth === "-" ? "December" : this.selectedMonth,
+          this.cmsStore.selectedMonth === "-"
+            ? "December"
+            : this.cmsStore.selectedMonth,
         ) + 1,
         0,
         23,
@@ -226,14 +202,16 @@ export default {
 
       return this.pieLabels.map((label, monthIndex) => {
         const startDate = new Date(
-          this.selectedYear === "-" ? this.itemsYears[0] : this.selectedYear,
+          this.cmsStore.selectedYear === "-"
+            ? this.itemsYears[0]
+            : this.cmsStore.selectedYear,
           monthIndex,
           1,
         );
         const endDate = new Date(
-          this.selectedYear === "-"
+          this.cmsStore.selectedYear === "-"
             ? this.itemsYears[this.itemsYears.length - 1]
-            : this.selectedYear,
+            : this.cmsStore.selectedYear,
           monthIndex + 1,
           0,
           23,
@@ -253,8 +231,6 @@ export default {
 
   data() {
     return {
-      selectedYear: "-",
-      selectedMonth: "-",
       pieLabels: [
         "January",
         "February",

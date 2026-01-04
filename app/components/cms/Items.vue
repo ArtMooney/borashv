@@ -59,6 +59,7 @@ import { VueDraggableNext } from "vue-draggable-next";
       </div>
     </VueDraggableNext>
 
+    <CmsGraphSelectors v-if="cmsStore.viewMode === 'graph'" />
     <CmsGraph
       v-if="cmsStore.viewMode === 'graph'"
       v-for="graph in graphConfig[cmsStore.tableId]"

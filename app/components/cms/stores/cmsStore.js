@@ -19,6 +19,8 @@ export const useCmsStore = defineStore("cmsStore", {
     editingNewItem: false,
     inputError: false,
     formRefs: {},
+    selectedYear: "-",
+    selectedMonth: "-",
   }),
 
   getters: {
