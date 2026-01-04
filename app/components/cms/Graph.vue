@@ -8,11 +8,13 @@
       v-if="graphSettings?.type === 'bar'"
       :data="chartData"
       :options="chartOptions"
+      class="h-auto max-h-100"
     />
     <Line
       v-else-if="graphSettings?.type === 'line'"
       :data="chartData"
       :options="chartOptions"
+      class="h-auto max-h-100"
     />
     <Pie
       v-else-if="graphSettings?.type === 'pie'"
