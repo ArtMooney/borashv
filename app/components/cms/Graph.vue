@@ -108,7 +108,7 @@ export default {
   },
 
   methods: {
-    getChartValues(datasetConfig) {
+    getChartValues() {
       const config = this.graphSettings;
       const items = this.cmsStore.filteredSelectItems(config.dateField);
 
@@ -117,25 +117,7 @@ export default {
           (item) => item[config.labelField] === label,
         );
 
-        switch (datasetConfig.aggregation) {
-          case "count":
-            return matching.length;
-          case "sum":
-            return matching.reduce(
-              (sum, item) => sum + (Number(item[datasetConfig.dataField]) || 0),
-              0,
-            );
-          case "avg":
-            return matching.length > 0
-              ? matching.reduce(
-                  (sum, item) =>
-                    sum + (Number(item[datasetConfig.dataField]) || 0),
-                  0,
-                ) / matching.length
-              : 0;
-          default:
-            return matching.length;
-        }
+        return matching.length;
       });
     },
 

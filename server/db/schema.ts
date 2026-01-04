@@ -198,7 +198,6 @@ export const fieldTypes = {
 };
 
 // type: 'bar' | 'line' | 'pie'
-// aggregation: 'count' | 'sum' | 'avg'
 export const graphConfig = {
   statistics: [
     {
@@ -208,7 +207,6 @@ export const graphConfig = {
       datasets: [
         {
           dataField: "venue",
-          aggregation: "count",
           label: "Bookings per venue",
           backgroundColor: "#f87979",
           borderColor: "#f87979",
@@ -233,7 +231,6 @@ export const graphConfig = {
       datasets: [
         {
           dataField: "venue",
-          aggregation: "count",
           label: "Bookings per venue",
         },
       ],
