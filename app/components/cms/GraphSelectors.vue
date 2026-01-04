@@ -4,7 +4,11 @@
       Year:
 
       <select v-model="cmsStore.selectedYear">
-        <option v-for="year in ['-', ...itemsYears]" :key="year" :value="year">
+        <option
+          v-for="year in ['-', ...cmsStore.selectorYears]"
+          :key="year"
+          :value="year"
+        >
           {{ year }}
         </option>
       </select>
@@ -35,15 +39,6 @@ export default {
   computed: {
     cmsStore() {
       return useCmsStore();
-    },
-
-    itemsYears() {
-      const items = this.cmsStore?.items ?? [];
-      return [
-        ...new Set(
-          items.map((item) => new Date(item?.date?.[0]).getFullYear()),
-        ),
-      ].sort();
     },
   },
 

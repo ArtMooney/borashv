@@ -31,6 +31,16 @@ export const useCmsStore = defineStore("cmsStore", {
     hasSchema() {
       return this.schema.length > 0;
     },
+
+    selectorYears() {
+      const items = this.items ?? [];
+
+      return [
+        ...new Set(
+          items.map((item) => new Date(item?.date?.[0]).getFullYear()),
+        ),
+      ].sort();
+    },
   },
 
   actions: {

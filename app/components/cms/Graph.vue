@@ -125,7 +125,7 @@ export default {
       const items = this.cmsStore?.items ?? [];
       const startDate = new Date(
         this.cmsStore.selectedYear === "-"
-          ? this.itemsYears[0]
+          ? this.cmsStore.selectorYears[0]
           : this.cmsStore.selectedYear,
         this.pieLabels.indexOf(
           this.cmsStore.selectedMonth === "-"
@@ -136,7 +136,7 @@ export default {
       );
       const endDate = new Date(
         this.cmsStore.selectedYear === "-"
-          ? this.itemsYears[this.itemsYears.length - 1]
+          ? this.cmsStore.selectorYears[this.cmsStore.selectorYears.length - 1]
           : this.cmsStore.selectedYear,
         this.pieLabels.indexOf(
           this.cmsStore.selectedMonth === "-"
@@ -153,15 +153,6 @@ export default {
         const itemDate = new Date(item?.date?.[1]);
         return itemDate >= startDate && itemDate <= endDate;
       });
-    },
-
-    itemsYears() {
-      const items = this.cmsStore?.items ?? [];
-      return [
-        ...new Set(
-          items.map((item) => new Date(item?.date?.[0]).getFullYear()),
-        ),
-      ].sort();
     },
   },
 
@@ -203,14 +194,16 @@ export default {
       return this.pieLabels.map((label, monthIndex) => {
         const startDate = new Date(
           this.cmsStore.selectedYear === "-"
-            ? this.itemsYears[0]
+            ? this.cmsStore.selectorYears[0]
             : this.cmsStore.selectedYear,
           monthIndex,
           1,
         );
         const endDate = new Date(
           this.cmsStore.selectedYear === "-"
-            ? this.itemsYears[this.itemsYears.length - 1]
+            ? this.cmsStore.selectorYears[
+                this.cmsStore.selectorYears.length - 1
+              ]
             : this.cmsStore.selectedYear,
           monthIndex + 1,
           0,
