@@ -204,6 +204,7 @@ export const graphConfig = {
     {
       type: "bar",
       labelField: "venue",
+      dateField: "date",
       datasets: [
         {
           dataField: "venue",
