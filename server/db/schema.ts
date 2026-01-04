@@ -200,6 +200,10 @@ export const fieldTypes = {
 export const graphConfig = {
   statistics: [
     {
+      type: "selectors",
+      dateField: "date",
+    },
+    {
       type: "bar",
       labelField: "venue",
       dateField: "date",

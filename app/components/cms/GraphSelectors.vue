@@ -5,8 +5,11 @@
 
       <select v-model="cmsStore.selectedYear">
         <option
-          v-for="year in ['-', ...cmsStore.selectorYears]"
-          :key="year"
+          v-for="(year, index) in [
+            '-',
+            ...cmsStore.selectorYears(graphSettings?.dateField),
+          ]"
+          :key="index"
           :value="year"
         >
           {{ year }}
@@ -39,6 +42,13 @@ import { selectorMonths } from "~/../server/db/schema";
 
 export default {
   name: "GraphSelectors",
+
+  props: {
+    graphSettings: {
+      type: Object,
+      required: true,
+    },
+  },
 
   computed: {
     cmsStore() {

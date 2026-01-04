@@ -1,5 +1,5 @@
 <template>
-  <label class="w-full font-semibold text-white/50 italic">
+  <label class="mb-12 w-full font-semibold text-white/50 italic">
     <span class="my-12">
       {{ graphSettings?.datasets?.[0]?.label ?? "Graph" }}
     </span>

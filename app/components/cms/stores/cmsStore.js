@@ -32,16 +32,6 @@ export const useCmsStore = defineStore("cmsStore", {
     hasSchema() {
       return this.schema.length > 0;
     },
-
-    selectorYears() {
-      const items = this.items ?? [];
-
-      return [
-        ...new Set(
-          items.map((item) => new Date(item?.date?.[0]).getFullYear()),
-        ),
-      ].sort();
-    },
   },
 
   actions: {
@@ -412,16 +402,39 @@ export const useCmsStore = defineStore("cmsStore", {
       return true;
     },
 
+    selectorYears(dateFieldPath = "date") {
+      const items = this.items ?? [];
+
+      return [
+        ...new Set(
+          items.map((item) => {
+            const dateValue = dateFieldPath
+              .split(".")
+              .reduce((obj, key) => obj?.[key], item);
+
+            if (Array.isArray(dateValue)) {
+              return new Date(dateValue[0]).getFullYear();
+            } else {
+              return new Date(dateValue).getFullYear();
+            }
+          }),
+        ),
+      ].sort();
+    },
+
     filteredSelectItems(dateFieldPath = "date") {
       const items = this.items ?? [];
 
-      if (items.length === 0 || this.selectorYears.length === 0) {
+      if (
+        items.length === 0 ||
+        this.selectorYears(dateFieldPath).length === 0
+      ) {
         return items;
       }
 
       const selectedYear =
         this.selectedYear === "-"
-          ? this.selectorYears[0]
+          ? this.selectorYears(dateFieldPath)[0]
           : parseInt(this.selectedYear);
 
       const selectedMonth =
@@ -433,7 +446,9 @@ export const useCmsStore = defineStore("cmsStore", {
 
       const endYear =
         this.selectedYear === "-"
-          ? this.selectorYears[this.selectorYears.length - 1]
+          ? this.selectorYears(dateFieldPath)[
+              this.selectorYears(dateFieldPath).length - 1
+            ]
           : parseInt(this.selectedYear);
 
       const endMonth = this.selectedMonth === "-" ? 11 : selectedMonth;
