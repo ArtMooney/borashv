@@ -20,6 +20,7 @@
 
 <script>
 import { useCmsStore } from "~/components/cms/stores/cmsStore";
+import { selectorMonths } from "~/../server/db/schema";
 import { Bar, Line, Pie } from "vue-chartjs";
 import {
   Chart as ChartJS,
@@ -116,7 +117,7 @@ export default {
       });
 
       return {
-        labels: this.pieLabels,
+        labels: selectorMonths,
         datasets,
       };
     },
@@ -127,7 +128,7 @@ export default {
         this.cmsStore.selectedYear === "-"
           ? this.cmsStore.selectorYears[0]
           : this.cmsStore.selectedYear,
-        this.pieLabels.indexOf(
+        selectorMonths.indexOf(
           this.cmsStore.selectedMonth === "-"
             ? "January"
             : this.cmsStore.selectedMonth,
@@ -138,7 +139,7 @@ export default {
         this.cmsStore.selectedYear === "-"
           ? this.cmsStore.selectorYears[this.cmsStore.selectorYears.length - 1]
           : this.cmsStore.selectedYear,
-        this.pieLabels.indexOf(
+        selectorMonths.indexOf(
           this.cmsStore.selectedMonth === "-"
             ? "December"
             : this.cmsStore.selectedMonth,
@@ -191,7 +192,7 @@ export default {
     getPieValues() {
       const items = this.getFilteredItems;
 
-      return this.pieLabels.map((label, monthIndex) => {
+      return selectorMonths.map((label, monthIndex) => {
         const startDate = new Date(
           this.cmsStore.selectedYear === "-"
             ? this.cmsStore.selectorYears[0]
@@ -224,20 +225,6 @@ export default {
 
   data() {
     return {
-      pieLabels: [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ],
       pieColors: [
         "#7BA3E1",
         "#6BB89D",

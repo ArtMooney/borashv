@@ -19,7 +19,7 @@
 
       <select v-model="cmsStore.selectedMonth">
         <option
-          v-for="month in ['-', ...pieLabels]"
+          v-for="month in ['-', ...selectorMonths]"
           :key="month"
           :value="month"
         >
@@ -32,6 +32,7 @@
 
 <script>
 import { useCmsStore } from "~/components/cms/stores/cmsStore";
+import { selectorMonths } from "~/../server/db/schema";
 
 export default {
   name: "GraphSelectors",
@@ -40,25 +41,10 @@ export default {
     cmsStore() {
       return useCmsStore();
     },
-  },
 
-  data() {
-    return {
-      pieLabels: [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ],
-    };
+    selectorMonths() {
+      return selectorMonths;
+    },
   },
 };
 </script>
