@@ -156,7 +156,7 @@ export default {
             "@apply border-gray-400": {},
           },
           "&:disabled, &.disabled": {
-            "@apply bg-neutral-200 text-neutral-600 cursor-not-allowed": {},
+            "@apply opacity-50 cursor-not-allowed": {},
           },
           "&.error, &:user-invalid": {
             "@apply bg-rose-100 outline-rose-700 text-rose-700": {},
