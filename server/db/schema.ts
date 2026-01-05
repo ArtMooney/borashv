@@ -133,7 +133,7 @@ export const cmsTables = [
   },
 ];
 
-export const fieldTypes = {
+export const fieldsConfig = {
   bokningar: {
     id: { type: "integer", label: "", required: true, hidden: true },
     title: { type: "text", label: "Title", required: true, hidden: false },
