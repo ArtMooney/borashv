@@ -161,7 +161,7 @@ export default {
         clearTimeout(this.debounceTimeout);
         this.debounceTimeout = setTimeout(() => {
           this.showNoItemsMessage = true;
-        }, 200);
+        }, 500);
       }
     },
   },
