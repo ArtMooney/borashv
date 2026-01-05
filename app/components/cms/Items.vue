@@ -11,7 +11,7 @@ import { VueDraggableNext } from "vue-draggable-next";
     />
 
     <div
-      v-if="!cmsStore.hasItems && !cmsStore.loadingFlag"
+      v-if="!cmsStore.hasItems && !cmsStore.loadingFlag && showNoItemsMessage"
       class="py-16 text-center"
     >
       No items found
@@ -95,6 +95,8 @@ export default {
       dragDelay: 0,
       dragVibration: 100,
       inputErrorIndex: [],
+      debounceTimeout: null,
+      showNoItemsMessage: false,
     };
   },
 
@@ -150,6 +152,17 @@ export default {
 
       immediate: true,
       deep: true,
+    },
+
+    "cmsStore.loadingFlag"(isLoading) {
+      if (isLoading) {
+        this.showNoItemsMessage = false;
+      } else {
+        clearTimeout(this.debounceTimeout);
+        this.debounceTimeout = setTimeout(() => {
+          this.showNoItemsMessage = true;
+        }, 200);
+      }
     },
   },
 };
