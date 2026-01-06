@@ -23,7 +23,7 @@ export const bokningar = sqliteTable("bokningar", {
   name: text("name"),
   phone: text("phone"),
   email: text("email"),
-  date: text("date", { mode: "json" }).$type<string[]>(),
+  date: text("date", { mode: "json" }),
   sortOrder: integer("sort_order"),
   createdAt: text("created_at")
     .default(sql`CURRENT_TIMESTAMP`)
@@ -42,7 +42,7 @@ export const statistics = sqliteTable("statistics", {
   name: text("name"),
   phone: text("phone"),
   email: text("email"),
-  date: text("date", { mode: "json" }).$type<string[]>(),
+  date: text("date", { mode: "json" }),
   sortOrder: integer("sort_order"),
   createdAt: text("created_at")
     .default(sql`CURRENT_TIMESTAMP`)
@@ -120,7 +120,28 @@ export const dokument = sqliteTable("dokument", {
     .notNull(),
 });
 
+export const static_content = sqliteTable("static_content", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  slug: text("slug").notNull().unique(),
+  title: text("title").notNull(),
+  content: text("content", { mode: "json" }),
+  sortOrder: integer("sort_order"),
+  createdAt: text("created_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: text("updated_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .$onUpdate(() => sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+});
+
 export const cmsTables = [
+  {
+    id: "static_content",
+    name: "Static Content",
+    viewMode: "list",
+    backupRef: null,
+  },
   { id: "nyheter", name: "Nyheter", viewMode: "list", backupRef: null },
   { id: "dokument", name: "Dokument", viewMode: "list", backupRef: null },
   { id: "styrelsen", name: "Styrelsen", viewMode: "list", backupRef: null },
@@ -188,6 +209,21 @@ export const fieldsConfig = {
     thumbnail: {
       type: "fileImg",
       label: "Thumbnail",
+      required: false,
+      hidden: false,
+    },
+    sortOrder: { type: "integer", label: "", required: true, hidden: true },
+    createdAt: { type: "date", label: "", required: true, hidden: true },
+    updatedAt: { type: "date", label: "", required: true, hidden: true },
+  },
+
+  static_content: {
+    id: { type: "integer", label: "", required: true, hidden: true },
+    slug: { type: "text", label: "Slug", required: true, hidden: false },
+    title: { type: "text", label: "Title", required: true, hidden: false },
+    content: {
+      type: "json",
+      label: "Content",
       required: false,
       hidden: false,
     },
@@ -270,3 +306,31 @@ export const selectorMonths = [
   "November",
   "December",
 ];
+
+export const staticContentTypes = {
+  index: {
+    header: {
+      title: "text",
+      buttonTextOne: "text",
+      buttonLinkOne: "text",
+    },
+  },
+  bokningar: {
+    header: {
+      buttonTextOne: "text",
+      buttonLinkOne: "text",
+      buttonHashOne: "text",
+      buttonTextTwo: "text",
+      buttonLinkTwo: "text",
+      buttonHashTwo: "text",
+    },
+    text_bokningar: {
+      title: "text",
+      text: "textarea",
+    },
+    text_regler: {
+      title: "text",
+      text: "textarea",
+    },
+  },
+};
