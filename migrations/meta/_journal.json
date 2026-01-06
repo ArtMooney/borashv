@@ -22,6 +22,20 @@
       "when": 1765670787860,
       "tag": "0002_greedy_nomad",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1767708569491,
+      "tag": "0003_gray_shen",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1767710169852,
+      "tag": "0004_furry_the_santerians",
+      "breakpoints": true
     }
   ]
 }
