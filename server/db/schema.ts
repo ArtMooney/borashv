@@ -136,12 +136,12 @@ export const static_content = sqliteTable("static_content", {
 });
 
 export const cmsTables = [
-  {
-    id: "static_content",
-    name: "Static Content",
-    viewMode: "list",
-    backupRef: null,
-  },
+  // {
+  //   id: "static_content",
+  //   name: "Static Content",
+  //   viewMode: "list",
+  //   backupRef: null,
+  // },
   { id: "nyheter", name: "Nyheter", viewMode: "list", backupRef: null },
   { id: "dokument", name: "Dokument", viewMode: "list", backupRef: null },
   { id: "styrelsen", name: "Styrelsen", viewMode: "list", backupRef: null },
