@@ -138,7 +138,7 @@ export default {
         },
 
         "textarea, .textarea": {
-          "@apply bg-neutral-700 min-h-28 rounded outline outline-white/35 my-1 px-4 py-3 placeholder:text-neutral-600 focus:outline-white/50":
+          "@apply bg-neutral-700 min-h-40 rounded outline outline-white/35 my-1 px-4 py-3 placeholder:text-neutral-600 focus:outline-white/50":
             {},
         },
 
