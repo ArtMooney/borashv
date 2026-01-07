@@ -36,6 +36,13 @@
       "when": 1767710169852,
       "tag": "0004_furry_the_santerians",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1767711435436,
+      "tag": "0005_chilly_warpath",
+      "breakpoints": true
     }
   ]
 }

@@ -219,7 +219,6 @@ export const fieldsConfig = {
 
   static_content: {
     id: { type: "integer", label: "", required: true, hidden: true },
-    slug: { type: "text", label: "Slug", required: true, hidden: false },
     title: { type: "text", label: "Title", required: true, hidden: false },
     content: {
       type: "json",
@@ -308,7 +307,7 @@ export const selectorMonths = [
 ];
 
 export const staticContentTypes = {
-  index: {
+  pageIndex: {
     header: {
       title: "text",
       buttonTextOne: "text",
