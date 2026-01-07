@@ -122,7 +122,6 @@ export const dokument = sqliteTable("dokument", {
 
 export const static_content = sqliteTable("static_content", {
   id: integer("id").primaryKey({ autoIncrement: true }),
-  slug: text("slug").notNull().unique(),
   title: text("title").notNull(),
   content: text("content", { mode: "json" }),
   sortOrder: integer("sort_order"),
@@ -314,7 +313,7 @@ export const staticContentTypes = {
       buttonLinkOne: "text",
     },
   },
-  bokningar: {
+  pageBokningar: {
     header: {
       buttonTextOne: "text",
       buttonLinkOne: "text",
