@@ -389,4 +389,35 @@ export const staticContentTypes = {
       address: "text",
     },
   },
+  "component - Contact": {
+    contact: {
+      title: "text",
+      text: "text",
+      button: "text",
+    },
+  },
+  "component - Navbar": {
+    buttons: {
+      button1: "text",
+      button2: "text",
+      button3: "text",
+      button4: "text",
+      button5: "text",
+      button6: "text",
+      button7: "text",
+      button8: "text",
+      button9: "text",
+    },
+  },
+  "component - Footer": {
+    buttons: {
+      button1: "text",
+      button2: "text",
+      button3: "text",
+      button4: "text",
+      button5: "text",
+      button6: "text",
+      button7: "text",
+    },
+  },
 };
