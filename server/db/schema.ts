@@ -135,12 +135,12 @@ export const static_content = sqliteTable("static_content", {
 });
 
 export const cmsTables = [
-  // {
-  //   id: "static_content",
-  //   name: "Static Content",
-  //   viewMode: "list",
-  //   backupRef: null,
-  // },
+  {
+    id: "static_content",
+    name: "Static Content",
+    viewMode: "list",
+    backupRef: null,
+  },
   { id: "nyheter", name: "Nyheter", viewMode: "list", backupRef: null },
   { id: "dokument", name: "Dokument", viewMode: "list", backupRef: null },
   { id: "styrelsen", name: "Styrelsen", viewMode: "list", backupRef: null },
@@ -306,21 +306,16 @@ export const selectorMonths = [
 ];
 
 export const staticContentTypes = {
-  pageIndex: {
+  "page - Index": {
     header: {
       title: "text",
       buttonTextOne: "text",
-      buttonLinkOne: "text",
     },
   },
-  pageBokningar: {
+  "page - Bokningar": {
     header: {
       buttonTextOne: "text",
-      buttonLinkOne: "text",
-      buttonHashOne: "text",
       buttonTextTwo: "text",
-      buttonLinkTwo: "text",
-      buttonHashTwo: "text",
     },
     text_bokningar: {
       title: "text",
@@ -329,6 +324,69 @@ export const staticContentTypes = {
     text_regler: {
       title: "text",
       text: "textarea",
+    },
+  },
+  "page - Om Oss": {
+    textBlock: {
+      title: "text",
+      text: "textarea",
+      buttonText: "text",
+    },
+  },
+  "page - Styrelsen": {
+    header: {
+      title: "text",
+    },
+  },
+  "page - Dokument": {
+    header: {
+      title: "text",
+      text: "textarea",
+    },
+  },
+  "page - Hemvarnsgarden": {
+    header: {
+      title: "text",
+      buttonTextOne: "text",
+    },
+    textBlock: {
+      textTodayOne: "textarea",
+      textTodayTwo: "textarea",
+      textThenOne: "textarea",
+      textThenTwo: "textarea",
+    },
+  },
+  "page - Bli Medlem": {
+    textBlock: {
+      title: "text",
+      text: "textarea",
+    },
+  },
+  "page - Kontakta Oss": {
+    textBlock: {
+      title: "text",
+      text: "textarea",
+    },
+  },
+  "component - News": {
+    headings: {
+      title: "text",
+    },
+  },
+  "component - BookingsCalendar": {
+    headings: {
+      title: "text",
+      titleComing: "text",
+    },
+  },
+  "component - ContactBlock": {
+    contact: {
+      mobileLabel: "text",
+      mobile: "text",
+      emailLabel: "text",
+      email: "text",
+      addressLabel: "text",
+      address: "text",
     },
   },
 };
