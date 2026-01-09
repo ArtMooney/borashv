@@ -22,7 +22,7 @@ import sandwich from "../assets/burger-menu.json";
     </NuxtLink>
 
     <div
-      class="absolute top-4 right-3 flex flex-col gap-5 bg-[#32382d] p-6 pt-14 transition-all duration-200 ease-in-out lg:static lg:flex-row lg:items-center lg:bg-transparent lg:p-0"
+      class="absolute top-4 right-3 flex flex-col gap-5 bg-[#32382d] p-6 pt-14 uppercase transition-all duration-200 ease-in-out lg:static lg:flex-row lg:items-center lg:bg-transparent lg:p-0"
       :class="[
         showNavbar
           ? 'opacity-100'
@@ -30,20 +30,20 @@ import sandwich from "../assets/burger-menu.json";
       ]"
     >
       <NuxtLink to="/bokningar" @click="toggleNavbar" class="hover:opacity-75"
-        >BOKNINGAR
+        >{{ staticContent?.buttons?.button1 }}
       </NuxtLink>
       <NavbarDropdown
-        text="FÖRENINGEN"
+        :text="staticContent?.buttons?.button2"
         :list="[
-          { text: 'Om Oss', link: '/om-oss' },
-          { text: 'Styrelsen', link: '/styrelsen' },
-          { text: 'Dokument', link: '/dokument' },
+          { text: staticContent?.buttons?.button7, link: '/om-oss' },
+          { text: staticContent?.buttons?.button8, link: '/styrelsen' },
+          { text: staticContent?.buttons?.button9, link: '/dokument' },
         ]"
         :is-mobile="isMobile"
         @button-clicked="toggleNavbar"
       />
       <NavbarDropdown
-        text="LÄNKAR"
+        :text="staticContent?.buttons?.button3"
         :list="[
           {
             text: 'Hemvärnet Älvsborg',
@@ -78,14 +78,16 @@ import sandwich from "../assets/burger-menu.json";
         to="/hemvarnsgarden"
         @click="toggleNavbar"
         class="hover:opacity-75"
-        >HEMVÄRNSGÅRDEN
+        >{{ staticContent?.buttons?.button4 }}
       </NuxtLink>
       <NuxtLink to="/bli-medlem" @click="toggleNavbar" class="hover:opacity-75"
-        >BLI MEDLEM
+        >{{ staticContent?.buttons?.button5 }}
       </NuxtLink>
 
       <NuxtLink to="/kontakta-oss">
-        <button @click="toggleNavbar" class="white">Kontakta oss</button>
+        <button @click="toggleNavbar" class="white">
+          {{ staticContent?.buttons?.button6 }}
+        </button>
       </NuxtLink>
     </div>
 
@@ -107,6 +109,7 @@ import sandwich from "../assets/burger-menu.json";
 
 <script>
 import { getBreakpointMixin } from "../mixins/getBreakpoint.js";
+import { useStaticContentStore } from "~/stores/static-content.js";
 
 export default {
   name: "Navbar",
@@ -122,6 +125,11 @@ export default {
   computed: {
     isMobile() {
       return !this.breakpoints.lg;
+    },
+
+    staticContent() {
+      return useStaticContentStore().getContentByTitle("component - Navbar")
+        .content;
     },
   },
 

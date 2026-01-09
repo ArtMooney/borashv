@@ -1,11 +1,11 @@
 <template>
   <div
     id="contact"
-    class="col-span-1 mx-auto grid w-full max-w-screen-xl grow content-center items-center gap-8 px-4 py-12 md:px-8 lg:grid-cols-5"
+    class="col-span-1 mx-auto grid w-full max-w-7xl grow content-center items-center gap-8 px-4 py-12 md:px-8 lg:grid-cols-5"
   >
     <div class="lg:col-span-2">
-      <h4 class="text-3xl uppercase">Eller så kontaktar vi dig!</h4>
-      <p>Fyll i din e-mail så kontaktar vi dig</p>
+      <h4 class="text-3xl uppercase">{{ staticContent?.contact?.title }}</h4>
+      <p>{{ staticContent?.contact?.text }}</p>
     </div>
 
     <div class="lg:col-span-3">
@@ -37,7 +37,7 @@
           data-wait="Vänta..."
           class="white"
         >
-          {{ buttonText }}
+          {{ staticContent?.contact?.button }}
         </button>
       </form>
 
@@ -55,8 +55,17 @@
 </template>
 
 <script>
+import { useStaticContentStore } from "~/stores/static-content.js";
+
 export default {
   name: "Contact",
+
+  computed: {
+    staticContent() {
+      return useStaticContentStore().getContentByTitle("component - Contact")
+        .content;
+    },
+  },
 
   data() {
     const config = useRuntimeConfig();
@@ -71,7 +80,6 @@ export default {
         pagename: "",
         amex: "",
       },
-      buttonText: "Skicka",
       defaultEmailMessage: "Något gick fel när formuläret skulle skickas.",
       emailSuccessMessage: `Tack för att ni kontaktar oss! Vi återkommer till er snart!`,
       emailErrorMessage:
