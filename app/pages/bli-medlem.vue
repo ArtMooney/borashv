@@ -44,8 +44,8 @@ definePageMeta({
   ></Header>
 
   <TextBlock
-    title="Bli Medlem"
-    :text="textMedlemskap"
+    :title="staticContent?.textBlock?.title"
+    :text="staticContent?.textBlock?.text"
     class="mx-auto w-full max-w-7xl"
   />
 
@@ -53,23 +53,16 @@ definePageMeta({
 </template>
 
 <script>
+import { useStaticContentStore } from "~/stores/static-content.js";
+
 export default {
   name: "BliMedlem",
 
-  data() {
-    return {
-      textMedlemskap: `
-        Att vara medlem kostar endast 50:-/år
-
-        Föreningen är en nödvändighet för Hemvärnet i Borås. Detta gäller särskilt förvaltandet av Hemvärnsgården och hållandet av en kassa
-        (ett Hemvärnsförband får inte ha en egen kassa).
-
-        <strong>Vi behöver dig som medlem!
-        Medlem blir du genom att betala in medlemsavgiften på 50 kr till Swish 1230930305 eller på Bankgiro på bg: 5701-4920</strong>
-
-        OBS! glöm inte att ange ditt namn och adress vid inbetalning.
-        `,
-    };
+  computed: {
+    staticContent() {
+      return useStaticContentStore().getContentByTitle("page - Bli Medlem")
+        .content;
+    },
   },
 };
 </script>

@@ -1,6 +1,8 @@
 <template>
   <div class="px-4 py-16 md:px-8">
-    <h4 class="mb-8 text-3xl uppercase">Nyheter</h4>
+    <h4 class="mb-8 text-3xl uppercase">
+      {{ staticContent?.headings?.title }}
+    </h4>
 
     <div class="grid grid-cols-1 gap-2">
       <div
@@ -60,6 +62,9 @@
 </template>
 
 <script>
+import { selectorMonths } from "~/../server/db/schema";
+import { useStaticContentStore } from "~/stores/static-content.js";
+
 export default {
   name: "News",
 
@@ -67,6 +72,21 @@ export default {
     items: {
       type: Array,
       default: () => [],
+    },
+    newsContent: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+
+  computed: {
+    months() {
+      return selectorMonths;
+    },
+
+    staticContent() {
+      return useStaticContentStore().getContentByTitle("component - News")
+        .content;
     },
   },
 
@@ -82,21 +102,7 @@ export default {
 
       let dateObj = new Date(date);
       let day = dateObj.getDate();
-      let months = [
-        "Januari",
-        "Februari",
-        "Mars",
-        "April",
-        "Maj",
-        "Juni",
-        "Juli",
-        "Augusti",
-        "September",
-        "Oktober",
-        "November",
-        "December",
-      ];
-      let month = months[dateObj.getMonth()];
+      let month = this.months[dateObj.getMonth()];
       let year = dateObj.getFullYear();
 
       return `${day} ${month} ${year}`;

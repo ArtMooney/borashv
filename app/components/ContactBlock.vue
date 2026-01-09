@@ -6,7 +6,7 @@ import IconIonLocation from "~icons/ion/location";
 
 <template>
   <div
-    class="relative mx-auto grid min-h-[30rem] w-full max-w-screen-xl items-center justify-center gap-24 px-4 py-16 md:px-8 lg:grid-cols-3"
+    class="relative mx-auto grid min-h-120 w-full max-w-7xl items-center justify-center gap-24 px-4 py-16 md:px-8 lg:grid-cols-3"
   >
     <div class="absolute top-0 right-0 bottom-0 left-0 overflow-hidden">
       <NuxtImg
@@ -21,33 +21,52 @@ import IconIonLocation from "~icons/ion/location";
       />
     </div>
 
-    <a class="relative flex flex-col items-center" href="tel:0702-777161">
+    <a
+      class="relative flex flex-col items-center"
+      :href="`tel:${staticContent?.contact?.mobile}`"
+    >
       <IconIonCall class="mb-4 h-20 w-20 text-white"></IconIonCall>
-      <div>Mobil:</div>
-      <div class="underline">0702-777161</div>
+      <div>{{ staticContent?.contact?.mobileLabel }}</div>
+      <div class="underline">
+        {{ staticContent?.contact?.mobile }}
+      </div>
     </a>
     <a
       class="relative flex flex-col items-center"
-      href="mailto:fanrik@hotmail.com?subject=Main från Borås Hemvärnsförenings hemsida"
+      :href="`mailto:${staticContent?.contact?.email}?subject=Mail från Borås Hemvärnsförenings hemsida`"
     >
       <IconIonMail class="mb-4 h-20 w-20 text-white"></IconIonMail>
-      <div>Email:</div>
-      <div class="underline">fanrik@hotmail.com</div>
+      <div>{{ staticContent?.contact?.emailLabel }}</div>
+      <div class="underline">
+        {{ staticContent?.contact?.email }}
+      </div>
     </a>
     <a
       class="relative flex flex-col items-center"
-      href="https://www.google.com/maps/place/Ålgårdsvägen+29,+506+30+Borås/@57.7344001,12.9290169,17z/data=!3m1!4b1!4m6!3m5!1s0x465aa735fb0053b9:0xd84865a2c90a12c5!8m2!3d57.7344001!4d12.9312056!16s%2Fg%2F11c4tg9myg"
+      :href="`https://www.google.com/maps/place/${encodeURIComponent(staticContent?.contact?.address)}`"
       target="_blank"
     >
       <IconIonLocation class="mb-4 h-20 w-20 text-white"></IconIonLocation>
-      <div>Besöksadress:</div>
-      <div class="underline">Ålgårdsvägen 29, 506 30, Borås</div>
+      <div>{{ staticContent?.contact?.addressLabel }}</div>
+      <div class="underline">
+        {{ staticContent?.contact?.address }}
+      </div>
     </a>
   </div>
 </template>
 
 <script>
+import { useStaticContentStore } from "~/stores/static-content.js";
+
 export default {
   name: "ContactBlock",
+
+  computed: {
+    staticContent() {
+      return useStaticContentStore().getContentByTitle(
+        "component - ContactBlock",
+      ).content;
+    },
+  },
 };
 </script>

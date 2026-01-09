@@ -41,8 +41,8 @@ const { data: items, error } = await useFetch("/api/nyheter", {
 
 <template>
   <Header
-    title="Borås Hemvärnsförening"
-    button-text-one="Bokningar"
+    :title="staticContent?.header?.title"
+    :button-text-one="staticContent?.header?.buttonTextOne"
     button-link-one="/bokningar"
   >
     <template #heading-content>
@@ -76,7 +76,15 @@ const { data: items, error } = await useFetch("/api/nyheter", {
 </template>
 
 <script>
+import { useStaticContentStore } from "~/stores/static-content.js";
+
 export default {
   name: "Index",
+
+  computed: {
+    staticContent() {
+      return useStaticContentStore().getContentByTitle("page - Index").content;
+    },
+  },
 };
 </script>

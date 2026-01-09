@@ -41,11 +41,13 @@ const { data: items, error } = await useFetch("/api/dokument", {
 
 <template>
   <div
-    class="mx-auto grid w-full max-w-screen-xl grid-cols-1 gap-2 px-4 py-12 md:px-8"
+    class="mx-auto grid w-full max-w-7xl grid-cols-1 gap-2 px-4 py-12 md:px-8"
   >
-    <h4 class="text-3xl uppercase">Dokument</h4>
+    <h4 class="text-3xl uppercase">
+      {{ staticContent?.header?.title }}
+    </h4>
 
-    <p class="pb-12">Här kan du ladda ner våra protokoll och stadgar</p>
+    <p class="pb-12">{{ staticContent?.header?.text }}</p>
 
     <LoadingSpinner
       v-if="!items?.length && !error"
@@ -57,16 +59,16 @@ const { data: items, error } = await useFetch("/api/dokument", {
       v-for="item of items"
       :href="`${config.public.imageBaseUrl}/cms-files/${item?.file}` ?? ''"
       target="_blank"
-      class="flex cursor-pointer flex-row items-center justify-between border border-white/15 bg-gradient-to-r from-[#32382d] to-[#353238] p-4 transition-colors duration-300 ease-in-out hover:from-[#343a2e] hover:to-[#37343a] hover:shadow-[0_0_20px_rgba(185,177,99,0.35)]"
+      class="flex cursor-pointer flex-row items-center justify-between border border-white/15 bg-linear-to-r from-[#32382d] to-[#353238] p-4 transition-colors duration-300 ease-in-out hover:from-[#343a2e] hover:to-[#37343a] hover:shadow-[0_0_20px_rgba(185,177,99,0.35)]"
     >
       <div
-        class="bold font-heading pr-4 text-xl break-words hyphens-auto lg:text-2xl"
+        class="bold font-heading pr-4 text-xl wrap-break-word hyphens-auto lg:text-2xl"
         lang="sv"
       >
         {{ item.name }}
       </div>
 
-      <div class="flex-shrink-0 border-l-2 border-white/15 pl-4">
+      <div class="shrink-0 border-l-2 border-white/15 pl-4">
         <NuxtImg
           v-if="item?.thumbnail"
           :src="`cms-files/${item?.thumbnail}` ?? ''"
@@ -79,7 +81,7 @@ const { data: items, error } = await useFetch("/api/dokument", {
 
     <div
       v-if="error"
-      class="relative mx-auto my-16 w-full max-w-screen-xl bg-[#a38373] p-4 px-8 text-black"
+      class="relative mx-auto my-16 w-full max-w-7xl bg-[#a38373] p-4 px-8 text-black"
     >
       {{ decodeURIComponent(error?.statusMessage || "Error") }}
     </div>
@@ -87,7 +89,16 @@ const { data: items, error } = await useFetch("/api/dokument", {
 </template>
 
 <script>
+import { useStaticContentStore } from "~/stores/static-content.js";
+
 export default {
   name: "Dokument",
+
+  computed: {
+    staticContent() {
+      return useStaticContentStore().getContentByTitle("page - Dokument")
+        .content;
+    },
+  },
 };
 </script>

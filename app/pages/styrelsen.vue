@@ -60,7 +60,9 @@ const { data: items, error } = await useFetch("/api/styrelsen", {
       class="absolute top-0 right-0 bottom-0 left-0 bg-linear-to-b from-neutral-900 to-black/75 sm:to-black/50"
     ></div>
 
-    <h4 class="relative pb-8 text-3xl uppercase">Styrelsen</h4>
+    <h4 class="relative pb-8 text-3xl uppercase">
+      {{ staticContent?.header?.title }}
+    </h4>
 
     <LoadingSpinner v-if="!items?.length && !error" />
 
@@ -104,8 +106,17 @@ const { data: items, error } = await useFetch("/api/styrelsen", {
 </template>
 
 <script>
+import { useStaticContentStore } from "~/stores/static-content.js";
+
 export default {
   name: "Styrelsen",
+
+  computed: {
+    staticContent() {
+      return useStaticContentStore().getContentByTitle("page - Styrelsen")
+        .content;
+    },
+  },
 
   methods: {
     handleScroll() {

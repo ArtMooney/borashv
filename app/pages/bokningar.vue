@@ -42,10 +42,10 @@ const { data: items, error } = await useFetch("/api/bokningar", {
 
 <template>
   <Header
-    button-text-one="Bokningskalender"
+    :button-text-one="staticContent?.header?.buttonTextOne"
     button-link-one="/bokningar"
     button-hash-one="bokningskalender"
-    button-text-two="Bokningsregler"
+    :button-text-two="staticContent?.header?.buttonTextTwo"
     button-link-two="/bokningar"
     button-hash-two="bokningsregler"
   >
@@ -64,8 +64,8 @@ const { data: items, error } = await useFetch("/api/bokningar", {
   </Header>
 
   <TextBlock
-    title="Bokningar"
-    :text="textBokningar"
+    :title="staticContent?.text_bokningar?.title"
+    :text="staticContent?.text_bokningar?.text"
     class="mx-auto w-full max-w-7xl"
   />
 
@@ -96,87 +96,23 @@ const { data: items, error } = await useFetch("/api/bokningar", {
 
   <TextBlock
     id="bokningsregler"
-    title="Bokningsregler"
-    :text="textBokningsregler"
+    :title="staticContent?.text_regler?.title"
+    :text="staticContent?.text_regler?.text"
     class="mx-auto w-full max-w-7xl"
   />
 </template>
 
 <script>
+import { useStaticContentStore } from "~/stores/static-content.js";
+
 export default {
   name: "Bokningar",
 
-  data() {
-    return {
-      textBokningar: `
-      All verksamhet i hemvärnsgården skall förbokas, även regelbunden
-      återkommande verksamhet.
-
-      Denna bokning kan ni göra genom att fylla i formuläret längre ner på denna sida.
-
-      För övriga frågor:
-      Joakim Gustafsson
-      E-post: 7.62@minmailadress.se
-      Tel/sms: 0731-58 36 75
-
-      Nyckel hämtas/lämnas enl. överenskommelse.
-
-      Bokningsbart:
-      * Konferensrum
-      * Samlingssal
-      * Mäss
-      * Logementen
-      * Projektor/kopiator
-
-      Ev. debitering enl. prislista.
-      Bokningsregler finns längre ner på denna sida.
-    `,
-      textBokningsregler: `
-      All verksamhet i hemvärnsgården skall förbokas, även regelbunden återkommande verksamhet.
-      Boka genom att fylla i formuläret här ovanför.
-
-      För övriga frågor:
-      Joakim Gustafsson
-      E-post: 7.62@minmailadress.se
-      Tel/sms: 0731-58 36 75
-
-      Bokningsbart:
-      * Konferensrum
-      * Samlingssal
-      * Mäss
-      * Logementen
-      * Projektor/kopiator
-
-      Allmänna regler:
-      * När du bokar, tala om vilken del/delar som det gäller
-      * Ev. debitering sker enl. prislista
-      * Förbjudet att beträda övervåningen utan särskilt tillstånd
-      * I alla bokningar ingår tillgång till kök, toalett och dusch om inget annat avtalats
-      * Alla bokningar läggs genom föreningens försorg ut på hemsidan www.borashv.se
-      * Den som bokar lokal skall följa städreglerna på anslagstavlan i vestibulen
-      * Utebliven städning medför faktura på städavgift från föreningen
-      * Städutrustning finns i städskrubb i kök
-      * Skada på fastighet eller inventarier skall alltid anmälas
-      * Vid användande av logement skall alltid underlakan, påslakan och örngott användas
-      * Sängkläder finns att hyra för 50 kr per set
-      * Utrymningsvägar vid brand och brandpostplaceringar skall beaktas
-      * Rökning och införande av pälsdjur är förbjuden i samtliga utrymmen
-      * Den som bokar lokal ansvarar för att dessa regler följs
-
-      Städregler efter användning:
-      * Torka av använda bord
-      * Sopa av golven
-      * Kolla så att det är fräscht på toaletten
-      * Töm alla papperskorgar och bär ut soporna till soptunnan
-      * Torka av alla bänkar + köksön i köket
-      * Sopa och torka av golvet i köket
-
-      För att behålla vår fina hemvärnsgård i bra skick så vill vi att alla hjälps åt och följer dom ovanstående punkterna.
-      OBS: Om städreglerna inte följs debiteras en städkostnad på 1000:- enligt styrelsens beslut.
-
-      /Styrelsen
-    `,
-    };
+  computed: {
+    staticContent() {
+      return useStaticContentStore().getContentByTitle("page - Bokningar")
+        .content;
+    },
   },
 };
 </script>

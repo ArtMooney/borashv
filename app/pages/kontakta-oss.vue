@@ -30,8 +30,8 @@ definePageMeta({
 
 <template>
   <SplitContentSection
-    text-title="Kontaktuppgifter"
-    :text="textKontakt"
+    :text-title="staticContent?.textBlock?.title"
+    :text="staticContent?.textBlock?.text"
     :split-half="true"
   >
     <template #image-content>
@@ -54,22 +54,16 @@ definePageMeta({
 </template>
 
 <script>
+import { useStaticContentStore } from "~/stores/static-content.js";
+
 export default {
   name: "Kontakta Oss",
 
-  data() {
-    return {
-      textKontakt: `
-        Vill du bli medlem i föreningen?
-
-        Vill du istället bli medlem i hemvärnet hänvisar vi till:
-        <a href="https://mitt.forsvarsmakten.se/homeguard-info" target="_blank">https://mitt.forsvarsmakten.se/homeguard-info</a>
-
-        Boka Hemvärnsgården?
-
-        Veta mer om föreningen? Eller om du har några andra frågor.
-      `,
-    };
+  computed: {
+    staticContent() {
+      return useStaticContentStore().getContentByTitle("page - Kontakta Oss")
+        .content;
+    },
   },
 };
 </script>
