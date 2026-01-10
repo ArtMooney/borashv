@@ -4,6 +4,7 @@ import { selectorMonths } from "~~/server/db/schema.ts";
 
 export const useCmsStore = defineStore("cmsStore", {
   state: () => ({
+    adminMode: false,
     tables: [],
     items: [],
     itemCopy: null,
@@ -22,6 +23,7 @@ export const useCmsStore = defineStore("cmsStore", {
     formRefs: {},
     selectedYear: "-",
     selectedMonth: "-",
+    selectedTableIsStatic: false,
   }),
 
   getters: {
@@ -133,6 +135,11 @@ export const useCmsStore = defineStore("cmsStore", {
 
         console.log(err);
       } finally {
+        if (!this.adminMode) {
+          this.selectedTableIsStatic = this.tableId === "static_content";
+          console.log(this.selectedTableIsStatic);
+        }
+
         this.loadingFlag = false;
       }
     },
