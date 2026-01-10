@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="cmsStore.viewMode !== 'graph'"
+    v-if="cmsStore.viewMode !== 'graph' && !cmsStore.selectedTableIsStatic"
     class="mx-auto my-12 flex max-w-3xl flex-wrap justify-center gap-4 text-center text-base select-none"
   >
     <div>Add, edit or remove content below</div>
