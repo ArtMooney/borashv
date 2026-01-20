@@ -202,7 +202,7 @@ export default {
                 end: booking[1],
               },
               popover: {
-                label: `${item.title} ${item.company ? "🏢 " + item.company : ""} ${item.venue ? "📍 " + item.venue : ""} ${"🕐 " + this.formatTime(booking[0]) + " - " + this.formatTime(booking[1])}`,
+                label: `${item.title} ${item.name ? "🏢 " + item.name : ""} ${item.venue ? "📍 " + item.venue : ""} ${"🕐 " + this.formatTime(booking[0]) + " - " + this.formatTime(booking[1])}`,
                 visibility: "hover",
               },
               title: item.title,
