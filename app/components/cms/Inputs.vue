@@ -61,7 +61,7 @@ import IconCloseCircleOutline from "~icons/ion/close-circle-outline";
         class="hidden"
         type="file"
         :name="`${input.name}`"
-        :accept="input.type === 'fileImg' ? '.jpg, .jpeg, .png' : ''"
+        :accept="input.type === 'fileImg' ? '.jpg, .jpeg, .png, .webp' : ''"
         autocomplete="off"
         :required="input.required"
       />

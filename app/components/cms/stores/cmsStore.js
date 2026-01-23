@@ -135,10 +135,7 @@ export const useCmsStore = defineStore("cmsStore", {
 
         console.log(err);
       } finally {
-        if (!this.adminMode) {
-          this.selectedTableIsStatic = this.tableId === "static_content";
-        }
-
+        this.selectedTableIsStatic = this.tableId === "static_content";
         this.loadingFlag = false;
       }
     },
@@ -294,7 +291,7 @@ export const useCmsStore = defineStore("cmsStore", {
       }
     },
 
-    async deleteAllItems() {
+    async deleteItems() {
       const loginStore = useLoginStore();
       const config = useRuntimeConfig();
 
@@ -302,7 +299,7 @@ export const useCmsStore = defineStore("cmsStore", {
       this.saveAllFlag = true;
 
       try {
-        await $fetch("/cms/delete-all-items", {
+        await $fetch("/cms/delete-items", {
           method: "POST",
           headers: {
             Authorization:
