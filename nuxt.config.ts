@@ -27,16 +27,11 @@ export default defineNuxtConfig({
     bookingTo: process.env.NUXT_BOOKING_TO,
     userName: process.env.NUXT_USERNAME,
     userPass: process.env.NUXT_USERPASS,
-    baserowToken: process.env.NUXT_BASEROW_TOKEN,
-    baserowUsername: process.env.NUXT_BASEROW_USERNAME,
-    baserowPassword: process.env.NUXT_BASEROW_PASSWORD,
-    baserowDbId: process.env.NUXT_BASEROW_DB_ID,
-    baserowCmsBlacklist: process.env.NUXT_BASEROW_CMS_BLACKLIST,
 
     public: {
       userName: process.env.NUXT_PUBLIC_USERNAME,
       userPass: process.env.NUXT_PUBLIC_USERPASS,
-      imageBaseUrl: process.env.NUXT_IMAGE_BASE_URL,
+      imageBaseUrl: process.env.NUXT_PUBLIC_IMAGE_BASE_URL,
       publicSiteUrl: process.env.NUXT_PUBLIC_SITE_URL,
     },
   },
