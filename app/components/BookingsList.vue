@@ -4,7 +4,7 @@
 
     <div
       v-for="item of items"
-      class="cursor-pointer border border-white/15 bg-gradient-to-r from-[#32382d] to-[#353238] p-4 transition-colors duration-300 ease-in-out hover:from-[#343a2e] hover:to-[#37343a] hover:shadow-[0_0_20px_rgba(185,177,99,0.35)]"
+      class="cursor-pointer border border-white/15 bg-linear-to-r from-[#32382d] to-[#353238] p-4 transition-colors duration-300 ease-in-out hover:from-[#343a2e] hover:to-[#37343a] hover:shadow-[0_0_20px_rgba(185,177,99,0.35)]"
     >
       <div class="grid grid-cols-2">
         <div
@@ -15,7 +15,7 @@
           </p>
 
           <div
-            class="bold font-heading text-xl break-words hyphens-auto lg:text-2xl"
+            class="bold font-heading text-xl wrap-break-word hyphens-auto lg:text-2xl"
             lang="sv"
           >
             {{ item.title }}
@@ -63,20 +63,6 @@ export default {
     formatDate(date) {
       let dateObj = new Date(date);
       let day = dateObj.getDate();
-      let months = [
-        "Januari",
-        "Februari",
-        "Mars",
-        "April",
-        "Maj",
-        "Juni",
-        "Juli",
-        "Augusti",
-        "September",
-        "Oktober",
-        "November",
-        "December",
-      ];
       let month = months[dateObj.getMonth()];
       let year = dateObj.getFullYear();
 
