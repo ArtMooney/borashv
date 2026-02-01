@@ -2,7 +2,7 @@
 import { useStaticContentStore } from "~/stores/static-content.js";
 
 const config = useRuntimeConfig();
-const siteUrl = config.public.publicSiteUrl;
+const imageBaseUrl = config.public.imageBaseUrl;
 const staticContentStore = useStaticContentStore();
 await staticContentStore.loadContent();
 
@@ -18,13 +18,13 @@ useHead({
         url: "https://borashv.se",
         logo: {
           "@type": "ImageObject",
-          url: `${siteUrl}/images/borashv-logo.png`,
+          url: `${imageBaseUrl}/borashv-logo.png`,
           width: 1000,
           height: 1000,
         },
         image: {
           "@type": "ImageObject",
-          url: `${siteUrl}/images/deep-forest-with-backlight.jpg`,
+          url: `${imageBaseUrl}/deep-forest-with-backlight.jpg`,
           width: 2000,
           height: 1333,
         },
