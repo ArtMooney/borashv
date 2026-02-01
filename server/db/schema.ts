@@ -290,21 +290,6 @@ export const graphConfig = {
   ],
 };
 
-export const selectorMonths = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
 const getSeoSchema = () => ({
   title: "text",
   description: "textarea",

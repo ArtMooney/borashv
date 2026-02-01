@@ -62,7 +62,6 @@
 </template>
 
 <script>
-import { selectorMonths } from "~/../server/db/schema";
 import { useStaticContentStore } from "~/stores/static-content.js";
 
 export default {
@@ -81,7 +80,7 @@ export default {
 
   computed: {
     months() {
-      return selectorMonths;
+      return months;
     },
 
     staticContent() {
