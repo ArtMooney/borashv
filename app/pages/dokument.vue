@@ -1,33 +1,15 @@
 <script setup>
-useSeoMeta({
-  title: "Dokument & Protokoll | Hemvärnet Borås | Stadgar och Handlingar",
-  description:
-    "Ladda ner officiella dokument, protokoll och stadgar för Hemvärnet i Borås. Här hittar du aktuella föreningshandlingar och styrelsedokument.",
-  ogTitle: "Dokument & Handlingar - Hemvärnet Borås",
-  ogDescription:
-    "Här finns alla officiella dokument för Hemvärnet i Borås samlade. Ladda ner protokoll, stadgar och andra viktiga föreningshandlingar.",
-  ogImage: "https://borashv.se/og-image.webp",
-  ogUrl: "https://borashv.se/dokument",
-  ogType: "website",
-  ogSiteName: "Borås Hemvärnsförening",
-  ogLocale: "sv_SE",
-  twitterCard: "summary_large_image",
-  twitterTitle: "Dokument & Handlingar - Hemvärnet Borås",
-  twitterDescription:
-    "Här finns alla officiella dokument för Hemvärnet i Borås samlade. Ladda ner protokoll, stadgar och andra viktiga föreningshandlingar.",
-  twitterImage: "https://borashv.se/og-image.webp",
-  keywords:
-    "hemvärnet borås dokument, hemvärnsprotokoll, hemvärnets stadgar, föreningshandlingar borås, hemvärnsförening protokoll, borås hemvärn handlingar",
-  robots: "index, follow",
-  author: "Borås Hemvärnsförening",
-  language: "sv-SE",
-});
+const config = useRuntimeConfig();
+const staticContentStore = useStaticContentStore();
+const staticContent = computed(
+  () => staticContentStore.getContentByTitle("page - Dokument").content,
+);
+
+useCmsSeo("SEO page - Dokument");
 
 definePageMeta({
   ssr: true,
 });
-
-const config = useRuntimeConfig();
 
 const { data: items, error } = await useFetch("/api/dokument", {
   method: "GET",
@@ -89,16 +71,7 @@ const { data: items, error } = await useFetch("/api/dokument", {
 </template>
 
 <script>
-import { useStaticContentStore } from "~/stores/static-content.js";
-
 export default {
   name: "Dokument",
-
-  computed: {
-    staticContent() {
-      return useStaticContentStore().getContentByTitle("page - Dokument")
-        .content;
-    },
-  },
 };
 </script>

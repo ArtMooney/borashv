@@ -1,27 +1,10 @@
 <script setup>
-useSeoMeta({
-  title: "Bli Medlem i Hemvärnets Förening Borås | Medlemskap",
-  description:
-    "Bli medlem i Hemvärnets förening i Borås för endast 50kr/år. Som medlem stödjer du förvaltningen av Hemvärnsgården och föreningens viktiga arbete. Anslut dig till vår gemenskap idag!",
-  ogTitle: "Bli Medlem i Hemvärnets Förening Borås",
-  ogDescription:
-    "Stöd Hemvärnet i Borås genom medlemskap för endast 50kr/år. Din medlemsavgift bidrar till förvaltning av Hemvärnsgården och föreningens verksamhet.",
-  ogImage: "https://borashv.se/og-image.webp",
-  ogUrl: "https://borashv.se/bli-medlem",
-  ogType: "website",
-  ogSiteName: "Borås Hemvärnsförening",
-  ogLocale: "sv_SE",
-  twitterCard: "summary_large_image",
-  twitterTitle: "Bli Medlem i Hemvärnets Förening Borås",
-  twitterDescription:
-    "Stöd Hemvärnet i Borås genom medlemskap för endast 50kr/år. Din medlemsavgift bidrar till förvaltning av Hemvärnsgården och föreningens verksamhet.",
-  twitterImage: "https://borashv.se/og-image.webp",
-  keywords:
-    "Hemvärnet Borås, medlemskap hemvärnet, hemvärnsförening, hemvärnsgården borås, försvarsförening borås, hemvärnsmedlem",
-  robots: "index, follow",
-  author: "Borås Hemvärnsförening",
-  language: "sv-SE",
-});
+const staticContentStore = useStaticContentStore();
+const staticContent = computed(
+  () => staticContentStore.getContentByTitle("page - Bli Medlem").content,
+);
+
+useCmsSeo("SEO page - Bli Medlem");
 
 definePageMeta({
   ssr: true,
@@ -53,16 +36,7 @@ definePageMeta({
 </template>
 
 <script>
-import { useStaticContentStore } from "~/stores/static-content.js";
-
 export default {
   name: "BliMedlem",
-
-  computed: {
-    staticContent() {
-      return useStaticContentStore().getContentByTitle("page - Bli Medlem")
-        .content;
-    },
-  },
 };
 </script>

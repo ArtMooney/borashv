@@ -1,33 +1,15 @@
 <script setup>
-useSeoMeta({
-  title: "Om Borås Hemvärnsförening | Verksamhet & Historia sedan 2007",
-  description:
-    "Borås Hemvärnsförening stödjer hemvärnsverksamheten i Borås stad sedan 2007. Vi förvaltar Hemvärnsgården, arrangerar evenemang och stödjer militär föreningsverksamhet. Medlemskap endast 50kr/år!",
-  ogTitle: "Om Borås Hemvärnsförening - Stödjande verksamhet sedan 2007",
-  ogDescription:
-    "Upptäck hur Borås Hemvärnsförening stödjer Hemvärnet genom förvaltning av Hemvärnsgården, ekonomiskt stöd till aktiviteter och traditionellt luciafirande. Bli medlem för endast 50kr/år!",
-  ogImage: "https://borashv.se/og-image.webp",
-  ogUrl: "https://borashv.se/styrelsen",
-  ogType: "website",
-  ogSiteName: "Borås Hemvärnsförening",
-  ogLocale: "sv_SE",
-  twitterCard: "summary_large_image",
-  twitterTitle: "Om Borås Hemvärnsförening - Stödjande verksamhet sedan 2007",
-  twitterDescription:
-    "Upptäck hur Borås Hemvärnsförening stödjer Hemvärnet genom förvaltning av Hemvärnsgården, ekonomiskt stöd till aktiviteter och traditionellt luciafirande.",
-  twitterImage: "https://borashv.se/og-image.webp",
-  keywords:
-    "borås hemvärnsförening, borås hemvärnskompani, hemvärnet borås historia, föreningsverksamhet hemvärnet, militär föreningsverksamhet borås, hemvärnsgården verksamhet, luciafirande hemvärnet",
-  robots: "index, follow",
-  author: "Borås Hemvärnsförening",
-  language: "sv-SE",
-});
+const config = useRuntimeConfig();
+const staticContentStore = useStaticContentStore();
+const staticContent = computed(
+  () => staticContentStore.getContentByTitle("page - Styrelsen").content,
+);
+
+useCmsSeo("SEO page - Styrelsen");
 
 definePageMeta({
   ssr: true,
 });
-
-const config = useRuntimeConfig();
 
 const { data: items, error } = await useFetch("/api/styrelsen", {
   method: "GET",
@@ -106,17 +88,8 @@ const { data: items, error } = await useFetch("/api/styrelsen", {
 </template>
 
 <script>
-import { useStaticContentStore } from "~/stores/static-content.js";
-
 export default {
   name: "Styrelsen",
-
-  computed: {
-    staticContent() {
-      return useStaticContentStore().getContentByTitle("page - Styrelsen")
-        .content;
-    },
-  },
 
   methods: {
     handleScroll() {

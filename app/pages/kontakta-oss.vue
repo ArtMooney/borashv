@@ -1,27 +1,10 @@
 <script setup>
-useSeoMeta({
-  title: "Kontakta Oss | Borås Hemvärnsförening | Medlemskap & Bokningar",
-  description:
-    "Kontakta Borås Hemvärnsförening för medlemskap, lokalbokning eller andra frågor. Information om hur du blir medlem i Hemvärnet eller föreningsverksamheten i Borås.",
-  ogTitle: "Kontakta Borås Hemvärnsförening - Medlemskap & Information",
-  ogDescription:
-    "Vill du bli medlem, boka Hemvärnsgården eller veta mer om föreningen? Här hittar du all kontaktinformation till Borås Hemvärnsförening.",
-  ogImage: "https://borashv.se/og-image.webp",
-  ogUrl: "https://borashv.se/kontakta-oss",
-  ogType: "website",
-  ogSiteName: "Borås Hemvärnsförening",
-  ogLocale: "sv_SE",
-  twitterCard: "summary_large_image",
-  twitterTitle: "Kontakta Borås Hemvärnsförening - Medlemskap & Information",
-  twitterDescription:
-    "Vill du bli medlem, boka Hemvärnsgården eller veta mer om föreningen? Här hittar du all kontaktinformation till Borås Hemvärnsförening.",
-  twitterImage: "https://borashv.se/og-image.webp",
-  keywords:
-    "kontakta hemvärnet borås, bli medlem hemvärnet, boka hemvärnsgården borås, hemvärnet kontaktuppgifter, borås hemvärnsförening kontakt, medlemskap hemvärnet",
-  robots: "index, follow",
-  author: "Borås Hemvärnsförening",
-  language: "sv-SE",
-});
+const staticContentStore = useStaticContentStore();
+const staticContent = computed(
+  () => staticContentStore.getContentByTitle("page - Kontakta Oss").content,
+);
+
+useCmsSeo("SEO page - Kontakta Oss");
 
 definePageMeta({
   ssr: true,
@@ -54,16 +37,7 @@ definePageMeta({
 </template>
 
 <script>
-import { useStaticContentStore } from "~/stores/static-content.js";
-
 export default {
   name: "Kontakta Oss",
-
-  computed: {
-    staticContent() {
-      return useStaticContentStore().getContentByTitle("page - Kontakta Oss")
-        .content;
-    },
-  },
 };
 </script>

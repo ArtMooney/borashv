@@ -422,6 +422,6 @@ export const staticContentTypes = {
   "SEO page - Dokument": getSeoSchema(),
   "SEO page - Hemvarnsgarden": getSeoSchema(),
   "SEO page - Kontakta Oss": getSeoSchema(),
-  "SEO page - Om oss": getSeoSchema(),
+  "SEO page - Om Oss": getSeoSchema(),
   "SEO page - Styrelsen": getSeoSchema(),
 };

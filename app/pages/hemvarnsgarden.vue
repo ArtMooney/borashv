@@ -1,27 +1,10 @@
 <script setup>
-useSeoMeta({
-  title: "Hemvärnsgården Borås | Historia & Nutid | Est. 1953",
-  description:
-    "Upptäck Hemvärnsgården i Borås, en historisk byggnad från 1899. Från Villa Armbåga till dagens aktiva mötesplats mellan ishallen och Borås Arena. Läs om invigningen 1953 och byggnadens rika historia.",
-  ogTitle: "Hemvärnsgården Borås - En historisk mötesplats sedan 1953",
-  ogDescription:
-    "Belägen mellan ishallen och Borås Arena ligger den historiska Hemvärnsgården med sitt karakteristiska röda torn. En aktiv mötesplats för Lottakåren, FRO och andra föreningar sedan 1953.",
-  ogImage: "https://borashv.se/og-image.webp",
-  ogUrl: "https://borashv.se/hemvarnsgarden",
-  ogType: "website",
-  ogSiteName: "Borås Hemvärnsförening",
-  ogLocale: "sv_SE",
-  twitterCard: "summary_large_image",
-  twitterTitle: "Hemvärnsgården Borås - En historisk mötesplats sedan 1953",
-  twitterDescription:
-    "Belägen mellan ishallen och Borås Arena ligger den historiska Hemvärnsgården med sitt karakteristiska röda torn. En aktiv mötesplats sedan 1953.",
-  twitterImage: "https://borashv.se/og-image.webp",
-  keywords:
-    "hemvärnsgården borås, villa armbåga, borås hemvärn historia, hemvärnets musikkår borås, historisk byggnad borås, militärhistoria borås, frivilligt försvar borås, hemvärnsgården älgårdsvägen",
-  robots: "index, follow",
-  author: "Borås Hemvärnsförening",
-  language: "sv-SE",
-});
+const staticContentStore = useStaticContentStore();
+const staticContent = computed(
+  () => staticContentStore.getContentByTitle("page - Hemvarnsgarden").content,
+);
+
+useCmsSeo("SEO page - Hemvarnsgarden");
 
 definePageMeta({
   ssr: true,
@@ -108,16 +91,7 @@ definePageMeta({
 </template>
 
 <script>
-import { useStaticContentStore } from "~/stores/static-content.js";
-
 export default {
   name: "Hemvarnsgarden",
-
-  computed: {
-    staticContent() {
-      return useStaticContentStore().getContentByTitle("page - Hemvarnsgarden")
-        .content;
-    },
-  },
 };
 </script>
