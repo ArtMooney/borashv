@@ -305,6 +305,17 @@ export const selectorMonths = [
   "December",
 ];
 
+const getSeoSchema = () => ({
+  title: "text",
+  description: "textarea",
+  ogTitle: "text",
+  ogDescription: "textarea",
+  ogImage: "fileImg",
+  twitterTitle: "text",
+  twitterDescription: "textarea",
+  twitterImage: "fileImg",
+});
+
 export const staticContentTypes = {
   "page - Index": {
     header: {
@@ -420,4 +431,12 @@ export const staticContentTypes = {
       button7: "text",
     },
   },
+  "SEO page - Index": getSeoSchema(),
+  "SEO page - Bli Medlem": getSeoSchema(),
+  "SEO page - Bokningar": getSeoSchema(),
+  "SEO page - Dokument": getSeoSchema(),
+  "SEO page - Hemvarnsgarden": getSeoSchema(),
+  "SEO page - Kontakta Oss": getSeoSchema(),
+  "SEO page - Om oss": getSeoSchema(),
+  "SEO page - Styrelsen": getSeoSchema(),
 };
