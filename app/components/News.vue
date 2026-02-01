@@ -48,7 +48,7 @@
             <p
               class="mb-4 overflow-hidden break-all hyphens-auto"
               lang="sv"
-              v-html="formattedText(item?.info)"
+              v-html="formatText(item?.info)"
             ></p>
           </div>
 
@@ -90,12 +90,6 @@ export default {
   },
 
   methods: {
-    formattedText(text) {
-      if (!text) return "";
-
-      return text.replace(/\n/g, "<br>");
-    },
-
     formatDate(date) {
       if (!date) return;
 
