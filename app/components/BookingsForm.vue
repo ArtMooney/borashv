@@ -7,7 +7,7 @@ import sv from "date-fns/locale/sv";
 <template>
   <div
     id="bookings-form"
-    class="mx-auto w-full max-w-screen-xl grow content-center px-4 py-12 md:px-8"
+    class="mx-auto w-full max-w-7xl grow content-center px-4 py-12 md:px-8"
   >
     <form
       v-if="contactForm"
@@ -70,19 +70,20 @@ import sv from "date-fns/locale/sv";
           auto-apply
           range
           :input-attrs="{ name: 'date-range', required: true }"
+          :time-config="{ timePickerInline: true }"
           :class="[
-            '[&_div]:!font-body',
-            '[&_input]:!font-body',
-            '[&_button]:!p-0',
-            '[&_div]:!text-xs',
-            '[&_input]:!border-0',
-            '[&_input]:!outline',
-            '[&_input]:!outline-white/35',
-            '[&_input]:!bg-neutral-700',
-            '[&_input]:!my-1',
-            '[&_input]:!py-3.5',
-            '[&_input]:!text-sm',
-            '[&_input]:!text-white',
+            '[&_div]:font-body!',
+            '[&_input]:font-body!',
+            '[&_button]:p-0!',
+            '[&_div]:text-xs!',
+            '[&_input]:border-0!',
+            '[&_input]:outline!',
+            '[&_input]:outline-white/35!',
+            '[&_input]:bg-neutral-700!',
+            '[&_input]:my-1!',
+            '[&_input]:py-3.5!',
+            '[&_input]:text-sm!',
+            '[&_input]:text-white!',
           ]"
         >
         </VueDatePicker>
