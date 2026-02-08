@@ -1,6 +1,8 @@
 <template>
   <div class="px-4 py-16 md:px-8">
-    <h4 class="mb-8 text-3xl uppercase">Nyheter</h4>
+    <h4 class="mb-8 text-3xl uppercase">
+      {{ staticContent?.headings?.title }}
+    </h4>
 
     <div class="grid grid-cols-1 gap-2">
       <div
@@ -36,17 +38,17 @@
 
           <div class="flex flex-col items-start gap-2">
             <div class="bold font-heading text-lg">
-              {{ item.title }}
+              {{ item?.title }}
             </div>
 
             <p class="mb-2 text-xs underline opacity-35">
-              {{ formatDate(item.datum) }}
+              {{ formatDate(item?.datum) }}
             </p>
 
             <p
-              class="mb-4 overflow-hidden break-words hyphens-auto"
+              class="mb-4 overflow-hidden break-all hyphens-auto"
               lang="sv"
-              v-html="formattedText(item?.info)"
+              v-html="formatText(item?.info)"
             ></p>
           </div>
 
@@ -60,6 +62,8 @@
 </template>
 
 <script>
+import { useStaticContentStore } from "~/stores/static-content.js";
+
 export default {
   name: "News",
 
@@ -68,33 +72,30 @@ export default {
       type: Array,
       default: () => [],
     },
+    newsContent: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+
+  computed: {
+    months() {
+      return months;
+    },
+
+    staticContent() {
+      return useStaticContentStore().getContentByTitle("component - News")
+        .content;
+    },
   },
 
   methods: {
-    formattedText(text) {
-      return text.replace(/\n/g, "<br>");
-    },
-
     formatDate(date) {
       if (!date) return;
 
       let dateObj = new Date(date);
       let day = dateObj.getDate();
-      let months = [
-        "Januari",
-        "Februari",
-        "Mars",
-        "April",
-        "Maj",
-        "Juni",
-        "Juli",
-        "Augusti",
-        "September",
-        "Oktober",
-        "November",
-        "December",
-      ];
-      let month = months[dateObj.getMonth()];
+      let month = this.months[dateObj.getMonth()];
       let year = dateObj.getFullYear();
 
       return `${day} ${month} ${year}`;

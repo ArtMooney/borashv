@@ -6,7 +6,7 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
-  css: ["/assets/css/main.css", "leaflet/dist/leaflet.css"],
+  css: ["/assets/css/main.css"],
 
   vite: {
     plugins: [tailwindcss()],
@@ -27,16 +27,11 @@ export default defineNuxtConfig({
     bookingTo: process.env.NUXT_BOOKING_TO,
     userName: process.env.NUXT_USERNAME,
     userPass: process.env.NUXT_USERPASS,
-    baserowToken: process.env.NUXT_BASEROW_TOKEN,
-    baserowUsername: process.env.NUXT_BASEROW_USERNAME,
-    baserowPassword: process.env.NUXT_BASEROW_PASSWORD,
-    baserowDbId: process.env.NUXT_BASEROW_DB_ID,
-    baserowCmsBlacklist: process.env.NUXT_BASEROW_CMS_BLACKLIST,
 
     public: {
       userName: process.env.NUXT_PUBLIC_USERNAME,
       userPass: process.env.NUXT_PUBLIC_USERPASS,
-      imageBaseUrl: process.env.NUXT_IMAGE_BASE_URL,
+      imageBaseUrl: process.env.NUXT_PUBLIC_IMAGE_BASE_URL,
       publicSiteUrl: process.env.NUXT_PUBLIC_SITE_URL,
     },
   },
@@ -45,15 +40,16 @@ export default defineNuxtConfig({
     "@nuxtjs/robots",
     "@nuxtjs/sitemap",
     "@nuxt/image",
-    "@nuxtjs/leaflet",
     "unplugin-icons/nuxt",
+    "@pinia/nuxt",
+    "pinia-plugin-persistedstate/nuxt",
   ],
 
   image: {
     provider: "weserv",
 
     weserv: {
-      baseURL: process.env.NUXT_IMAGE_BASE_URL,
+      baseURL: process.env.NUXT_PUBLIC_IMAGE_BASE_URL,
       modifiers: {
         format: "webp",
         quality: 65,
@@ -101,6 +97,9 @@ export default defineNuxtConfig({
   app: {
     keepalive: true,
     head: {
+      htmlAttrs: {
+        lang: "sv-SE",
+      },
       charset: "utf-8",
       viewport: "width=device-width, initial-scale=1",
       link: [

@@ -5,12 +5,16 @@ compatibility_date = "2025-11-10"
 binding = "DB"
 database_name = "borashv"
 database_id = "aab88036-a0f4-4ee0-b5d3-8b96b5227c03"
-#preview_database_id = "preview-database-id"
 migrations_dir = "migrations"
-#remote = true
+
+[env.preview]
+[[env.preview.d1_databases]]
+binding = "DB"
+database_name = "borashv_dev"
+database_id = "e0e3cdb5-6563-46af-a134-0beecc75d0e2"
 
 [[r2_buckets]]
 binding = "FILES"
 bucket_name = "borashv"
-#preview_bucket_name = "borashv-dev"
 remote = true
+

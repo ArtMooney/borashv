@@ -13,22 +13,21 @@
         type="email"
         placeholder="Enter email address"
         autocomplete="email"
+        class="text-base"
       />
 
-      <CmsButton
+      <button
         @click="resetPasswordForm"
-        :text="buttonText"
-        link=""
-        hash=""
         type="submit"
         data-wait="Please wait..."
-        styling="#548b63"
-        class="mt-4 !bg-[#548b63] text-white hover:!bg-[#6bad7d]"
-      />
+        class="mt-4 bg-[#548b63] text-white hover:bg-[#6bad7d]"
+      >
+        {{ buttonText }}
+      </button>
 
       <div
         @click="$emit('loginSwitch')"
-        class="flex cursor-pointer justify-self-start text-sm underline hover:text-white/75"
+        class="flex cursor-pointer justify-self-start text-sm underline hover:text-neutral-400"
       >
         Know your password?
       </div>
@@ -36,7 +35,7 @@
 
     <div
       v-if="showStatusMessage"
-      class="mt-12 w-full bg-[#a38373] p-4 text-base text-black sm:w-2/3 md:w-1/2"
+      class="mt-12 w-full bg-orange-400/70 p-4 text-base text-black sm:w-2/3 md:w-1/2"
     >
       {{ statusMessage }}
     </div>
@@ -79,7 +78,7 @@ export default {
         this.buttonText = event.target.dataset.wait;
 
         try {
-          const res = await $fetch("/cms/reset", {
+          await $fetch("/cms/reset", {
             method: "POST",
             headers: {
               Authorization:
@@ -95,8 +94,6 @@ export default {
             "An email has been sent to your registered email address with a link to reset your password.";
           this.showStatusMessage = true;
           this.buttonText = savedText;
-
-          this.$emit("status", "ok");
           this.loginEmail = "";
           this.clearErrorWhenClicked();
         } catch (err) {

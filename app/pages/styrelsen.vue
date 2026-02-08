@@ -1,33 +1,15 @@
 <script setup>
-useSeoMeta({
-  title: "Om Borås Hemvärnsförening | Verksamhet & Historia sedan 2007",
-  description:
-    "Borås Hemvärnsförening stödjer hemvärnsverksamheten i Borås stad sedan 2007. Vi förvaltar Hemvärnsgården, arrangerar evenemang och stödjer militär föreningsverksamhet. Medlemskap endast 50kr/år!",
-  ogTitle: "Om Borås Hemvärnsförening - Stödjande verksamhet sedan 2007",
-  ogDescription:
-    "Upptäck hur Borås Hemvärnsförening stödjer Hemvärnet genom förvaltning av Hemvärnsgården, ekonomiskt stöd till aktiviteter och traditionellt luciafirande. Bli medlem för endast 50kr/år!",
-  ogImage: "https://borashv.se/og-image.webp",
-  ogUrl: "https://borashv.se/styrelsen",
-  ogType: "website",
-  ogSiteName: "Borås Hemvärnsförening",
-  ogLocale: "sv_SE",
-  twitterCard: "summary_large_image",
-  twitterTitle: "Om Borås Hemvärnsförening - Stödjande verksamhet sedan 2007",
-  twitterDescription:
-    "Upptäck hur Borås Hemvärnsförening stödjer Hemvärnet genom förvaltning av Hemvärnsgården, ekonomiskt stöd till aktiviteter och traditionellt luciafirande.",
-  twitterImage: "https://borashv.se/og-image.webp",
-  keywords:
-    "borås hemvärnsförening, borås hemvärnskompani, hemvärnet borås historia, föreningsverksamhet hemvärnet, militär föreningsverksamhet borås, hemvärnsgården verksamhet, luciafirande hemvärnet",
-  robots: "index, follow",
-  author: "Borås Hemvärnsförening",
-  language: "sv-SE",
-});
+const config = useRuntimeConfig();
+const staticContentStore = useStaticContentStore();
+const staticContent = computed(
+  () => staticContentStore.getContentByTitle("page - Styrelsen").content,
+);
+
+useCmsSeo("SEO page - Styrelsen");
 
 definePageMeta({
   ssr: true,
 });
-
-const config = useRuntimeConfig();
 
 const { data: items, error } = await useFetch("/api/styrelsen", {
   method: "GET",
@@ -57,28 +39,30 @@ const { data: items, error } = await useFetch("/api/styrelsen", {
     </div>
 
     <div
-      class="absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-neutral-900 to-black/75 sm:to-black/50"
+      class="absolute top-0 right-0 bottom-0 left-0 bg-linear-to-b from-neutral-900 to-black/75 sm:to-black/50"
     ></div>
 
-    <h4 class="relative pb-8 text-3xl uppercase">Styrelsen</h4>
+    <h4 class="relative pb-8 text-3xl uppercase">
+      {{ staticContent?.header?.title }}
+    </h4>
 
     <LoadingSpinner v-if="!items?.length && !error" />
 
     <div
       v-if="error"
-      class="relative mx-auto my-16 w-full max-w-screen-xl bg-[#a38373] p-4 px-8 text-black"
+      class="relative mx-auto my-16 w-full max-w-7xl bg-[#a38373] p-4 px-8 text-black"
     >
       {{ decodeURIComponent(error?.statusMessage || "Error") }}
     </div>
 
     <div
       v-if="items?.length"
-      class="mx-auto flex w-full max-w-screen-xl flex-row flex-wrap justify-start"
+      class="mx-auto flex w-full max-w-7xl flex-row flex-wrap justify-start"
     >
       <div
         v-for="item of items"
         :key="item.id"
-        class="relative w-[25rem] text-xs sm:w-[16rem] md:w-[21rem] md:text-sm xl:w-[19rem]"
+        class="relative w-100 text-xs sm:w-[16rem] md:w-84 md:text-sm xl:w-76"
       >
         <NuxtImg
           src="dogtag.png"

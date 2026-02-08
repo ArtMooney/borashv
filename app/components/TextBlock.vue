@@ -6,7 +6,7 @@
     :style="{ backgroundColor: backgroundColor }"
   >
     <div class="flex flex-col items-start">
-      <h4 v-if="title" class="text-3xl uppercase">{{ title }}</h4>
+      <h4 v-if="title" class="mb-7 text-3xl uppercase">{{ title }}</h4>
       <div
         v-html="formattedText"
         class="whitespace-pre-line [&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:opacity-80"

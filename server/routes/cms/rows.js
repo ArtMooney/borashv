@@ -1,7 +1,7 @@
 import { checkLogin } from "~~/server/utils/check-login.js";
 import { checkAuthentication } from "~~/server/routes/cms/utils/check-authentication.js";
 import * as schema from "~~/server/db/schema.ts";
-import { cmsTables } from "~~/server/db/schema.ts";
+import { cmsTables } from "~~/server/db/cmsConfig.ts";
 import { asc, desc } from "drizzle-orm";
 import { useDrizzle } from "~~/server/db/client.ts";
 
@@ -35,9 +35,9 @@ export default defineEventHandler(async (event) => {
 
   const db = useDrizzle(event.context.cloudflare.env.DB);
   const sortField = body?.field_name ?? "sortOrder";
-  const isAsc = body?.asc ?? true;
+  const sortOrder = body?.sort_order ?? "asc";
   const column = schema[tableName][sortField];
-  const order = isAsc ? asc(column) : desc(column);
+  const order = sortOrder === "asc" ? asc(column) : desc(column);
 
   return db.select().from(schema[tableName]).orderBy(order).all();
 });

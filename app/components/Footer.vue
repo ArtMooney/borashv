@@ -38,30 +38,30 @@ import IconIonHeart from "~icons/ion/heart";
 
     <div class="relative flex flex-col">
       <router-link class="mb-3 hover:text-neutral-300" to="/dokument#navbar"
-        >Dokument
+        >{{ staticContent?.buttons?.button1 }}
       </router-link>
       <router-link
         class="mb-3 hover:text-neutral-300"
         to="/hemvarnsgarden#navbar"
-        >Hemvärnsgården
+        >{{ staticContent?.buttons?.button2 }}
       </router-link>
       <router-link class="mb-3 hover:text-neutral-300" to="/bli-medlem#navbar"
-        >Bli medlem
+        >{{ staticContent?.buttons?.button3 }}
       </router-link>
       <router-link class="mb-3 hover:text-neutral-300" to="/styrelsen#navbar"
-        >Styrelsen
+        >{{ staticContent?.buttons?.button4 }}
       </router-link>
     </div>
 
     <div class="relative flex flex-col">
       <router-link class="mb-3 hover:text-neutral-300" to="/bokningar#navbar"
-        >Bokningar
+        >{{ staticContent?.buttons?.button5 }}
       </router-link>
       <router-link class="mb-3 hover:text-neutral-300" to="/kontakta-oss#navbar"
-        >Kontakta Oss
+        >{{ staticContent?.buttons?.button6 }}
       </router-link>
       <router-link class="mb-3 hover:text-neutral-300" to="/admin#navbar"
-        >Admin
+        >{{ staticContent?.buttons?.button7 }}
       </router-link>
     </div>
 
@@ -84,7 +84,16 @@ import IconIonHeart from "~icons/ion/heart";
 </template>
 
 <script>
+import { useStaticContentStore } from "~/stores/static-content.js";
+
 export default {
   name: "Footer",
+
+  computed: {
+    staticContent() {
+      return useStaticContentStore().getContentByTitle("component - Footer")
+        .content;
+    },
+  },
 };
 </script>

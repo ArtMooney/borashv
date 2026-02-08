@@ -1,4 +1,5 @@
 import plugin from "tailwindcss/plugin";
+import { cmsStyles } from "./tailwind.cms.styles.js";
 
 export default {
   mode: "jit",
@@ -138,12 +139,12 @@ export default {
         },
 
         "textarea, .textarea": {
-          "@apply bg-neutral-700 min-h-28 rounded outline outline-white/35 my-1 px-4 py-3 placeholder:text-neutral-600 focus:outline-white/50":
+          "@apply bg-neutral-700 min-h-40 rounded outline outline-white/35 my-1 px-4 py-3 placeholder:text-neutral-600 focus:outline-white/50":
             {},
         },
 
         "select, .select": {
-          "@apply w-full bg-neutral-700 my-1 px-3.5 py-3 outline outline-white/35 rounded transition-all duration-200 ease-in-out":
+          "@apply w-full text-white bg-neutral-700 my-1 px-3.5 py-3 outline outline-white/35 rounded transition-all duration-200 ease-in-out":
             {},
           "-webkit-appearance": "none",
           "-moz-appearance": "none",
@@ -156,7 +157,7 @@ export default {
             "@apply border-gray-400": {},
           },
           "&:disabled, &.disabled": {
-            "@apply bg-neutral-200 text-neutral-600 cursor-not-allowed": {},
+            "@apply opacity-50 cursor-not-allowed": {},
           },
           "&.error, &:user-invalid": {
             "@apply bg-rose-100 outline-rose-700 text-rose-700": {},
@@ -164,7 +165,10 @@ export default {
         },
       });
     }),
+
+    cmsStyles,
   ],
+
   corePlugins: {
     preflight: true,
   },

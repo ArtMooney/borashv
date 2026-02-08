@@ -14,6 +14,7 @@
         placeholder="Enter email address"
         required
         autocomplete="email"
+        class="text-base"
       />
 
       <input
@@ -22,20 +23,21 @@
         type="password"
         placeholder="Enter password"
         autocomplete="current-password"
+        class="text-base"
       />
 
       <button
         @click="loginForm"
         type="submit"
         data-wait="Please wait..."
-        class="mt-4 !bg-[#548b63] text-white hover:!bg-[#6bad7d]"
+        class="mt-4 bg-[#548b63]! text-white hover:bg-[#6bad7d]!"
       >
         {{ buttonText }}
       </button>
 
       <div
-        @click="$emit('resetPasswordPanel')"
-        class="flex cursor-pointer justify-self-start text-sm underline hover:text-white/75"
+        @click="$emit('resetPasswordSwitch')"
+        class="flex cursor-pointer justify-self-start text-sm underline hover:text-neutral-400"
       >
         Forgot your password?
       </div>
@@ -43,7 +45,7 @@
 
     <div
       v-if="showStatusMessage"
-      class="mt-12 w-full bg-[#a38373] p-4 text-base text-black sm:w-2/3 md:w-1/2"
+      class="mt-12 w-full bg-orange-400/70 p-4 text-base text-black sm:w-2/3 md:w-1/2"
     >
       {{ statusMessage }}
     </div>
@@ -51,6 +53,8 @@
 </template>
 
 <script>
+import { useLoginStore } from "~/components/cms/stores/loginStore";
+
 export default {
   name: "LoginPanel",
 
@@ -66,6 +70,12 @@ export default {
       statusMessage: "",
       buttonText: "Login",
     };
+  },
+
+  computed: {
+    loginStore() {
+      return useLoginStore();
+    },
   },
 
   methods: {
@@ -86,7 +96,7 @@ export default {
         this.buttonText = event.target.dataset.wait;
 
         try {
-          const res = await $fetch("/cms/login", {
+          await $fetch("/cms/login", {
             method: "POST",
             headers: {
               Authorization:
@@ -98,16 +108,9 @@ export default {
             }),
           });
 
+          this.loginStore.login(this.loginEmail, this.loginPassword);
           this.showStatusMessage = false;
-
-          setLocalStorage(
-            "borashv-cms",
-            { email: this.loginEmail, password: this.loginPassword },
-            1000 * 60 * 43200,
-          );
-
           this.buttonText = savedText;
-          this.$emit("status", "ok");
         } catch (err) {
           this.statusMessage =
             err.statusMessage || "Something went wrong. Please try again.";

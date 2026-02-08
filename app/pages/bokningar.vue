@@ -1,34 +1,15 @@
 <script setup>
-useSeoMeta({
-  title: "Boka Lokaler | Hemvärnsgården Borås | Konferens & Samlingssal",
-  description:
-    "Boka lokaler i Hemvärnsgården Borås - konferensrum, samlingssal, mäss och logement. Fullutrustat med projektor och kök. Enkel bokning via telefon eller e-post.",
-  ogTitle: "Lokalbokning Hemvärnsgården Borås - Konferens & Samlingslokaler",
-  ogDescription:
-    "Hyr våra lokaler i centrala Borås - konferensrum, samlingssal, mäss och logement. Perfekt för möten, evenemang och övernattning. Boka enkelt via vår bokningsansvarige.",
-  ogImage: "https://borashv.se/og-image.webp",
-  ogUrl: "https://borashv.se/bokningar",
-  ogType: "website",
-  ogSiteName: "Borås Hemvärnsförening",
-  ogLocale: "sv_SE",
-  twitterCard: "summary_large_image",
-  twitterTitle:
-    "Lokalbokning Hemvärnsgården Borås - Konferens & Samlingslokaler",
-  twitterDescription:
-    "Hyr våra lokaler i centrala Borås - konferensrum, samlingssal, mäss och logement. Perfekt för möten, evenemang och övernattning.",
-  twitterImage: "https://borashv.se/og-image.webp",
-  keywords:
-    "hemvärnsgården borås, lokalbokning borås, konferenslokal borås, samlingssal, mäss bokning, logement borås, militär konferenslokal, möteslokal borås",
-  robots: "index, follow",
-  author: "Borås Hemvärnsförening",
-  language: "sv-SE",
-});
+const config = useRuntimeConfig();
+const staticContentStore = useStaticContentStore();
+const staticContent = computed(
+  () => staticContentStore.getContentByTitle("page - Bokningar").content,
+);
+
+useCmsSeo("SEO page - Bokningar");
 
 definePageMeta({
   ssr: true,
 });
-
-const config = useRuntimeConfig();
 
 const { data: items, error } = await useFetch("/api/bokningar", {
   method: "GET",
@@ -42,10 +23,10 @@ const { data: items, error } = await useFetch("/api/bokningar", {
 
 <template>
   <Header
-    button-text-one="Bokningskalender"
+    :button-text-one="staticContent?.header?.buttonTextOne"
     button-link-one="/bokningar"
     button-hash-one="bokningskalender"
-    button-text-two="Bokningsregler"
+    :button-text-two="staticContent?.header?.buttonTextTwo"
     button-link-two="/bokningar"
     button-hash-two="bokningsregler"
   >
@@ -53,7 +34,7 @@ const { data: items, error } = await useFetch("/api/bokningar", {
       <NuxtImg
         src="old-overgrown-military-equipment.jpg"
         alt="Header image"
-        class="parallax-background-hero h-full min-h-[23rem] w-full object-cover lg:min-h-[43rem]"
+        class="parallax-background-hero h-full min-h-92 w-full object-cover lg:min-h-172"
         sizes="320px sm:640px md:768px lg:1024px xl:1280px xxl:1536px"
         width="2000"
         height="3000"
@@ -64,12 +45,12 @@ const { data: items, error } = await useFetch("/api/bokningar", {
   </Header>
 
   <TextBlock
-    title="Bokningar"
-    :text="textBokningar"
-    class="mx-auto w-full max-w-screen-xl"
+    :title="staticContent?.text_bokningar?.title"
+    :text="staticContent?.text_bokningar?.text"
+    class="mx-auto w-full max-w-7xl"
   />
 
-  <div class="mx-auto my-12 w-full max-w-screen-xl bg-transparent px-4 md:px-8">
+  <div class="mx-auto my-12 w-full max-w-7xl bg-transparent px-4 md:px-8">
     <div class="h-px w-full bg-white/15"></div>
   </div>
 
@@ -77,106 +58,33 @@ const { data: items, error } = await useFetch("/api/bokningar", {
 
   <BookingsCalendar
     v-if="items?.length"
-    class="mx-auto w-full max-w-screen-xl"
+    class="mx-auto w-full max-w-7xl"
     :items="items"
   />
 
   <div
     v-if="error"
-    class="mx-auto my-16 w-full max-w-screen-xl bg-[#a38373] p-4 px-8 text-black"
+    class="mx-auto my-16 w-full max-w-7xl bg-[#a38373] p-4 px-8 text-black"
   >
     {{ decodeURIComponent(error?.statusMessage || "Error") }}
   </div>
 
   <BookingsForm />
 
-  <div class="mx-auto my-12 w-full max-w-screen-xl bg-transparent px-4 md:px-8">
+  <div class="mx-auto my-12 w-full max-w-7xl bg-transparent px-4 md:px-8">
     <div class="h-px w-full bg-white/15"></div>
   </div>
 
   <TextBlock
     id="bokningsregler"
-    title="Bokningsregler"
-    :text="textBokningsregler"
-    class="mx-auto w-full max-w-screen-xl"
+    :title="staticContent?.text_regler?.title"
+    :text="staticContent?.text_regler?.text"
+    class="mx-auto w-full max-w-7xl"
   />
 </template>
 
 <script>
 export default {
   name: "Bokningar",
-
-  data() {
-    return {
-      textBokningar: `
-      All verksamhet i hemvärnsgården skall förbokas, även regelbunden
-      återkommande verksamhet.
-
-      Denna bokning kan ni göra genom att fylla i formuläret längre ner på denna sida.
-
-      För övriga frågor:
-      Joakim Gustafsson
-      E-post: 7.62@minmailadress.se
-      Tel/sms: 0731-58 36 75
-
-      Nyckel hämtas/lämnas enl. överenskommelse.
-
-      Bokningsbart:
-      * Konferensrum
-      * Samlingssal
-      * Mäss
-      * Logementen
-      * Projektor/kopiator
-
-      Ev. debitering enl. prislista.
-      Bokningsregler finns längre ner på denna sida.
-    `,
-      textBokningsregler: `
-      All verksamhet i hemvärnsgården skall förbokas, även regelbunden återkommande verksamhet.
-      Boka genom att fylla i formuläret här ovanför.
-
-      För övriga frågor:
-      Joakim Gustafsson
-      E-post: 7.62@minmailadress.se
-      Tel/sms: 0731-58 36 75
-
-      Bokningsbart:
-      * Konferensrum
-      * Samlingssal
-      * Mäss
-      * Logementen
-      * Projektor/kopiator
-
-      Allmänna regler:
-      * När du bokar, tala om vilken del/delar som det gäller
-      * Ev. debitering sker enl. prislista
-      * Förbjudet att beträda övervåningen utan särskilt tillstånd
-      * I alla bokningar ingår tillgång till kök, toalett och dusch om inget annat avtalats
-      * Alla bokningar läggs genom föreningens försorg ut på hemsidan www.borashv.se
-      * Den som bokar lokal skall följa städreglerna på anslagstavlan i vestibulen
-      * Utebliven städning medför faktura på städavgift från föreningen
-      * Städutrustning finns i städskrubb i kök
-      * Skada på fastighet eller inventarier skall alltid anmälas
-      * Vid användande av logement skall alltid underlakan, påslakan och örngott användas
-      * Sängkläder finns att hyra för 50 kr per set
-      * Utrymningsvägar vid brand och brandpostplaceringar skall beaktas
-      * Rökning och införande av pälsdjur är förbjuden i samtliga utrymmen
-      * Den som bokar lokal ansvarar för att dessa regler följs
-
-      Städregler efter användning:
-      * Torka av använda bord
-      * Sopa av golven
-      * Kolla så att det är fräscht på toaletten
-      * Töm alla papperskorgar och bär ut soporna till soptunnan
-      * Torka av alla bänkar + köksön i köket
-      * Sopa och torka av golvet i köket
-
-      För att behålla vår fina hemvärnsgård i bra skick så vill vi att alla hjälps åt och följer dom ovanstående punkterna.
-      OBS: Om städreglerna inte följs debiteras en städkostnad på 1000:- enligt styrelsens beslut.
-
-      /Styrelsen
-    `,
-    };
-  },
 };
 </script>

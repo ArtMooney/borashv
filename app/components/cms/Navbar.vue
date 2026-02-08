@@ -43,6 +43,8 @@ import IconFamiconsCogSharp from "~icons/famicons/cog-sharp";
 </template>
 
 <script>
+import { useLoginStore } from "~/components/cms/stores/loginStore";
+
 export default {
   name: "Navbar",
 
@@ -51,6 +53,12 @@ export default {
       cmsSettingsMenu: false,
       cmsName: "{{ simple }} CMS",
     };
+  },
+
+  computed: {
+    loginStore() {
+      return useLoginStore();
+    },
   },
 
   methods: {
@@ -62,7 +70,7 @@ export default {
     },
 
     logOut() {
-      deleteLocalStorage("borashv-cms");
+      this.loginStore.logout();
       location.reload();
     },
   },

@@ -49,11 +49,7 @@ export default defineEventHandler(async (event) => {
         name: validation.name,
         phone: validation.phone,
         email: validation.email,
-        date: JSON.stringify(
-          validation.dateRange
-            .split(",")
-            .map((d) => new Date(d.trim()).toISOString()),
-        ),
+        date: validation.dateRange.split(",").map((d) => d.trim()),
       })
       .returning();
 
