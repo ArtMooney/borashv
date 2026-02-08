@@ -84,6 +84,7 @@ import sv from "date-fns/locale/sv";
             '[&_input]:py-3.5!',
             '[&_input]:text-sm!',
             '[&_input]:text-white!',
+            '[&>div:not(:first-child)>div]:pb-4!',
           ]"
         >
         </VueDatePicker>
