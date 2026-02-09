@@ -193,11 +193,8 @@ export default {
         emailValidator(event.target.form) &&
         this.dateRangeValid
       ) {
-        let res = null;
-        let error = null;
-
         try {
-          res = await $fetch("/api/boka-lokal", {
+          await $fetch("/api/boka-lokal", {
             method: "POST",
             headers: {
               Authorization:
@@ -219,7 +216,6 @@ export default {
             });
           }, 1500);
         } catch (err) {
-          error = err;
           this.errorMessage = true;
         }
       } else {
