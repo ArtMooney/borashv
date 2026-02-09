@@ -72,18 +72,12 @@ import sv from "date-fns/locale/sv";
           :input-attrs="{ name: 'date-range', required: true }"
           :time-config="{ timePickerInline: true }"
           :class="[
-            '[&_div]:font-body!',
-            '[&_input]:font-body!',
+            '[&_div]:font-body! [&_div]:text-xs!',
+            '[&_input]:font-body! [&_input]:my-1! [&_input]:border-0! [&_input]:py-3.5! [&_input]:text-sm! [&_input]:outline!',
+            !dateRangeValid
+              ? '[&_input]:bg-rose-100! [&_input]:text-rose-700 [&_input]:outline-rose-700!'
+              : '[&_input]:bg-neutral-700! [&_input]:text-white! [&_input]:outline-white/35!',
             '[&_button]:p-0!',
-            '[&_div]:text-xs!',
-            '[&_input]:border-0!',
-            '[&_input]:outline!',
-            '[&_input]:outline-white/35!',
-            '[&_input]:bg-neutral-700!',
-            '[&_input]:my-1!',
-            '[&_input]:py-3.5!',
-            '[&_input]:text-sm!',
-            '[&_input]:text-white!',
             '[&>div:not(:first-child)>div]:pb-4!',
           ]"
         >
@@ -159,6 +153,7 @@ export default {
       contactForm: false,
       successMessage: false,
       errorMessage: false,
+      dateRangeValid: true,
     };
   },
 
@@ -195,7 +190,8 @@ export default {
 
       if (
         requiredFields(event.target.form) &&
-        emailValidator(event.target.form)
+        emailValidator(event.target.form) &&
+        this.dateRangeValid
       ) {
         let res = null;
         let error = null;
@@ -277,6 +273,21 @@ export default {
       } else {
         this.contactForm = true;
       }
+    },
+  },
+
+  watch: {
+    "formData.dateRange"() {
+      if (!this.formData.dateRange) return;
+
+      for (const date of this.formData.dateRange) {
+        if (!date) {
+          this.dateRangeValid = false;
+          return;
+        }
+      }
+
+      this.dateRangeValid = true;
     },
   },
 };
