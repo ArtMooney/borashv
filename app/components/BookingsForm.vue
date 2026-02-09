@@ -51,16 +51,6 @@ import sv from "date-fns/locale/sv";
       </label>
 
       <label>
-        Bokning avser följande lokal(er): *
-
-        <select v-model="formData.venue" required>
-          <option v-for="venue of venues" :value="venue">
-            {{ venue }}
-          </option>
-        </select>
-      </label>
-
-      <label>
         Välj datum och tid:
 
         <VueDatePicker
@@ -83,6 +73,25 @@ import sv from "date-fns/locale/sv";
         >
         </VueDatePicker>
       </label>
+
+      <div>
+        <div class="mb-4">Bokning avser följande lokal(er): *</div>
+
+        <div v-for="(venue, index) in venues" :key="venue" class="flex gap-2">
+          <input
+            type="checkbox"
+            :id="'venue-' + index"
+            v-model="formData.venue"
+            :value="venue"
+          />
+
+          <label
+            :for="'venue-' + index"
+            class="m-0 cursor-pointer select-none"
+            >{{ venue }}</label
+          >
+        </div>
+      </div>
 
       <div class="hidden">
         <input name="clientip" type="text" v-model="formData.clientip" />
@@ -131,7 +140,7 @@ export default {
         phone: "",
         email: "",
         eventType: "",
-        venue: "",
+        venue: [],
         dateRange: "",
         clientip: "",
         pageuri: "",
@@ -284,6 +293,10 @@ export default {
       }
 
       this.dateRangeValid = true;
+    },
+
+    "formData.venue"() {
+      // console.log(this.formData.venue);
     },
   },
 };
