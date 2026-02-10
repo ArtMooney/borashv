@@ -74,7 +74,7 @@ import sv from "date-fns/locale/sv";
         </VueDatePicker>
 
         <span class="mt-1 text-xs text-rose-400">{{
-          alreadyBooked ? "Datum är redan bokat" : ""
+          alreadyBooked ? "Datum är redan bokat" : "&#8203;"
         }}</span>
       </label>
 
@@ -291,10 +291,8 @@ export default {
         this.contactForm = true;
       }
     },
-  },
 
-  watch: {
-    "formData.dateRange"() {
+    handleDatesAndVenues() {
       if (!this.formData.dateRange || this.formData.dateRange === "") {
         this.dateRangeValid = true;
         this.alreadyBooked = false;
@@ -311,21 +309,34 @@ export default {
       const selectedStart = new Date(this.formData.dateRange[0]);
       const selectedEnd = new Date(this.formData.dateRange[1]);
 
-      for (const item of this.items) {
-        if (!item.date[0] || !item.date[1]) continue;
+      for (const venue of this.formData.venue) {
+        for (const item of this.items) {
+          if (venue !== item.venue) continue;
+          if (!item.date[0] || !item.date[1]) continue;
 
-        const bookedStart = new Date(item.date[0]);
-        const bookedEnd = new Date(item.date[1]);
+          const bookedStart = new Date(item.date[0]);
+          const bookedEnd = new Date(item.date[1]);
 
-        if (selectedStart <= bookedEnd && selectedEnd >= bookedStart) {
-          this.dateRangeValid = false;
-          this.alreadyBooked = true;
-          return;
+          if (selectedStart <= bookedEnd && selectedEnd >= bookedStart) {
+            this.dateRangeValid = false;
+            this.alreadyBooked = true;
+            return;
+          }
         }
       }
 
       this.dateRangeValid = true;
       this.alreadyBooked = false;
+    },
+  },
+
+  watch: {
+    "formData.dateRange"() {
+      this.handleDatesAndVenues();
+    },
+
+    "formData.venue"() {
+      this.handleDatesAndVenues();
     },
   },
 };
