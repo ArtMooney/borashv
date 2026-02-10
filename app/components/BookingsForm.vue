@@ -72,6 +72,10 @@ import sv from "date-fns/locale/sv";
           ]"
         >
         </VueDatePicker>
+
+        <span class="mt-1 text-xs text-rose-400">{{
+          alreadyBooked ? "Datum är redan bokat" : ""
+        }}</span>
       </label>
 
       <div>
@@ -128,6 +132,13 @@ import sv from "date-fns/locale/sv";
 export default {
   name: "BookingsForm",
 
+  props: {
+    items: {
+      type: Array,
+      required: true,
+    },
+  },
+
   data() {
     const config = useRuntimeConfig();
 
@@ -163,6 +174,7 @@ export default {
       successMessage: false,
       errorMessage: false,
       dateRangeValid: true,
+      alreadyBooked: false,
     };
   },
 
@@ -283,6 +295,7 @@ export default {
 
   watch: {
     "formData.dateRange"() {
+      if (this.formData.dateRange === "") this.dateRangeValid = true;
       if (!this.formData.dateRange) return;
 
       for (const date of this.formData.dateRange) {
@@ -290,13 +303,22 @@ export default {
           this.dateRangeValid = false;
           return;
         }
+
+        for (const item of this.items) {
+          if (
+            new Date(date) > new Date(item.date[0]) &&
+            new Date(date) < new Date(item.date[1])
+          ) {
+            this.dateRangeValid = false;
+            this.alreadyBooked = true;
+
+            return;
+          }
+        }
       }
 
       this.dateRangeValid = true;
-    },
-
-    "formData.venue"() {
-      // console.log(this.formData.venue);
+      this.alreadyBooked = false;
     },
   },
 };
