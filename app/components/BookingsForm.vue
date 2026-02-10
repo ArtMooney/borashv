@@ -295,25 +295,32 @@ export default {
 
   watch: {
     "formData.dateRange"() {
-      if (this.formData.dateRange === "") this.dateRangeValid = true;
-      if (!this.formData.dateRange) return;
+      if (!this.formData.dateRange || this.formData.dateRange === "") {
+        this.dateRangeValid = true;
+        this.alreadyBooked = false;
+        return;
+      }
 
       for (const date of this.formData.dateRange) {
         if (!date) {
           this.dateRangeValid = false;
           return;
         }
+      }
 
-        for (const item of this.items) {
-          if (
-            new Date(date) > new Date(item.date[0]) &&
-            new Date(date) < new Date(item.date[1])
-          ) {
-            this.dateRangeValid = false;
-            this.alreadyBooked = true;
+      const selectedStart = new Date(this.formData.dateRange[0]);
+      const selectedEnd = new Date(this.formData.dateRange[1]);
 
-            return;
-          }
+      for (const item of this.items) {
+        if (!item.date[0] || !item.date[1]) continue;
+
+        const bookedStart = new Date(item.date[0]);
+        const bookedEnd = new Date(item.date[1]);
+
+        if (selectedStart <= bookedEnd && selectedEnd >= bookedStart) {
+          this.dateRangeValid = false;
+          this.alreadyBooked = true;
+          return;
         }
       }
 
