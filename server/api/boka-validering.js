@@ -40,18 +40,22 @@ export default defineEventHandler(async (event) => {
   }
 
   if (!body.action) {
-    const saveBooking = await db
-      .insert(bokningar)
-      .values({
-        title: validation.eventType,
-        venue: validation.venue,
-        company: validation.company,
-        name: validation.name,
-        phone: validation.phone,
-        email: validation.email,
-        date: validation.dateRange.split(",").map((d) => d.trim()),
-      })
-      .returning();
+    const venues = validation?.venue.split(",").map((v) => v.trim());
+
+    for (const venue of venues) {
+      const saveBooking = await db
+        .insert(bokningar)
+        .values({
+          title: validation.eventType,
+          venue: venue,
+          company: validation.company,
+          name: `${validation.name} ${venues.length > 1 ? venue : ""}`,
+          phone: validation.phone,
+          email: validation.email,
+          date: validation.dateRange.split(",").map((d) => d.trim()),
+        })
+        .returning();
+    }
 
     try {
       const deleteValidation = await db

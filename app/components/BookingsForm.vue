@@ -7,7 +7,7 @@ import sv from "date-fns/locale/sv";
 <template>
   <div
     id="bookings-form"
-    class="mx-auto w-full max-w-screen-xl grow content-center px-4 py-12 md:px-8"
+    class="mx-auto w-full max-w-7xl grow content-center px-4 py-12 md:px-8"
   >
     <form
       v-if="contactForm"
@@ -51,16 +51,6 @@ import sv from "date-fns/locale/sv";
       </label>
 
       <label>
-        Bokning avser följande lokal(er): *
-
-        <select v-model="formData.venue" required>
-          <option v-for="venue of venues" :value="venue">
-            {{ venue }}
-          </option>
-        </select>
-      </label>
-
-      <label>
         Välj datum och tid:
 
         <VueDatePicker
@@ -70,23 +60,42 @@ import sv from "date-fns/locale/sv";
           auto-apply
           range
           :input-attrs="{ name: 'date-range', required: true }"
+          :time-config="{ timePickerInline: true }"
           :class="[
-            '[&_div]:!font-body',
-            '[&_input]:!font-body',
-            '[&_button]:!p-0',
-            '[&_div]:!text-xs',
-            '[&_input]:!border-0',
-            '[&_input]:!outline',
-            '[&_input]:!outline-white/35',
-            '[&_input]:!bg-neutral-700',
-            '[&_input]:!my-1',
-            '[&_input]:!py-3.5',
-            '[&_input]:!text-sm',
-            '[&_input]:!text-white',
+            '[&_div]:font-body! [&_div]:text-xs!',
+            '[&_input]:font-body! [&_input]:my-1! [&_input]:border-0! [&_input]:py-3.5! [&_input]:text-sm! [&_input]:outline!',
+            !dateRangeValid
+              ? '[&_input]:bg-rose-100! [&_input]:text-rose-700 [&_input]:outline-rose-700!'
+              : '[&_input]:bg-neutral-700! [&_input]:text-white! [&_input]:outline-white/35!',
+            '[&_button]:p-0!',
+            '[&>div:not(:first-child)>div]:pb-4!',
           ]"
         >
         </VueDatePicker>
+
+        <span class="mt-1 text-xs text-rose-400">{{
+          alreadyBooked ? "Datum är redan bokat" : "&#8203;"
+        }}</span>
       </label>
+
+      <div>
+        <div class="mb-4">Bokning avser följande lokal(er): *</div>
+
+        <div v-for="(venue, index) in venues" :key="venue" class="flex gap-2">
+          <input
+            type="checkbox"
+            :id="'venue-' + index"
+            v-model="formData.venue"
+            :value="venue"
+          />
+
+          <label
+            :for="'venue-' + index"
+            class="m-0 cursor-pointer select-none"
+            >{{ venue }}</label
+          >
+        </div>
+      </div>
 
       <div class="hidden">
         <input name="clientip" type="text" v-model="formData.clientip" />
@@ -123,6 +132,13 @@ import sv from "date-fns/locale/sv";
 export default {
   name: "BookingsForm",
 
+  props: {
+    items: {
+      type: Array,
+      required: true,
+    },
+  },
+
   data() {
     const config = useRuntimeConfig();
 
@@ -135,7 +151,7 @@ export default {
         phone: "",
         email: "",
         eventType: "",
-        venue: "",
+        venue: [],
         dateRange: "",
         clientip: "",
         pageuri: "",
@@ -157,6 +173,8 @@ export default {
       contactForm: false,
       successMessage: false,
       errorMessage: false,
+      dateRangeValid: true,
+      alreadyBooked: false,
     };
   },
 
@@ -193,13 +211,11 @@ export default {
 
       if (
         requiredFields(event.target.form) &&
-        emailValidator(event.target.form)
+        emailValidator(event.target.form) &&
+        this.dateRangeValid
       ) {
-        let res = null;
-        let error = null;
-
         try {
-          res = await $fetch("/api/boka-lokal", {
+          await $fetch("/api/boka-lokal", {
             method: "POST",
             headers: {
               Authorization:
@@ -221,7 +237,6 @@ export default {
             });
           }, 1500);
         } catch (err) {
-          error = err;
           this.errorMessage = true;
         }
       } else {
@@ -275,6 +290,53 @@ export default {
       } else {
         this.contactForm = true;
       }
+    },
+
+    handleDatesAndVenues() {
+      if (!this.formData.dateRange || this.formData.dateRange === "") {
+        this.dateRangeValid = true;
+        this.alreadyBooked = false;
+        return;
+      }
+
+      for (const date of this.formData.dateRange) {
+        if (!date) {
+          this.dateRangeValid = false;
+          return;
+        }
+      }
+
+      const selectedStart = new Date(this.formData.dateRange[0]);
+      const selectedEnd = new Date(this.formData.dateRange[1]);
+
+      for (const venue of this.formData.venue) {
+        for (const item of this.items) {
+          if (venue !== item.venue) continue;
+          if (!item.date[0] || !item.date[1]) continue;
+
+          const bookedStart = new Date(item.date[0]);
+          const bookedEnd = new Date(item.date[1]);
+
+          if (selectedStart <= bookedEnd && selectedEnd >= bookedStart) {
+            this.dateRangeValid = false;
+            this.alreadyBooked = true;
+            return;
+          }
+        }
+      }
+
+      this.dateRangeValid = true;
+      this.alreadyBooked = false;
+    },
+  },
+
+  watch: {
+    "formData.dateRange"() {
+      this.handleDatesAndVenues();
+    },
+
+    "formData.venue"() {
+      this.handleDatesAndVenues();
     },
   },
 };
