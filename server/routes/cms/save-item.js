@@ -1,4 +1,4 @@
-import { checkLogin } from "~~/server/utils/check-login.js";
+import { checkLogin } from "~~/server/routes/cms/utils/check-login.js";
 import { checkAuthentication } from "~~/server/routes/cms/utils/check-authentication.js";
 import { uploadFile } from "~~/server/routes/cms/r2/upload-file.js";
 import { deleteIfExists } from "~~/server/routes/cms/r2/delete-if-exists.js";

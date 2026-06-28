@@ -1,4 +1,4 @@
-import { checkLogin } from "~~/server/utils/check-login.js";
+import { checkLogin } from "~~/server/routes/cms/utils/check-login.js";
 import { checkAuthentication } from "~~/server/routes/cms/utils/check-authentication.js";
 import * as schema from "~~/server/db/schema.ts";
 import { cmsTables, fieldsConfig } from "~~/server/db/cmsConfig.ts";

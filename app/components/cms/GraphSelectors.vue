@@ -34,9 +34,16 @@
 
 <script>
 import { useCmsStore } from "~/components/cms/stores/cmsStore";
+import { months } from "~/components/cms/lib/months";
 
 export default {
   name: "GraphSelectors",
+
+  data() {
+    return {
+      months,
+    };
+  },
 
   props: {
     graphSettings: {

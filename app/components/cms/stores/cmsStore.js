@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { useLoginStore } from "~/components/cms/stores/loginStore";
+import { months } from "~/components/cms/lib/months";
 
 export const useCmsStore = defineStore("cmsStore", {
   state: () => ({

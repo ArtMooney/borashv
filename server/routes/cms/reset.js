@@ -1,6 +1,6 @@
-import { checkLogin } from "~~/server/utils/check-login.js";
+import { checkLogin } from "~~/server/routes/cms/utils/check-login.js";
 import { randomUUID } from "crypto";
-import { sendEmail } from "~~/server/utils/mailgun/send-email.js";
+import { sendEmail } from "~~/server/routes/cms/utils/send-email.js";
 import { messageEmailReset } from "~~/server/routes/cms/content/message-email-reset.js";
 import { useDrizzle } from "~~/server/db/client.ts";
 import { users } from "~~/server/db/schema.ts";
