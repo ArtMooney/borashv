@@ -29,6 +29,20 @@
         </option>
       </select>
     </label>
+
+    <label class="w-full font-semibold text-white/50 italic">
+      Show as:
+
+      <select v-model="cmsStore.showAs">
+        <option
+          v-for="option in showAsOptions"
+          :key="option.value"
+          :value="option.value"
+        >
+          {{ option.label }}
+        </option>
+      </select>
+    </label>
   </div>
 </template>
 
@@ -42,6 +56,10 @@ export default {
   data() {
     return {
       months,
+      showAsOptions: [
+        { value: "graph", label: "Graph" },
+        { value: "list", label: "List" },
+      ],
     };
   },
 

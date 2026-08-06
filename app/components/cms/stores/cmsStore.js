@@ -23,6 +23,7 @@ export const useCmsStore = defineStore("cmsStore", {
     formRefs: {},
     selectedYear: "-",
     selectedMonth: "-",
+    showAs: "graph",
     selectedTableIsStatic: false,
   }),
 
