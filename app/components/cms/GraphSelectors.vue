@@ -33,7 +33,7 @@
     <label class="w-full font-semibold text-white/50 italic">
       Show as:
 
-      <select v-model="cmsStore.showAs">
+      <select :value="cmsStore.showAs" @change="onShowAsChange">
         <option
           v-for="option in showAsOptions"
           :key="option.value"
@@ -50,6 +50,17 @@
 import { useCmsStore } from "~/components/cms/stores/cmsStore";
 import { months } from "~/components/cms/lib/months";
 
+const CSV_COLUMNS = [
+  { key: "date", label: "Date" },
+  { key: "title", label: "Title" },
+  { key: "time", label: "Time" },
+  { key: "venue", label: "Venue" },
+  { key: "company", label: "Company" },
+  { key: "name", label: "Name" },
+  { key: "phone", label: "Phone" },
+  { key: "email", label: "Email" },
+];
+
 export default {
   name: "GraphSelectors",
 
@@ -59,6 +70,7 @@ export default {
       showAsOptions: [
         { value: "graph", label: "Graph" },
         { value: "list", label: "List" },
+        { value: "csv", label: "Save to CSV" },
       ],
     };
   },
@@ -73,6 +85,103 @@ export default {
   computed: {
     cmsStore() {
       return useCmsStore();
+    },
+
+    dateField() {
+      return this.graphSettings?.dateField ?? "date";
+    },
+  },
+
+  methods: {
+    onShowAsChange(event) {
+      const value = event.target.value;
+
+      if (value === "csv") {
+        this.exportCsv();
+        event.target.value = this.cmsStore.showAs;
+        return;
+      }
+
+      this.cmsStore.showAs = value;
+    },
+
+    exportCsv() {
+      const items = this.cmsStore.filteredSelectItems(this.dateField);
+      const header = CSV_COLUMNS.map((col) => this.escapeCsv(col.label)).join(
+        ",",
+      );
+      const rows = items.map((item) =>
+        CSV_COLUMNS.map((col) => {
+          if (col.key === "date") {
+            return this.escapeCsv(this.formatDateValue(item[this.dateField]));
+          }
+
+          return this.escapeCsv(item[col.key] ?? "");
+        }).join(","),
+      );
+
+      const csv = `\uFEFF${[header, ...rows].join("\n")}`;
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = this.buildFileName();
+      link.click();
+      URL.revokeObjectURL(url);
+    },
+
+    buildFileName() {
+      const parts = ["statistics"];
+
+      if (this.cmsStore.selectedYear !== "-") {
+        parts.push(String(this.cmsStore.selectedYear));
+      }
+
+      if (this.cmsStore.selectedMonth !== "-") {
+        parts.push(this.cmsStore.selectedMonth.toLowerCase());
+      }
+
+      return `${parts.join("-")}.csv`;
+    },
+
+    escapeCsv(value) {
+      const stringValue = String(value ?? "");
+
+      if (/[",\n\r]/.test(stringValue)) {
+        return `"${stringValue.replace(/"/g, '""')}"`;
+      }
+
+      return stringValue;
+    },
+
+    formatDateValue(dateValue) {
+      if (!dateValue) return "";
+
+      if (Array.isArray(dateValue)) {
+        const start = this.formatDate(dateValue[0]);
+        const end = this.formatDate(dateValue[1]);
+
+        if (!start) return "";
+        if (!end || start === end) return start;
+
+        return `${start} – ${end}`;
+      }
+
+      return this.formatDate(dateValue) || "";
+    },
+
+    formatDate(date) {
+      if (!date) return "";
+
+      const dateObj = new Date(date);
+      if (Number.isNaN(dateObj.getTime())) return "";
+
+      const day = dateObj.getDate();
+      const month = months[dateObj.getMonth()];
+      const year = dateObj.getFullYear();
+
+      return `${day} ${month} ${year}`;
     },
   },
 
