@@ -79,15 +79,26 @@ import { VueDraggableNext } from "vue-draggable-next";
         cmsStore.hasItems &&
         !cmsStore.loadingFlag
       "
-      v-for="graph in graphConfig[cmsStore.tableId]"
-      :key="graph?.type"
     >
-      <CmsGraphSelectors
-        v-if="graph?.type === 'selectors'"
-        :graph-settings="graph"
-      />
+      <template
+        v-for="graph in graphConfig[cmsStore.tableId]"
+        :key="graph?.type"
+      >
+        <CmsGraphSelectors
+          v-if="graph?.type === 'selectors'"
+          :graph-settings="graph"
+        />
 
-      <CmsGraph v-else :graph-settings="graph" />
+        <CmsGraph
+          v-else-if="cmsStore.showAs === 'graph'"
+          :graph-settings="graph"
+        />
+      </template>
+
+      <CmsGraphList
+        v-if="cmsStore.showAs === 'list'"
+        :date-field="graphDateField"
+      />
     </template>
   </div>
 </template>
@@ -121,6 +132,13 @@ export default {
 
     cmsStore() {
       return useCmsStore();
+    },
+
+    graphDateField() {
+      const graphs = graphConfig[this.cmsStore.tableId] ?? [];
+      const selectors = graphs.find((graph) => graph?.type === "selectors");
+
+      return selectors?.dateField ?? graphs[0]?.dateField ?? "date";
     },
   },
 
