@@ -22,7 +22,7 @@
     >
       <h1
         v-if="title"
-        class="text-3xl break-words hyphens-auto uppercase md:text-4xl"
+        class="text-3xl text-balance uppercase md:text-4xl"
         lang="sv"
       >
         {{ title }}
