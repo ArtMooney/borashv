@@ -70,21 +70,7 @@ export default {
 
   computed: {
     getDateList() {
-      const dateList = [];
-
-      for (const field of this.cmsStore.schema) {
-        if (
-          (field.type === "date" || field.type === "dateRange") &&
-          !field.hidden
-        ) {
-          dateList.push({
-            name: field.name,
-            label: field.label,
-          });
-        }
-      }
-
-      return dateList;
+      return this.cmsStore.dateFields;
     },
 
     loginStore() {

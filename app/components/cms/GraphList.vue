@@ -142,6 +142,14 @@ export default {
       this.currentPage = 1;
     },
 
+    "cmsStore.sortField"() {
+      this.currentPage = 1;
+    },
+
+    "cmsStore.sortOrder"() {
+      this.currentPage = 1;
+    },
+
     items() {
       if (this.currentPage > this.totalPages) {
         this.currentPage = this.totalPages;

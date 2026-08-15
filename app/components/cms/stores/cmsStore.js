@@ -24,6 +24,8 @@ export const useCmsStore = defineStore("cmsStore", {
     selectedYear: "-",
     selectedMonth: "-",
     showAs: "graph",
+    sortField: "date",
+    sortOrder: "asc",
     selectedTableIsStatic: false,
   }),
 
@@ -34,6 +36,16 @@ export const useCmsStore = defineStore("cmsStore", {
 
     hasSchema() {
       return this.schema.length > 0;
+    },
+
+    dateFields() {
+      return this.allDateFields.filter((field) => !field.hidden);
+    },
+
+    allDateFields() {
+      return this.schema.filter(
+        (field) => field.type === "date" || field.type === "dateRange",
+      );
     },
   },
 
