@@ -1,3 +1,6 @@
+import * as schema from "./db/schema";
+export { schema };
+
 export const cmsTables = [
   { id: "nyheter", name: "Nyheter", viewMode: "list", backupRef: null },
   { id: "dokument", name: "Dokument", viewMode: "list", backupRef: null },
