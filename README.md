@@ -10,9 +10,9 @@ including users and static content, are in `server/db/schema.ts`. The CMS
 package does not define any tables. Migrations also remain in this repository;
 `server/cms.config.ts` defines which content can be edited.
 
-Local development uses `file:../framecore-cms`, so the repositories must be
-located side by side. Run `npm install` in the CMS repository, then in this
-repository. CMS code and style changes are processed directly by this site's dev server.
+The CMS dependency is pinned to GitHub tag `0.2.0` through
+`github:ArtMooney/framecore-cms#0.2.0`. Run `npm install` in this repository to
+install that version and its dependencies. No sibling CMS checkout is required.
 The CMS has its own `tailwind.config.js`; no separate CSS build is needed.
 
 The CMS reuses this site's heading and body fonts through the following block
@@ -30,7 +30,12 @@ from this site's existing `tailwind.config.js` at build time, so they are only
 defined in one place. Without these variables, the CMS inherits the body font
 instead of using separate heading and body fonts.
 
-Before building in CI, replace the local dependency with a version pushed to
-GitHub, such as `github:ArtMooney/framecore-cms#v0.2.0` once that tag has been
-created and pushed. Each site chooses when to update its package version and
+To develop the CMS locally, keep the repositories side by side, run `npm install`
+in the CMS repository, then run `npm install ../framecore-cms` in this site.
+Source and style changes are processed by this site's dev server. To restore
+the released version, run `npm install "github:ArtMooney/framecore-cms#0.2.0"`
+and restart the dev server.
+
+To update the deployed CMS version, install a new pushed Git tag and commit both
+`package.json` and `package-lock.json`. Each site chooses when to update and
 redeploy.
