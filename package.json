@@ -33,7 +33,7 @@
     "@vuepic/vue-datepicker": "^14.0.0",
     "date-fns": "^4.4.0",
     "drizzle-orm": "^0.45.4",
-    "framecore-cms": "github:ArtMooney/framecore-cms#0.3.0",
+    "framecore-cms": "github:ArtMooney/framecore-cms#0.3.1",
     "nuxt": "^4.6.4",
     "pinia": "^4.1.0",
     "tailwindcss": "^4.3.5",
