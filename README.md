@@ -1,20 +1,21 @@
 # Borås Hemvärnsförening
 
-Development and deploy scripts in [package.json](./package.json).
+Development and deployment scripts are listed in [package.json](./package.json).
 
 ## CMS
 
-CMS:et importeras från det separata paketet `framecore-cms`. Adminsidan,
-API-rutterna och CMS-stilarna kommer från paketet. Alla sajtens tabelldefinitioner,
-inklusive användare och statiskt innehåll, finns i `server/db/schema.ts`. CMS-paketet definierar inga tabeller. Migrationerna
-ligger också kvar här; `server/cms.config.ts` beskriver vad som kan
-redigeras.
+The CMS is imported from the separate `framecore-cms` package, which provides
+the admin page, API routes and CMS styles. All site-specific table definitions,
+including users and static content, are in `server/db/schema.ts`. The CMS
+package does not define any tables. Migrations also remain in this repository;
+`server/cms.config.ts` defines which content can be edited.
 
-Under lokal utveckling används `file:../framecore-cms`, så reporna ska ligga
-bredvid varandra. Kör `npm install` i CMS-repot och sedan i detta repo.
-Ändringar i CMS-koden används direkt; efter stiländringar körs
-`npm run build:css` i CMS-repot.
+Local development uses `file:../framecore-cms`, so the repositories must be
+located side by side. Run `npm install` in the CMS repository, then in this
+repository. CMS code changes are used directly; after changing styles, run
+`npm run build:css` in the CMS repository.
 
-Inför bygge i CI ersätts den lokala länken med en pushad version, exempelvis
-`github:ArtMooney/framecore-cms#v0.2.0` när den taggen har skapats och pushats.
-Varje sajt väljer själv när paketversionen uppdateras och sajten deployas igen.
+Before building in CI, replace the local dependency with a version pushed to
+GitHub, such as `github:ArtMooney/framecore-cms#v0.2.0` once that tag has been
+created and pushed. Each site chooses when to update its package version and
+redeploy.
