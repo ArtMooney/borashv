@@ -1,5 +1,4 @@
 import plugin from "tailwindcss/plugin";
-import { cmsStyles } from "./tailwind.cms.styles.js";
 
 export default {
   mode: "jit",
@@ -165,8 +164,6 @@ export default {
         },
       });
     }),
-
-    cmsStyles,
   ],
 
   corePlugins: {

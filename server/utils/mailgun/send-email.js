@@ -1,5 +1,7 @@
 export async function sendEmail(from, to, subject, message, apiKey) {
-  const url = `https://api.eu.mailgun.net/v3/mg.framecore.se/messages`;
+  const config = useRuntimeConfig();
+  const baseUrl = config.cmsMailgunBaseUrl.replace(/\/$/, "");
+  const url = `${baseUrl}/v3/${encodeURIComponent(config.cmsMailgunDomain)}/messages`;
 
   try {
     return await $fetch(url, {

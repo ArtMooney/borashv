@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=22.19.0"
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
   },
   "scripts": {
     "build": "nuxt build",
@@ -14,52 +14,44 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:migrate:local": "USE_LOCAL_DB=true drizzle-kit migrate",
-    "db:migrate:dev": "USE_DEV_DB=true drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio",
-    "db:studio:local": "USE_LOCAL_DB=true drizzle-kit studio",
     "db:export": "wrangler d1 export borashv --remote --output=borashv-backup.sql",
     "db:export:local": "wrangler d1 export borashv --local --output=borashv-backup.sql",
     "db:extract": "npm run db:export && grep '^INSERT' borashv-backup.sql > borashv-backup-inserts.sql || true",
     "db:extract:local": "npm run db:export:local && grep '^INSERT' borashv-backup.sql > borashv-backup-inserts.sql || true",
     "db:import": "wrangler d1 execute borashv --remote --file=borashv-backup-inserts.sql",
     "db:import:local": "wrangler d1 execute borashv --local --file=borashv-backup-inserts.sql",
-    "db:import:dev": "wrangler d1 execute borashv_dev --remote --file=borashv-backup-inserts.sql",
     "db:push": "npm run db:extract:local && npm run db:import",
-    "db:pull": "npm run db:extract && npm run db:import:local",
-    "db:extract:table:local": "./scripts/extract-table.sh database_name table_name exported_table.sql"
+    "db:pull": "npm run db:extract && npm run db:import:local"
   },
   "dependencies": {
-    "@nuxt/image": "^2.1.0",
-    "@nuxtjs/robots": "^6.1.3",
-    "@nuxtjs/sitemap": "^8.3.3",
-    "@pinia/nuxt": "^1.0.1",
+    "@nuxt/image": "^2.2.1",
+    "@nuxtjs/robots": "^7.0.2",
+    "@nuxtjs/sitemap": "^9.1.0",
+    "@pinia/nuxt": "^1.0.3",
     "@popperjs/core": "^2.11.8",
-    "@tailwindcss/vite": "^4.3.3",
+    "@tailwindcss/vite": "^4.3.5",
     "@vuepic/vue-datepicker": "^14.0.0",
-    "chart.js": "^4.5.1",
     "date-fns": "^4.4.0",
-    "drizzle-orm": "^0.45.2",
-    "nuxt": "^4.5.2",
-    "pinia": "^4.0.2",
-    "pinia-plugin-persistedstate": "^4.7.1",
-    "tailwindcss": "^4.3.3",
+    "drizzle-orm": "^0.45.4",
+    "framecore-cms": "github:ArtMooney/framecore-cms#0.3.0",
+    "nuxt": "^4.6.4",
+    "pinia": "^4.1.0",
+    "tailwindcss": "^4.3.5",
     "v-calendar": "^3.1.2",
-    "vue": "^3.5.41",
-    "vue-chartjs": "^5.3.4",
-    "vue-draggable-next": "^2.3.0",
-    "vue-router": "^5.2.0",
-    "vue3-lottie": "^3.3.1"
+    "vue": "^3.5.45",
+    "vue-router": "^5.4.0",
+    "vue3-lottie": "^4.0.0"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^5.20260804.1",
-    "@iconify/json": "^2.2.510",
-    "@types/node": "^26.1.2",
+    "@cloudflare/workers-types": "^5.20261106.1",
+    "@iconify/json": "^2.2.553",
+    "@types/node": "^26.6.6",
     "better-sqlite3": "^13.0.3",
-    "drizzle-kit": "^0.31.10",
-    "prettier": "^3.9.6",
+    "drizzle-kit": "^0.31.11",
+    "prettier": "^3.9.10",
     "prettier-plugin-tailwindcss": "^0.8.1",
-    "unplugin-icons": "^23.0.1",
-    "vite": "^8.2.1",
-    "wrangler": "^4.119.0"
+    "unplugin-icons": "^24.0.0",
+    "vite": "^8.3.6",
+    "wrangler": "^4.158.0"
   }
 }

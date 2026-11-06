@@ -60,7 +60,7 @@ import IconIonHeart from "~icons/ion/heart";
       <router-link class="mb-3 hover:text-neutral-300" to="/kontakta-oss#navbar"
         >{{ staticContent?.buttons?.button6 }}
       </router-link>
-      <router-link class="mb-3 hover:text-neutral-300" to="/admin#navbar"
+      <router-link class="mb-3 hover:text-neutral-300" to="/admin"
         >{{ staticContent?.buttons?.button7 }}
       </router-link>
     </div>
