@@ -23,7 +23,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     mailgunApiKey: process.env.NUXT_MAILGUN_API_KEY,
     emailFrom: process.env.NUXT_EMAIL_FROM,
-    cmsMailgunDomain: "mg.framecore.se",
+    cmsMailgunDomain: process.env.NUXT_CMS_MAILGUN_DOMAIN,
+    cmsMailgunBaseUrl: process.env.NUXT_CMS_MAILGUN_BASE_URL,
     emailTo: process.env.NUXT_EMAIL_TO,
     bookingTo: process.env.NUXT_BOOKING_TO,
     userName: process.env.NUXT_USERNAME,

@@ -39,3 +39,15 @@ and restart the dev server.
 To update the deployed CMS version, install a new pushed Git tag and commit both
 `package.json` and `package-lock.json`. Each site chooses when to update and
 redeploy.
+
+## Email
+
+Set `NUXT_CMS_MAILGUN_DOMAIN` to the sending domain configured in Mailgun.
+`NUXT_CMS_MAILGUN_BASE_URL` optionally overrides the default EU API endpoint,
+`https://api.eu.mailgun.net`. These settings are shared by the site's contact,
+membership and booking emails and the CMS password emails.
+
+Use this site's `.env` locally. Before deploying, configure the Mailgun domain
+in the site's Cloudflare environment variables for production and preview;
+configure the base URL there too if overriding the default. The existing
+`NUXT_MAILGUN_API_KEY` and sender/recipient settings are still used.
