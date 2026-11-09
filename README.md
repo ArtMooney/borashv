@@ -10,8 +10,8 @@ including users and static content, are in `server/db/schema.ts`. The CMS
 package does not define any tables. Migrations also remain in this repository;
 `server/cms.config.ts` defines which content can be edited.
 
-The CMS dependency is pinned to GitHub tag `0.3.1` through
-`github:ArtMooney/framecore-cms#0.3.1`. Run `npm install` in this repository to
+The CMS dependency is pinned to GitHub tag `0.3.3` through
+`github:ArtMooney/framecore-cms#0.3.3`. Run `npm install` in this repository to
 install that version and its dependencies. No sibling CMS checkout is required.
 The CMS has its own `tailwind.config.js`; no separate CSS build is needed.
 
@@ -33,7 +33,7 @@ instead of using separate heading and body fonts.
 To develop the CMS locally, keep the repositories side by side, run `npm install`
 in the CMS repository, then run `npm install ../framecore-cms` in this site.
 Source and style changes are processed by this site's dev server. To restore
-the released version, run `npm install "github:ArtMooney/framecore-cms#0.3.1"`
+the released version, run `npm install "github:ArtMooney/framecore-cms#0.3.3"`
 and restart the dev server.
 
 To update the deployed CMS version, install a new pushed Git tag and commit both
